@@ -3,17 +3,14 @@ package lando.systems.lordsandships;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import lando.systems.lordsandships.utils.Assets;
+import lando.systems.lordsandships.utils.Constants;
 import lando.systems.lordsandships.utils.Input;
 
 import java.util.Random;
 
 public class LordsAndShips extends Game {
 	private lando.systems.lordsandships.utils.Input input;
-
-	SpriteBatch batch;
-	Texture img;
 
 	float r = 0.f, g = 0.f, b = 0.f;
 	float accum = 0.f;
@@ -23,8 +20,7 @@ public class LordsAndShips extends Game {
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		Assets.load();
 
 		input = new Input();
 		Gdx.input.setInputProcessor(input);
@@ -33,7 +29,7 @@ public class LordsAndShips extends Game {
 
 	@Override
 	public void dispose() {
-//		Assets.dispose();
+		Assets.dispose();
 	}
 
 	@Override
@@ -59,8 +55,10 @@ public class LordsAndShips extends Game {
 			if (b > 1.f) b = 1.f;
 		}
 
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		Assets.batch.begin();
+		Assets.batch.draw(Assets.libgdx
+				, Constants.win_half_width  - Assets.libgdx.getWidth()  / 2
+				, Constants.win_half_height - Assets.libgdx.getHeight() / 2);
+		Assets.batch.end();
 	}
 }
