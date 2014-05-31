@@ -1,6 +1,7 @@
 package lando.systems.lordsandships.scene;
 
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 
@@ -41,4 +42,15 @@ public class OrthoCamController extends InputAdapter {
 		camera.zoom += 0.025f * amount;
 		return false;
 	}
+
+	@Override
+	public boolean keyDown (int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp (int keycode) {
+		return false;
+	}
+
 }

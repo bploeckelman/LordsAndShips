@@ -1,6 +1,8 @@
 package lando.systems.lordsandships.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,6 +25,7 @@ public class GameScreen implements Screen {
 	private TileMap tileMap;
 	private OrthographicCamera camera;
 	private OrthoCamController camController;
+	private InputMultiplexer inputMux;
 
 	public GameScreen(LordsAndShips game) {
 		super();
@@ -34,13 +37,23 @@ public class GameScreen implements Screen {
 		camera.setToOrtho(false, Constants.win_width, Constants.win_height);
 		camera.position.set(15 * 32 / 2, 10 * 32 / 2, 0);
 		camController = new OrthoCamController(camera);
-		Gdx.input.setInputProcessor(camController);
+
+		inputMux = new InputMultiplexer();
+		inputMux.addProcessor(camController);
+		inputMux.addProcessor(game.input);
+		Gdx.input.setInputProcessor(inputMux);
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		     if (game.input.isKeyDown(Input.Keys.A)) { camera.position.add(-1,0,0); }
+		else if (game.input.isKeyDown(Input.Keys.D)) { camera.position.add( 1,0,0); }
+
+		     if (game.input.isKeyDown(Input.Keys.W)) { camera.position.add(0, 1,0); }
+		else if (game.input.isKeyDown(Input.Keys.S)) { camera.position.add(0,-1,0); }
 
 		camera.update();
 
