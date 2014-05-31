@@ -21,12 +21,6 @@ public class Input extends InputAdapter {
 	public Input() {
 		super();
 		reset();
-
-		int i = 0;
-		for (Controller controller : Controllers.getControllers()) {
-			System.out.println("#" + i++ + ": " + controller.getName());
-			// todo : add ControllerListener
-		}
 	}
 
 	public void reset() {

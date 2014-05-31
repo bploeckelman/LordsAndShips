@@ -20,6 +20,7 @@ public class Assets {
 
 	public static Texture libgdx;
 	public static Texture gametex;
+	public static Texture tiles;
 
 
 	public static void load() {
@@ -29,9 +30,11 @@ public class Assets {
 
 		libgdx = new Texture("badlogic.jpg");
 		gametex = new Texture("gametex.png");
+		tiles = new Texture("tiles.png");
 	}
 
 	public static void dispose() {
+		tiles.dispose();
 		gametex.dispose();
 		libgdx.dispose();
 		batch.dispose();
