@@ -32,8 +32,14 @@ public class LordsAndShips extends Game {
 		setScreen(titleScreen);
 	}
 
+	public void exit() {
+		Gdx.app.exit();
+	}
+
 	@Override
 	public void dispose() {
+		if (gameScreen != null) gameScreen.dispose();
+		if (titleScreen != null) titleScreen.dispose();
 		Assets.dispose();
 	}
 

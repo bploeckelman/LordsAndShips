@@ -49,6 +49,10 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		if (game.input.isKeyDown(Input.Keys.ESCAPE)) {
+			game.exit();
+		}
+
 		     if (game.input.isKeyDown(Input.Keys.A)) { camera.position.add(-1,0,0); }
 		else if (game.input.isKeyDown(Input.Keys.D)) { camera.position.add( 1,0,0); }
 

@@ -36,7 +36,7 @@ public class TitleScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		if (game.input.isKeyDown(Keys.ESCAPE)) {
-			Gdx.app.exit();
+			game.exit();
 		} else if (Gdx.input.justTouched()) {
 			game.gameScreen = new GameScreen(game);
 			game.setScreen(game.gameScreen);
