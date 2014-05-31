@@ -2,8 +2,8 @@ package lando.systems.lordsandships.scene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.utils.Assets;
 
@@ -14,10 +14,10 @@ import lando.systems.lordsandships.utils.Assets;
  *
  * Brian Ploeckelman created on 5/31/2014.
  */
-public class TileMap
+public class TileMap implements Disposable
 {
 	static final int BLOCK_TILES = 25;
-	static final int NUM_LAYERS = 5;
+	static final int NUM_LAYERS = 1;
 
 	int layers[];
 	int width, height;
@@ -46,8 +46,6 @@ public class TileMap
 			}
 			layers[i] = cache.endCache();
 		}
-
-		SpriteCache spriteCache = new SpriteCache();
 	}
 
 	public void render(Camera camera) {
@@ -64,6 +62,13 @@ public class TileMap
 		if (TimeUtils.nanoTime() - startTime >= 1000000000) {
 			System.out.println("fps( " + Gdx.graphics.getFramesPerSecond() + " )");
 			startTime = TimeUtils.nanoTime();
+		}
+	}
+
+	@Override
+	public void dispose() {
+		for (int i = 0; i < NUM_LAYERS; ++i) {
+			caches[i].dispose();
 		}
 	}
 
