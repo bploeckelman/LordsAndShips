@@ -2,6 +2,7 @@ package lando.systems.lordsandships;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import lando.systems.lordsandships.screens.GameScreen;
 import lando.systems.lordsandships.screens.TitleScreen;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Input;
@@ -18,6 +19,7 @@ public class LordsAndShips extends Game {
 	public final Input input = new Input();
 
 	public TitleScreen titleScreen;
+	public GameScreen gameScreen;
 
 	@Override
 	public void create () {

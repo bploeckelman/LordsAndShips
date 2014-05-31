@@ -1,8 +1,8 @@
 package lando.systems.lordsandships.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import lando.systems.lordsandships.LordsAndShips;
@@ -38,7 +38,8 @@ public class TitleScreen implements Screen {
 		if (game.input.isKeyDown(Keys.ESCAPE)) {
 			Gdx.app.exit();
 		} else if (Gdx.input.justTouched()) {
-//			game.setScreen(game.gameScreen);
+			game.gameScreen = new GameScreen(game);
+			game.setScreen(game.gameScreen);
 		}
 
 		Gdx.gl.glClearColor(r,g,b,1);
@@ -58,9 +59,10 @@ public class TitleScreen implements Screen {
 			if (b > 1.f) b = 1.f;
 		}
 
+		Assets.batch.setProjectionMatrix(camera.combined);
 		Assets.batch.begin();
 		Assets.batch.draw(Assets.libgdx
-				, Constants.win_half_width  - Assets.libgdx.getWidth()  / 2
+				, Constants.win_half_width - Assets.libgdx.getWidth() / 2
 				, Constants.win_half_height - Assets.libgdx.getHeight() / 2);
 		Assets.batch.end();
 	}
