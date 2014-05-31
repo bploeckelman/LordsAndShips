@@ -19,6 +19,7 @@ public class Assets {
 	public static SpriteBatch batch;
 
 	public static Texture libgdx;
+	public static Texture gametex;
 
 
 	public static void load() {
@@ -27,9 +28,11 @@ public class Assets {
 		batch = new SpriteBatch();
 
 		libgdx = new Texture("badlogic.jpg");
+		gametex = new Texture("gametex.png");
 	}
 
 	public static void dispose() {
+		gametex.dispose();
 		libgdx.dispose();
 		batch.dispose();
 	}
