@@ -1,6 +1,8 @@
 package lando.systems.lordsandships.utils;
 
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -19,6 +21,12 @@ public class Input extends InputAdapter {
 	public Input() {
 		super();
 		reset();
+
+		int i = 0;
+		for (Controller controller : Controllers.getControllers()) {
+			System.out.println("#" + i++ + ": " + controller.getName());
+			// todo : add ControllerListener
+		}
 	}
 
 	public void reset() {
