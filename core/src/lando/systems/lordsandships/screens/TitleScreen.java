@@ -66,8 +66,8 @@ public class TitleScreen implements Screen {
 		Assets.batch.setProjectionMatrix(camera.combined);
 		Assets.batch.begin();
 		Assets.batch.draw(Assets.libgdx
-				, Constants.win_half_width - Assets.libgdx.getWidth() / 2
-				, Constants.win_half_height - Assets.libgdx.getHeight() / 2);
+				, Constants.win_half_width - Assets.libgdx.getRegionWidth() / 2
+				, Constants.win_half_height - Assets.libgdx.getRegionHeight() / 2);
 		Assets.batch.end();
 	}
 
