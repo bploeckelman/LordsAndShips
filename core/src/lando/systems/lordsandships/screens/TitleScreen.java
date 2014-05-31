@@ -33,17 +33,13 @@ public class TitleScreen implements Screen {
 		camera.setToOrtho(false, Constants.win_width, Constants.win_height);
 	}
 
-	@Override
-	public void render(float delta) {
+	public void update(float delta) {
 		if (game.input.isKeyDown(Keys.ESCAPE)) {
 			game.exit();
 		} else if (Gdx.input.justTouched()) {
 			game.gameScreen = new GameScreen(game);
 			game.setScreen(game.gameScreen);
 		}
-
-		Gdx.gl.glClearColor(r,g,b,1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// tick...
 		accum += delta;
@@ -58,6 +54,14 @@ public class TitleScreen implements Screen {
 			if (g > 1.f) g = 1.f;
 			if (b > 1.f) b = 1.f;
 		}
+	}
+
+	@Override
+	public void render(float delta) {
+		update(delta);
+
+		Gdx.gl.glClearColor(r,g,b,1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Assets.batch.setProjectionMatrix(camera.combined);
 		Assets.batch.begin();

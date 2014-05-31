@@ -22,6 +22,8 @@ import lando.systems.lordsandships.utils.Constants;
 public class GameScreen implements Screen {
 	private final LordsAndShips game;
 
+	private static final float key_move_amount = 128f;
+
 	private TileMap tileMap;
 	private OrthographicCamera camera;
 	private OrthoCamController camController;
@@ -36,6 +38,7 @@ public class GameScreen implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Constants.win_width, Constants.win_height);
 		camera.position.set(15 * 32 / 2, 10 * 32 / 2, 0);
+
 		camController = new OrthoCamController(camera);
 
 		inputMux = new InputMultiplexer();
@@ -44,22 +47,28 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(inputMux);
 	}
 
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(0,0,0,1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+	private void update(float delta) {
 		if (game.input.isKeyDown(Input.Keys.ESCAPE)) {
 			game.exit();
 		}
 
-		     if (game.input.isKeyDown(Input.Keys.A)) { camera.position.add(-1,0,0); }
-		else if (game.input.isKeyDown(Input.Keys.D)) { camera.position.add( 1,0,0); }
-
-		     if (game.input.isKeyDown(Input.Keys.W)) { camera.position.add(0, 1,0); }
-		else if (game.input.isKeyDown(Input.Keys.S)) { camera.position.add(0,-1,0); }
+		float dx = 0;
+		float dy = 0;
+		     if (game.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount * delta; }
+		else if (game.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount * delta; }
+		     if (game.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount * delta; }
+		else if (game.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount * delta; }
+		camera.position.add(dx, dy, 0);
 
 		camera.update();
+	}
+
+	@Override
+	public void render(float delta) {
+		update(delta);
+
+		Gdx.gl.glClearColor(0,0,0,1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
