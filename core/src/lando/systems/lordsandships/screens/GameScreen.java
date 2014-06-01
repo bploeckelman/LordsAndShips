@@ -7,7 +7,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.scene.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
 import lando.systems.lordsandships.utils.Assets;
@@ -16,6 +18,7 @@ import lando.systems.lordsandships.utils.Constants;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * GameScreen
@@ -50,11 +53,20 @@ public class GameScreen implements Screen {
 		inputMux.addProcessor(camController);
 		inputMux.addProcessor(game.input);
 		Gdx.input.setInputProcessor(inputMux);
+
+		// ***************** TESTING ****************
+//		LevelGenerator.generateLevel(new LevelGenerator.Settings());
+		LevelGenerator.generateInitialRooms(new LevelGenerator.Settings());
 	}
 
 	private void update(float delta) {
 		if (game.input.isKeyDown(Input.Keys.ESCAPE)) {
 			game.exit();
+		}
+
+		// ***************** TESTING ****************
+		if (Gdx.input.justTouched()) {
+			LevelGenerator.separateInitialRooms(new LevelGenerator.Settings());
 		}
 
 		float dx = 0;
@@ -78,12 +90,15 @@ public class GameScreen implements Screen {
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-		Assets.batch.setProjectionMatrix(camera.combined);
-		Assets.batch.begin();
-		Assets.batch.draw(Assets.gametex, 0, 0, Constants.win_width, Constants.win_height);
-		Assets.batch.end();
+		// **************** TESTING ***************
+		LevelGenerator.debugRender(camera);
 
-		tileMap.render(camera);
+//		Assets.batch.setProjectionMatrix(camera.combined);
+//		Assets.batch.begin();
+//		Assets.batch.draw(Assets.gametex, 0, 0, Constants.win_width, Constants.win_height);
+//		Assets.batch.end();
+//
+//		tileMap.render(camera);
 	}
 
 	@Override
