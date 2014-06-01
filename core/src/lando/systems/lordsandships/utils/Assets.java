@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.Random;
 
@@ -19,6 +20,7 @@ public class Assets {
 	public static Random rand;
 
 	public static SpriteBatch batch;
+	public static ShapeRenderer shapes;
 
 	public static TextureRegion libgdx;
 	public static TextureRegion gametex;
@@ -30,6 +32,7 @@ public class Assets {
 		rand = new Random();
 
 		batch = new SpriteBatch();
+		shapes = new ShapeRenderer();
 
 		atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
 		libgdx = atlas.findRegion("badlogic");
@@ -38,6 +41,7 @@ public class Assets {
 
 	public static void dispose() {
 		atlas.dispose();
+		shapes.dispose();
 		batch.dispose();
 	}
 
