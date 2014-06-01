@@ -70,6 +70,8 @@ public class GameScreen implements Screen {
 		if (Gdx.input.justTouched()) {
 			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) {
 				LevelGenerator.generateInitialRooms(settings);
+			} else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
+				LevelGenerator.selectRooms(settings);
 			} else {
 				LevelGenerator.separateInitialRooms(settings);
 			}

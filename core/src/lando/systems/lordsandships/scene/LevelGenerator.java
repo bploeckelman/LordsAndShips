@@ -90,7 +90,7 @@ public class LevelGenerator
 	private static void startGeneration (Settings settings) {
 		generateInitialRooms(settings);
 		separateInitialRooms(settings);
-		selectRooms();
+		selectRooms(settings);
 		generateRoomGraph();
 		generateCorridors();
 		generateTilesFromRooms();
@@ -186,8 +186,30 @@ public class LevelGenerator
 		System.out.println("done! Iterations run: " + iterationsRun);
 	}
 
-	private static void selectRooms() {
+	/**
+	 * Pick a number of the initial rooms to make up the main rooms in the level
+	 * @param settings The randomization parameters
+	 */
+	public static void selectRooms(Settings settings) {
+		final int midWidth  = (settings.widthMax  - settings.widthMin)  / 2;
+		final int midHeight = (settings.heightMax - settings.heightMin) / 2;
 
+		int roomsSelected = 0;
+
+		selectedRooms = new ArrayList<Room>(settings.selectedRooms);
+		for (Room room : initialRooms) {
+			if (roomsSelected == settings.selectedRooms) break;
+
+			if (room.rect.width > midWidth && room.rect.height > midHeight) {
+				selectedRooms.add(room);
+				room.isSelected = true;
+				roomsSelected++;
+			} else {
+				room.isSelected = false;
+			}
+		}
+
+		System.out.println("Selected " + roomsSelected + " rooms.");
 	}
 
 	private static void generateRoomGraph() {
@@ -213,15 +235,17 @@ public class LevelGenerator
 		Assets.shapes.setProjectionMatrix(camera.combined);
 
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
-		Assets.shapes.setColor(0.75f, 0.75f, 0.75f, 1f);
 		for (Room room : initialRooms) {
+			if (room.isSelected) Assets.shapes.setColor(1, 0, 0, 1);
+			else                 Assets.shapes.setColor(0.7f, 0.7f, 0.7f, 1);
+
 			Assets.shapes.rect(room.rect.x * 1, room.rect.y * 1,
 							   room.rect.width * 1, room.rect.height * 1);
 		}
 		Assets.shapes.end();
 
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-		Assets.shapes.setColor(1, 0, 0, 1);
+		Assets.shapes.setColor(0, 0, 1, 1);
 		for (Room room : initialRooms) {
 			Assets.shapes.rect(room.rect.x * 1, room.rect.y * 1,
 							   room.rect.width * 1, room.rect.height * 1);
@@ -246,6 +270,7 @@ public class LevelGenerator
 		public Rectangle rect;
 		public Vector2 center;
 		public Vector2 vel;
+		public boolean isSelected;
 		// TODO : add other contents once level layout is done
 
 		Room(float x, float y, float w, float h) {
@@ -253,6 +278,7 @@ public class LevelGenerator
 			rect = new Rectangle(x,y,w,h);
 			rect.getCenter(center);
 			vel= new Vector2();
+			isSelected = false;
 		}
 	}
 
