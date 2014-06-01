@@ -3,6 +3,8 @@ package lando.systems.lordsandships.scene;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.FloatArray;
+import com.badlogic.gdx.utils.ShortArray;
 import lando.systems.lordsandships.utils.Assets;
 
 import java.util.List;
@@ -72,6 +74,8 @@ public class LevelGenerator
 	public static List<Room> initialRooms = null;
 	public static List<Room> selectedRooms = null;
 	public static int[][] tiles = null;
+	public static FloatArray points = null;
+	public static ShortArray triangles = null;
 
 	/**
 	 * Main generation interface
@@ -212,8 +216,21 @@ public class LevelGenerator
 		System.out.println("Selected " + roomsSelected + " rooms.");
 	}
 
-	private static void generateRoomGraph() {
+	/**
+	 * Generate a Delaunay Triangulation of selected room centers,
+	 * then use that to calculate a Minimum Spanning Tree connecting
+	 * the selected rooms.  Tweak the MST to get the final graph for
+	 * use in constructing corridors.
+	 */
+	public static void generateRoomGraph() {
+		points = new FloatArray();
+		for (Room room : selectedRooms) {
+			points.add(room.center.x);
+			points.add(room.center.y);
+		}
 
+		final DelaunayTriangulator triangulator = new DelaunayTriangulator();
+		triangles = triangulator.computeTriangles(points, false);
 	}
 
 	private static void generateCorridors() {
@@ -234,6 +251,7 @@ public class LevelGenerator
 	public static void debugRender(Camera camera) {
 		Assets.shapes.setProjectionMatrix(camera.combined);
 
+		// Initial and selected room interiors
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
 		for (Room room : initialRooms) {
 			if (room.isSelected) Assets.shapes.setColor(1, 0, 0, 1);
@@ -244,6 +262,7 @@ public class LevelGenerator
 		}
 		Assets.shapes.end();
 
+		// Room outlines
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 		Assets.shapes.setColor(0, 0, 1, 1);
 		for (Room room : initialRooms) {
@@ -252,6 +271,7 @@ public class LevelGenerator
 		}
 		Assets.shapes.end();
 
+		// Initial room velocities (during separation phase)
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 		Assets.shapes.setColor(0, 1, 0, 1);
 		Vector2 tmp = new Vector2();
@@ -259,6 +279,23 @@ public class LevelGenerator
 			Assets.shapes.line(room.center, tmp.set(room.center).add(room.vel));
 		}
 		Assets.shapes.end();
+
+		// Delaunay triangles from selected rooms
+		if (triangles != null) {
+			Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
+			for (int i = 0; i < triangles.size; i += 3) {
+				int p1 = triangles.get(i + 0) * 2;
+				int p2 = triangles.get(i + 1) * 2;
+				int p3 = triangles.get(i + 2) * 2;
+				Assets.shapes.setColor(Assets.rand.nextFloat(), Assets.rand.nextFloat(), Assets.rand.nextFloat(), 0.5f);
+				Assets.shapes.triangle(
+						points.get(p1), points.get(p1 + 1),
+						points.get(p2), points.get(p2 + 1),
+						points.get(p3), points.get(p3 + 1)
+				);
+			}
+			Assets.shapes.end();
+		}
 	}
 
 	// -------------------------------------------------------------------------

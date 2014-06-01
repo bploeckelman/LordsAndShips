@@ -72,6 +72,8 @@ public class GameScreen implements Screen {
 				LevelGenerator.generateInitialRooms(settings);
 			} else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
 				LevelGenerator.selectRooms(settings);
+			} else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) {
+				LevelGenerator.generateRoomGraph();
 			} else {
 				LevelGenerator.separateInitialRooms(settings);
 			}
