@@ -36,6 +36,7 @@ public class GameScreen implements Screen {
 	private OrthographicCamera camera;
 	private OrthoCamController camController;
 	private InputMultiplexer inputMux;
+	private LevelGenerator.Settings settings;
 
 	public GameScreen(LordsAndShips game) {
 		super();
@@ -55,8 +56,9 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(inputMux);
 
 		// ***************** TESTING ****************
-//		LevelGenerator.generateLevel(new LevelGenerator.Settings());
-		LevelGenerator.generateInitialRooms(new LevelGenerator.Settings());
+		settings = new LevelGenerator.Settings();
+		settings.separationIterations = 1;
+		LevelGenerator.generateInitialRooms(settings);
 	}
 
 	private void update(float delta) {
@@ -66,7 +68,11 @@ public class GameScreen implements Screen {
 
 		// ***************** TESTING ****************
 		if (Gdx.input.justTouched()) {
-			LevelGenerator.separateInitialRooms(new LevelGenerator.Settings());
+			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) {
+				LevelGenerator.generateInitialRooms(settings);
+			} else {
+				LevelGenerator.separateInitialRooms(settings);
+			}
 		}
 
 		float dx = 0;

@@ -120,6 +120,7 @@ public class LevelGenerator
 	 * @param settings The randomization parameters
 	 */
 	public static void separateInitialRooms(Settings settings) {
+		Rectangle intersection = new Rectangle();
 		Circle thisNeighborhood = new Circle();
 		Vector2 separation = new Vector2();
 		Vector2 temp = new Vector2();
@@ -152,8 +153,10 @@ public class LevelGenerator
 
 					// Update separation velocity to move away from intersections
 					if (Intersector.overlaps(thisNeighborhood, thatRoom.rect)) {
+						Intersector.intersectRectangles(thisRoom.rect, thatRoom.rect, intersection);
 						temp.set(thatRoom.center);
 						temp.sub(thisRoom.center);
+						temp.scl(intersection.getWidth() * intersection.getHeight());
 						separation.add(temp);
 
 						neighbors++;
