@@ -7,8 +7,7 @@ import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ShortArray;
 import lando.systems.lordsandships.utils.Assets;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * LevelGenerator
@@ -231,6 +230,62 @@ public class LevelGenerator
 
 		final DelaunayTriangulator triangulator = new DelaunayTriangulator();
 		triangles = triangulator.computeTriangles(points, false);
+
+		// Generate graph structure from Dalaunay triangulation
+		Graph graph = new Graph();
+		Vector2 v1 = new Vector2();
+		Vector2 v2 = new Vector2();
+		Vector2 v3 = new Vector2();
+		HashSet<Room> neighbors = null;
+
+		for (Room room : selectedRooms) {
+			neighbors = new HashSet<Room>();
+			for (int i = 0; i < triangles.size; i += 3) {
+				int p1 = triangles.get(i + 0) * 2;
+				int p2 = triangles.get(i + 1) * 2;
+				int p3 = triangles.get(i + 2) * 2;
+
+				v1.set(points.get(p1), points.get(p1 + 1));
+				v2.set(points.get(p2), points.get(p2 + 1));
+				v3.set(points.get(p3), points.get(p3 + 1));
+
+				// Gotta be a better way to determine neighbors out of triangle data
+				if (room.center.equals(v1)) {
+					for (Room r : selectedRooms) {
+						if (room == r) continue;
+						if (r.center.equals(v2)) {
+							neighbors.add(r);
+						} else if (r.center.equals(v3)) {
+							neighbors.add(r);
+						}
+					}
+				}
+				else if (room.center.equals(v2)) {
+					for (Room r : selectedRooms) {
+						if (room == r) continue;
+						if (r.center.equals(v1)) {
+							neighbors.add(r);
+						} else if (r.center.equals(v3)) {
+							neighbors.add(r);
+						}
+					}
+				}
+				else if (room.center.equals(v3)) {
+					for (Room r : selectedRooms) {
+						if (room == r) continue;
+						if (r.center.equals(v1)) {
+							neighbors.add(r);
+						} else if (r.center.equals(v2)) {
+							neighbors.add(r);
+						}
+					}
+				}
+			}
+
+			graph.adjacencyLists.put(room, neighbors);
+		}
+
+		System.out.println("Generated Delaunay graph");
 	}
 
 	private static void generateCorridors() {
@@ -255,7 +310,10 @@ public class LevelGenerator
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
 		for (Room room : initialRooms) {
 			if (room.isSelected) Assets.shapes.setColor(1, 0, 0, 1);
-			else                 Assets.shapes.setColor(0.7f, 0.7f, 0.7f, 1);
+			else {
+				if (triangles == null) Assets.shapes.setColor(0.7f, 0.7f, 0.7f, 1);
+				else                   Assets.shapes.setColor(0.25f, 0.25f, 0.25f, 0.5f);
+			}
 
 			Assets.shapes.rect(room.rect.x * 1, room.rect.y * 1,
 							   room.rect.width * 1, room.rect.height * 1);
@@ -282,12 +340,12 @@ public class LevelGenerator
 
 		// Delaunay triangles from selected rooms
 		if (triangles != null) {
-			Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
+			Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+			Assets.shapes.setColor(0,1,0,1);
 			for (int i = 0; i < triangles.size; i += 3) {
 				int p1 = triangles.get(i + 0) * 2;
 				int p2 = triangles.get(i + 1) * 2;
 				int p3 = triangles.get(i + 2) * 2;
-				Assets.shapes.setColor(Assets.rand.nextFloat(), Assets.rand.nextFloat(), Assets.rand.nextFloat(), 0.5f);
 				Assets.shapes.triangle(
 						points.get(p1), points.get(p1 + 1),
 						points.get(p2), points.get(p2 + 1),
@@ -316,6 +374,43 @@ public class LevelGenerator
 			rect.getCenter(center);
 			vel= new Vector2();
 			isSelected = false;
+		}
+	}
+
+	/**
+	 * Edge class, connects two Rooms
+	 */
+	public static class Graph
+	{
+		public Map<Room, Set<Room>> adjacencyLists;
+
+		public Graph() {
+			adjacencyLists = new HashMap<Room, Set<Room>>();
+		}
+
+		public void addNeighbor(Room room, Room neighbor) {
+			Set<Room> neighbors = null;
+			if (adjacencyLists.containsKey(room)) {
+				neighbors = adjacencyLists.get(room);
+				if (neighbors == null) {
+					neighbors = new HashSet<Room>();
+				}
+				neighbors.add(neighbor);
+			} else {
+				neighbors = new HashSet<Room>();
+				neighbors.add(neighbor);
+				adjacencyLists.put(room, neighbors);
+			}
+		}
+
+		public void removeNeighbor(Room room, Room neighbor) {
+			if (adjacencyLists.containsKey(room)) {
+				adjacencyLists.get(room).remove(neighbor);
+			}
+		}
+
+		public void removeRoom(Room room) {
+			adjacencyLists.remove(room);
 		}
 	}
 
