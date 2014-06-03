@@ -75,6 +75,7 @@ public class LevelGenerator
 	public static int[][] tiles = null;
 	public static FloatArray points = null;
 	public static ShortArray triangles = null;
+	public static Graph mst = null;
 
 	/**
 	 * Main generation interface
@@ -232,7 +233,7 @@ public class LevelGenerator
 		triangles = triangulator.computeTriangles(points, false);
 
 		// Generate graph structure from Dalaunay triangulation
-		Graph graph = new Graph();
+		Graph delaunay = new Graph();
 		Vector2 v1 = new Vector2();
 		Vector2 v2 = new Vector2();
 		Vector2 v3 = new Vector2();
@@ -253,28 +254,69 @@ public class LevelGenerator
 				if (room.center.equals(v1)) {
 					for (Room r : selectedRooms) {
 						if (room == r) continue;
-						     if (r.center.equals(v2)) graph.addEdge(room, r);
-						else if (r.center.equals(v3)) graph.addEdge(room, r);
+						     if (r.center.equals(v2)) delaunay.addEdge(room, r);
+						else if (r.center.equals(v3)) delaunay.addEdge(room, r);
 					}
 				}
 				else if (room.center.equals(v2)) {
 					for (Room r : selectedRooms) {
 						if (room == r) continue;
-						     if (r.center.equals(v1)) graph.addEdge(room, r);
-						else if (r.center.equals(v3)) graph.addEdge(room, r);
+						     if (r.center.equals(v1)) delaunay.addEdge(room, r);
+						else if (r.center.equals(v3)) delaunay.addEdge(room, r);
 					}
 				}
 				else if (room.center.equals(v3)) {
 					for (Room r : selectedRooms) {
 						if (room == r) continue;
-						     if (r.center.equals(v1)) graph.addEdge(room, r);
-						else if (r.center.equals(v2)) graph.addEdge(room, r);
+						     if (r.center.equals(v1)) delaunay.addEdge(room, r);
+						else if (r.center.equals(v2)) delaunay.addEdge(room, r);
 					}
 				}
 			}
 		}
-
 		System.out.println("Generated Delaunay graph");
+
+
+		// Calculate minimum spanning tree of the Delaunay graph using Prim's algorithm
+		mst = new Graph();
+
+		Set<Room> V_new = new HashSet<Room>();
+		Set<Room> V = new HashSet<Room>();
+		for (Room room : delaunay.vertices()) {
+			V.add(room);
+		}
+
+		// Add an arbitrary vertex to the mst graph
+		Room room = V.iterator().next();
+		mst.addVertex(room);
+		V_new.add(room);
+
+		// Repeatedly add an edge {u, v} with minimal weight...
+		while (!V_new.equals(V)) {
+			outer:
+			// ...such that u is in V_new...
+			for (Room u : V_new) {
+				for (Room v : V) {
+					// ...and v is not in V_new
+					if (V_new.contains(v)) {
+						continue;
+					}
+
+					// TODO : pick edge based on distance heuristic
+
+					if (delaunay.hasEdge(u, v)) {
+						// Add v to V_new and {u, v} to minimum spanning tree
+						mst.addEdge(u, v);
+						V_new.add(v);
+
+						// A vertex has been added to V_new, check if V == V_new
+						// before adding another edge
+						break outer;
+					}
+				}
+			}
+		}
+		System.out.println("Generated minimum spanning tree");
 	}
 
 	private static void generateCorridors() {
@@ -330,7 +372,7 @@ public class LevelGenerator
 		// Delaunay triangles from selected rooms
 		if (triangles != null) {
 			Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-			Assets.shapes.setColor(0,1,0,1);
+			Assets.shapes.setColor(0,0.5f,0,0.8f);
 			for (int i = 0; i < triangles.size; i += 3) {
 				int p1 = triangles.get(i + 0) * 2;
 				int p2 = triangles.get(i + 1) * 2;
@@ -340,6 +382,20 @@ public class LevelGenerator
 						points.get(p2), points.get(p2 + 1),
 						points.get(p3), points.get(p3 + 1)
 				);
+			}
+			Assets.shapes.end();
+		}
+
+		// Minimum spanning tree from Dalaunay triangulation
+		if (mst != null) {
+			Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+			Assets.shapes.setColor(1,0,1,1);
+			for (Room u : mst.vertices()) {
+				for (Room v : mst.vertices()) {
+					if (mst.hasEdge(u, v)) {
+						Assets.shapes.line(u.center, v.center);
+					}
+				}
 			}
 			Assets.shapes.end();
 		}
@@ -367,7 +423,7 @@ public class LevelGenerator
 	}
 
 	/**
-	 * Edge class, connects two Rooms
+	 * Graph class, connects Rooms with undirected edges
 	 */
 	public static class Graph
 	{
@@ -375,6 +431,47 @@ public class LevelGenerator
 
 		public Graph() {
 			adjacencyLists = new HashMap<Room, Set<Room>>();
+		}
+
+		/**
+		 * Add the specified vertex to the graph, if not already in the graph
+		 *
+		 * @param v
+		 */
+		public void addVertex(Room v) {
+			if (!adjacencyLists.containsKey(v)) {
+				adjacencyLists.put(v, null);
+			}
+		}
+
+		/**
+		 * Remove the specified vertex and all its associated edges from the graph
+		 * if such a vertex exists. Returns true if the specified vertex existed
+		 * and was removed.
+		 *
+		 * @param v
+		 * @return
+		 */
+		public boolean removeVertex(Room v) {
+			boolean result = false;
+
+			if (!adjacencyLists.containsKey(v)) {
+				return result;
+			}
+
+			Set<Room> neighbors = null;
+			for (Room room : adjacencyLists.keySet()) {
+				if (v == room) continue;
+				neighbors = adjacencyLists.get(room);
+				if (neighbors != null) {
+					result &= neighbors.remove(v);
+				}
+			}
+
+			adjacencyLists.remove(v);
+			result &= adjacencyLists.containsKey(v);
+
+			return result;
 		}
 
 		/**
@@ -416,6 +513,7 @@ public class LevelGenerator
 		/**
 		 * Remove the specified edge from the graph, if such an edge exists.
 		 * Returns true if the edge existed and was removed.
+		 *
 		 * @param v
 		 * @param w
 		 * @return
@@ -509,6 +607,31 @@ public class LevelGenerator
 				return false;
 			}
 			return neighbors.contains(w);
+		}
+
+		/**
+		 * Compare this graph to the specified graph, return true if they have
+		 * all the same vertices and edges.
+		 *
+		 * @param g
+		 * @return
+		 */
+		public boolean equals(Graph g) {
+			Set<Room> neighbors = null;
+			for (Room v : adjacencyLists.keySet()) {
+				if (!g.hasVertex(v)) {
+					return false;
+				}
+
+				neighbors = adjacencyLists.get(v);
+				for (Room w : neighbors) {
+					if (!g.hasEdge(v, w)) {
+						return false;
+					}
+				}
+			}
+
+			return true;
 		}
 	}
 
