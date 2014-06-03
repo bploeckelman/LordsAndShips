@@ -236,53 +236,42 @@ public class LevelGenerator
 		Vector2 v1 = new Vector2();
 		Vector2 v2 = new Vector2();
 		Vector2 v3 = new Vector2();
-		HashSet<Room> neighbors = null;
 
 		for (Room room : selectedRooms) {
-			neighbors = new HashSet<Room>();
 			for (int i = 0; i < triangles.size; i += 3) {
+				// Get triangle indices
 				int p1 = triangles.get(i + 0) * 2;
 				int p2 = triangles.get(i + 1) * 2;
 				int p3 = triangles.get(i + 2) * 2;
 
+				// Get triangle vertices
 				v1.set(points.get(p1), points.get(p1 + 1));
 				v2.set(points.get(p2), points.get(p2 + 1));
 				v3.set(points.get(p3), points.get(p3 + 1));
 
-				// Gotta be a better way to determine neighbors out of triangle data
+				// Add an edge between rooms
 				if (room.center.equals(v1)) {
 					for (Room r : selectedRooms) {
 						if (room == r) continue;
-						if (r.center.equals(v2)) {
-							neighbors.add(r);
-						} else if (r.center.equals(v3)) {
-							neighbors.add(r);
-						}
+						     if (r.center.equals(v2)) graph.addEdge(room, r);
+						else if (r.center.equals(v3)) graph.addEdge(room, r);
 					}
 				}
 				else if (room.center.equals(v2)) {
 					for (Room r : selectedRooms) {
 						if (room == r) continue;
-						if (r.center.equals(v1)) {
-							neighbors.add(r);
-						} else if (r.center.equals(v3)) {
-							neighbors.add(r);
-						}
+						     if (r.center.equals(v1)) graph.addEdge(room, r);
+						else if (r.center.equals(v3)) graph.addEdge(room, r);
 					}
 				}
 				else if (room.center.equals(v3)) {
 					for (Room r : selectedRooms) {
 						if (room == r) continue;
-						if (r.center.equals(v1)) {
-							neighbors.add(r);
-						} else if (r.center.equals(v2)) {
-							neighbors.add(r);
-						}
+						     if (r.center.equals(v1)) graph.addEdge(room, r);
+						else if (r.center.equals(v2)) graph.addEdge(room, r);
 					}
 				}
 			}
-
-			graph.adjacencyLists.put(room, neighbors);
 		}
 
 		System.out.println("Generated Delaunay graph");
@@ -382,35 +371,144 @@ public class LevelGenerator
 	 */
 	public static class Graph
 	{
-		public Map<Room, Set<Room>> adjacencyLists;
+		private Map<Room, Set<Room>> adjacencyLists;
 
 		public Graph() {
 			adjacencyLists = new HashMap<Room, Set<Room>>();
 		}
 
-		public void addNeighbor(Room room, Room neighbor) {
+		/**
+		 * Add edge v-w
+		 *
+		 * @param v
+		 * @param w
+		 */
+		public void addEdge(Room v, Room w) {
 			Set<Room> neighbors = null;
-			if (adjacencyLists.containsKey(room)) {
-				neighbors = adjacencyLists.get(room);
+
+			// Add edge v-w
+			if (adjacencyLists.containsKey(v)) {
+				neighbors = adjacencyLists.get(v);
 				if (neighbors == null) {
 					neighbors = new HashSet<Room>();
 				}
-				neighbors.add(neighbor);
+				neighbors.add(w);
 			} else {
 				neighbors = new HashSet<Room>();
-				neighbors.add(neighbor);
-				adjacencyLists.put(room, neighbors);
+				neighbors.add(w);
+				adjacencyLists.put(v, neighbors);
+			}
+
+			// Add edge w-v
+			if (adjacencyLists.containsKey(w)) {
+				neighbors = adjacencyLists.get(w);
+				if (neighbors == null) {
+					neighbors = new HashSet<Room>();
+				}
+				neighbors.add(v);
+			} else {
+				neighbors = new HashSet<Room>();
+				neighbors.add(v);
+				adjacencyLists.put(w, neighbors);
 			}
 		}
 
-		public void removeNeighbor(Room room, Room neighbor) {
-			if (adjacencyLists.containsKey(room)) {
-				adjacencyLists.get(room).remove(neighbor);
+		/**
+		 * Remove the specified edge from the graph, if such an edge exists.
+		 * Returns true if the edge existed and was removed.
+		 * @param v
+		 * @param w
+		 * @return
+		 */
+		public boolean removeEdge(Room v, Room w) {
+			boolean result = false;
+
+			// Remove edge v-w
+			Set<Room> neighbors = adjacencyLists.get(v);
+			if (neighbors != null) {
+				result = neighbors.remove(w);
 			}
+
+			// Remove edge w-v
+			neighbors = adjacencyLists.get(w);
+			if (neighbors != null) {
+				result &= neighbors.remove(v);
+			}
+
+			return result;
 		}
 
-		public void removeRoom(Room room) {
-			adjacencyLists.remove(room);
+		/**
+		 * Return the number of vertices in the graph
+		 * @return
+		 */
+		public int V() {
+			return adjacencyLists.size();
+		}
+
+		/**
+		 * Get the number of edges in the graph
+		 * @return
+		 */
+		public int E() {
+			int numEdges = 0;
+
+			for (Room room : adjacencyLists.keySet()) {
+				numEdges += adjacencyLists.get(room).size();
+			}
+			numEdges /= 2; // v-w and w-v are the same edge
+
+			return numEdges;
+		}
+
+		/**
+		 * Get the degree of the specified vertex
+		 * @param v
+		 * @return
+		 */
+		public int degree(Room v) {
+			Set<Room> neighbors = adjacencyLists.get(v);
+			return (neighbors == null) ? 0 : neighbors.size();
+		}
+
+		/**
+		 * Get the container of vertices
+		 * @return
+		 */
+		public Iterable<Room> vertices() {
+			return adjacencyLists.keySet();
+		}
+
+		/**
+		 * Get the container vertices adjacent to the specified vertex
+		 * @param v
+		 * @return
+		 */
+		public Iterable<Room> adjacentTo(Room v) {
+			return adjacencyLists.get(v);
+		}
+
+		/**
+		 * Does the graph contain the specified vertex?
+		 * @param v
+		 * @return
+		 */
+		public boolean hasVertex(Room v) {
+			return adjacencyLists.containsKey(v);
+		}
+
+		/**
+		 * Does the graph contain an edge between the specified vertices?
+		 * @param v
+		 * @param w
+		 * @return
+		 */
+		public boolean hasEdge(Room v, Room w) {
+			Set<Room> neighbors = adjacencyLists.get(v);
+			if (neighbors == null) {
+				return false;
+			}
+			return neighbors.contains(w);
 		}
 	}
 
