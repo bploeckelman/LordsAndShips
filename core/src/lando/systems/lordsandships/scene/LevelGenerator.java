@@ -76,6 +76,7 @@ public class LevelGenerator
 	public static FloatArray points = null;
 	public static ShortArray triangles = null;
 	public static Graph mst = null;
+	public static Graph delaunay = null;
 
 	/**
 	 * Main generation interface
@@ -229,62 +230,40 @@ public class LevelGenerator
 			points.add(room.center.y);
 		}
 
+		// Compute Dalaunay triangulation
 		final DelaunayTriangulator triangulator = new DelaunayTriangulator();
 		triangles = triangulator.computeTriangles(points, false);
+		delaunay = generateDelaunayGraph();
 
-		// Generate graph structure from Dalaunay triangulation
-		Graph delaunay = new Graph();
-		Vector2 v1 = new Vector2();
-		Vector2 v2 = new Vector2();
-		Vector2 v3 = new Vector2();
+//		calculateMinimumSpanningTree();
+	}
 
-		for (Room room : selectedRooms) {
-			for (int i = 0; i < triangles.size; i += 3) {
-				// Get triangle indices
-				int p1 = triangles.get(i + 0) * 2;
-				int p2 = triangles.get(i + 1) * 2;
-				int p3 = triangles.get(i + 2) * 2;
+	private static void generateCorridors() {
 
-				// Get triangle vertices
-				v1.set(points.get(p1), points.get(p1 + 1));
-				v2.set(points.get(p2), points.get(p2 + 1));
-				v3.set(points.get(p3), points.get(p3 + 1));
+	}
 
-				// Add an edge between rooms
-				if (room.center.equals(v1)) {
-					for (Room r : selectedRooms) {
-						if (room == r) continue;
-						     if (r.center.equals(v2)) delaunay.addEdge(room, r);
-						else if (r.center.equals(v3)) delaunay.addEdge(room, r);
-					}
-				}
-				else if (room.center.equals(v2)) {
-					for (Room r : selectedRooms) {
-						if (room == r) continue;
-						     if (r.center.equals(v1)) delaunay.addEdge(room, r);
-						else if (r.center.equals(v3)) delaunay.addEdge(room, r);
-					}
-				}
-				else if (room.center.equals(v3)) {
-					for (Room r : selectedRooms) {
-						if (room == r) continue;
-						     if (r.center.equals(v1)) delaunay.addEdge(room, r);
-						else if (r.center.equals(v2)) delaunay.addEdge(room, r);
-					}
-				}
-			}
-		}
-		System.out.println("Generated Delaunay graph");
+	private static void generateTilesFromRooms() {
 
+	}
 
-		// Calculate minimum spanning tree of the Delaunay graph using Prim's algorithm
-		mst = new Graph();
+	// -------------------------------------------------------------------------
 
+	/**
+	 * Calculate a minimum spanning tree for the specified graph using Prim's algorithm
+	 *
+	 * @param delaunay
+	 */
+	public static void calculateMinimumSpanningTree() {
+		// Create vertex sets:
+		// V - all existing graph vertices
+		// V_new - vertices connected to the minimum spanning tree
 		Set<Room> V_new = new HashSet<Room>();
 		Set<Room> V = new HashSet<Room>();
 		for (Room room : delaunay.vertices()) {
 			V.add(room);
 		}
+
+		mst = new Graph();
 
 		// Add an arbitrary vertex to the mst graph
 		Room room = V.iterator().next();
@@ -319,16 +298,59 @@ public class LevelGenerator
 		System.out.println("Generated minimum spanning tree");
 	}
 
-	private static void generateCorridors() {
+	/**
+	 * Generate a graph from the existing Delaunay triangulation of selected rooms
+	 *
+	 * @return
+	 */
+	private static Graph generateDelaunayGraph() {
+		// Generate graph structure from Dalaunay triangulation
+		Graph delaunay = new Graph();
+		Vector2 v1 = new Vector2();
+		Vector2 v2 = new Vector2();
+		Vector2 v3 = new Vector2();
 
-	}
+		for (Room room : selectedRooms) {
+			for (int i = 0; i < triangles.size; i += 3) {
+				// Get triangle indices
+				int p1 = triangles.get(i + 0) * 2;
+				int p2 = triangles.get(i + 1) * 2;
+				int p3 = triangles.get(i + 2) * 2;
 
-	private static void generateTilesFromRooms() {
+				// Get triangle vertices
+				v1.set(points.get(p1), points.get(p1 + 1));
+				v2.set(points.get(p2), points.get(p2 + 1));
+				v3.set(points.get(p3), points.get(p3 + 1));
 
+				// Add an edge between rooms
+				if (room.center.equals(v1)) {
+					for (Room r : selectedRooms) {
+						if (room == r) continue;
+						if (r.center.equals(v2)) delaunay.addEdge(room, r);
+						else if (r.center.equals(v3)) delaunay.addEdge(room, r);
+					}
+				}
+				else if (room.center.equals(v2)) {
+					for (Room r : selectedRooms) {
+						if (room == r) continue;
+						if (r.center.equals(v1)) delaunay.addEdge(room, r);
+						else if (r.center.equals(v3)) delaunay.addEdge(room, r);
+					}
+				}
+				else if (room.center.equals(v3)) {
+					for (Room r : selectedRooms) {
+						if (room == r) continue;
+						if (r.center.equals(v1)) delaunay.addEdge(room, r);
+						else if (r.center.equals(v2)) delaunay.addEdge(room, r);
+					}
+				}
+			}
+		}
+		System.out.println("Generated Delaunay graph");
+		return delaunay;
 	}
 
 	// -------------------------------------------------------------------------
-
 	/**
 	 * Draw rooms for debug visualization
 	 *

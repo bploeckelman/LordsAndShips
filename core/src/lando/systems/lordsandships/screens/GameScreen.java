@@ -68,13 +68,11 @@ public class GameScreen implements Screen {
 
 		// ***************** TESTING ****************
 		if (Gdx.input.justTouched()) {
-			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) {
-				LevelGenerator.generateInitialRooms(settings);
-			} else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
-				LevelGenerator.selectRooms(settings);
-			} else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) {
-				LevelGenerator.generateRoomGraph();
-			} else {
+			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(settings);
+			else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) LevelGenerator.selectRooms(settings);
+			else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) LevelGenerator.generateRoomGraph();
+			else if (game.input.isKeyDown(Input.Keys.SHIFT_RIGHT)) LevelGenerator.calculateMinimumSpanningTree();
+			else {
 				LevelGenerator.separateInitialRooms(settings);
 			}
 		}
