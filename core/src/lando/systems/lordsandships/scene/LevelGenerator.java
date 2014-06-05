@@ -139,8 +139,8 @@ public class LevelGenerator
 				if (separation.x == 0 && separation.y == 0) {
 					room.vel.set(0, 0);
 				} else {
-					room.vel.x += cohesion.x + 0.01f * separation.x;
-					room.vel.y += cohesion.y + 0.01f * separation.y;
+					room.vel.x += cohesion.x + separation.x;
+					room.vel.y += cohesion.y + separation.y;
 				}
 
 				// Reposition the room's rectangle based on its velocity
@@ -188,6 +188,11 @@ public class LevelGenerator
 	public static void generateRoomGraph() {
 		points = new FloatArray();
 		for (Room room : selectedRooms) {
+			// Snap to integer positions
+			room.rect.set((float) Math.floor(room.rect.x), (float) Math.floor(room.rect.y),
+					      (float) Math.floor(room.rect.width), (float) Math.floor(room.rect.height));
+			room.rect.getCenter(room.center);
+
 			points.add(room.center.x);
 			points.add(room.center.y);
 		}
@@ -444,6 +449,17 @@ public class LevelGenerator
 			}
 			Assets.shapes.end();
 		}
+
+		// Grid viz
+		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+		Assets.shapes.setColor(1,0,0,1);
+		for (int y = 0; y < 101; ++y) {
+			for (int x = 0; x < 101; ++x) {
+				Assets.shapes.line(x, 0, x, 100);
+				Assets.shapes.line(0, y, 100, y);
+			}
+		}
+		Assets.shapes.end();
 	}
 
 	// -------------------------------------------------------------------------
