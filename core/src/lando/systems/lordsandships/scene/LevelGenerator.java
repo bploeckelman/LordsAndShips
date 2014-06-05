@@ -210,6 +210,12 @@ public class LevelGenerator
 
 	// -------------------------------------------------------------------------
 
+	/**
+	 * Compute a new velocity for the specified room to move it closer to nearby rooms
+	 *
+	 * @param room The specified room to move closer to nearby rooms
+	 * @return The velocity vector that moves the specified room closer to nearby rooms
+	 */
 	private static Vector2 computeCohesion(Room room) {
 		Vector2 cohesion = new Vector2();
 		int neighborCount = 0;
@@ -234,6 +240,12 @@ public class LevelGenerator
 		return cohesion;
 	}
 
+	/**
+	 * Compute a new velocity for the specified room to separate it from overlapping rooms
+	 *
+	 * @param room The specified room to separate from other rooms
+	 * @return The velocity vector that moves the specified room away from overlapping rooms
+	 */
 	private static Vector2 computeSeparation(Room room) {
 		Rectangle intersection = new Rectangle();
 		Vector2 separation = new Vector2();
