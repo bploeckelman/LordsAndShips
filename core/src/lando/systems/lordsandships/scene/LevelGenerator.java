@@ -125,66 +125,28 @@ public class LevelGenerator
 	 * @param settings The randomization parameters
 	 */
 	public static void separateInitialRooms(Settings settings) {
-		Rectangle intersection = new Rectangle();
-		Circle thisNeighborhood = new Circle();
 		Vector2 separation = new Vector2();
-		Vector2 temp = new Vector2();
-
-		int neighbors = 0;
-		int longestSide = 0;
+		Vector2 cohesion = new Vector2();
 		int iterationsRun = 0;
-		boolean overlapsExist = true;
 
 		System.out.print("Separating rooms... " );
 
-		// Run the separation calculation many times
 		for (int i = 0; i < settings.separationIterations; ++i) {
-			if (!overlapsExist) break;
-			overlapsExist = false;
+			for (Room room : initialRooms) {
+				cohesion.set(0,0);//computeCohesion(room));
+				separation.set(computeSeparation(room));
 
-			// O(n^2) T_T
-			for (Room thisRoom : initialRooms) {
-				// Calculate this room's neighborhood area for overlaps
-				longestSide = Math.max((int) thisRoom.rect.width, (int) thisRoom.rect.height);
-				thisNeighborhood.set(thisRoom.center, longestSide / 2);
-
-				// Reset accumulators
-				separation.set(0, 0);
-				neighbors = 0;
-
-				// Check for intersections with other rooms
-				for (Room thatRoom : initialRooms) {
-					if (thisRoom == thatRoom) continue;
-
-					// Update separation velocity to move away from intersections
-					if (Intersector.overlaps(thisNeighborhood, thatRoom.rect)) {
-						Intersector.intersectRectangles(thisRoom.rect, thatRoom.rect, intersection);
-						temp.set(thatRoom.center);
-						temp.sub(thisRoom.center);
-						temp.scl(intersection.getWidth() * intersection.getHeight());
-						separation.add(temp);
-
-						neighbors++;
-						overlapsExist = true;
-					}
-				}
-
-				// No neighbors means no movement
-				if (neighbors == 0) {
-					separation.set(0,0);
-					thisRoom.vel.set(0,0);
-				} else { // Move away from neighbors
-					separation.scl(-1f);
-					separation.scl(1f / neighbors);
-					separation.nor();
-					thisRoom.vel.add(separation);
+				if (separation.x == 0 && separation.y == 0) {
+					room.vel.set(0, 0);
+				} else {
+					room.vel.x += cohesion.x + 0.01f * separation.x;
+					room.vel.y += cohesion.y + 0.01f * separation.y;
 				}
 
 				// Reposition the room's rectangle based on its velocity
-				thisRoom.rect.setCenter(thisRoom.center.add(thisRoom.vel));
-				thisRoom.rect.getCenter(thisRoom.center);
+				room.rect.setCenter(room.center.add(room.vel));
+				room.rect.getCenter(room.center);
 			}
-
 			iterationsRun++;
 		}
 
@@ -248,10 +210,59 @@ public class LevelGenerator
 
 	// -------------------------------------------------------------------------
 
+	private static Vector2 computeCohesion(Room room) {
+		Vector2 cohesion = new Vector2();
+		int neighborCount = 0;
+
+		for (Room neighbor : initialRooms) {
+			if (room == neighbor) continue;
+
+			if (neighbor.center.dst(room.center) < 30) {
+				cohesion.x += room.center.x;
+				cohesion.y += room.center.y;
+				neighborCount++;
+			}
+		}
+
+		if (neighborCount == 0) {
+			return new Vector2();
+		}
+
+		cohesion.scl(1f / (float) neighborCount);
+		cohesion.set(cohesion.x - room.center.x, cohesion.y - room.center.y);
+		cohesion.nor();
+		return cohesion;
+	}
+
+	private static Vector2 computeSeparation(Room room) {
+		Rectangle intersection = new Rectangle();
+		Vector2 separation = new Vector2();
+		int neighborCount = 0;
+
+		for (Room neighbor : initialRooms) {
+			if (room == neighbor) continue;
+
+			if (Intersector.overlaps(room.rect, neighbor.rect)) {
+				Intersector.intersectRectangles(room.rect, neighbor.rect, intersection);
+				separation.x += neighbor.center.x - room.center.x;
+				separation.y += neighbor.center.y - room.center.y;
+				neighborCount++;
+			}
+		}
+
+		if (neighborCount == 0) {
+			return new Vector2();
+		}
+
+		separation.scl(1f / (float) neighborCount);
+		separation.scl(-1f);
+		separation.nor();
+		return separation;
+	}
+
 	/**
-	 * Calculate a minimum spanning tree for the specified graph using Prim's algorithm
-	 *
-	 * @param delaunay
+	 * Calculate a minimum spanning tree for the existing delaunay graph usin
+	 * Prim's algorithm
 	 */
 	public static void calculateMinimumSpanningTree() {
 		// Create vertex sets:
