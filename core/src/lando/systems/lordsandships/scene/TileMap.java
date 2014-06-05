@@ -20,6 +20,7 @@ import java.util.*;
 public class TileMap implements Disposable
 {
 	static final int BLOCK_TILES = 25;
+	static final int TILE_SIZE = 32; // pixels
 	static final int NUM_LAYERS = 1;
 
 	private static final Map<String, TextureRegion> tile_textures;
@@ -66,7 +67,7 @@ public class TileMap implements Disposable
 				for (int x = 0; x < width; ++x) {
 					worldx = x << 5; // x * 2^5 => x * 32 => tile coord to world coord
 					worldy = y << 5; // y * 2^5 => y * 32 => tile coord to world coord
-					cache.add(getRandomTileTexture(), worldx, worldy, 32, 32);
+					cache.add(getRandomTileTexture(), worldx, worldy, TILE_SIZE, TILE_SIZE);
 				}
 			}
 			layers[i] = cache.endCache();
