@@ -213,8 +213,30 @@ public class LevelGenerator
 
 	}
 
-	private static void generateTilesFromRooms() {
+	public static void generateTilesFromRooms() {
+		// Find minimum position of room
+		Vector2 min = new Vector2(Float.MAX_VALUE, Float.MAX_VALUE);
+		for (Room room : initialRooms) {
+			if (min.x > room.rect.x) {
+				min.x = room.rect.x;
+			}
+			if (min.y > room.rect.y) {
+				min.y = room.rect.y;
+			}
+		}
 
+		// Shift rooms to 1st quadrant (x >= 0, y >= 0) and snap to integer coords
+		for (Room room : initialRooms) {
+			room.rect.setPosition(
+				(int) Math.floor(room.rect.x - min.x),
+				(int) Math.floor(room.rect.y - min.y));
+			room.rect.getCenter(room.center);
+		}
+
+		for (int i = 0; i < points.size; i += 2) {
+			points.set(i+0, points.get(i+0) - min.x);
+			points.set(i+1, points.get(i+1) - min.y);
+		}
 	}
 
 	// -------------------------------------------------------------------------
@@ -488,15 +510,17 @@ public class LevelGenerator
 		}
 
 		// Grid viz
-//		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-//		Assets.shapes.setColor(1,0,0,0.15f);
+		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+		Assets.shapes.setColor(1,0,0,0.45f);
+		Assets.shapes.line(0, 0, 320, 0);
+		Assets.shapes.line(0, 0, 0, 320);
 //		for (int y = 0; y < 101; ++y) {
 //			for (int x = 0; x < 101; ++x) {
 //				Assets.shapes.line(x, 0, x, 100);
 //				Assets.shapes.line(0, y, 100, y);
 //			}
 //		}
-//		Assets.shapes.end();
+		Assets.shapes.end();
 
 		// Center of mass of rooms
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
