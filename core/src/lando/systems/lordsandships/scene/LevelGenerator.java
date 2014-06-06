@@ -129,7 +129,7 @@ public class LevelGenerator
 		Vector2 cohesion = new Vector2();
 		int iterationsRun = 0;
 		float sk = 0.05f;
-		float ck = 0.05f;
+		float ck = 0.00f; // ignore cohesion for now
 
 		System.out.print("Separating rooms... " );
 
@@ -140,11 +140,10 @@ public class LevelGenerator
 
 				if (separation.x == 0 && separation.y == 0) {
 					room.vel.set(0, 0);
-				}
-//				} else {
+				} else {
 					room.vel.x += ck * cohesion.x + sk * separation.x;
 					room.vel.y += ck * cohesion.y + sk * separation.y;
-//				}
+				}
 
 				// Reposition the room's rectangle based on its velocity
 				room.center.add(room.vel);
@@ -305,30 +304,37 @@ public class LevelGenerator
 		mst.addVertex(room);
 		V_new.add(room);
 
-		// Repeatedly add an edge {u, v} with minimal weight...
+		// Repeatedly add an edge {u0, v0} with minimal weight...
 		while (!V_new.equals(V)) {
-			outer:
-			// ...such that u is in V_new...
+			Room u0 = null;
+			Room v0 = null;
+			float minDist = Float.MAX_VALUE;
+
+			// ...such that u0 is in V_new...
 			for (Room u : V_new) {
+				// ...and v0 is not in V_new
 				for (Room v : V) {
-					// ...and v is not in V_new
 					if (V_new.contains(v)) {
 						continue;
 					}
 
-					// TODO : pick edge based on distance heuristic
-
+					// Find minimum distance edge
+					// from a room 'u' in V_new...
+					// to a room 'v' not in V_new
 					if (delaunay.hasEdge(u, v)) {
-						// Add v to V_new and {u, v} to minimum spanning tree
-						mst.addEdge(u, v);
-						V_new.add(v);
-
-						// A vertex has been added to V_new, check if V == V_new
-						// before adding another edge
-						break outer;
+						float dist = u.center.dst(v.center);
+						if (minDist > dist) {
+							minDist = dist;
+							u0 = u;
+							v0 = v;
+						}
 					}
 				}
 			}
+
+			// Add v0 to V_new and {u0, v0} to minimum spanning tree
+			mst.addEdge(u0, v0);
+			V_new.add(v0);
 		}
 		System.out.println("Generated minimum spanning tree");
 	}
@@ -458,15 +464,15 @@ public class LevelGenerator
 		}
 
 		// Grid viz
-		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-		Assets.shapes.setColor(1,0,0,0.25f);
-		for (int y = 0; y < 101; ++y) {
-			for (int x = 0; x < 101; ++x) {
-				Assets.shapes.line(x, 0, x, 100);
-				Assets.shapes.line(0, y, 100, y);
-			}
-		}
-		Assets.shapes.end();
+//		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+//		Assets.shapes.setColor(1,0,0,0.15f);
+//		for (int y = 0; y < 101; ++y) {
+//			for (int x = 0; x < 101; ++x) {
+//				Assets.shapes.line(x, 0, x, 100);
+//				Assets.shapes.line(0, y, 100, y);
+//			}
+//		}
+//		Assets.shapes.end();
 
 		// Center of mass of rooms
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
