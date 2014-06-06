@@ -128,24 +128,27 @@ public class LevelGenerator
 		Vector2 separation = new Vector2();
 		Vector2 cohesion = new Vector2();
 		int iterationsRun = 0;
+		float sk = 0.05f;
+		float ck = 0.05f;
 
 		System.out.print("Separating rooms... " );
 
 		for (int i = 0; i < settings.separationIterations; ++i) {
 			for (Room room : initialRooms) {
-				cohesion.set(0,0);//computeCohesion(room));
+				cohesion.set(computeCohesion(room));
 				separation.set(computeSeparation(room));
 
 				if (separation.x == 0 && separation.y == 0) {
 					room.vel.set(0, 0);
-				} else {
-					room.vel.x += cohesion.x + separation.x;
-					room.vel.y += cohesion.y + separation.y;
 				}
+//				} else {
+					room.vel.x += ck * cohesion.x + sk * separation.x;
+					room.vel.y += ck * cohesion.y + sk * separation.y;
+//				}
 
 				// Reposition the room's rectangle based on its velocity
-				room.rect.setCenter(room.center.add(room.vel));
-				room.rect.getCenter(room.center);
+				room.center.add(room.vel);
+				room.rect.setCenter(room.center);
 			}
 			iterationsRun++;
 		}
@@ -228,20 +231,21 @@ public class LevelGenerator
 		for (Room neighbor : initialRooms) {
 			if (room == neighbor) continue;
 
-			if (neighbor.center.dst(room.center) < 30) {
-				cohesion.x += room.center.x;
-				cohesion.y += room.center.y;
-				neighborCount++;
-			}
+			// Could calculate cohesion only with 'close' neighbors
+			// instead of towards center of mass of all other rooms
+
+			cohesion.add(neighbor.center);
+			neighborCount++;
 		}
 
 		if (neighborCount == 0) {
 			return new Vector2();
 		}
 
-		cohesion.scl(1f / (float) neighborCount);
+		cohesion.scl(1f / (float) (neighborCount));
 		cohesion.set(cohesion.x - room.center.x, cohesion.y - room.center.y);
 		cohesion.nor();
+//		cohesion.scl(0.01f);
 		return cohesion;
 	}
 
@@ -264,15 +268,18 @@ public class LevelGenerator
 				separation.x += neighbor.center.x - room.center.x;
 				separation.y += neighbor.center.y - room.center.y;
 				neighborCount++;
+			} else {
+				intersection.set(0,0,1,1);
 			}
+
+			separation.scl(intersection.width * intersection.height);
 		}
 
 		if (neighborCount == 0) {
 			return new Vector2();
 		}
 
-		separation.scl(1f / (float) neighborCount);
-		separation.scl(-1f);
+		separation.scl(-1f / (float) (neighborCount));
 		separation.nor();
 		return separation;
 	}
@@ -452,13 +459,24 @@ public class LevelGenerator
 
 		// Grid viz
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-		Assets.shapes.setColor(1,0,0,1);
+		Assets.shapes.setColor(1,0,0,0.25f);
 		for (int y = 0; y < 101; ++y) {
 			for (int x = 0; x < 101; ++x) {
 				Assets.shapes.line(x, 0, x, 100);
 				Assets.shapes.line(0, y, 100, y);
 			}
 		}
+		Assets.shapes.end();
+
+		// Center of mass of rooms
+		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+		Assets.shapes.setColor(1,1,0,1);
+		Vector2 center = new Vector2();
+		for (Room room : initialRooms) {
+			center.add(room.center);
+		}
+		center.scl(1f / (float) initialRooms.size());
+		Assets.shapes.circle(center.x, center.y, 8, 16);
 		Assets.shapes.end();
 	}
 

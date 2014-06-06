@@ -57,7 +57,9 @@ public class GameScreen implements Screen {
 
 		// ***************** TESTING ****************
 		settings = new LevelGenerator.Settings();
-		settings.separationIterations = 1;
+		settings.separationIterations = 3;
+		settings.initialRooms = 20;
+		settings.selectedRooms = 5;
 		LevelGenerator.generateInitialRooms(settings);
 	}
 
