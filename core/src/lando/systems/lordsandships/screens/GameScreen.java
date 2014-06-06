@@ -57,9 +57,13 @@ public class GameScreen implements Screen {
 
 		// ***************** TESTING ****************
 		settings = new LevelGenerator.Settings();
-		settings.separationIterations = 3;
-		settings.initialRooms = 100;
-		settings.selectedRooms = 20;
+		settings.separationIterations = 50;
+		settings.initialRooms = 200;
+		settings.selectedRooms = 25;
+		settings.widthMin = 3;
+		settings.widthMax = 15;
+		settings.heightMin = 4;
+		settings.heightMax = 15;
 		LevelGenerator.generateInitialRooms(settings);
 	}
 
@@ -72,8 +76,8 @@ public class GameScreen implements Screen {
 		if (Gdx.input.justTouched()) {
 			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(settings);
 			else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) LevelGenerator.selectRooms(settings);
-			else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) LevelGenerator.generateRoomGraph();
-			else if (game.input.isKeyDown(Input.Keys.SHIFT_RIGHT)) LevelGenerator.calculateMinimumSpanningTree();
+			else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) LevelGenerator.generateRoomGraph(settings);
+			else if (game.input.isKeyDown(Input.Keys.SHIFT_RIGHT)) LevelGenerator.calculateMinimumSpanningTree(settings);
 			else {
 				LevelGenerator.separateInitialRooms(settings);
 			}

@@ -54,6 +54,7 @@ public class LevelGenerator
 		public int initialRooms;
 		public int selectedRooms;
 		public int separationIterations;
+		public float percentDelaunayCycleEdges;
 
 		public Settings() {
 			// TODO : make defaults constants
@@ -66,6 +67,7 @@ public class LevelGenerator
 			this.initialRooms = 150;
 			this.selectedRooms = 15;
 			this.separationIterations = 50;
+			this.percentDelaunayCycleEdges = 0.1f; // 10%
 		}
 	}
 
@@ -96,7 +98,7 @@ public class LevelGenerator
 		generateInitialRooms(settings);
 		separateInitialRooms(settings);
 		selectRooms(settings);
-		generateRoomGraph();
+		generateRoomGraph(settings);
 		generateCorridors();
 		generateTilesFromRooms();
 	}
@@ -187,7 +189,7 @@ public class LevelGenerator
 	 * the selected rooms.  Tweak the MST to get the final graph for
 	 * use in constructing corridors.
 	 */
-	public static void generateRoomGraph() {
+	public static void generateRoomGraph(Settings settings) {
 		points = new FloatArray();
 		for (Room room : selectedRooms) {
 			// Snap to integer positions
@@ -204,7 +206,7 @@ public class LevelGenerator
 		triangles = triangulator.computeTriangles(points, false);
 		delaunay = generateDelaunayGraph();
 
-//		calculateMinimumSpanningTree();
+		calculateMinimumSpanningTree(settings);
 	}
 
 	private static void generateCorridors() {
@@ -284,10 +286,30 @@ public class LevelGenerator
 	}
 
 	/**
+	 * Randomly add edges to minimum spanning tree from Delauanay graph.
+	 * Added edges introduce cycles to the min spanning tree graph.
+	 */
+	public static void addCycleEdgesToMST(Settings settings) {
+		int numEdgesAdded = 0;
+		for (Room u : delaunay.vertices()) {
+			for (Room v : delaunay.vertices()) {
+				if (u == v) continue;
+
+				if (delaunay.hasEdge(u, v) && !mst.hasEdge(u, v)) {
+					mst.addEdge(u, v);
+					if (++numEdgesAdded >= settings.percentDelaunayCycleEdges * delaunay.E()) {
+						return;
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Calculate a minimum spanning tree for the existing delaunay graph usin
 	 * Prim's algorithm
 	 */
-	public static void calculateMinimumSpanningTree() {
+	public static void calculateMinimumSpanningTree(Settings settings) {
 		// Create vertex sets:
 		// V - all existing graph vertices
 		// V_new - vertices connected to the minimum spanning tree
@@ -337,6 +359,8 @@ public class LevelGenerator
 			V_new.add(v0);
 		}
 		System.out.println("Generated minimum spanning tree");
+		addCycleEdgesToMST(settings);
+		System.out.println("Induced cycles into minimum spanning tree from delaunay graph");
 	}
 
 	/**
