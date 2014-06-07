@@ -74,7 +74,6 @@ public class LevelGenerator
 	// TODO : make private
 	public static List<Room> initialRooms = null;
 	public static List<Room> selectedRooms = null;
-	public static int[][] tiles = null;
 	public static FloatArray points = null;
 	public static ShortArray triangles = null;
 	public static Graph mst = null;
@@ -86,15 +85,7 @@ public class LevelGenerator
 	 * @param settings The level generation parameters to use
 	 * @return array of tile type ids specifying the layout of the resulting level
 	 */
-	public static int[][] generateLevel (Settings settings) {
-		startGeneration(settings);
-		return tiles;
-	}
-
-	// -------------------------------------------------------------------------
-	// Private implementation details
-	// -------------------------------------------------------------------------
-	private static void startGeneration (Settings settings) {
+	public static void generateLevel (Settings settings) {
 		generateInitialRooms(settings);
 		separateInitialRooms(settings);
 		selectRooms(settings);
@@ -103,6 +94,9 @@ public class LevelGenerator
 		generateTilesFromRooms();
 	}
 
+	// -------------------------------------------------------------------------
+	// Private implementation details
+	// -------------------------------------------------------------------------
 	/**
 	 * Randomly create new rooms based on the specified parameters
 	 * @param settings The randomization parameters
