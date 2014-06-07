@@ -14,7 +14,7 @@ public class OrthoCamController extends InputAdapter {
 	final Vector3 curr = new Vector3();
 	final Vector3 last = new Vector3(-1, -1, -1);
 	final Vector3 delta = new Vector3();
-	final float zoom_scale = 0.025f;
+	final float zoom_scale = 0.1f;//0.025f;
 
 	public OrthoCamController (OrthographicCamera camera) {
 		this.camera = camera;
