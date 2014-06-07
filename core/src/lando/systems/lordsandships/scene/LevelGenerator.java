@@ -455,8 +455,8 @@ public class LevelGenerator
 				else                   Assets.shapes.setColor(0.25f, 0.25f, 0.25f, 0.5f);
 			}
 
-			Assets.shapes.rect(room.rect.x * 1, room.rect.y * 1,
-							   room.rect.width * 1, room.rect.height * 1);
+			Assets.shapes.rect(room.rect.x * 32, room.rect.y * 32,
+							   room.rect.width * 32, room.rect.height * 32);
 		}
 		Assets.shapes.end();
 
@@ -464,8 +464,8 @@ public class LevelGenerator
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 		Assets.shapes.setColor(0, 0, 1, 1);
 		for (Room room : initialRooms) {
-			Assets.shapes.rect(room.rect.x * 1, room.rect.y * 1,
-							   room.rect.width * 1, room.rect.height * 1);
+			Assets.shapes.rect(room.rect.x * 32, room.rect.y * 32,
+							   room.rect.width * 32, room.rect.height * 32);
 		}
 		Assets.shapes.end();
 
@@ -487,9 +487,9 @@ public class LevelGenerator
 				int p2 = triangles.get(i + 1) * 2;
 				int p3 = triangles.get(i + 2) * 2;
 				Assets.shapes.triangle(
-						points.get(p1), points.get(p1 + 1),
-						points.get(p2), points.get(p2 + 1),
-						points.get(p3), points.get(p3 + 1)
+						points.get(p1) * 32, points.get(p1 + 1) * 32,
+						points.get(p2) * 32, points.get(p2 + 1) * 32,
+						points.get(p3) * 32, points.get(p3 + 1) * 32
 				);
 			}
 			Assets.shapes.end();
@@ -502,7 +502,7 @@ public class LevelGenerator
 			for (Room u : mst.vertices()) {
 				for (Room v : mst.vertices()) {
 					if (mst.hasEdge(u, v)) {
-						Assets.shapes.line(u.center, v.center);
+						Assets.shapes.line(u.center.x * 32, u.center.y * 32, v.center.x * 32, v.center.y * 32);
 					}
 				}
 			}
@@ -512,8 +512,8 @@ public class LevelGenerator
 		// Grid viz
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 		Assets.shapes.setColor(1,0,0,0.45f);
-		Assets.shapes.line(0, 0, 320, 0);
-		Assets.shapes.line(0, 0, 0, 320);
+		Assets.shapes.line(0, 0, 1000, 0);
+		Assets.shapes.line(0, 0, 0, 1000);
 //		for (int y = 0; y < 101; ++y) {
 //			for (int x = 0; x < 101; ++x) {
 //				Assets.shapes.line(x, 0, x, 100);

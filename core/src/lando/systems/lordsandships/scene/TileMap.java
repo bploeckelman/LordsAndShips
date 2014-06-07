@@ -138,24 +138,11 @@ public class TileMap implements Disposable
 	}
 
 	public void render(Camera camera) {
-		// Find minimum room pos:
-		float minx = Float.MAX_VALUE;
-		float miny = Float.MAX_VALUE;
-		for (LevelGenerator.Room room : rooms) {
-			if (minx > room.rect.x) minx = room.rect.x;
-			if (miny > room.rect.y) miny = room.rect.y;
-		}
-		System.out.println("Min x,y " + minx + ", " + miny);
-//		camera.position.set((int) (minx) << 5, (int) (miny) << 5, 0);
-
 		for (int i = 0; i < NUM_LAYERS; i++) {
 			SpriteCache cache = caches[i];
 			cache.setProjectionMatrix(camera.combined);
 			cache.begin();
 			cache.draw(layers[i]);
-//			for (int j = 0; j < width * height; j += BLOCK_TILES) {
-//				cache.draw(layers[i], j, BLOCK_TILES);
-//			}
 			cache.end();
 		}
 

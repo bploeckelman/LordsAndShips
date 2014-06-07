@@ -57,9 +57,9 @@ public class GameScreen implements Screen {
 
 		// ***************** TESTING ****************
 		settings = new LevelGenerator.Settings();
-		settings.separationIterations = 50;
+		settings.separationIterations = 500;
 		settings.initialRooms = 200;
-		settings.selectedRooms = 20;
+		settings.selectedRooms = 25;
 		settings.widthMin = 3;
 		settings.widthMax = 15;
 		settings.heightMin = 4;
@@ -108,7 +108,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// **************** TESTING ***************
-//		LevelGenerator.debugRender(camera);
+		LevelGenerator.debugRender(camera);
 
 //		Assets.batch.setProjectionMatrix(camera.combined);
 //		Assets.batch.begin();
