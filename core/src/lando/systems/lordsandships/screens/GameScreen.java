@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 		super();
 
 		this.game = game;
-		this.tileMap = new TileMap(40, 25);
+//		this.tileMap = new TileMap(40, 25);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Constants.win_width, Constants.win_height);
@@ -59,12 +59,14 @@ public class GameScreen implements Screen {
 		settings = new LevelGenerator.Settings();
 		settings.separationIterations = 50;
 		settings.initialRooms = 200;
-		settings.selectedRooms = 25;
+		settings.selectedRooms = 20;
 		settings.widthMin = 3;
 		settings.widthMax = 15;
 		settings.heightMin = 4;
 		settings.heightMax = 15;
-		LevelGenerator.generateInitialRooms(settings);
+//		LevelGenerator.generateInitialRooms(settings);
+		LevelGenerator.generateLevel(settings);
+		tileMap = new TileMap(LevelGenerator.mst, LevelGenerator.selectedRooms);
 	}
 
 	private void update(float delta) {
@@ -74,14 +76,14 @@ public class GameScreen implements Screen {
 
 		// ***************** TESTING ****************
 		if (Gdx.input.justTouched()) {
-			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(settings);
-			else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) LevelGenerator.selectRooms(settings);
-			else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) LevelGenerator.generateRoomGraph(settings);
-			else if (game.input.isKeyDown(Input.Keys.SHIFT_RIGHT)) LevelGenerator.calculateMinimumSpanningTree(settings);
-			else if (game.input.isKeyDown(Input.Keys.CONTROL_RIGHT)) LevelGenerator.generateTilesFromRooms();
-			else {
-				LevelGenerator.separateInitialRooms(settings);
-			}
+//			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(settings);
+//			else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) LevelGenerator.selectRooms(settings);
+//			else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) LevelGenerator.generateRoomGraph(settings);
+//			else if (game.input.isKeyDown(Input.Keys.SHIFT_RIGHT)) LevelGenerator.calculateMinimumSpanningTree(settings);
+//			else if (game.input.isKeyDown(Input.Keys.CONTROL_RIGHT)) LevelGenerator.generateTilesFromRooms();
+//			else {
+//				LevelGenerator.separateInitialRooms(settings);
+//			}
 		}
 
 		float dx = 0;
@@ -106,14 +108,14 @@ public class GameScreen implements Screen {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// **************** TESTING ***************
-		LevelGenerator.debugRender(camera);
+//		LevelGenerator.debugRender(camera);
 
 //		Assets.batch.setProjectionMatrix(camera.combined);
 //		Assets.batch.begin();
 //		Assets.batch.draw(Assets.gametex, 0, 0, Constants.win_width, Constants.win_height);
 //		Assets.batch.end();
 //
-//		tileMap.render(camera);
+		tileMap.render(camera);
 	}
 
 	@Override
