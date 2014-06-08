@@ -449,8 +449,8 @@ public class LevelGenerator
 				else                   Assets.shapes.setColor(0.25f, 0.25f, 0.25f, 0.5f);
 			}
 
-			Assets.shapes.rect(room.rect.x * 32, room.rect.y * 32,
-							   room.rect.width * 32, room.rect.height * 32);
+			Assets.shapes.rect(room.rect.x * 16, room.rect.y * 16,
+							   room.rect.width * 16, room.rect.height * 16);
 		}
 		Assets.shapes.end();
 
@@ -458,8 +458,8 @@ public class LevelGenerator
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 		Assets.shapes.setColor(0, 0, 1, 1);
 		for (Room room : initialRooms) {
-			Assets.shapes.rect(room.rect.x * 32, room.rect.y * 32,
-							   room.rect.width * 32, room.rect.height * 32);
+			Assets.shapes.rect(room.rect.x * 16, room.rect.y * 16,
+							   room.rect.width * 16, room.rect.height * 16);
 		}
 		Assets.shapes.end();
 
@@ -481,9 +481,9 @@ public class LevelGenerator
 				int p2 = triangles.get(i + 1) * 2;
 				int p3 = triangles.get(i + 2) * 2;
 				Assets.shapes.triangle(
-						points.get(p1) * 32, points.get(p1 + 1) * 32,
-						points.get(p2) * 32, points.get(p2 + 1) * 32,
-						points.get(p3) * 32, points.get(p3 + 1) * 32
+						points.get(p1) * 16, points.get(p1 + 1) * 16,
+						points.get(p2) * 16, points.get(p2 + 1) * 16,
+						points.get(p3) * 16, points.get(p3 + 1) * 16
 				);
 			}
 			Assets.shapes.end();
@@ -496,7 +496,7 @@ public class LevelGenerator
 			for (Room u : mst.vertices()) {
 				for (Room v : mst.vertices()) {
 					if (mst.hasEdge(u, v)) {
-						Assets.shapes.line(u.center.x * 32, u.center.y * 32, v.center.x * 32, v.center.y * 32);
+						Assets.shapes.line(u.center.x * 16, u.center.y * 16, v.center.x * 16, v.center.y * 16);
 					}
 				}
 			}

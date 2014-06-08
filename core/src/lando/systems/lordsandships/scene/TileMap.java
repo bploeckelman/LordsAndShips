@@ -37,6 +37,7 @@ public class TileMap implements Disposable
 		tiles.put("tile-wall-ne",    Assets.atlas.findRegion("tile-wall-ne"));
 		tiles.put("tile-wall-se",    Assets.atlas.findRegion("tile-wall-se"));
 		tiles.put("tile-wall-sw",    Assets.atlas.findRegion("tile-wall-sw"));
+		tiles.put("grate",           Assets.atlas.findRegion("grate"));
 
 		tile_textures = Collections.unmodifiableMap(tiles);
 		tile_textures_keys = new ArrayList<String>(tile_textures.keySet());
@@ -95,24 +96,24 @@ public class TileMap implements Disposable
 		// Internal tiles
 		for (int y = worldy0 + 1; y < worldy1; ++y) {
 			for (int x = worldx0 + 1; x < worldx1; ++x) {
-				cache.add(tile_textures.get("tile-floor1"), x << 5, y << 5, 32, 32);
+				cache.add(tile_textures.get("grate"), x << 4, y << 4, 16, 16);
 			}
 		}
 
 		// Corner tiles
-		cache.add(tile_textures.get("tile-wall-sw"), worldx0 << 5, worldy0 << 5, 32, 32);
-		cache.add(tile_textures.get("tile-wall-nw"), worldx0 << 5, worldy1 << 5, 32, 32);
-		cache.add(tile_textures.get("tile-wall-ne"), worldx1 << 5, worldy1 << 5, 32, 32);
-		cache.add(tile_textures.get("tile-wall-se"), worldx1 << 5, worldy0 << 5, 32, 32);
+		cache.add(tile_textures.get("tile-wall-sw"), worldx0 << 4, worldy0 << 4, 16, 16);
+		cache.add(tile_textures.get("tile-wall-nw"), worldx0 << 4, worldy1 << 4, 16, 16);
+		cache.add(tile_textures.get("tile-wall-ne"), worldx1 << 4, worldy1 << 4, 16, 16);
+		cache.add(tile_textures.get("tile-wall-se"), worldx1 << 4, worldy0 << 4, 16, 16);
 
 		// Edge tiles
 		for (int y = worldy0 + 1; y < worldy1; ++y) {
-			cache.add(tile_textures.get("tile-wall-vert"), worldx0 << 5, y << 5, 32, 32);
-			cache.add(tile_textures.get("tile-wall-vert"), worldx1 << 5, y << 5, 32, 32);
+			cache.add(tile_textures.get("tile-wall-vert"), worldx0 << 4, y << 4, 16, 16);
+			cache.add(tile_textures.get("tile-wall-vert"), worldx1 << 4, y << 4, 16, 16);
 		}
 		for (int x = worldx0 + 1; x < worldx1; ++x) {
-			cache.add(tile_textures.get("tile-wall-horiz"), x << 5, worldy0 << 5, 32, 32);
-			cache.add(tile_textures.get("tile-wall-horiz"), x << 5, worldy1 << 5, 32, 32);
+			cache.add(tile_textures.get("tile-wall-horiz"), x << 4, worldy0 << 4, 16, 16);
+			cache.add(tile_textures.get("tile-wall-horiz"), x << 4, worldy1 << 4, 16, 16);
 		}
 	}
 
