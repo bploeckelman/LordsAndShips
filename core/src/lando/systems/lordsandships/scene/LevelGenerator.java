@@ -549,6 +549,22 @@ public class LevelGenerator
 		}
 	}
 
+	public static class Edge
+	{
+		public Room u;
+		public Room v;
+
+		Edge(Room u, Room v) {
+			this.u = u;
+			this.v = v;
+		}
+
+		public boolean equals(Edge other) {
+			return ((this.u == other.u && this.v == other.v)
+				 || (this.u == other.v && this.v == other.u));
+		}
+	}
+
 	/**
 	 * Graph class, connects Rooms with undirected edges
 	 */
