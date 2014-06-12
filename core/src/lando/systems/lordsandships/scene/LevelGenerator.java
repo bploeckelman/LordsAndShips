@@ -443,7 +443,7 @@ public class LevelGenerator
 		// Initial and selected room interiors
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
 		for (Room room : initialRooms) {
-			if (room.isSelected) Assets.shapes.setColor(1, 0, 0, 1);
+			if (room.isSelected) continue;
 			else {
 				if (triangles == null) Assets.shapes.setColor(0.7f, 0.7f, 0.7f, 1);
 				else                   Assets.shapes.setColor(0.25f, 0.25f, 0.25f, 0.5f);
@@ -458,6 +458,7 @@ public class LevelGenerator
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 		Assets.shapes.setColor(0, 0, 1, 1);
 		for (Room room : initialRooms) {
+			if (room.isSelected) continue;
 			Assets.shapes.rect(room.rect.x * 16, room.rect.y * 16,
 							   room.rect.width * 16, room.rect.height * 16);
 		}
@@ -534,13 +535,17 @@ public class LevelGenerator
 	 */
 	public static class Room
 	{
+		private static int nextId = 0;
+		public int id;
 		public Rectangle rect;
 		public Vector2 center;
 		public Vector2 vel;
 		public boolean isSelected;
+
 		// TODO : add other contents once level layout is done
 
 		Room(float x, float y, float w, float h) {
+			id = nextId++;
 			center = new Vector2();
 			rect = new Rectangle(x,y,w,h);
 			rect.getCenter(center);
@@ -559,9 +564,25 @@ public class LevelGenerator
 			this.v = v;
 		}
 
-		public boolean equals(Edge other) {
-			return ((this.u == other.u && this.v == other.v)
-				 || (this.u == other.v && this.v == other.u));
+		@Override
+		public boolean equals(Object other) {
+			if (other == null) return false;
+			if (other == this) return true;
+			if (!(other instanceof Edge)) return false;
+
+			Edge that = (Edge) other;
+
+			return ((this.u.id == that.u.id && this.v.id == that.v.id)
+				 || (this.u.id == that.v.id && this.v.id == that.u.id));
+		}
+
+		@Override
+		public int hashCode() {
+			if (u.rect.x < v.rect.x) { return u.id; }
+			else if (u.rect.x > v.rect.x) { return v.id; }
+			else if (u.rect.y < v.rect.y) { return u.id; }
+			else if (u.rect.y > v.rect.y) { return v.id; }
+			else return u.id;
 		}
 	}
 
