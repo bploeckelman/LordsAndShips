@@ -29,7 +29,7 @@ public class Assets {
 
 
 	public static void load() {
-		rand = new Random();
+		rand = new Random(1);
 
 		batch = new SpriteBatch();
 		shapes = new ShapeRenderer();
