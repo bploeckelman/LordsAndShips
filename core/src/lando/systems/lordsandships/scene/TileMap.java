@@ -154,7 +154,7 @@ public class TileMap implements Disposable
 				if (u.center.y <= v.center.y) {
 					yStart = (int) Math.floor(u.center.y);
 					yEnd   = (int) Math.floor(v.center.y);
-					int x  = (int) Math.floor(u.center.x);
+					int x  = (int) Math.floor(v.center.x);
 					// u is above v
 					for (int y = yStart; y <= yEnd; ++y) {
 						cache.add(tile_textures.get("grate"), x << 4, y << 4, 16, 16);
@@ -162,7 +162,7 @@ public class TileMap implements Disposable
 				} else {
 					yStart = (int) Math.floor(u.center.y);
 					yEnd   = (int) Math.floor(v.center.y);
-					int x  = (int) Math.floor(u.center.x);
+					int x  = (int) Math.floor(v.center.x);
 					// u is below v
 					for (int y = yStart; y >= yEnd; --y) {
 						cache.add(tile_textures.get("grate"), x << 4, y << 4, 16, 16);
