@@ -336,7 +336,7 @@ public class LevelGenerator
 			V.add(room);
 		}
 
-		mst = new Graph();
+		mst = new Graph<Room>();
 
 		// Add an arbitrary vertex to the mst graph
 		Room room = V.iterator().next();
