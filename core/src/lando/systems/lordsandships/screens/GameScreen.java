@@ -108,7 +108,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// **************** TESTING ***************
-		LevelGenerator.debugRender(camera);
+//		LevelGenerator.debugRender(camera);
 
 //		Assets.batch.setProjectionMatrix(camera.combined);
 //		Assets.batch.begin();
@@ -116,6 +116,9 @@ public class GameScreen implements Screen {
 //		Assets.batch.end();
 //
 		tileMap.render(camera);
+
+		// **************** TESTING ***************
+		LevelGenerator.debugRender(camera);
 	}
 
 	@Override
