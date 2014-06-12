@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.utils.Assets;
+import lando.systems.lordsandships.utils.Graph;
+import lando.systems.lordsandships.scene.LevelGenerator.*;
 
 import java.util.*;
-import java.util.logging.Level;
 
 /**
  * TileMap
@@ -49,8 +49,8 @@ public class TileMap implements Disposable
 	long startTime = TimeUtils.nanoTime();
 	SpriteCache caches[];
 
-	LevelGenerator.Graph roomGraph;
-	List<LevelGenerator.Room> rooms;
+	Graph<Room> roomGraph;
+	List<Room> rooms;
 
 	public TileMap(int width, int height) {
 		this.width = width;
@@ -59,7 +59,7 @@ public class TileMap implements Disposable
 		generate();
 	}
 
-	public TileMap(LevelGenerator.Graph roomGraph, List<LevelGenerator.Room> rooms) {
+	public TileMap(Graph<Room> roomGraph, List<Room> rooms) {
 		this.roomGraph = roomGraph;
 		this.rooms = rooms;
 
@@ -76,7 +76,7 @@ public class TileMap implements Disposable
 			SpriteCache cache = caches[i];
 			cache.beginCache();
 
-			for (LevelGenerator.Room room : rooms) {
+			for (Room room : rooms) {
 				generateRoomTiles(room, cache);
 			}
 			generateCorridorTiles(cache);
@@ -85,7 +85,7 @@ public class TileMap implements Disposable
 		}
 	}
 
-	public void generateRoomTiles(LevelGenerator.Room room, SpriteCache cache) {
+	public void generateRoomTiles(Room room, SpriteCache cache) {
 		int worldx0 = (int) room.rect.x;
 		int worldy0 = (int) room.rect.y;
 		int worldx1 = (int)(room.rect.x + room.rect.width);
@@ -116,18 +116,18 @@ public class TileMap implements Disposable
 	}
 
 	public void generateCorridorTiles(SpriteCache cache) {
-		Set<LevelGenerator.Edge> completedEdges = new HashSet<LevelGenerator.Edge>();
-		LevelGenerator.Edge edge = null;
+		Set<Edge> completedEdges = new HashSet<Edge>();
+		Edge edge;
 		int xStart, xEnd;
 		int yStart, yEnd;
 
-		for (LevelGenerator.Room u : LevelGenerator.mst.vertices()) {
-			Iterable<LevelGenerator.Room> neighbors = LevelGenerator.mst.adjacentTo(u);
+		for (Room u : LevelGenerator.mst.vertices()) {
+			Iterable<Room> neighbors = LevelGenerator.mst.adjacentTo(u);
 			if (neighbors == null) continue;
 
 			// For each edge
-			for (LevelGenerator.Room v : neighbors) {
-				edge = new LevelGenerator.Edge(u, v);
+			for (Room v : neighbors) {
+				edge = new Edge(u, v);
 				// If a corridor has already been generated for this edge, skip it
 				if (completedEdges.contains(edge)) {
 					continue;
