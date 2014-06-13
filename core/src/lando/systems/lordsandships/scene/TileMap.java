@@ -136,19 +136,27 @@ public class TileMap implements Disposable
 				// Determine direction of corridor:
 				if (u.center.x <= v.center.x) {
 					xStart = (int) Math.floor(u.center.x);
-					xEnd   = (int) Math.floor(v.center.x);
+					xEnd   = (int) Math.floor(v.center.x) + 1;
 					int y  = (int) Math.floor(u.center.y);
 					// u is to the left of v
 					for (int x = xStart; x <= xEnd; ++x) {
-						cache.add(tile_textures.get("grate"), x << 4, y << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), x << 4, (y-2) << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      x << 4, (y-1) << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      x << 4, (y-0) << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      x << 4, (y+1) << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), x << 4, (y+2) << 4, 16, 16);
 					}
 				} else {
 					xStart = (int) Math.floor(u.center.x);
-					xEnd   = (int) Math.floor(v.center.x);
+					xEnd   = (int) Math.floor(v.center.x) - 1;
 					int y  = (int) Math.floor(u.center.y);
 					// u is to the right of v
 					for (int x = xStart; x >= xEnd; --x) {
-						cache.add(tile_textures.get("grate"), x << 4, y << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), x << 4, (y-2) << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      x << 4, (y-1) << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      x << 4, (y-0) << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      x << 4, (y+1) << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), x << 4, (y+2) << 4, 16, 16);
 					}
 				}
 				if (u.center.y <= v.center.y) {
@@ -157,7 +165,11 @@ public class TileMap implements Disposable
 					int x  = (int) Math.floor(v.center.x);
 					// u is above v
 					for (int y = yStart; y <= yEnd; ++y) {
-						cache.add(tile_textures.get("grate"), x << 4, y << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), (x-2) << 4, y << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      (x-1) << 4, y << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      (x-0) << 4, y << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      (x+1) << 4, y << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), (x+2) << 4, y << 4, 16, 16);
 					}
 				} else {
 					yStart = (int) Math.floor(u.center.y);
@@ -165,7 +177,11 @@ public class TileMap implements Disposable
 					int x  = (int) Math.floor(v.center.x);
 					// u is below v
 					for (int y = yStart; y >= yEnd; --y) {
-						cache.add(tile_textures.get("grate"), x << 4, y << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), (x-2) << 4, y << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      (x-1) << 4, y << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      (x-0) << 4, y << 4, 16, 16);
+						cache.add(tile_textures.get("grate"),      (x+1) << 4, y << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), (x+2) << 4, y << 4, 16, 16);
 					}
 				}
 
