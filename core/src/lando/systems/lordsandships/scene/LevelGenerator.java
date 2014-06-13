@@ -276,21 +276,20 @@ public class LevelGenerator
 	private static Vector2 computeSeparation(Room room) {
 		Rectangle intersection = new Rectangle();
 		Vector2 separation = new Vector2();
+		Vector2 temp = new Vector2();
 		int neighborCount = 0;
+		float dst2;
 
 		for (Room neighbor : initialRooms) {
 			if (room == neighbor) continue;
 
 			if (Intersector.overlaps(room.rect, neighbor.rect)) {
-				Intersector.intersectRectangles(room.rect, neighbor.rect, intersection);
-				separation.x += neighbor.center.x - room.center.x;
-				separation.y += neighbor.center.y - room.center.y;
+				dst2 = neighbor.center.dst2(room.center);
+				temp.set(neighbor.center);
+				temp.sub(room.center).scl(1f / dst2);
+				separation.add(temp);
 				neighborCount++;
-			} else {
-				intersection.set(0,0,1,1);
 			}
-
-			separation.scl(intersection.width * intersection.height);
 		}
 
 		if (neighborCount == 0) {
