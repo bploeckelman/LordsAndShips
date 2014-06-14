@@ -31,7 +31,7 @@ import java.util.logging.Level;
 public class GameScreen implements Screen {
 	private final LordsAndShips game;
 
-	private static final float key_move_amount = 128f;
+	private static final float key_move_amount = 256;
 
 	private TileMap tileMap;
 	private OrthographicCamera camera;
@@ -40,6 +40,7 @@ public class GameScreen implements Screen {
 	private LevelGenerator.Settings settings;
 
 	private long startTime = TimeUtils.nanoTime();
+	private boolean debugRender = true;
 
 	public GameScreen(LordsAndShips game) {
 		super();
@@ -78,6 +79,9 @@ public class GameScreen implements Screen {
 		}
 
 		// ***************** TESTING ****************
+		if (game.input.isKeyDown(Input.Keys.SPACE)) {
+			debugRender = !debugRender;
+		}
 		if (Gdx.input.justTouched()) {
 //			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(settings);
 //			else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) LevelGenerator.selectRooms(settings);
@@ -109,19 +113,13 @@ public class GameScreen implements Screen {
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-		// **************** TESTING ***************
-//		LevelGenerator.debugRender(camera);
-
-//		Assets.batch.setProjectionMatrix(camera.combined);
-//		Assets.batch.begin();
-//		Assets.batch.draw(Assets.gametex, 0, 0, Constants.win_width, Constants.win_height);
-//		Assets.batch.end();
-//
 		tileMap.render(camera);
 
-		// **************** TESTING ***************
-		LevelGenerator.debugRender(camera);
+		if (debugRender) {
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			LevelGenerator.debugRender(camera);
+		}
 
 		if (TimeUtils.nanoTime() - startTime >= 1000000000) {
 			System.out.println("fps( " + Gdx.graphics.getFramesPerSecond() + " )");
