@@ -41,19 +41,15 @@ public class TitleScreen implements Screen {
 			game.setScreen(game.gameScreen);
 		}
 
-		// tick...
-		accum += delta;
-		if (accum > THRESHOLD) {
-			accum = 0;
-
-			r += Assets.rand.nextBoolean() ? (float) Math.random() * 0.01f : 0;
-			g += Assets.rand.nextBoolean() ? (float) Math.random() * 0.01f : 0;
-			b += Assets.rand.nextBoolean() ? (float) Math.random() * 0.01f : 0;
-
-			if (r > 1.f) r = 1.f;
-			if (g > 1.f) g = 1.f;
-			if (b > 1.f) b = 1.f;
-		}
+//		// tick...
+//		accum += delta;
+//		if (accum > THRESHOLD) {
+//			accum = 0;
+//
+//			if (r > 1.f) r = 1.f;
+//			if (g > 1.f) g = 1.f;
+//			if (b > 1.f) b = 1.f;
+//		}
 	}
 
 	@Override
