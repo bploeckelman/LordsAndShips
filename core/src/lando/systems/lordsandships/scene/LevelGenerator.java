@@ -103,14 +103,22 @@ public class LevelGenerator
 	 * @param settings The randomization parameters
 	 */
 	public static void generateInitialRooms(Settings settings) {
+		int wRange = (settings.widthMax  - settings.widthMin)  + 1;
+		int hRange = (settings.heightMax - settings.heightMin) + 1;
 		float x, y, w, h;
+
 		initialRooms = new ArrayList<Room>(settings.initialRooms);
 		for (int i = 0; i < settings.initialRooms; ++i) {
+			// Random room position
 			x = (Assets.rand.nextFloat() * settings.xMax);
 			y = (Assets.rand.nextFloat() * settings.yMax);
-			w = (Assets.rand.nextFloat() * ((settings.widthMax - settings.widthMin) + 1)) + settings.widthMin;
-			h = (Assets.rand.nextFloat() * ((settings.heightMax - settings.heightMin) + 1)) + settings.heightMin;
+
+			// Random (integer) room width/height
+			w = Assets.rand.nextInt(wRange) + settings.widthMin;
+			h = Assets.rand.nextInt(hRange) + settings.heightMin;
+
 			Room room = new Room(x,y,w,h);
+
 			initialRooms.add(room);
 		}
 
@@ -125,12 +133,15 @@ public class LevelGenerator
 		Vector2 separation = new Vector2();
 		Vector2 cohesion = new Vector2();
 		int iterationsRun = 0;
-		float sk = 0.05f;
-		float ck = 0.00f; // ignore cohesion for now
+		float sk = 1.0f;
+		float ck = 0.0f; // ignore cohesion for now
 
 		System.out.print("Separating rooms... " );
 
-		for (int i = 0; i < settings.separationIterations; ++i) {
+		// Continue separating until there are no more ovelapping rooms
+		boolean overlapping = true;
+		while (overlapping) {
+			overlapping = false;
 			for (Room room : initialRooms) {
 				cohesion.set(computeCohesion(room));
 				separation.set(computeSeparation(room));
@@ -138,8 +149,9 @@ public class LevelGenerator
 				if (separation.x == 0 && separation.y == 0) {
 					room.vel.set(0, 0);
 				} else {
-					room.vel.x += ck * cohesion.x + sk * separation.x;
-					room.vel.y += ck * cohesion.y + sk * separation.y;
+					overlapping = true;
+					room.vel.x = ck * cohesion.x + sk * separation.x;
+					room.vel.y = ck * cohesion.y + sk * separation.y;
 				}
 
 				// Reposition the room's rectangle based on its velocity
@@ -185,13 +197,18 @@ public class LevelGenerator
 	 * use in constructing corridors.
 	 */
 	public static void generateRoomGraph(Settings settings) {
+		for (Room room : initialRooms) {
+			// Snap to integer positions
+			room.rect.set(
+				(float) Math.floor(room.rect.x),
+				(float) Math.floor(room.rect.y),
+				(float) Math.floor(room.rect.width),
+				(float) Math.floor(room.rect.height));
+			room.rect.getCenter(room.center);
+		}
+
 		points = new FloatArray();
 		for (Room room : selectedRooms) {
-			// Snap to integer positions
-			room.rect.set((float) Math.floor(room.rect.x), (float) Math.floor(room.rect.y),
-					      (float) Math.floor(room.rect.width), (float) Math.floor(room.rect.height));
-			room.rect.getCenter(room.center);
-
 			points.add(room.center.x);
 			points.add(room.center.y);
 		}
@@ -263,7 +280,6 @@ public class LevelGenerator
 		cohesion.scl(1f / (float) (neighborCount));
 		cohesion.set(cohesion.x - room.center.x, cohesion.y - room.center.y);
 		cohesion.nor();
-//		cohesion.scl(0.01f);
 		return cohesion;
 	}
 
@@ -284,10 +300,19 @@ public class LevelGenerator
 			if (room == neighbor) continue;
 
 			if (Intersector.overlaps(room.rect, neighbor.rect)) {
+				// Calculate intersection coefficient
+				Intersector.intersectRectangles(room.rect, neighbor.rect, intersection);
+				float area = intersection.width * intersection.height;
+				if (area < 1) {
+					area = 1;
+				}
+
 				dst2 = neighbor.center.dst2(room.center);
-				temp.set(neighbor.center);
-				temp.sub(room.center).scl(1f / dst2);
+				temp.set(room.center);
+				temp.sub(neighbor.center).scl(area / dst2);
+
 				separation.add(temp);
+
 				neighborCount++;
 			}
 		}
@@ -296,8 +321,7 @@ public class LevelGenerator
 			return new Vector2();
 		}
 
-		separation.scl(-1f / (float) (neighborCount));
-		separation.nor();
+		separation.scl(1f / (float) (neighborCount));
 		return separation;
 	}
 
@@ -336,6 +360,11 @@ public class LevelGenerator
 		}
 
 		mst = new Graph<Room>();
+
+		// Make sure there are vertices in the delaunay graph
+		if (!V.iterator().hasNext()) {
+			return;
+		}
 
 		// Add an arbitrary vertex to the mst graph
 		Room room = V.iterator().next();
@@ -443,7 +472,7 @@ public class LevelGenerator
 		// Initial and selected room interiors
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
 		for (Room room : initialRooms) {
-			if (room.isSelected) continue;
+			if (room.isSelected) Assets.shapes.setColor(1,0,0,0.25f);
 			else {
 				if (triangles == null) Assets.shapes.setColor(0.7f, 0.7f, 0.7f, 1);
 				else                   Assets.shapes.setColor(0.25f, 0.25f, 0.25f, 0.5f);
@@ -490,14 +519,16 @@ public class LevelGenerator
 			Assets.shapes.end();
 		}
 
-		// Minimum spanning tree from Dalaunay triangulation
+		// Minimum spanning tree from Delaunay triangulation
 		if (mst != null) {
 			Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 			Assets.shapes.setColor(1,0,1,1);
 			for (Room u : mst.vertices()) {
 				for (Room v : mst.vertices()) {
 					if (mst.hasEdge(u, v)) {
-						Assets.shapes.line(u.center.x * 16, u.center.y * 16, v.center.x * 16, v.center.y * 16);
+						Assets.shapes.line(
+							u.center.x * 16, u.center.y * 16,
+							v.center.x * 16, v.center.y * 16);
 					}
 				}
 			}
@@ -506,8 +537,10 @@ public class LevelGenerator
 
 		// Grid viz
 		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-		Assets.shapes.setColor(1,0,0,0.45f);
+
+		Assets.shapes.setColor(1, 0, 0, 0.45f);
 		Assets.shapes.line(0, 0, 1000, 0);
+		Assets.shapes.setColor(0, 1, 0, 0.45f);
 		Assets.shapes.line(0, 0, 0, 1000);
 //		for (int y = 0; y < 101; ++y) {
 //			for (int x = 0; x < 101; ++x) {
@@ -515,17 +548,6 @@ public class LevelGenerator
 //				Assets.shapes.line(0, y, 100, y);
 //			}
 //		}
-		Assets.shapes.end();
-
-		// Center of mass of rooms
-		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-		Assets.shapes.setColor(1,1,0,1);
-		Vector2 center = new Vector2();
-		for (Room room : initialRooms) {
-			center.add(room.center);
-		}
-		center.scl(1f / (float) initialRooms.size());
-		Assets.shapes.circle(center.x, center.y, 8, 16);
 		Assets.shapes.end();
 	}
 

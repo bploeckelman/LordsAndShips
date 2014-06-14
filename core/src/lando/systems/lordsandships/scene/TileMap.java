@@ -1,11 +1,9 @@
 package lando.systems.lordsandships.scene;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Graph;
 import lando.systems.lordsandships.scene.LevelGenerator.*;
@@ -21,8 +19,7 @@ import java.util.*;
  */
 public class TileMap implements Disposable
 {
-	static final int BLOCK_TILES = 25;
-	static final int TILE_SIZE = 32; // pixels
+	static final int TILE_SIZE = 16; // pixels
 	static final int NUM_LAYERS = 1;
 
 	private static final Map<String, TextureRegion> tile_textures;
@@ -46,7 +43,6 @@ public class TileMap implements Disposable
 
 	int layers[];
 	int width, height;
-	long startTime = TimeUtils.nanoTime();
 	SpriteCache caches[];
 
 	Graph<Room> roomGraph;
@@ -88,30 +84,30 @@ public class TileMap implements Disposable
 	public void generateRoomTiles(Room room, SpriteCache cache) {
 		int worldx0 = (int) room.rect.x;
 		int worldy0 = (int) room.rect.y;
-		int worldx1 = (int)(room.rect.x + room.rect.width);
-		int worldy1 = (int)(room.rect.y + room.rect.height);
+		int worldx1 = (int)(room.rect.x + room.rect.width) - 1;
+		int worldy1 = (int)(room.rect.y + room.rect.height) - 1;
 
 		// Internal tiles
 		for (int y = worldy0 + 1; y < worldy1; ++y) {
 			for (int x = worldx0 + 1; x < worldx1; ++x) {
-				cache.add(tile_textures.get("grate"), x << 4, y << 4, 16, 16);
+				cache.add(tile_textures.get("grate"), x << 4, y << 4, TILE_SIZE, TILE_SIZE);
 			}
 		}
 
 		// Corner tiles
-		cache.add(tile_textures.get("tile-wall-sw"), worldx0 << 4, worldy0 << 4, 16, 16);
-		cache.add(tile_textures.get("tile-wall-nw"), worldx0 << 4, worldy1 << 4, 16, 16);
-		cache.add(tile_textures.get("tile-wall-ne"), worldx1 << 4, worldy1 << 4, 16, 16);
-		cache.add(tile_textures.get("tile-wall-se"), worldx1 << 4, worldy0 << 4, 16, 16);
+		cache.add(tile_textures.get("tile-wall-sw"), worldx0 << 4, worldy0 << 4, TILE_SIZE, TILE_SIZE);
+		cache.add(tile_textures.get("tile-wall-nw"), worldx0 << 4, worldy1 << 4, TILE_SIZE, TILE_SIZE);
+		cache.add(tile_textures.get("tile-wall-ne"), worldx1 << 4, worldy1 << 4, TILE_SIZE, TILE_SIZE);
+		cache.add(tile_textures.get("tile-wall-se"), worldx1 << 4, worldy0 << 4, TILE_SIZE, TILE_SIZE);
 
 		// Edge tiles
 		for (int y = worldy0 + 1; y < worldy1; ++y) {
-			cache.add(tile_textures.get("tile-wall-vert"), worldx0 << 4, y << 4, 16, 16);
-			cache.add(tile_textures.get("tile-wall-vert"), worldx1 << 4, y << 4, 16, 16);
+			cache.add(tile_textures.get("tile-wall-vert"), worldx0 << 4, y << 4, TILE_SIZE, TILE_SIZE);
+			cache.add(tile_textures.get("tile-wall-vert"), worldx1 << 4, y << 4, TILE_SIZE, TILE_SIZE);
 		}
 		for (int x = worldx0 + 1; x < worldx1; ++x) {
-			cache.add(tile_textures.get("tile-wall-horiz"), x << 4, worldy0 << 4, 16, 16);
-			cache.add(tile_textures.get("tile-wall-horiz"), x << 4, worldy1 << 4, 16, 16);
+			cache.add(tile_textures.get("tile-wall-horiz"), x << 4, worldy0 << 4, TILE_SIZE, TILE_SIZE);
+			cache.add(tile_textures.get("tile-wall-horiz"), x << 4, worldy1 << 4, TILE_SIZE, TILE_SIZE);
 		}
 	}
 
@@ -140,11 +136,11 @@ public class TileMap implements Disposable
 					int y  = (int) Math.floor(u.center.y);
 					// u is to the left of v
 					for (int x = xStart; x <= xEnd; ++x) {
-//						cache.add(tile_textures.get("tile-block"), x << 4, (y-2) << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      x << 4, (y-1) << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      x << 4, (y-0) << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      x << 4, (y+1) << 4, 16, 16);
-//						cache.add(tile_textures.get("tile-block"), x << 4, (y+2) << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), x << 4, (y-2) << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      x << 4, (y-1) << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      x << 4, (y-0) << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      x << 4, (y+1) << 4, TILE_SIZE, TILE_SIZE);
+//						cache.add(tile_textures.get("tile-block"), x << 4, (y+2) << 4, TILE_SIZE, TILE_SIZE);
 					}
 				} else {
 					xStart = (int) Math.floor(u.center.x);
@@ -152,11 +148,11 @@ public class TileMap implements Disposable
 					int y  = (int) Math.floor(u.center.y);
 					// u is to the right of v
 					for (int x = xStart; x >= xEnd; --x) {
-//						cache.add(tile_textures.get("tile-block"), x << 4, (y-2) << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      x << 4, (y-1) << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      x << 4, (y-0) << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      x << 4, (y+1) << 4, 16, 16);
-//						cache.add(tile_textures.get("tile-block"), x << 4, (y+2) << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), x << 4, (y-2) << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      x << 4, (y-1) << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      x << 4, (y-0) << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      x << 4, (y+1) << 4, TILE_SIZE, TILE_SIZE);
+//						cache.add(tile_textures.get("tile-block"), x << 4, (y+2) << 4, TILE_SIZE, TILE_SIZE);
 					}
 				}
 				if (u.center.y <= v.center.y) {
@@ -165,11 +161,11 @@ public class TileMap implements Disposable
 					int x  = (int) Math.floor(v.center.x);
 					// u is above v
 					for (int y = yStart; y <= yEnd; ++y) {
-//						cache.add(tile_textures.get("tile-block"), (x-2) << 4, y << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      (x-1) << 4, y << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      (x-0) << 4, y << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      (x+1) << 4, y << 4, 16, 16);
-//						cache.add(tile_textures.get("tile-block"), (x+2) << 4, y << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), (x-2) << 4, y << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      (x-1) << 4, y << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      (x-0) << 4, y << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      (x+1) << 4, y << 4, TILE_SIZE, TILE_SIZE);
+//						cache.add(tile_textures.get("tile-block"), (x+2) << 4, y << 4, TILE_SIZE, TILE_SIZE);
 					}
 				} else {
 					yStart = (int) Math.floor(u.center.y);
@@ -177,11 +173,11 @@ public class TileMap implements Disposable
 					int x  = (int) Math.floor(v.center.x);
 					// u is below v
 					for (int y = yStart; y >= yEnd; --y) {
-//						cache.add(tile_textures.get("tile-block"), (x-2) << 4, y << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      (x-1) << 4, y << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      (x-0) << 4, y << 4, 16, 16);
-						cache.add(tile_textures.get("grate"),      (x+1) << 4, y << 4, 16, 16);
-//						cache.add(tile_textures.get("tile-block"), (x+2) << 4, y << 4, 16, 16);
+//						cache.add(tile_textures.get("tile-block"), (x-2) << 4, y << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      (x-1) << 4, y << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      (x-0) << 4, y << 4, TILE_SIZE, TILE_SIZE);
+						cache.add(tile_textures.get("grate"),      (x+1) << 4, y << 4, TILE_SIZE, TILE_SIZE);
+//						cache.add(tile_textures.get("tile-block"), (x+2) << 4, y << 4, TILE_SIZE, TILE_SIZE);
 					}
 				}
 
@@ -203,8 +199,8 @@ public class TileMap implements Disposable
 			cache.beginCache();
 			for (int y = 0; y < height; ++y) {
 				for (int x = 0; x < width; ++x) {
-					worldx = x << 5; // x * 2^5 => x * 32 => tile coord to world coord
-					worldy = y << 5; // y * 2^5 => y * 32 => tile coord to world coord
+					worldx = x << 4; // x * 2^4 => x * 16 => tile coord to world coord
+					worldy = y << 4; // y * 2^4 => y * 16 => tile coord to world coord
 					cache.add(getRandomTileTexture(), worldx, worldy, TILE_SIZE, TILE_SIZE);
 				}
 			}
@@ -219,11 +215,6 @@ public class TileMap implements Disposable
 			cache.begin();
 			cache.draw(layers[i]);
 			cache.end();
-		}
-
-		if (TimeUtils.nanoTime() - startTime >= 1000000000) {
-			System.out.println("fps( " + Gdx.graphics.getFramesPerSecond() + " )");
-			startTime = TimeUtils.nanoTime();
 		}
 	}
 
