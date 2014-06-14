@@ -120,22 +120,6 @@ public class TileMap implements Disposable
 				tiles[y][x].texture = "grate";
 			}
 		}
-
-		// Corner tiles
-		tiles[worldy0][worldx0].texture = "tile-wall-sw";
-		tiles[worldy1][worldx0].texture = "tile-wall-nw";
-		tiles[worldy1][worldx1].texture = "tile-wall-ne";
-		tiles[worldy0][worldx1].texture = "tile-wall-se";
-
-		// Edge tiles
-		for (int y = worldy0 + 1; y < worldy1; ++y) {
-			tiles[y][worldx0].texture = "tile-wall-vert";
-			tiles[y][worldx1].texture = "tile-wall-vert";
-		}
-		for (int x = worldx0 + 1; x < worldx1; ++x) {
-			tiles[worldy0][x].texture = "tile-wall-horiz";
-			tiles[worldy1][x].texture = "tile-wall-horiz";
-		}
 	}
 
 	public void generateCorridorTiles() {
@@ -163,11 +147,9 @@ public class TileMap implements Disposable
 					int y  = (int) Math.floor(u.center.y);
 					// u is to the left of v
 					for (int x = xStart; x <= xEnd; ++x) {
-//						tiles[y-2][x].texture = "tile-block";
 						tiles[y-1][x].texture = "grate";
 						tiles[y-0][x].texture = "grate";
 						tiles[y+1][x].texture = "grate";
-//						tiles[y+2][x].texture = "tile-block";
 					}
 				} else {
 					xStart = (int) Math.floor(u.center.x);
@@ -175,11 +157,9 @@ public class TileMap implements Disposable
 					int y  = (int) Math.floor(u.center.y);
 					// u is to the right of v
 					for (int x = xStart; x >= xEnd; --x) {
-//						tiles[y-2][x].texture = "tile-block";
 						tiles[y-1][x].texture = "grate";
 						tiles[y-0][x].texture = "grate";
 						tiles[y+1][x].texture = "grate";
-//						tiles[y+2][x].texture = "tile-block";
 					}
 				}
 				if (u.center.y <= v.center.y) {
@@ -188,11 +168,9 @@ public class TileMap implements Disposable
 					int x  = (int) Math.floor(v.center.x);
 					// u is above v
 					for (int y = yStart; y <= yEnd; ++y) {
-//						tiles[y][x-2].texture = "tile-block";
 						tiles[y][x-1].texture = "grate";
 						tiles[y][x-0].texture = "grate";
 						tiles[y][x+1].texture = "grate";
-//						tiles[y][x+2].texture = "tile-block";
 					}
 				} else {
 					yStart = (int) Math.floor(u.center.y);
@@ -200,11 +178,9 @@ public class TileMap implements Disposable
 					int x  = (int) Math.floor(v.center.x);
 					// u is below v
 					for (int y = yStart; y >= yEnd; --y) {
-//						tiles[y][x-2].texture = "tile-block";
 						tiles[y][x-1].texture = "grate";
 						tiles[y][x-0].texture = "grate";
 						tiles[y][x+1].texture = "grate";
-//						tiles[y][x+2].texture = "tile-block";
 					}
 				}
 
@@ -218,6 +194,7 @@ public class TileMap implements Disposable
 		int width = getMapWidthInTiles();
 		int height = getMapHeightInTiles();
 
+		// Add non-corner wall tiles
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
 				if (tiles[y][x].texture.equals("grate")) {
@@ -244,6 +221,7 @@ public class TileMap implements Disposable
 			}
 		}
 
+		// Add corner wall tiles
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
 				if (tiles[y][x].texture.equals("grate")) {
@@ -269,6 +247,8 @@ public class TileMap implements Disposable
 				}
 			}
 		}
+
+		// TODO : fixup wall tiles, put corners in all the right places
 	}
 
 	public int getMapWidthInTiles() {
