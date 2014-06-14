@@ -104,6 +104,8 @@ public class TileMap implements Disposable
 		}
 
 		generateCorridorTiles();
+
+		generateWallTiles();
 	}
 
 	public void generateRoomTiles(Room room) {
@@ -208,6 +210,63 @@ public class TileMap implements Disposable
 
 				// Add edge to completed list so its reverse isn't also processed
 				completedEdges.add(edge);
+			}
+		}
+	}
+
+	public void generateWallTiles() {
+		int width = getMapWidthInTiles();
+		int height = getMapHeightInTiles();
+
+		for (int y = 0; y < height; ++y) {
+			for (int x = 0; x < width; ++x) {
+				if (tiles[y][x].texture.equals("grate")) {
+					// Clamp neighbor indices to map boundaries
+					int xl = (x - 1 < 0) ? x : x - 1;
+					int yd = (y - 1 < 0) ? y : y - 1;
+					int xr = (x + 1 >= width)  ? x : x + 1;
+					int yu = (y + 1 >= height) ? y : y + 1;
+
+					// Check edge neighbors
+					if (tiles[yu][x].texture.equals("tile-blank")) {
+						tiles[yu][x].texture = "tile-wall-horiz";
+					}
+					if (tiles[yd][x].texture.equals("tile-blank")) {
+						tiles[yd][x].texture = "tile-wall-horiz";
+					}
+					if (tiles[y][xl].texture.equals("tile-blank")) {
+						tiles[y][xl].texture = "tile-wall-vert";
+					}
+					if (tiles[y][xr].texture.equals("tile-blank")) {
+						tiles[y][xr].texture = "tile-wall-vert";
+					}
+				}
+			}
+		}
+
+		for (int y = 0; y < height; ++y) {
+			for (int x = 0; x < width; ++x) {
+				if (tiles[y][x].texture.equals("grate")) {
+					// Clamp neighbor indices to map boundaries
+					int xl = (x - 1 < 0) ? x : x - 1;
+					int yd = (y - 1 < 0) ? y : y - 1;
+					int xr = (x + 1 >= width) ? x : x + 1;
+					int yu = (y + 1 >= height) ? y : y + 1;
+
+					// Check corner neighbors
+					if (tiles[yu][xl].texture.equals("tile-blank")) {
+						tiles[yu][xl].texture = "tile-wall-nw";
+					}
+					if (tiles[yd][xl].texture.equals("tile-blank")) {
+						tiles[yd][xl].texture = "tile-wall-sw";
+					}
+					if (tiles[yd][xr].texture.equals("tile-blank")) {
+						tiles[yd][xr].texture = "tile-wall-se";
+					}
+					if (tiles[yu][xr].texture.equals("tile-blank")) {
+						tiles[yu][xr].texture = "tile-wall-ne";
+					}
+				}
 			}
 		}
 	}
