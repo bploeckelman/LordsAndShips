@@ -191,6 +191,11 @@ public class TileMap implements Disposable
 	}
 
 	public void generateWallTiles() {
+		addCornerTiles();
+		addWallTiles();
+	}
+
+	private void addWallTiles() {
 		int width = getMapWidthInTiles();
 		int height = getMapHeightInTiles();
 
@@ -220,35 +225,73 @@ public class TileMap implements Disposable
 				}
 			}
 		}
+	}
+
+	private void addCornerTiles() {
+		int width  = getMapWidthInTiles();
+		int height = getMapHeightInTiles();
 
 		// Add corner wall tiles
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
-				if (tiles[y][x].texture.equals("grate")) {
-					// Clamp neighbor indices to map boundaries
-					int xl = (x - 1 < 0) ? x : x - 1;
-					int yd = (y - 1 < 0) ? y : y - 1;
-					int xr = (x + 1 >= width) ? x : x + 1;
-					int yu = (y + 1 >= height) ? y : y + 1;
+				// Clamp neighbor indices to map boundaries
+				int xl = (x - 1 < 0) ? x : x - 1;
+				int yd = (y - 1 < 0) ? y : y - 1;
+				int xr = (x + 1 >= width) ? x : x + 1;
+				int yu = (y + 1 >= height) ? y : y + 1;
 
-					// Check corner neighbors
-					if (tiles[yu][xl].texture.equals("tile-blank")) {
-						tiles[yu][xl].texture = "tile-wall-nw";
-					}
-					if (tiles[yd][xl].texture.equals("tile-blank")) {
-						tiles[yd][xl].texture = "tile-wall-sw";
-					}
-					if (tiles[yd][xr].texture.equals("tile-blank")) {
-						tiles[yd][xr].texture = "tile-wall-se";
-					}
-					if (tiles[yu][xr].texture.equals("tile-blank")) {
-						tiles[yu][xr].texture = "tile-wall-ne";
-					}
+				if (tiles[y][x].texture.equals("grate")) {
+					addInnerCornerTiles(x, y, xl, yd, xr, yu);
+					addOuterCornerTiles(x, y, xl, yd, xr, yu);
 				}
 			}
 		}
+	}
 
-		// TODO : fixup wall tiles, put corners in all the right places
+	private void addOuterCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
+		if (tiles[y ][xl].texture.equals("tile-blank")
+		 && tiles[yu][xl].texture.equals("tile-blank")
+		 && tiles[yu][x ].texture.equals("tile-blank")) {
+			tiles[yu][xl].texture = "tile-wall-nw";
+		}
+		if (tiles[yu][x ].texture.equals("tile-blank")
+		 && tiles[yu][xr].texture.equals("tile-blank")
+		 && tiles[y ][xr].texture.equals("tile-blank")) {
+			tiles[yu][xr].texture = "tile-wall-ne";
+		}
+		if (tiles[y ][xr].texture.equals("tile-blank")
+		 && tiles[yd][xr].texture.equals("tile-blank")
+		 && tiles[yd][x ].texture.equals("tile-blank")) {
+			tiles[yd][xr].texture = "tile-wall-se";
+		}
+		if (tiles[yd][x ].texture.equals("tile-blank")
+		 && tiles[yd][xl].texture.equals("tile-blank")
+		 && tiles[y ][xl].texture.equals("tile-blank")) {
+			tiles[yd][xl].texture = "tile-wall-sw";
+		}
+	}
+
+	private void addInnerCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
+		if (!tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-block")
+		 && tiles[yu][xl].texture.equals("tile-blank")
+		 && !tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-block")) {
+			tiles[yu][xl].texture = "tile-block";
+		}
+		if (!tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-block")
+		 && tiles[yu][xr].texture.equals("tile-blank")
+		 && !tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-block")) {
+			tiles[yu][xr].texture = "tile-block";
+		}
+		if (!tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-block")
+		 && tiles[yd][xr].texture.equals("tile-blank")
+		 && !tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-block")) {
+			tiles[yd][xr].texture = "tile-block";
+		}
+		if (!tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-block")
+		 && tiles[yd][xl].texture.equals("tile-blank")
+		 && !tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-block")) {
+			tiles[yd][xl].texture = "tile-block";
+		}
 	}
 
 	public int getMapWidthInTiles() {
