@@ -16,6 +16,8 @@ public class OrthoCamController extends InputAdapter {
 	final Vector3 delta = new Vector3();
 	final float zoom_scale = 0.025f;
 
+	public boolean debugRender = true;
+
 	public OrthoCamController (OrthographicCamera camera) {
 		this.camera = camera;
 	}
@@ -46,6 +48,7 @@ public class OrthoCamController extends InputAdapter {
 
 	@Override
 	public boolean keyDown (int keycode) {
+		if (keycode == Keys.SPACE) debugRender = !debugRender;
 		return false;
 	}
 

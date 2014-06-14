@@ -40,7 +40,6 @@ public class GameScreen implements Screen {
 	private LevelGenerator.Settings settings;
 
 	private long startTime = TimeUtils.nanoTime();
-	private boolean debugRender = true;
 
 	public GameScreen(LordsAndShips game) {
 		super();
@@ -79,9 +78,6 @@ public class GameScreen implements Screen {
 		}
 
 		// ***************** TESTING ****************
-		if (game.input.isKeyDown(Input.Keys.SPACE)) {
-			debugRender = !debugRender;
-		}
 		if (Gdx.input.justTouched()) {
 //			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(settings);
 //			else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) LevelGenerator.selectRooms(settings);
@@ -115,7 +111,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		tileMap.render(camera);
 
-		if (debugRender) {
+		if (camController.debugRender) {
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 			LevelGenerator.debugRender(camera);
