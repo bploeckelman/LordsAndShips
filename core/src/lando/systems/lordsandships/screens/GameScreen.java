@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.LordsAndShips;
 import lando.systems.lordsandships.scene.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
@@ -38,6 +39,8 @@ public class GameScreen implements Screen {
 	private InputMultiplexer inputMux;
 	private LevelGenerator.Settings settings;
 
+	private long startTime = TimeUtils.nanoTime();
+
 	public GameScreen(LordsAndShips game) {
 		super();
 
@@ -57,9 +60,9 @@ public class GameScreen implements Screen {
 
 		// ***************** TESTING ****************
 		settings = new LevelGenerator.Settings();
-		settings.separationIterations = 500;
+		settings.separationIterations = 10;
 		settings.initialRooms = 100;
-		settings.selectedRooms = 15;
+		settings.selectedRooms = 25;
 		settings.widthMin = 3;
 		settings.widthMax = 15;
 		settings.heightMin = 4;
@@ -101,7 +104,7 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		update(delta);
 
-		Gdx.gl.glClearColor(0,0,0,1);
+		Gdx.gl.glClearColor(0.88f,0.84f,0.8f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -119,6 +122,11 @@ public class GameScreen implements Screen {
 
 		// **************** TESTING ***************
 		LevelGenerator.debugRender(camera);
+
+		if (TimeUtils.nanoTime() - startTime >= 1000000000) {
+			System.out.println("fps( " + Gdx.graphics.getFramesPerSecond() + " )");
+			startTime = TimeUtils.nanoTime();
+		}
 	}
 
 	@Override
