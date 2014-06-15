@@ -28,16 +28,23 @@ public class TileMap implements Disposable
 	private static final List<String> tile_textures_keys;
 	static {
 		Map<String, TextureRegion> tiles = new HashMap<String, TextureRegion>();
-		tiles.put("tile-blank",      Assets.atlas.findRegion("tile-blank"));
-		tiles.put("tile-block",      Assets.atlas.findRegion("tile-block"));
-		tiles.put("tile-floor1",     Assets.atlas.findRegion("tile-floor1"));
-		tiles.put("tile-wall-horiz", Assets.atlas.findRegion("tile-wall-horiz"));
-		tiles.put("tile-wall-vert",  Assets.atlas.findRegion("tile-wall-vert"));
-		tiles.put("tile-wall-nw",    Assets.atlas.findRegion("tile-wall-nw"));
-		tiles.put("tile-wall-ne",    Assets.atlas.findRegion("tile-wall-ne"));
-		tiles.put("tile-wall-se",    Assets.atlas.findRegion("tile-wall-se"));
-		tiles.put("tile-wall-sw",    Assets.atlas.findRegion("tile-wall-sw"));
-		tiles.put("grate",           Assets.atlas.findRegion("grate"));
+		tiles.put("tile-blank",       Assets.atlas.findRegion("tile-blank"));
+		tiles.put("tile-block",       Assets.atlas.findRegion("tile-block"));
+		tiles.put("tile-box",       Assets.atlas.findRegion("tile-box"));
+		tiles.put("tile-floor1",      Assets.atlas.findRegion("tile-floor1"));
+		tiles.put("tile-wall-horiz",  Assets.atlas.findRegion("tile-wall-horiz"));
+		tiles.put("tile-wall-vert",   Assets.atlas.findRegion("tile-wall-vert"));
+		tiles.put("tile-wall-nw",     Assets.atlas.findRegion("tile-wall-nw"));
+		tiles.put("tile-wall-ne",     Assets.atlas.findRegion("tile-wall-ne"));
+		tiles.put("tile-wall-se",     Assets.atlas.findRegion("tile-wall-se"));
+		tiles.put("tile-wall-sw",     Assets.atlas.findRegion("tile-wall-sw"));
+		tiles.put("tile-brick-horiz", Assets.atlas.findRegion("tile-brick-horiz"));
+		tiles.put("tile-brick-vert",  Assets.atlas.findRegion("tile-brick-vert"));
+		tiles.put("tile-brick-nw",    Assets.atlas.findRegion("tile-brick-nw"));
+		tiles.put("tile-brick-ne",    Assets.atlas.findRegion("tile-brick-ne"));
+		tiles.put("tile-brick-se",    Assets.atlas.findRegion("tile-brick-se"));
+		tiles.put("tile-brick-sw",    Assets.atlas.findRegion("tile-brick-sw"));
+		tiles.put("grate",            Assets.atlas.findRegion("grate"));
 
 		tile_textures = Collections.unmodifiableMap(tiles);
 		tile_textures_keys = new ArrayList<String>(tile_textures.keySet());
@@ -211,16 +218,16 @@ public class TileMap implements Disposable
 
 					// Check edge neighbors
 					if (tiles[yu][x].texture.equals("tile-blank")) {
-						tiles[yu][x].texture = "tile-wall-horiz";
+						tiles[yu][x].texture = "tile-brick-horiz";
 					}
 					if (tiles[yd][x].texture.equals("tile-blank")) {
-						tiles[yd][x].texture = "tile-wall-horiz";
+						tiles[yd][x].texture = "tile-brick-horiz";
 					}
 					if (tiles[y][xl].texture.equals("tile-blank")) {
-						tiles[y][xl].texture = "tile-wall-vert";
+						tiles[y][xl].texture = "tile-brick-vert";
 					}
 					if (tiles[y][xr].texture.equals("tile-blank")) {
-						tiles[y][xr].texture = "tile-wall-vert";
+						tiles[y][xr].texture = "tile-brick-vert";
 					}
 				}
 			}
@@ -249,48 +256,48 @@ public class TileMap implements Disposable
 	}
 
 	private void addOuterCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
-		if ((tiles[y ][xl].texture.equals("tile-blank") || tiles[y ][xl].texture.equals("tile-block"))
+		if ((tiles[y ][xl].texture.equals("tile-blank") || tiles[y ][xl].texture.equals("tile-box"))
 		 &&  tiles[yu][xl].texture.equals("tile-blank")
-		 && (tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-block"))) {
-			tiles[yu][xl].texture = "tile-wall-nw";
+		 && (tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-box"))) {
+			tiles[yu][xl].texture = "tile-brick-nw";
 		}
-		if ((tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-block"))
+		if ((tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-box"))
 		 &&  tiles[yu][xr].texture.equals("tile-blank")
-		 && (tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-block"))) {
-			tiles[yu][xr].texture = "tile-wall-ne";
+		 && (tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-box"))) {
+			tiles[yu][xr].texture = "tile-brick-ne";
 		}
-		if ((tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-block"))
+		if ((tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-box"))
 		 &&  tiles[yd][xr].texture.equals("tile-blank")
-		 && (tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-block"))) {
-			tiles[yd][xr].texture = "tile-wall-se";
+		 && (tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-box"))) {
+			tiles[yd][xr].texture = "tile-brick-se";
 		}
-		if ((tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-block"))
+		if ((tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-box"))
 		 &&  tiles[yd][xl].texture.equals("tile-blank")
-		 && (tiles[y ][xl].texture.equals("tile-blank") || tiles[y ][xl].texture.equals("tile-block"))) {
-			tiles[yd][xl].texture = "tile-wall-sw";
+		 && (tiles[y ][xl].texture.equals("tile-blank") || tiles[y ][xl].texture.equals("tile-box"))) {
+			tiles[yd][xl].texture = "tile-brick-sw";
 		}
 	}
 
 	private void addInnerCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
-		if (!tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-block")
+		if (!tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-box")
 		 &&  tiles[yu][xl].texture.equals("tile-blank")
-		 && !tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-block")) {
-			tiles[yu][xl].texture = "tile-block";
+		 && !tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-box")) {
+			tiles[yu][xl].texture = "tile-box";
 		}
-		if (!tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-block")
+		if (!tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-box")
 		 &&  tiles[yu][xr].texture.equals("tile-blank")
-		 && !tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-block")) {
-			tiles[yu][xr].texture = "tile-block";
+		 && !tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-box")) {
+			tiles[yu][xr].texture = "tile-box";
 		}
-		if (!tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-block")
+		if (!tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-box")
 		 &&  tiles[yd][xr].texture.equals("tile-blank")
-		 && !tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-block")) {
-			tiles[yd][xr].texture = "tile-block";
+		 && !tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-box")) {
+			tiles[yd][xr].texture = "tile-box";
 		}
-		if (!tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-block")
+		if (!tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-box")
 		 &&  tiles[yd][xl].texture.equals("tile-blank")
-		 && !tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-block")) {
-			tiles[yd][xl].texture = "tile-block";
+		 && !tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-box")) {
+			tiles[yd][xl].texture = "tile-box";
 		}
 	}
 
@@ -353,19 +360,19 @@ public class TileMap implements Disposable
 		}
 
 		// Corner tiles
-		cache.add(tile_textures.get("tile-wall-sw"), worldx0 << 4, worldy0 << 4, TILE_SIZE, TILE_SIZE);
-		cache.add(tile_textures.get("tile-wall-nw"), worldx0 << 4, worldy1 << 4, TILE_SIZE, TILE_SIZE);
-		cache.add(tile_textures.get("tile-wall-ne"), worldx1 << 4, worldy1 << 4, TILE_SIZE, TILE_SIZE);
-		cache.add(tile_textures.get("tile-wall-se"), worldx1 << 4, worldy0 << 4, TILE_SIZE, TILE_SIZE);
+		cache.add(tile_textures.get("tile-brick-sw"), worldx0 << 4, worldy0 << 4, TILE_SIZE, TILE_SIZE);
+		cache.add(tile_textures.get("tile-brick-nw"), worldx0 << 4, worldy1 << 4, TILE_SIZE, TILE_SIZE);
+		cache.add(tile_textures.get("tile-brick-ne"), worldx1 << 4, worldy1 << 4, TILE_SIZE, TILE_SIZE);
+		cache.add(tile_textures.get("tile-brick-se"), worldx1 << 4, worldy0 << 4, TILE_SIZE, TILE_SIZE);
 
 		// Edge tiles
 		for (int y = worldy0 + 1; y < worldy1; ++y) {
-			cache.add(tile_textures.get("tile-wall-vert"), worldx0 << 4, y << 4, TILE_SIZE, TILE_SIZE);
-			cache.add(tile_textures.get("tile-wall-vert"), worldx1 << 4, y << 4, TILE_SIZE, TILE_SIZE);
+			cache.add(tile_textures.get("tile-brick-vert"), worldx0 << 4, y << 4, TILE_SIZE, TILE_SIZE);
+			cache.add(tile_textures.get("tile-brick-vert"), worldx1 << 4, y << 4, TILE_SIZE, TILE_SIZE);
 		}
 		for (int x = worldx0 + 1; x < worldx1; ++x) {
-			cache.add(tile_textures.get("tile-wall-horiz"), x << 4, worldy0 << 4, TILE_SIZE, TILE_SIZE);
-			cache.add(tile_textures.get("tile-wall-horiz"), x << 4, worldy1 << 4, TILE_SIZE, TILE_SIZE);
+			cache.add(tile_textures.get("tile-brick-horiz"), x << 4, worldy0 << 4, TILE_SIZE, TILE_SIZE);
+			cache.add(tile_textures.get("tile-brick-horiz"), x << 4, worldy1 << 4, TILE_SIZE, TILE_SIZE);
 		}
 	}
 
