@@ -249,46 +249,46 @@ public class TileMap implements Disposable
 	}
 
 	private void addOuterCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
-		if (tiles[y ][xl].texture.equals("tile-blank")
-		 && tiles[yu][xl].texture.equals("tile-blank")
-		 && tiles[yu][x ].texture.equals("tile-blank")) {
+		if ((tiles[y ][xl].texture.equals("tile-blank") || tiles[y ][xl].texture.equals("tile-block"))
+		 &&  tiles[yu][xl].texture.equals("tile-blank")
+		 && (tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-block"))) {
 			tiles[yu][xl].texture = "tile-wall-nw";
 		}
-		if (tiles[yu][x ].texture.equals("tile-blank")
-		 && tiles[yu][xr].texture.equals("tile-blank")
-		 && tiles[y ][xr].texture.equals("tile-blank")) {
+		if ((tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-block"))
+		 &&  tiles[yu][xr].texture.equals("tile-blank")
+		 && (tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-block"))) {
 			tiles[yu][xr].texture = "tile-wall-ne";
 		}
-		if (tiles[y ][xr].texture.equals("tile-blank")
-		 && tiles[yd][xr].texture.equals("tile-blank")
-		 && tiles[yd][x ].texture.equals("tile-blank")) {
+		if ((tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-block"))
+		 &&  tiles[yd][xr].texture.equals("tile-blank")
+		 && (tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-block"))) {
 			tiles[yd][xr].texture = "tile-wall-se";
 		}
-		if (tiles[yd][x ].texture.equals("tile-blank")
-		 && tiles[yd][xl].texture.equals("tile-blank")
-		 && tiles[y ][xl].texture.equals("tile-blank")) {
+		if ((tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-block"))
+		 &&  tiles[yd][xl].texture.equals("tile-blank")
+		 && (tiles[y ][xl].texture.equals("tile-blank") || tiles[y ][xl].texture.equals("tile-block"))) {
 			tiles[yd][xl].texture = "tile-wall-sw";
 		}
 	}
 
 	private void addInnerCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
 		if (!tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-block")
-		 && tiles[yu][xl].texture.equals("tile-blank")
+		 &&  tiles[yu][xl].texture.equals("tile-blank")
 		 && !tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-block")) {
 			tiles[yu][xl].texture = "tile-block";
 		}
 		if (!tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-block")
-		 && tiles[yu][xr].texture.equals("tile-blank")
+		 &&  tiles[yu][xr].texture.equals("tile-blank")
 		 && !tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-block")) {
 			tiles[yu][xr].texture = "tile-block";
 		}
 		if (!tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-block")
-		 && tiles[yd][xr].texture.equals("tile-blank")
+		 &&  tiles[yd][xr].texture.equals("tile-blank")
 		 && !tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-block")) {
 			tiles[yd][xr].texture = "tile-block";
 		}
 		if (!tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-block")
-		 && tiles[yd][xl].texture.equals("tile-blank")
+		 &&  tiles[yd][xl].texture.equals("tile-blank")
 		 && !tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-block")) {
 			tiles[yd][xl].texture = "tile-block";
 		}
