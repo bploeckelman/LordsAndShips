@@ -90,21 +90,20 @@ public class TileMap implements Disposable
 		this.roomGraph = roomGraph;
 		this.rooms = rooms;
 
+		this.width = getMapWidthInTiles();
+		this.height = getMapHeightInTiles();
+
 //		generateCacheFromGraph();
 		generateTilesFromGraph();
 	}
 
 	public void generateTilesFromGraph() {
-		int width = getMapWidthInTiles();
-		int height = getMapHeightInTiles();
-
 		tiles = new Tile[height][width];
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
 				tiles[y][x] = new Tile("tile-blank", x, y);
 			}
 		}
-
 
 		for (Room room : rooms) {
 			generateRoomTiles(room);
@@ -203,9 +202,6 @@ public class TileMap implements Disposable
 	}
 
 	private void addWallTiles() {
-		int width = getMapWidthInTiles();
-		int height = getMapHeightInTiles();
-
 		// Add non-corner wall tiles
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
@@ -235,9 +231,6 @@ public class TileMap implements Disposable
 	}
 
 	private void addCornerTiles() {
-		int width  = getMapWidthInTiles();
-		int height = getMapHeightInTiles();
-
 		// Add corner wall tiles
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
@@ -449,6 +442,19 @@ public class TileMap implements Disposable
 				// Add edge to completed list so its reverse isn't also processed
 				completedEdges.add(edge);
 			}
+		}
+	}
+
+	public boolean isBlocking(int x, int y) {
+		if ((x < 0 || x > width)
+		 || (y < 0 || y > height)) {
+			return true;
+		}
+
+		if (tiles[y][x].texture.equals("grate")) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 
