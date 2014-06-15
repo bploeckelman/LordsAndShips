@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.scene.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
@@ -31,7 +32,7 @@ import java.util.logging.Level;
 public class GameScreen implements Screen {
 	private final LordsAndShips game;
 
-	private static final float key_move_amount = 256;
+	private static final float key_move_amount = 16;
 
 	private TileMap tileMap;
 	private OrthographicCamera camera;
@@ -39,13 +40,14 @@ public class GameScreen implements Screen {
 	private InputMultiplexer inputMux;
 	private LevelGenerator.Settings settings;
 
+	private Entity player;
+
 	private long startTime = TimeUtils.nanoTime();
 
 	public GameScreen(LordsAndShips game) {
 		super();
 
 		this.game = game;
-//		this.tileMap = new TileMap(40, 25);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Constants.win_width, Constants.win_height);
@@ -67,9 +69,10 @@ public class GameScreen implements Screen {
 		settings.widthMax = 20;
 		settings.heightMin = 4;
 		settings.heightMax = 15;
-//		LevelGenerator.generateInitialRooms(settings);
 		LevelGenerator.generateLevel(settings);
 		tileMap = new TileMap(LevelGenerator.mst, LevelGenerator.selectedRooms);
+
+		player = new Entity(Assets.atlas.findRegion("tile-box"), 0, 0, 16, 16);
 	}
 
 	private void update(float delta) {
@@ -91,11 +94,17 @@ public class GameScreen implements Screen {
 
 		float dx = 0;
 		float dy = 0;
-		     if (game.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount * delta; }
-		else if (game.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount * delta; }
-		     if (game.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount * delta; }
-		else if (game.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount * delta; }
-		camera.position.add(dx, dy, 0);
+		     if (game.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
+		else if (game.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount; }
+		else                                         { dx = 0f; player.velocity.x = 0f; }
+		     if (game.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
+		else if (game.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount; }
+		else                                         { dy = 0f; player.velocity.y = 0f; }
+		player.velocity.x += dx;
+		player.velocity.y += dy;
+		player.update(delta);
+
+		camera.position.lerp(player.getPosition(), 4*delta);
 
 		camera.update();
 	}
@@ -117,6 +126,10 @@ public class GameScreen implements Screen {
 			LevelGenerator.debugRender(camera);
 		}
 
+		Assets.batch.begin();
+		player.render(Assets.batch);
+		Assets.batch.end();
+
 		if (TimeUtils.nanoTime() - startTime >= 1000000000) {
 			System.out.println("fps( " + Gdx.graphics.getFramesPerSecond() + " )");
 			startTime = TimeUtils.nanoTime();
@@ -126,6 +139,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		camera.setToOrtho(false, width, height);
+		camera.position.set(player.boundingBox.x, player.boundingBox.y, 0);
 	}
 
 	@Override
