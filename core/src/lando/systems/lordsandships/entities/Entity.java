@@ -41,7 +41,9 @@ public class Entity {
 		batch.draw(texture, boundingBox.x, boundingBox.y);
 	}
 
-	public int getGridX() { return (int) (boundingBox.x / 16); }
-	public int getGridY() { return (int) (boundingBox.y / 16); }
+	public int getGridMinX() { return (int) (boundingBox.x / 16); }
+	public int getGridMinY() { return (int) (boundingBox.y / 16); }
+	public int getGridMaxX() { return (int) ((boundingBox.x + boundingBox.width ) / 16); }
+	public int getGridMaxY() { return (int) ((boundingBox.y + boundingBox.height) / 16); }
 	public Vector3 getPosition() { return new Vector3(boundingBox.x, boundingBox.y, 0); }
 }

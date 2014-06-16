@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Graph;
 import lando.systems.lordsandships.scene.LevelGenerator.*;
@@ -61,12 +62,16 @@ public class TileMap implements Disposable
 			this.y = y;
 		}
 
-		public float getWorldX() { return x * TILE_SIZE; }
-		public float getWorldY() { return y * TILE_SIZE; }
+		public int getGridX() { return x; }
+		public int getGridY() { return y; }
+		public float getWorldMinX() { return x * TILE_SIZE; }
+		public float getWorldMinY() { return y * TILE_SIZE; }
+		public float getWorldMaxX() { return (x + 1) * TILE_SIZE; }
+		public float getWorldMaxY() { return (y + 1) * TILE_SIZE; }
 
 		public void render() {
 			Assets.batch.draw(tile_textures.get(texture),
-					getWorldX(), getWorldY(), TILE_SIZE, TILE_SIZE);
+					getWorldMinX(), getWorldMinY(), TILE_SIZE, TILE_SIZE);
 		}
 	}
 
@@ -74,6 +79,7 @@ public class TileMap implements Disposable
 
 	int layers[];
 	int width, height;
+	public int spawnX, spawnY;
 	SpriteCache caches[];
 
 	Graph<Room> roomGraph;
@@ -125,6 +131,11 @@ public class TileMap implements Disposable
 			for (int x = worldx0 + 1; x < worldx1; ++x) {
 				tiles[y][x].texture = "grate";
 			}
+		}
+
+		if (spawnX == 0 && spawnY == 0) {
+			spawnX = worldx0 + ((worldx1 - worldx0) / 2);
+			spawnY = worldy0 + ((worldy1 - worldy0) / 2);
 		}
 	}
 
@@ -451,7 +462,7 @@ public class TileMap implements Disposable
 			return true;
 		}
 
-		if (tiles[y][x].texture.equals("grate")) {
+		 if (tiles[y][x].texture.equals("grate") || tiles[y][x].texture.equals("tile-blank")) {
 			return false;
 		} else {
 			return true;
@@ -509,6 +520,20 @@ public class TileMap implements Disposable
 		for (int i = 0; i < NUM_LAYERS; ++i) {
 			if (caches[i] != null) {
 				caches[i].dispose();
+			}
+		}
+	}
+
+	public void getCollisionTiles(Entity entity, List<Tile> collisionTiles) {
+		int entityMinX = entity.getGridMinX();
+		int entityMinY = entity.getGridMinY();
+		int entityMaxX = entity.getGridMaxX();
+		int entityMaxY = entity.getGridMaxY();
+
+		collisionTiles.clear();
+		for (int y = entityMinY; y <= entityMaxY; ++y) {
+			for (int x = entityMinX; x <= entityMaxX; ++x) {
+				collisionTiles.add(tiles[y][x]);
 			}
 		}
 	}
