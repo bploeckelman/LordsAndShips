@@ -2,7 +2,7 @@
 game.png
 size: 843,932
 format: RGBA8888
-filter: Nearest,Nearest
+filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
 badlogic
   rotate: false
