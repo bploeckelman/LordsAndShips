@@ -45,7 +45,7 @@ public class TileMap implements Disposable
 		tiles.put("tile-brick-ne",    Assets.atlas.findRegion("tile-brick-ne"));
 		tiles.put("tile-brick-se",    Assets.atlas.findRegion("tile-brick-se"));
 		tiles.put("tile-brick-sw",    Assets.atlas.findRegion("tile-brick-sw"));
-		tiles.put("grate",            Assets.atlas.findRegion("tile-floor3"));
+		tiles.put("grate",            Assets.atlas.findRegion("tile-floor5"));
 
 		tile_textures = Collections.unmodifiableMap(tiles);
 		tile_textures_keys = new ArrayList<String>(tile_textures.keySet());

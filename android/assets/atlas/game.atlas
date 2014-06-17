@@ -1,152 +1,166 @@
 
 game.png
-size: 859,898
+size: 859,916
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
 badlogic
   rotate: false
-  xy: 2, 56
+  xy: 2, 74
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 gametex
   rotate: false
-  xy: 2, 314
+  xy: 2, 332
   size: 769, 584
   orig: 769, 584
   offset: 0, 0
   index: -1
 grate
   rotate: false
-  xy: 773, 866
+  xy: 773, 884
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 tile-blank
   rotate: false
-  xy: 2, 38
+  xy: 2, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-block
   rotate: false
-  xy: 260, 296
+  xy: 260, 314
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-box
   rotate: false
-  xy: 773, 848
+  xy: 773, 866
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-horiz
   rotate: false
-  xy: 807, 882
+  xy: 807, 900
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-ne
   rotate: false
-  xy: 2, 20
+  xy: 2, 38
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-nw
   rotate: false
-  xy: 20, 38
+  xy: 20, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-se
   rotate: false
-  xy: 260, 278
+  xy: 260, 296
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-sw
   rotate: false
-  xy: 278, 296
+  xy: 278, 314
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-vert
   rotate: false
-  xy: 773, 830
+  xy: 773, 848
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-floor1
   rotate: false
-  xy: 825, 882
+  xy: 825, 900
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-floor2
   rotate: false
-  xy: 2, 2
+  xy: 2, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-floor3
   rotate: false
-  xy: 20, 20
+  xy: 20, 38
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+tile-floor4
+  rotate: false
+  xy: 38, 56
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+tile-floor5
+  rotate: false
+  xy: 260, 278
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-horiz
   rotate: false
-  xy: 38, 38
+  xy: 278, 296
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-ne
   rotate: false
-  xy: 260, 260
+  xy: 296, 314
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-nw
   rotate: false
-  xy: 278, 278
+  xy: 773, 830
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-se
   rotate: false
-  xy: 296, 296
+  xy: 843, 900
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-sw
   rotate: false
-  xy: 773, 812
+  xy: 2, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-vert
   rotate: false
-  xy: 843, 882
+  xy: 20, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
