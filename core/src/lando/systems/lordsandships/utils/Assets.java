@@ -1,6 +1,7 @@
 package lando.systems.lordsandships.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -24,6 +25,7 @@ public class Assets {
 
 	public static TextureRegion libgdx;
 	public static TextureRegion gametex;
+	public static Texture playertex;
 
 	public static TextureAtlas atlas;
 
@@ -37,10 +39,13 @@ public class Assets {
 		atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
 		libgdx = atlas.findRegion("badlogic");
 		gametex = atlas.findRegion("gametex");
+
+		playertex = new Texture("darkknight.png");
 	}
 
 	public static void dispose() {
 		atlas.dispose();
+		playertex.dispose();
 		shapes.dispose();
 		batch.dispose();
 	}
