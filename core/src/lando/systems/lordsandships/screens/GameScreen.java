@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Constants.win_width, Constants.win_height);
-		camera.position.set(15 * 32 / 2, 10 * 32 / 2, 0);
+		camera.position.set(0,0,0);
 
 		camController = new OrthoCamController(camera);
 
@@ -75,7 +75,8 @@ public class GameScreen implements Screen {
 
 		player = new Entity(
 				Assets.atlas.findRegion("tile-box"),
-				tileMap.spawnX * 16, tileMap.spawnY * 16,
+				tileMap.spawnX * 16,
+				tileMap.spawnY * 16,
 				16, 16);
 	}
 
