@@ -1,10 +1,11 @@
-package lando.systems.lordsandships.scene;
+package lando.systems.lordsandships.scene.levelgen;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ShortArray;
+import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Graph;
 
@@ -39,39 +40,6 @@ import java.util.*;
  */
 public class LevelGenerator
 {
-	/**
-	 * Settings class
-	 *
-	 * Defines level generation parameters
-	 */
-	public static class Settings
-	{
-		public int xMax;
-		public int yMax;
-		public int widthMin;
-		public int widthMax;
-		public int heightMin;
-		public int heightMax;
-		public int initialRooms;
-		public int selectedRooms;
-		public int separationIterations;
-		public float percentDelaunayCycleEdges;
-
-		public Settings() {
-			// TODO : make defaults constants
-			this.xMax = 100;
-			this.yMax = 75;
-			this.widthMin = 4;
-			this.widthMax = 10;
-			this.heightMin = 4;
-			this.heightMax = 10;
-			this.initialRooms = 150;
-			this.selectedRooms = 15;
-			this.separationIterations = 50;
-			this.percentDelaunayCycleEdges = 0.1f; // 10%
-		}
-	}
-
 	// TODO : make private
 	public static List<Room> initialRooms = null;
 	public static List<Room> selectedRooms = null;
@@ -83,14 +51,14 @@ public class LevelGenerator
 	/**
 	 * Main generation interface
 	 *
-	 * @param settings The level generation parameters to use
+	 * @param params The level generation parameters to use
 	 * @return array of tile type ids specifying the layout of the resulting level
 	 */
-	public static void generateLevel (Settings settings) {
-		generateInitialRooms(settings);
-		separateInitialRooms(settings);
-		selectRooms(settings);
-		generateRoomGraph(settings);
+	public static void generateLevel(LevelGenParams params) {
+		generateInitialRooms(params);
+		separateInitialRooms(params);
+		selectRooms(params);
+		generateRoomGraph(params);
 		generateCorridors();
 		generateTilesFromRooms();
 	}
@@ -100,36 +68,38 @@ public class LevelGenerator
 	// -------------------------------------------------------------------------
 	/**
 	 * Randomly create new rooms based on the specified parameters
-	 * @param settings The randomization parameters
+	 *
+	 * @param params The randomization parameters
 	 */
-	public static void generateInitialRooms(Settings settings) {
-		int wRange = (settings.widthMax  - settings.widthMin)  + 1;
-		int hRange = (settings.heightMax - settings.heightMin) + 1;
+	public static void generateInitialRooms(LevelGenParams params) {
+		int wRange = (params.roomWidthMax  - params.roomWidthMin)  + 1;
+		int hRange = (params.roomHeightMax - params.roomHeightMin) + 1;
 		float x, y, w, h;
 
-		initialRooms = new ArrayList<Room>(settings.initialRooms);
-		for (int i = 0; i < settings.initialRooms; ++i) {
+		initialRooms = new ArrayList<Room>(params.numInitialRooms);
+		for (int i = 0; i < params.numInitialRooms; ++i) {
 			// Random room position
-			x = (Assets.rand.nextFloat() * settings.xMax);
-			y = (Assets.rand.nextFloat() * settings.yMax);
+			x = (Assets.rand.nextFloat() * params.mapMaxX);
+			y = (Assets.rand.nextFloat() * params.mapMaxY);
 
 			// Random (integer) room width/height
-			w = Assets.rand.nextInt(wRange) + settings.widthMin;
-			h = Assets.rand.nextInt(hRange) + settings.heightMin;
+			w = Assets.rand.nextInt(wRange) + params.roomWidthMin;
+			h = Assets.rand.nextInt(hRange) + params.roomHeightMin;
 
 			Room room = new Room(x,y,w,h);
 
 			initialRooms.add(room);
 		}
 
-		System.out.println("Generated " + settings.initialRooms + " initial rooms.");
+		System.out.println("Generated " + params.numInitialRooms + " initial rooms.");
 	}
 
 	/**
 	 * Move initial rooms away from each other
-	 * @param settings The randomization parameters
+	 *
+	 * @param params The randomization parameters
 	 */
-	public static void separateInitialRooms(Settings settings) {
+	public static void separateInitialRooms(LevelGenParams params) {
 		Vector2 separation = new Vector2();
 		Vector2 cohesion = new Vector2();
 		int iterationsRun = 0;
@@ -142,6 +112,7 @@ public class LevelGenerator
 		boolean overlapping = true;
 		while (overlapping) {
 			overlapping = false;
+
 			for (Room room : initialRooms) {
 				cohesion.set(computeCohesion(room));
 				separation.set(computeSeparation(room));
@@ -158,6 +129,7 @@ public class LevelGenerator
 				room.center.add(room.vel);
 				room.rect.setCenter(room.center);
 			}
+
 			iterationsRun++;
 		}
 
@@ -166,17 +138,18 @@ public class LevelGenerator
 
 	/**
 	 * Pick a number of the initial rooms to make up the main rooms in the level
-	 * @param settings The randomization parameters
+	 *
+	 * @param params The randomization parameters
 	 */
-	public static void selectRooms(Settings settings) {
-		final int midWidth  = (settings.widthMax  - settings.widthMin)  / 2;
-		final int midHeight = (settings.heightMax - settings.heightMin) / 2;
+	public static void selectRooms(LevelGenParams params) {
+		final int midWidth  = (params.roomWidthMax  - params.roomWidthMin)  / 2;
+		final int midHeight = (params.roomHeightMax - params.roomHeightMin) / 2;
 
 		int roomsSelected = 0;
 
-		selectedRooms = new ArrayList<Room>(settings.selectedRooms);
+		selectedRooms = new ArrayList<Room>(params.numSelectedRooms);
 		for (Room room : initialRooms) {
-			if (roomsSelected == settings.selectedRooms) break;
+			if (roomsSelected == params.numSelectedRooms) break;
 
 			if (room.rect.width > midWidth && room.rect.height > midHeight) {
 				selectedRooms.add(room);
@@ -196,9 +169,9 @@ public class LevelGenerator
 	 * the selected rooms.  Tweak the MST to get the final graph for
 	 * use in constructing corridors.
 	 */
-	public static void generateRoomGraph(Settings settings) {
+	public static void generateRoomGraph(LevelGenParams params) {
+		// Snap to integer positions
 		for (Room room : initialRooms) {
-			// Snap to integer positions
 			room.rect.set(
 				(float) Math.floor(room.rect.x),
 				(float) Math.floor(room.rect.y),
@@ -207,26 +180,27 @@ public class LevelGenerator
 			room.rect.getCenter(room.center);
 		}
 
+		// Generate 'vertices' for graph using room centers
 		points = new FloatArray();
 		for (Room room : selectedRooms) {
 			points.add(room.center.x);
 			points.add(room.center.y);
 		}
 
-		// Compute Dalaunay triangulation
+		// Compute Dalaunay triangulation of room centers
 		final DelaunayTriangulator triangulator = new DelaunayTriangulator();
 		triangles = triangulator.computeTriangles(points, false);
 		delaunay = generateDelaunayGraph();
 
-		calculateMinimumSpanningTree(settings);
+		calculateMinimumSpanningTree(params);
 	}
 
 	private static void generateCorridors() {
-
+		// TODO : removeme?
 	}
 
 	public static void generateTilesFromRooms() {
-		// Find minimum position of room
+		// Find minimum room position
 		Vector2 min = new Vector2(Float.MAX_VALUE, Float.MAX_VALUE);
 		for (Room room : initialRooms) {
 			if (min.x > room.rect.x) {
@@ -245,6 +219,7 @@ public class LevelGenerator
 			room.rect.getCenter(room.center);
 		}
 
+		// Move room centers (graph vertices) to 1st quadrant also
 		for (int i = 0; i < points.size; i += 2) {
 			points.set(i+0, points.get(i+0) - min.x);
 			points.set(i+1, points.get(i+1) - min.y);
@@ -328,8 +303,10 @@ public class LevelGenerator
 	/**
 	 * Randomly add edges to minimum spanning tree from Delauanay graph.
 	 * Added edges introduce cycles to the min spanning tree graph.
+	 *
+	 * @param params The level generation parameters to use
 	 */
-	public static void addCycleEdgesToMST(Settings settings) {
+	public static void addCycleEdgesToMST(LevelGenParams params) {
 		int numEdgesAdded = 0;
 		for (Room u : delaunay.vertices()) {
 			for (Room v : delaunay.vertices()) {
@@ -337,7 +314,7 @@ public class LevelGenerator
 
 				if (delaunay.hasEdge(u, v) && !mst.hasEdge(u, v)) {
 					mst.addEdge(u, v);
-					if (++numEdgesAdded >= settings.percentDelaunayCycleEdges * delaunay.E()) {
+					if (++numEdgesAdded >= params.percentCycleEdges * delaunay.E()) {
 						return;
 					}
 				}
@@ -346,10 +323,12 @@ public class LevelGenerator
 	}
 
 	/**
-	 * Calculate a minimum spanning tree for the existing delaunay graph usin
+	 * Calculate a minimum spanning tree for the existing delaunay graph using
 	 * Prim's algorithm
+	 *
+	 * @param params The level generation parameters to use
 	 */
-	public static void calculateMinimumSpanningTree(Settings settings) {
+	public static void calculateMinimumSpanningTree(LevelGenParams params) {
 		// Create vertex sets:
 		// V - all existing graph vertices
 		// V_new - vertices connected to the minimum spanning tree
@@ -403,15 +382,16 @@ public class LevelGenerator
 			mst.addEdge(u0, v0);
 			V_new.add(v0);
 		}
+
 		System.out.println("Generated minimum spanning tree");
-		addCycleEdgesToMST(settings);
+		addCycleEdgesToMST(params);
 		System.out.println("Induced cycles into minimum spanning tree from delaunay graph");
 	}
 
 	/**
 	 * Generate a graph from the existing Delaunay triangulation of selected rooms
 	 *
-	 * @return
+	 * @return The generated Dalaunay triangulation graph
 	 */
 	private static Graph generateDelaunayGraph() {
 		// Generate graph structure from Dalaunay triangulation
@@ -566,7 +546,7 @@ public class LevelGenerator
 
 		// TODO : add other contents once level layout is done
 
-		Room(float x, float y, float w, float h) {
+		public Room(float x, float y, float w, float h) {
 			id = nextId++;
 			center = new Vector2();
 			rect = new Rectangle(x,y,w,h);
@@ -581,7 +561,7 @@ public class LevelGenerator
 		public Room u;
 		public Room v;
 
-		Edge(Room u, Room v) {
+		public Edge(Room u, Room v) {
 			this.u = u;
 			this.v = v;
 		}
@@ -607,6 +587,5 @@ public class LevelGenerator
 			else return u.id;
 		}
 	}
-
 
 }

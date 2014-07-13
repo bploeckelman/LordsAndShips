@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import lando.systems.lordsandships.entities.Entity;
+import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Graph;
-import lando.systems.lordsandships.scene.LevelGenerator.*;
+import lando.systems.lordsandships.scene.levelgen.LevelGenerator.*;
 
 import java.util.*;
 
