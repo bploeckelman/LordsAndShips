@@ -8,16 +8,15 @@ import com.badlogic.gdx.utils.Disposable;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.levelgen.Room;
+import lando.systems.lordsandships.scene.levelgen.RoomEdge;
 import lando.systems.lordsandships.utils.Assets;
-import lando.systems.lordsandships.utils.Graph;
-import lando.systems.lordsandships.scene.levelgen.LevelGenerator.*;
+import lando.systems.lordsandships.utils.graph.Edge;
+import lando.systems.lordsandships.utils.graph.Graph;
 
 import java.util.*;
 
 /**
  * TileMap
- *
- *
  *
  * Brian Ploeckelman created on 5/31/2014.
  */
@@ -142,7 +141,7 @@ public class TileMap implements Disposable
 
 	public void generateCorridorTiles() {
 		Set<Edge> completedEdges = new HashSet<Edge>();
-		Edge edge;
+		RoomEdge edge;
 		int xStart, xEnd;
 		int yStart, yEnd;
 
@@ -152,7 +151,7 @@ public class TileMap implements Disposable
 
 			// For each edge
 			for (Room v : neighbors) {
-				edge = new Edge(u, v);
+				edge = new RoomEdge(u, v);
 				// If a corridor has already been generated for this edge, skip it
 				if (completedEdges.contains(edge)) {
 					continue;
@@ -393,7 +392,7 @@ public class TileMap implements Disposable
 
 			// For each edge
 			for (Room v : neighbors) {
-				edge = new Edge(u, v);
+				edge = new RoomEdge(u, v);
 				// If a corridor has already been generated for this edge, skip it
 				if (completedEdges.contains(edge)) {
 					continue;

@@ -5,9 +5,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.FloatArray;
 import com.badlogic.gdx.utils.ShortArray;
-import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.utils.Assets;
-import lando.systems.lordsandships.utils.Graph;
+import lando.systems.lordsandships.utils.graph.Graph;
 
 import java.util.*;
 
@@ -529,39 +528,6 @@ public class LevelGenerator
 //			}
 //		}
 		Assets.shapes.end();
-	}
-
-	// -------------------------------------------------------------------------
-	public static class Edge
-	{
-		public Room u;
-		public Room v;
-
-		public Edge(Room u, Room v) {
-			this.u = u;
-			this.v = v;
-		}
-
-		@Override
-		public boolean equals(Object other) {
-			if (other == null) return false;
-			if (other == this) return true;
-			if (!(other instanceof Edge)) return false;
-
-			Edge that = (Edge) other;
-
-			return ((this.u.id == that.u.id && this.v.id == that.v.id)
-				 || (this.u.id == that.v.id && this.v.id == that.u.id));
-		}
-
-		@Override
-		public int hashCode() {
-			if (u.rect.x < v.rect.x) { return u.id; }
-			else if (u.rect.x > v.rect.x) { return v.id; }
-			else if (u.rect.y < v.rect.y) { return u.id; }
-			else if (u.rect.y > v.rect.y) { return v.id; }
-			else return u.id;
-		}
 	}
 
 }

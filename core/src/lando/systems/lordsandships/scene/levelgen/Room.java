@@ -2,18 +2,15 @@ package lando.systems.lordsandships.scene.levelgen;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.lordsandships.utils.graph.Vertex;
 
 /**
  * A Room created during level generation
  *
  * Brian Ploeckelman created on 7/14/2014.
  */
-public class Room
+public class Room extends Vertex
 {
-	private static int nextId = 0;
-
-	public int id;
-
 	public Rectangle rect;
 	public Vector2 center;
 	public Vector2 vel;
@@ -23,7 +20,7 @@ public class Room
 	// TODO : add other contents once level layout is done
 
 	public Room(float x, float y, float w, float h) {
-		id = nextId++;
+		super();
 
 		center = new Vector2();
 
