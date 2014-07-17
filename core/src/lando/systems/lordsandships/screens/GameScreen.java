@@ -128,7 +128,10 @@ public class GameScreen implements Screen {
 			player.velocity.y = 0f;
 		}
 
-		if (game.input.isButtonDown(Input.Buttons.LEFT)) { player.punch(); }
+		if (game.input.isButtonDown(Input.Buttons.LEFT)) {
+			player.punch();
+			player.shoot(camera); // TODO : ugh... passing camera..
+		}
 
 		player.velocity.x += dx;
 		player.velocity.y += dy;
