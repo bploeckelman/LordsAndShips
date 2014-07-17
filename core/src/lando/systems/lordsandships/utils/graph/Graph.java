@@ -1,4 +1,4 @@
-package lando.systems.lordsandships.utils;
+package lando.systems.lordsandships.utils.graph;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import java.util.Set;
  *
  * Brian Ploeckelman created on 6/12/2014.
  */
-public class Graph<T>
+public class Graph<T extends Vertex>
 {
 	private Map<T, Set<T>> adjacencyLists;
 

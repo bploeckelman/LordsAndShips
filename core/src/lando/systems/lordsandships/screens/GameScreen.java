@@ -13,7 +13,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.LordsAndShips;
 import lando.systems.lordsandships.entities.Entity;
-import lando.systems.lordsandships.scene.LevelGenerator;
+import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
+import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
 import lando.systems.lordsandships.utils.Assets;
@@ -21,7 +22,6 @@ import lando.systems.lordsandships.utils.Constants;
 
 import java.util.*;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * GameScreen
@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
 	private OrthographicCamera camera;
 	private OrthoCamController camController;
 	private InputMultiplexer inputMux;
-	private LevelGenerator.Settings settings;
+	private LevelGenParams params;
 
 	private Entity player;
 
@@ -62,15 +62,15 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(inputMux);
 
 		// ***************** TESTING ****************
-		settings = new LevelGenerator.Settings();
-		settings.separationIterations = 10;
-		settings.initialRooms = 200;
-		settings.selectedRooms = 50;
-		settings.widthMin = 3;
-		settings.widthMax = 20;
-		settings.heightMin = 4;
-		settings.heightMax = 15;
-		LevelGenerator.generateLevel(settings);
+		params = new LevelGenParams();
+		params.numInitialRooms = 200;
+		params.numSelectedRooms = 50;
+		params.roomWidthMin = 3;
+		params.roomWidthMax = 20;
+		params.roomHeightMin = 4;
+		params.roomHeightMax = 15;
+
+		LevelGenerator.generateLevel(params);
 		tileMap = new TileMap(LevelGenerator.mst, LevelGenerator.selectedRooms);
 
 		player = new Entity(
@@ -92,13 +92,13 @@ public class GameScreen implements Screen {
 			mouseCoords = camera.unproject(mouseCoords);
 			player.boundingBox.x = mouseCoords.x;
 			player.boundingBox.y = mouseCoords.y;
-//			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(settings);
-//			else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) LevelGenerator.selectRooms(settings);
-//			else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) LevelGenerator.generateRoomGraph(settings);
-//			else if (game.input.isKeyDown(Input.Keys.SHIFT_RIGHT)) LevelGenerator.calculateMinimumSpanningTree(settings);
+//			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(params);
+//			else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) LevelGenerator.selectRooms(params);
+//			else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) LevelGenerator.generateRoomGraph(params);
+//			else if (game.input.isKeyDown(Input.Keys.SHIFT_RIGHT)) LevelGenerator.calculateMinimumSpanningTree(params);
 //			else if (game.input.isKeyDown(Input.Keys.CONTROL_RIGHT)) LevelGenerator.generateTilesFromRooms();
 //			else {
-//				LevelGenerator.separateInitialRooms(settings);
+//				LevelGenerator.separateInitialRooms(params);
 //			}
 		}
 
