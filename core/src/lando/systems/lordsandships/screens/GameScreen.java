@@ -38,8 +38,6 @@ public class GameScreen implements Screen {
 	private TileMap tileMap;
 	private OrthographicCamera camera;
 	private OrthoCamController camController;
-	private InputMultiplexer inputMux;
-	private LevelGenParams params;
 
 	private Entity player;
 
@@ -56,13 +54,13 @@ public class GameScreen implements Screen {
 
 		camController = new OrthoCamController(camera);
 
-		inputMux = new InputMultiplexer();
+		InputMultiplexer inputMux = new InputMultiplexer();
 		inputMux.addProcessor(camController);
 		inputMux.addProcessor(game.input);
 		Gdx.input.setInputProcessor(inputMux);
 
 		// ***************** TESTING ****************
-		params = new LevelGenParams();
+		LevelGenParams params = new LevelGenParams();
 		params.numInitialRooms = 200;
 		params.numSelectedRooms = 50;
 		params.roomWidthMin = 3;
