@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.entities.Bullet;
 import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
@@ -188,6 +189,18 @@ public class GameScreen implements Screen {
 		}
 		// resolve collision:
 		// move player out on shallowest axis by overlap amount on that axis
+
+		// Resolve bullet collisions
+		for (Bullet bullet : player.getBullets()) {
+			if (bullet.isAlive()) {
+				tileMap.getCollisionTiles(bullet, collisionTiles);
+				for (TileMap.Tile tile : collisionTiles) {
+					if (tileMap.isBlocking(tile.getGridX(), tile.getGridY())) {
+						bullet.kill();
+					}
+				}
+			}
+		}
 	}
 
 	@Override

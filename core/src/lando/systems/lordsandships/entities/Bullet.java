@@ -28,10 +28,14 @@ public class Bullet extends Entity {
 		// TODO : check bullets for collisiona gainst world
 
 		if ((age += delta) >= LIFETIME) {
-			age = LIFETIME;
-			alive = false;
+			kill();
 		}
 	}
 
 	public boolean isAlive() { return alive; }
+
+	public void kill() {
+		age = LIFETIME;
+		alive = false;
+	}
 }

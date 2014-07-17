@@ -200,4 +200,6 @@ public class Player extends Entity {
 			bullets.add(new Bullet(pos.x, pos.y, vel.x, vel.y));
 		}
 	}
+
+	public Array<Bullet> getBullets() { return bullets; }
 }
