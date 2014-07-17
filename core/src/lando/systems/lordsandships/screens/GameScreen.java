@@ -87,7 +87,7 @@ public class GameScreen implements Screen {
 		}
 
 		// ***************** TESTING ****************
-		if (Gdx.input.justTouched()) {
+		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
 			mouseCoords.set(game.input.getCurrMouse().x, game.input.getCurrMouse().y, 0);
 			mouseCoords = camera.unproject(mouseCoords);
 			player.boundingBox.x = mouseCoords.x;
@@ -129,6 +129,8 @@ public class GameScreen implements Screen {
 			dy = 0f;
 			player.velocity.y = 0f;
 		}
+
+		if (game.input.isButtonDown(Input.Buttons.LEFT)) { player.punch(); }
 
 		player.velocity.x += dx;
 		player.velocity.y += dy;
