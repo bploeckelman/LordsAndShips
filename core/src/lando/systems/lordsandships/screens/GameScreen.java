@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.LordsAndShips;
-import lando.systems.lordsandships.entities.Entity;
+import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
 	private InputMultiplexer inputMux;
 	private LevelGenParams params;
 
-	private Entity player;
+	private Player player;
 
 	private long startTime = TimeUtils.nanoTime();
 
@@ -73,11 +73,11 @@ public class GameScreen implements Screen {
 		LevelGenerator.generateLevel(params);
 		tileMap = new TileMap(LevelGenerator.mst, LevelGenerator.selectedRooms);
 
-		player = new Entity(
-				Assets.atlas.findRegion("tile-box"),
+		player = new Player(
+				Assets.playertex,
 				tileMap.spawnX * 16,
 				tileMap.spawnY * 16,
-				16, 16);
+				16, 16, 0.1f);
 	}
 
 	Vector3 mouseCoords = new Vector3();
