@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  * Brian Ploeckelman created on 6/17/2014.
  */
-public class Utilities {
+public class Utils {
 
 	/**
 	 * Split a texture into regions of the specified size split along a grid
