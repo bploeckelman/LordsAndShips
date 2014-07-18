@@ -35,10 +35,12 @@ public class GameScreen implements Screen {
 	private final LordsAndShips game;
 
 	private static final float key_move_amount = 16;
+	private static final float camera_shake_scale = 0.5f;
 
 	private TileMap tileMap;
 	private OrthographicCamera camera;
 	private OrthoCamController camController;
+	private Vector3 temp = new Vector3();
 
 	private Player player;
 
@@ -104,6 +106,14 @@ public class GameScreen implements Screen {
 		updateEntities(delta);
 
 		camera.position.lerp(player.getPosition(), 4*delta);
+
+		if (player.isShooting()) {
+			// Shake the camera a bit
+			temp.x = (float) Assets.rand.nextGaussian() * camera_shake_scale;
+			temp.y = (float) Assets.rand.nextGaussian() * camera_shake_scale;
+			camera.translate(temp.x, temp.y);
+		}
+
 		camera.update();
 	}
 

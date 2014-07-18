@@ -202,4 +202,5 @@ public class Player extends Entity {
 	}
 
 	public Array<Bullet> getBullets() { return bullets; }
+	public boolean isShooting() { return shooting; }
 }
