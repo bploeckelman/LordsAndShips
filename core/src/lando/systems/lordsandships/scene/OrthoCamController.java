@@ -16,11 +16,14 @@ public class OrthoCamController extends InputAdapter {
 	final Vector3 last = new Vector3(-1, -1, -1);
 	final Vector3 delta = new Vector3();
 	final float zoom_scale = 0.025f;
+	final float min_camera_zoom = 0.1f;
+	final float initial_camera_zoom = 0.25f;
 
-	public boolean debugRender = true;
+	public boolean debugRender = false;
 
 	public OrthoCamController (OrthographicCamera camera) {
 		this.camera = camera;
+		this.camera.zoom = initial_camera_zoom;
 	}
 
 	@Override
@@ -44,12 +47,15 @@ public class OrthoCamController extends InputAdapter {
 	@Override
 	public boolean scrolled (int amount) {
 		camera.zoom += zoom_scale * amount;
+		if (camera.zoom < min_camera_zoom) {
+			camera.zoom = min_camera_zoom;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean keyDown (int keycode) {
-		if (keycode == Keys.SPACE) debugRender = !debugRender;
+//		if (keycode == Keys.SPACE) debugRender = !debugRender;
 		if (keycode == Keys.NUM_0) Utilities.saveScreenshot();
 		return false;
 	}
