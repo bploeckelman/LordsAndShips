@@ -34,4 +34,19 @@ public class Utilities {
 		return regions;
 	}
 
+	/**
+	 * Clamp the value of 'value' between min and max
+	 *
+	 * @param value The value to clamp
+	 * @param min The minimum possible value
+	 * @param max The maximum possible value
+	 * @return The clamped value
+	 */
+	public float clampf(float value, float min, float max) {
+		assert(min < max);
+		if (value < min) value = min;
+		if (value > max) value = max;
+		return value;
+	}
+
 }
