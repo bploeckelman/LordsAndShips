@@ -12,7 +12,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.LordsAndShips;
-import lando.systems.lordsandships.entities.Entity;
+import lando.systems.lordsandships.entities.Bullet;
+import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
@@ -34,12 +35,14 @@ public class GameScreen implements Screen {
 	private final LordsAndShips game;
 
 	private static final float key_move_amount = 16;
+	private static final float camera_shake_scale = 0.5f;
 
 	private TileMap tileMap;
 	private OrthographicCamera camera;
 	private OrthoCamController camController;
+	private Vector3 temp = new Vector3();
 
-	private Entity player;
+	private Player player;
 
 	private long startTime = TimeUtils.nanoTime();
 
@@ -71,11 +74,11 @@ public class GameScreen implements Screen {
 		LevelGenerator.generateLevel(params);
 		tileMap = new TileMap(LevelGenerator.mst, LevelGenerator.selectedRooms);
 
-		player = new Entity(
-				Assets.atlas.findRegion("tile-box"),
+		player = new Player(
+				Assets.playertex,
 				tileMap.spawnX * 16,
 				tileMap.spawnY * 16,
-				16, 16);
+				16, 16, 0.1f);
 	}
 
 	Vector3 mouseCoords = new Vector3();
@@ -85,7 +88,7 @@ public class GameScreen implements Screen {
 		}
 
 		// ***************** TESTING ****************
-		if (Gdx.input.justTouched()) {
+		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
 			mouseCoords.set(game.input.getCurrMouse().x, game.input.getCurrMouse().y, 0);
 			mouseCoords = camera.unproject(mouseCoords);
 			player.boundingBox.x = mouseCoords.x;
@@ -103,6 +106,14 @@ public class GameScreen implements Screen {
 		updateEntities(delta);
 
 		camera.position.lerp(player.getPosition(), 4*delta);
+
+		if (player.isShooting()) {
+			// Shake the camera a bit
+			temp.x = (float) Assets.rand.nextGaussian() * camera_shake_scale;
+			temp.y = (float) Assets.rand.nextGaussian() * camera_shake_scale;
+			camera.translate(temp.x, temp.y);
+		}
+
 		camera.update();
 	}
 
@@ -126,6 +137,11 @@ public class GameScreen implements Screen {
 		else {
 			dy = 0f;
 			player.velocity.y = 0f;
+		}
+
+		if (game.input.isButtonDown(Input.Buttons.LEFT)) {
+			player.punch();
+			player.shoot(camera); // TODO : ugh... passing camera..
 		}
 
 		player.velocity.x += dx;
@@ -183,6 +199,18 @@ public class GameScreen implements Screen {
 		}
 		// resolve collision:
 		// move player out on shallowest axis by overlap amount on that axis
+
+		// Resolve bullet collisions
+		for (Bullet bullet : player.getBullets()) {
+			if (bullet.isAlive()) {
+				tileMap.getCollisionTiles(bullet, collisionTiles);
+				for (TileMap.Tile tile : collisionTiles) {
+					if (tileMap.isBlocking(tile.getGridX(), tile.getGridY())) {
+						bullet.kill();
+					}
+				}
+			}
+		}
 	}
 
 	@Override

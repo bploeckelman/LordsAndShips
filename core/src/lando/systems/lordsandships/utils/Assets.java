@@ -26,6 +26,7 @@ public class Assets {
 	public static TextureRegion libgdx;
 	public static TextureRegion gametex;
 	public static Texture playertex;
+	public static Texture enemytex;
 
 	public static TextureAtlas atlas;
 
@@ -41,10 +42,12 @@ public class Assets {
 		gametex = atlas.findRegion("gametex");
 
 		playertex = new Texture("darkknight.png");
+		enemytex = new Texture("character-sheet.png");
 	}
 
 	public static void dispose() {
 		atlas.dispose();
+		enemytex.dispose();
 		playertex.dispose();
 		shapes.dispose();
 		batch.dispose();
