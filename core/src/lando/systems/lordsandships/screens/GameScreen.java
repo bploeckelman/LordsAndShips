@@ -12,9 +12,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.LordsAndShips;
 import lando.systems.lordsandships.entities.Bullet;
+import lando.systems.lordsandships.entities.Enemy;
+import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
@@ -45,6 +48,7 @@ public class GameScreen implements Screen {
 	private Vector3 temp = new Vector3();
 
 	private Player player;
+	private Array<Enemy> enemies;
 
 	private long startTime = TimeUtils.nanoTime();
 
@@ -84,6 +88,8 @@ public class GameScreen implements Screen {
 				tileMap.spawnX * 16,
 				tileMap.spawnY * 16,
 				16, 16, 0.1f);
+
+		enemies = new Array<Enemy>(50);
 	}
 
 	Vector3 mouseCoords = new Vector3();
@@ -92,10 +98,15 @@ public class GameScreen implements Screen {
 			game.exit();
 		}
 
+		mouseCoords.set(game.input.getCurrMouse().x, game.input.getCurrMouse().y, 0);
+		mouseCoords = camera.unproject(mouseCoords);
+
+		if (Gdx.input.justTouched() && Gdx.input.isKeyPressed(Input.Keys.F)) {
+			enemies.add(new Enemy(Assets.enemytex, mouseCoords.x, mouseCoords.y, 16, 24, 0.3f));
+		}
+
 		// ***************** TESTING ****************
 		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-			mouseCoords.set(game.input.getCurrMouse().x, game.input.getCurrMouse().y, 0);
-			mouseCoords = camera.unproject(mouseCoords);
 			player.boundingBox.x = mouseCoords.x;
 			player.boundingBox.y = mouseCoords.y;
 //			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(params);
@@ -125,6 +136,9 @@ public class GameScreen implements Screen {
 	private void updateEntities(float delta) {
 		updatePlayers(delta);
 		resolveCollisions();
+		for (Enemy enemy : enemies) {
+			enemy.update(delta);
+		}
 	}
 
 	private void updatePlayers(float delta) {
@@ -159,8 +173,28 @@ public class GameScreen implements Screen {
 	Rectangle tileRect = new Rectangle();
 	Rectangle intersection = new Rectangle();
 	private void resolveCollisions() {
-		// Get grid tiles that the player overlaps
-		tileMap.getCollisionTiles(player, collisionTiles);
+		// Resolve bullet collisions
+		for (Bullet bullet : player.getBullets()) {
+			if (bullet.isAlive()) {
+				tileMap.getCollisionTiles(bullet, collisionTiles);
+				for (TileMap.Tile tile : collisionTiles) {
+					if (tileMap.isBlocking(tile.getGridX(), tile.getGridY())) {
+						bullet.kill();
+					}
+				}
+			}
+		}
+
+		for (Enemy enemy : enemies) {
+			resolveCollisions(enemy);
+		}
+
+		resolveCollisions(player);
+	}
+
+	private void resolveCollisions(Entity entity) {
+		// Get grid tiles that the entity overlaps
+		tileMap.getCollisionTiles(entity, collisionTiles);
 
 		// For each overlapped blocking tile:
 		for (TileMap.Tile tile : collisionTiles) {
@@ -174,30 +208,30 @@ public class GameScreen implements Screen {
 
 			// find amount of overlap on each axis
 			tileRect.set(tile.getWorldMinX(), tile.getWorldMinY(), 16f, 16f);
-			if (player.boundingBox.overlaps(tileRect)) {
-				Intersector.intersectRectangles(player.boundingBox, tileRect, intersection);
+			if (entity.boundingBox.overlaps(tileRect)) {
+				Intersector.intersectRectangles(entity.boundingBox, tileRect, intersection);
 				// Move out of shallower overlap axis
 				if (intersection.width < intersection.height) {
 					// Move out of X axis first..
-					if (player.boundingBox.x <= tileRect.x + tileRect.width
-					 && player.boundingBox.x >= tileRect.x) {
-						player.boundingBox.x = tileRect.x + tileRect.width + bounds_feather;
-						player.velocity.x = 0f;
-					} else if (player.boundingBox.x + player.boundingBox.width >= tileRect.x
-							&& player.boundingBox.x <= tileRect.x) {
-						player.boundingBox.x = tileRect.x - player.boundingBox.width - bounds_feather;
-						player.velocity.x = 0f;
+					if (entity.boundingBox.x <= tileRect.x + tileRect.width
+					 && entity.boundingBox.x >= tileRect.x) {
+						entity.boundingBox.x = tileRect.x + tileRect.width + bounds_feather;
+						entity.velocity.x = 0f;
+					} else if (entity.boundingBox.x + entity.boundingBox.width >= tileRect.x
+							&& entity.boundingBox.x <= tileRect.x) {
+						entity.boundingBox.x = tileRect.x - entity.boundingBox.width - bounds_feather;
+						entity.velocity.x = 0f;
 					}
 				} else {
 					// Move out of Y axis first..
-					if (player.boundingBox.y <= tileRect.y + tileRect.height
-					 && player.boundingBox.y >= tileRect.y) {
-						player.boundingBox.y = tileRect.y + tileRect.height + bounds_feather;
-						player.velocity.y = 0f;
-					} else if (player.boundingBox.y + player.boundingBox.height >= tileRect.y
-							&& player.boundingBox.y <= tileRect.y) {
-						player.boundingBox.y = tileRect.y - player.boundingBox.height - bounds_feather;
-						player.velocity.y = 0f;
+					if (entity.boundingBox.y <= tileRect.y + tileRect.height
+					 && entity.boundingBox.y >= tileRect.y) {
+						entity.boundingBox.y = tileRect.y + tileRect.height + bounds_feather;
+						entity.velocity.y = 0f;
+					} else if (entity.boundingBox.y + entity.boundingBox.height >= tileRect.y
+							&& entity.boundingBox.y <= tileRect.y) {
+						entity.boundingBox.y = tileRect.y - entity.boundingBox.height - bounds_feather;
+						entity.velocity.y = 0f;
 					}
 				}
 			} else {
@@ -205,19 +239,7 @@ public class GameScreen implements Screen {
 			}
 		}
 		// resolve collision:
-		// move player out on shallowest axis by overlap amount on that axis
-
-		// Resolve bullet collisions
-		for (Bullet bullet : player.getBullets()) {
-			if (bullet.isAlive()) {
-				tileMap.getCollisionTiles(bullet, collisionTiles);
-				for (TileMap.Tile tile : collisionTiles) {
-					if (tileMap.isBlocking(tile.getGridX(), tile.getGridY())) {
-						bullet.kill();
-					}
-				}
-			}
-		}
+		// move entity out on shallowest axis by overlap amount on that axis
 	}
 
 	@Override
@@ -238,6 +260,9 @@ public class GameScreen implements Screen {
 		}
 
 		Assets.batch.begin();
+		for (Enemy enemy : enemies) {
+			enemy.render(Assets.batch);
+		}
 		player.render(Assets.batch);
 		Assets.batch.end();
 
