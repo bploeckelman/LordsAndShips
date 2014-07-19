@@ -92,6 +92,7 @@ public class GameScreen implements Screen {
 		enemies = new Array<Enemy>(50);
 	}
 
+	Vector3 playerPosition = new Vector3();
 	Vector3 mouseCoords = new Vector3();
 	private void update(float delta) {
 		if (game.input.isKeyDown(Input.Keys.ESCAPE)) {
@@ -121,7 +122,8 @@ public class GameScreen implements Screen {
 
 		updateEntities(delta);
 
-		camera.position.lerp(player.getPosition(), 4*delta);
+		playerPosition.set(player.getPosition().x, player.getPosition().y, 0);
+		camera.position.lerp(playerPosition, 4*delta);
 
 		if (player.isShooting()) {
 			// Shake the camera a bit

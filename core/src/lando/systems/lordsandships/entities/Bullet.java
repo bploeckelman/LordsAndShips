@@ -27,6 +27,7 @@ public class Bullet extends Entity {
 	public void update(float delta) {
 		boundingBox.x += velocity.x;
 		boundingBox.y += velocity.y;
+		position.set(boundingBox.x + boundingBox.width / 2f, boundingBox.y + boundingBox.height / 2f);
 
 		// TODO : check bullets for collisiona gainst world
 

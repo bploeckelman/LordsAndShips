@@ -10,9 +10,11 @@ import com.badlogic.gdx.math.Vector3;
  * Brian Ploeckelman created on 6/15/2014.
  */
 public abstract class Entity {
-	public TextureRegion texture;
+
+	public Vector2 position;
 	public Vector2 velocity;
 	public Rectangle boundingBox;
+	public TextureRegion texture;
 
 	// TODO : extract to attributes class
 	public int health = 100;
@@ -20,6 +22,7 @@ public abstract class Entity {
 
 	public Entity(TextureRegion texture, float x, float y, float w, float h) {
 		this.texture = texture;
+		this.position = new Vector2(x + w/2f,y + h/2f);
 		this.velocity = new Vector2();
 		this.boundingBox = new Rectangle(x,y,w,h);
 	}
@@ -34,11 +37,13 @@ public abstract class Entity {
 	public int getGridMinY() { return (int) (boundingBox.y / 16); }
 	public int getGridMaxX() { return (int) ((boundingBox.x + boundingBox.width ) / 16); }
 	public int getGridMaxY() { return (int) ((boundingBox.y + boundingBox.height) / 16); }
-	public Vector3 getPosition() { return new Vector3(boundingBox.x, boundingBox.y, 0); }
+
+	public Vector2 getPosition() { return position; }
 
 	public void takeDamage(int amount) {
 		health -= amount;
 		if (health <= 0) {
+			health = 0;
 			alive = false;
 		}
 	}
