@@ -14,6 +14,10 @@ public abstract class Entity {
 	public Vector2 velocity;
 	public Rectangle boundingBox;
 
+	// TODO : extract to attributes class
+	public int health = 100;
+	public boolean alive = true;
+
 	public Entity(TextureRegion texture, float x, float y, float w, float h) {
 		this.texture = texture;
 		this.velocity = new Vector2();
@@ -31,4 +35,13 @@ public abstract class Entity {
 	public int getGridMaxX() { return (int) ((boundingBox.x + boundingBox.width ) / 16); }
 	public int getGridMaxY() { return (int) ((boundingBox.y + boundingBox.height) / 16); }
 	public Vector3 getPosition() { return new Vector3(boundingBox.x, boundingBox.y, 0); }
+
+	public void takeDamage(int amount) {
+		health -= amount;
+		if (health <= 0) {
+			alive = false;
+		}
+	}
+
+	public boolean isAlive() { return alive; }
 }

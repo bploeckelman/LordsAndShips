@@ -13,11 +13,14 @@ public class Bullet extends Entity {
 	private float age;
 	private boolean alive;
 
+	public int damageAmount;
+
 	public Bullet(float x, float y, float vx, float vy) {
 		super(Assets.atlas.findRegion("bullet"), x, y, 4, 4);
 		velocity.set(vx ,vy);
 		alive = true;
 		age = 0f;
+		damageAmount = 25;
 	}
 
 	@Override

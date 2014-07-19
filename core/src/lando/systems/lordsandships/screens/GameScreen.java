@@ -137,6 +137,7 @@ public class GameScreen implements Screen {
 		updatePlayers(delta);
 		resolveCollisions();
 		for (Enemy enemy : enemies) {
+			if (!enemy.isAlive()) continue;
 			enemy.update(delta);
 		}
 	}
@@ -176,16 +177,30 @@ public class GameScreen implements Screen {
 		// Resolve bullet collisions
 		for (Bullet bullet : player.getBullets()) {
 			if (bullet.isAlive()) {
+				// Check the bullet against the map
 				tileMap.getCollisionTiles(bullet, collisionTiles);
 				for (TileMap.Tile tile : collisionTiles) {
 					if (tileMap.isBlocking(tile.getGridX(), tile.getGridY())) {
 						bullet.kill();
 					}
 				}
+
+				// Check the bullet against enemies
+				if (bullet.isAlive()) {
+					for (Enemy enemy : enemies) {
+						if (!enemy.isAlive()) continue;
+
+						if (Intersector.overlaps(bullet.boundingBox, enemy.boundingBox)) {
+							enemy.takeDamage(bullet.damageAmount);
+							bullet.kill();
+						}
+					}
+				}
 			}
 		}
 
 		for (Enemy enemy : enemies) {
+			if (!enemy.isAlive()) continue;
 			resolveCollisions(enemy);
 		}
 
@@ -261,6 +276,7 @@ public class GameScreen implements Screen {
 
 		Assets.batch.begin();
 		for (Enemy enemy : enemies) {
+			if (!enemy.isAlive()) continue;
 			enemy.render(Assets.batch);
 		}
 		player.render(Assets.batch);
