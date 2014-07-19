@@ -6,6 +6,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -50,6 +52,9 @@ public class GameScreen implements Screen {
 		super();
 
 		this.game = game;
+
+		Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("images/cursor.png"));
+		Gdx.input.setCursorImage(cursorPixmap, 8, 8);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Constants.win_width, Constants.win_height);
