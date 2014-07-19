@@ -42,7 +42,7 @@ public class Utils {
 	 * @param max The maximum possible value
 	 * @return The clamped value
 	 */
-	public float clampf(float value, float min, float max) {
+	public static float clampf(float value, float min, float max) {
 		assert(min < max);
 		if (value < min) value = min;
 		if (value > max) value = max;
