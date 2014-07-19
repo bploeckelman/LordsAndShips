@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.lordsandships.utils.Assets;
-import lando.systems.lordsandships.utils.Utilities;
+import lando.systems.lordsandships.utils.Utils;
 
 /**
  * Brian Ploeckelman created on 6/17/2014.
@@ -30,7 +30,7 @@ public class Enemy extends Entity {
 		final int xTiles = 3;
 		final int yTiles = 4;
 
-		TextureRegion[][] keyframes = Utilities.splitAndGet(
+		TextureRegion[][] keyframes = Utils.splitAndGet(
 				Assets.enemytex,
 				frameWidth, frameHeight,
 				sheetCol, sheetRow,

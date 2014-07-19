@@ -165,6 +165,8 @@ public class GameScreen implements Screen {
 				continue;
 			}
 
+			final float bounds_feather = 0.0075f;
+
 			// find amount of overlap on each axis
 			tileRect.set(tile.getWorldMinX(), tile.getWorldMinY(), 16f, 16f);
 			if (player.boundingBox.overlaps(tileRect)) {
@@ -174,22 +176,22 @@ public class GameScreen implements Screen {
 					// Move out of X axis first..
 					if (player.boundingBox.x <= tileRect.x + tileRect.width
 					 && player.boundingBox.x >= tileRect.x) {
-						player.boundingBox.x = tileRect.x + tileRect.width + 0.01f;
+						player.boundingBox.x = tileRect.x + tileRect.width + bounds_feather;
 						player.velocity.x = 0f;
 					} else if (player.boundingBox.x + player.boundingBox.width >= tileRect.x
 							&& player.boundingBox.x <= tileRect.x) {
-						player.boundingBox.x = tileRect.x - player.boundingBox.width - 0.01f;
+						player.boundingBox.x = tileRect.x - player.boundingBox.width - bounds_feather;
 						player.velocity.x = 0f;
 					}
 				} else {
 					// Move out of Y axis first..
 					if (player.boundingBox.y <= tileRect.y + tileRect.height
 					 && player.boundingBox.y >= tileRect.y) {
-						player.boundingBox.y = tileRect.y + tileRect.height + 0.01f;
+						player.boundingBox.y = tileRect.y + tileRect.height + bounds_feather;
 						player.velocity.y = 0f;
 					} else if (player.boundingBox.y + player.boundingBox.height >= tileRect.y
 							&& player.boundingBox.y <= tileRect.y) {
-						player.boundingBox.y = tileRect.y - player.boundingBox.height - 0.01f;
+						player.boundingBox.y = tileRect.y - player.boundingBox.height - bounds_feather;
 						player.velocity.y = 0f;
 					}
 				}

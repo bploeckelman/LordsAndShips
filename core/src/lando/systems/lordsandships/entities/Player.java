@@ -6,11 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.utils.Assets;
-import lando.systems.lordsandships.utils.Utilities;
+import lando.systems.lordsandships.utils.Utils;
 
 /**
  * Brian Ploeckelman created on 6/17/2014.
@@ -48,7 +47,7 @@ public class Player extends Entity {
 		final int xTiles = 4;
 		final int yTiles = 4;
 
-		TextureRegion[][] keyframes = Utilities.splitAndGet(
+		TextureRegion[][] keyframes = Utils.splitAndGet(
 				Assets.playertex,
 				frameWidth, frameHeight,
 				sheetCol, sheetRow,
@@ -59,7 +58,7 @@ public class Player extends Entity {
 		walkRight = new Animation(animRate, keyframes[2]);
 		walkUp    = new Animation(animRate, keyframes[3]);
 
-		TextureRegion[][] keyframesTest = Utilities.splitAndGet(
+		TextureRegion[][] keyframesTest = Utils.splitAndGet(
 				Assets.enemytex, 16, 18, 3, 0, 1, 4);
 
 		punchAnim = new Animation(animRate / 2, keyframesTest[0][0], keyframesTest[1][0], keyframesTest[2][0], keyframesTest[3][0]);
@@ -172,6 +171,7 @@ public class Player extends Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 4, 16, 16);
 		batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 24);
 
 		for (Bullet bullet : bullets) {

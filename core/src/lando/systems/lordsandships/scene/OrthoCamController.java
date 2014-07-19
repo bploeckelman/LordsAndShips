@@ -4,7 +4,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import lando.systems.lordsandships.utils.Utilities;
+import lando.systems.lordsandships.utils.Utils;
 
 
 /**
@@ -56,7 +56,7 @@ public class OrthoCamController extends InputAdapter {
 	@Override
 	public boolean keyDown (int keycode) {
 //		if (keycode == Keys.SPACE) debugRender = !debugRender;
-		if (keycode == Keys.NUM_0) Utilities.saveScreenshot();
+//		if (keycode == Keys.NUM_0) Utils.saveScreenshot();
 		return false;
 	}
 
