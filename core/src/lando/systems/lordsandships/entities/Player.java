@@ -144,6 +144,7 @@ public class Player extends Entity {
 		// Move the player
 		boundingBox.x += velocity.x * delta;
 		boundingBox.y += velocity.y * delta;
+		position.set(boundingBox.x + boundingBox.width / 2f, boundingBox.y + boundingBox.height / 2f);
 
 		// Slow down and clamp velocity
 		velocity.x *= drag;

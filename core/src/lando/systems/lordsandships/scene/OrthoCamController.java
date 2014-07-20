@@ -55,7 +55,7 @@ public class OrthoCamController extends InputAdapter {
 
 	@Override
 	public boolean keyDown (int keycode) {
-//		if (keycode == Keys.SPACE) debugRender = !debugRender;
+		if (keycode == Keys.P) debugRender = !debugRender;
 //		if (keycode == Keys.NUM_0) Utils.saveScreenshot();
 		return false;
 	}
