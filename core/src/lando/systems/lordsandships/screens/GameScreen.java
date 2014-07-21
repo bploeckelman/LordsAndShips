@@ -337,12 +337,14 @@ public class GameScreen implements Screen {
 		}
 
 		Gdx.gl20.glViewport(0, 0, (int) uiCamera.viewportWidth, (int) uiCamera.viewportHeight);
-		String text = "FPS: " + Gdx.graphics.getFramesPerSecond();
+		String line1 = "Hold 'F' + Left Click to spawn 'enemy'";
+		String line2 = "FPS: " + Gdx.graphics.getFramesPerSecond();
 		Assets.batch.setProjectionMatrix(uiCamera.combined);
 		Assets.batch.begin();
 		font.setScale(0.5f);
 		font.setColor(Color.WHITE);
-		font.draw(Assets.batch, text, 20, Gdx.graphics.getHeight() - 20);
+		font.draw(Assets.batch, line1, 20, Gdx.graphics.getHeight() - 20);
+		font.draw(Assets.batch, line2, 20, Gdx.graphics.getHeight() - 20 - font.getLineHeight() - 5);
 		Assets.batch.end();
 	}
 
