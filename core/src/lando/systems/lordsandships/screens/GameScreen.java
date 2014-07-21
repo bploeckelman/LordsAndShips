@@ -23,6 +23,7 @@ import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
+import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
 
@@ -49,6 +50,8 @@ public class GameScreen implements Screen {
 
 	private Player player;
 	private Array<Enemy> enemies;
+
+	private ExplosionEmitter explosionEmitter = new ExplosionEmitter();
 
 	private long startTime = TimeUtils.nanoTime();
 
@@ -194,6 +197,9 @@ public class GameScreen implements Screen {
 
 						if (Intersector.overlaps(bullet.boundingBox, enemy.boundingBox)) {
 							enemy.takeDamage(bullet.damageAmount);
+							if (!enemy.isAlive()) {
+								explosionEmitter.addSmallExplosion(enemy.position);
+							}
 							bullet.kill();
 						}
 					}
@@ -282,6 +288,7 @@ public class GameScreen implements Screen {
 			enemy.render(Assets.batch);
 		}
 		player.render(Assets.batch);
+		explosionEmitter.render(Assets.batch);
 		Assets.batch.end();
 
 		if (camController.debugRender) {
