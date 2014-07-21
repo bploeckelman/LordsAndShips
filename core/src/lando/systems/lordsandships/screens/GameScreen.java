@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -45,7 +46,9 @@ public class GameScreen implements Screen {
 
 	private TileMap tileMap;
 	private OrthographicCamera camera;
+	private OrthographicCamera uiCamera;
 	private OrthoCamController camController;
+	private BitmapFont font;
 	private Vector3 temp = new Vector3();
 
 	private Player player;
@@ -60,12 +63,19 @@ public class GameScreen implements Screen {
 
 		this.game = game;
 
+		font = new BitmapFont(Gdx.files.internal("fonts/tolkien.fnt"), false);
+
 		Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("images/cursor.png"));
 		Gdx.input.setCursorImage(cursorPixmap, 8, 8);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Constants.win_width, Constants.win_height);
 		camera.position.set(0,0,0);
+		camera.update();
+
+		uiCamera = new OrthographicCamera();
+		uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		uiCamera.update();
 
 		camController = new OrthoCamController(camera);
 
@@ -269,6 +279,7 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		update(delta);
 
+		Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
 		Gdx.gl.glClearColor(0.08f,0.04f,0.0f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -281,6 +292,8 @@ public class GameScreen implements Screen {
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 			LevelGenerator.debugRender(camera);
 		}
+
+		Assets.batch.setProjectionMatrix(camera.combined);
 
 		Assets.batch.begin();
 		for (Enemy enemy : enemies) {
@@ -318,15 +331,27 @@ public class GameScreen implements Screen {
 		}
 
 		if (TimeUtils.nanoTime() - startTime >= 1000000000) {
-			System.out.println("fps( " + Gdx.graphics.getFramesPerSecond() + " )");
 			startTime = TimeUtils.nanoTime();
 		}
+
+		Gdx.gl20.glViewport(0, 0, (int) uiCamera.viewportWidth, (int) uiCamera.viewportHeight);
+		String text = "FPS: " + Gdx.graphics.getFramesPerSecond();
+		Assets.batch.setProjectionMatrix(uiCamera.combined);
+		Assets.batch.begin();
+		font.setScale(0.5f);
+		font.setColor(Color.WHITE);
+		font.draw(Assets.batch, text, 20, Gdx.graphics.getHeight() - 20);
+		Assets.batch.end();
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		camera.setToOrtho(false, width, height);
 		camera.position.set(player.boundingBox.x, player.boundingBox.y, 0);
+		camera.update();
+
+		uiCamera.setToOrtho(false, width, height);
+		uiCamera.update();
 	}
 
 	@Override
@@ -352,5 +377,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		tileMap.dispose();
+		explosionEmitter.dispose();
+		font.dispose();
 	}
 }
