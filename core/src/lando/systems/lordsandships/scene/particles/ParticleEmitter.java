@@ -32,7 +32,12 @@ public class ParticleEmitter implements Disposable {
 		texture = textureRegion;
 		size = new Vector2(texture.getRegionWidth(), texture.getRegionHeight());
 		particles = new Array<Particle>(false, max_particles);
-		particlePool = Pools.get(Particle.class);
+		particlePool = new Pool<Particle>() {
+			@Override
+			protected Particle newObject() {
+				return new Particle();
+			}
+		};
 	}
 
 	public void render(SpriteBatch batch) {
