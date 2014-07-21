@@ -59,15 +59,15 @@ public class TitleScreen implements Screen {
 		titlePosLine3.set(150, Gdx.graphics.getHeight() + font.getLineHeight());
 
 		Timeline.createSequence()
-				.push(Tween.to(titlePosLine1, Vector2Accessor.XY, 2)
+				.push(Tween.to(titlePosLine1, Vector2Accessor.XY, 1)
 						.target(150, Gdx.graphics.getHeight() - 50)
 						.ease(Bounce.OUT))
-				.pushPause(0.5f)
-				.push(Tween.to(titlePosLine2, Vector2Accessor.XY, 1)
+				.pushPause(0.1f)
+				.push(Tween.to(titlePosLine2, Vector2Accessor.XY, 0.5f)
 						.target(150, title_line2_height)
-						.ease(Back.OUT))
-				.pushPause(0.5f)
-				.push(Tween.to(titlePosLine3, Vector2Accessor.XY, 2)
+						.ease(Bounce.INOUT))
+				.pushPause(0.25f)
+				.push(Tween.to(titlePosLine3, Vector2Accessor.XY, 1)
 						.target(150, font.getLineHeight() + 50)
 						.ease(Bounce.OUT))
 				.start(game.tween);
