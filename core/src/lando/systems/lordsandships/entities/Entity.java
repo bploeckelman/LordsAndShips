@@ -2,9 +2,11 @@ package lando.systems.lordsandships.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import lando.systems.lordsandships.utils.Assets;
 
 /**
  * Brian Ploeckelman created on 6/15/2014.
@@ -40,12 +42,18 @@ public abstract class Entity {
 
 	public Vector2 getPosition() { return position; }
 
-	public void takeDamage(int amount) {
+	static final Vector2 temp = new Vector2();
+	static final float entity_shake_scale = 2f;
+	public void takeDamage(int amount, Vector2 dir) {
 		health -= amount;
 		if (health <= 0) {
 			health = 0;
 			alive = false;
 		}
+		temp.x = dir.x + MathUtils.random() * entity_shake_scale;
+		temp.y = dir.y + MathUtils.random() * entity_shake_scale;
+		boundingBox.x += temp.x;
+		boundingBox.y += temp.y;
 	}
 
 	public boolean isAlive() { return alive; }

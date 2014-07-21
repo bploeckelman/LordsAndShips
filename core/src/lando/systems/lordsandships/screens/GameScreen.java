@@ -208,7 +208,7 @@ public class GameScreen implements Screen {
 						if (!enemy.isAlive()) continue;
 
 						if (Intersector.overlaps(bullet.boundingBox, enemy.boundingBox)) {
-							enemy.takeDamage(bullet.damageAmount);
+							enemy.takeDamage(bullet.damageAmount, bullet.velocity);
 							if (!enemy.isAlive()) {
 								explosionEmitter.addSmallExplosion(enemy.position);
 							}
