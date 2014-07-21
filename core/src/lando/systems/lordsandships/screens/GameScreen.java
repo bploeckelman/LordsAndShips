@@ -108,6 +108,8 @@ public class GameScreen implements Screen {
 	Vector3 playerPosition = new Vector3();
 	Vector3 mouseCoords = new Vector3();
 	private void update(float delta) {
+		game.tween.update(delta);
+
 		if (game.input.isKeyDown(Input.Keys.ESCAPE)) {
 			game.exit();
 		}

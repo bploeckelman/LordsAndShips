@@ -1,9 +1,13 @@
 package lando.systems.lordsandships;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.lordsandships.screens.GameScreen;
 import lando.systems.lordsandships.screens.TitleScreen;
+import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Input;
 
@@ -18,12 +22,16 @@ import lando.systems.lordsandships.utils.Input;
 public class LordsAndShips extends Game {
 	public final Input input = new Input();
 
+	public TweenManager tween;
 	public TitleScreen titleScreen;
 	public GameScreen gameScreen;
 
 	@Override
 	public void create () {
 		Assets.load();
+
+		tween = new TweenManager();
+		Tween.registerAccessor(Vector2.class, new Vector2Accessor());
 
 		Gdx.input.setInputProcessor(input);
 		Gdx.input.setCursorCatched(false);
