@@ -173,7 +173,7 @@ public class Player extends Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 4, 16, 16);
+		batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 1, 16, 16);
 		batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 24);
 
 		for (Bullet bullet : bullets) {
