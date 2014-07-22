@@ -26,7 +26,6 @@ public class Assets {
 	public static ShapeRenderer shapes;
 
 	public static TextureRegion libgdx;
-	public static TextureRegion gametex;
 	public static Texture playertex;
 	public static Texture enemytex;
 
@@ -50,7 +49,6 @@ public class Assets {
 
 		atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
 		libgdx = atlas.findRegion("badlogic");
-		gametex = atlas.findRegion("gametex");
 
 		playertex = new Texture("darkknight.png");
 		enemytex = new Texture("character-sheet.png");
