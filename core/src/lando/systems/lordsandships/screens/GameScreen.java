@@ -203,6 +203,7 @@ public class GameScreen implements Screen {
 				tileMap.getCollisionTiles(bullet, collisionTiles);
 				for (TileMap.Tile tile : collisionTiles) {
 					if (tileMap.isBlocking(tile.getGridX(), tile.getGridY())) {
+						Assets.gunshot_impact.play(0.05f);
 						bullet.kill();
 					}
 				}
@@ -214,6 +215,7 @@ public class GameScreen implements Screen {
 
 						if (Intersector.overlaps(bullet.boundingBox, enemy.boundingBox)) {
 							enemy.takeDamage(bullet.damageAmount, bullet.velocity);
+							Assets.getRandomHitSound().play();
 							if (!enemy.isAlive()) {
 								explosionEmitter.addSmallExplosion(enemy.position);
 							}

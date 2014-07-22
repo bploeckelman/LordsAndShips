@@ -196,6 +196,7 @@ public class Player extends Entity {
 
 			shooting = true;
 			shootCooldown = SHOOT_COOLDOWN;
+			Assets.gunshot_shot.play();
 		}
 	}
 
