@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.lordsandships.LordsAndShips;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
@@ -32,8 +33,7 @@ public class TitleScreen implements Screen {
 
 	private BitmapFont font;
 	private OrthographicCamera camera;
-
-	private float r = 0.f, g = 0.f, b = 0.f;
+	private TextureRegion background;
 
 	private Vector2 titlePosLine1 = new Vector2();
 	private Vector2 titlePosLine2 = new Vector2();
@@ -54,21 +54,25 @@ public class TitleScreen implements Screen {
 
 		float title_line2_height = Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 2) + (font.getLineHeight() / 2);
 
-		titlePosLine1.set(150, Gdx.graphics.getHeight() + font.getLineHeight());
-		titlePosLine2.set(Constants.win_width, title_line2_height);
-		titlePosLine3.set(150, Gdx.graphics.getHeight() + font.getLineHeight());
+		titlePosLine1.set(Constants.win_width, Gdx.graphics.getHeight() - 50);
+		titlePosLine2.set(145, Gdx.graphics.getHeight() + title_line2_height);
+		titlePosLine3.set(-Constants.win_width, font.getLineHeight() + 50);
 
 		Timeline.createSequence()
-				.push(Tween.to(titlePosLine1, Vector2Accessor.XY, 1)
-						.target(150, Gdx.graphics.getHeight() - 50)
+				.push(Tween.to(titlePosLine1, Vector2Accessor.XY, 0.5f)
+						.target(140, Gdx.graphics.getHeight() - 50)
 						.ease(Back.OUT))
+				.pushPause(0.1f)
 				.push(Tween.to(titlePosLine2, Vector2Accessor.XY, 0.5f)
-						.target(150, title_line2_height)
+						.target(140, title_line2_height)
 						.ease(Bounce.INOUT))
-				.push(Tween.to(titlePosLine3, Vector2Accessor.XY, 1)
-						.target(150, font.getLineHeight() + 50)
+				.pushPause(0.5f)
+				.push(Tween.to(titlePosLine3, Vector2Accessor.XY, 0.5f)
+						.target(140, font.getLineHeight() + 50)
 						.ease(Back.OUT))
 				.start(game.tween);
+
+		background = Assets.atlas.findRegion("gametex");
 	}
 
 	public void update(float delta) {
@@ -88,17 +92,17 @@ public class TitleScreen implements Screen {
 	public void render(float delta) {
 		update(delta);
 
-		Gdx.gl.glClearColor(r,g,b,1);
+		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Assets.batch.setProjectionMatrix(camera.combined);
 		Assets.batch.begin();
-		Assets.batch.draw(Assets.gametex
-				, Constants.win_half_width - Assets.gametex.getRegionWidth() / 2
-				, Constants.win_half_height - Assets.gametex.getRegionHeight() / 2);
-		font.drawMultiLine(Assets.batch, title1, titlePosLine1.x, titlePosLine1.y); //150, Gdx.graphics.getHeight() - 50);
-		font.drawMultiLine(Assets.batch, title2, titlePosLine2.x, titlePosLine2.y); //150, Gdx.graphics.getHeight() - (Gdx.graphics.getHeight() / 2) + (font.getLineHeight() / 2));
-		font.drawMultiLine(Assets.batch, title3, titlePosLine3.x, titlePosLine3.y); //150, font.getLineHeight() + 50);
+		Assets.batch.draw(background
+				, Constants.win_half_width  - background.getRegionWidth() / 2
+				, Constants.win_half_height - background.getRegionHeight() / 2);
+		font.drawMultiLine(Assets.batch, title1, titlePosLine1.x, titlePosLine1.y);
+		font.drawMultiLine(Assets.batch, title2, titlePosLine2.x, titlePosLine2.y);
+		font.drawMultiLine(Assets.batch, title3, titlePosLine3.x, titlePosLine3.y);
 		Assets.batch.end();
 	}
 
