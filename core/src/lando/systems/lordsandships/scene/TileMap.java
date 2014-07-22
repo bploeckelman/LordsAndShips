@@ -118,6 +118,14 @@ public class TileMap implements Disposable
 		generateCorridorTiles();
 
 		generateWallTiles();
+
+		for (int y = 0; y < height; ++y) {
+			for (int x = 0; x < width; ++x) {
+				if (tiles[y][x].texture.equals("tile-blank")) {
+					tiles[y][x].texture = "tile-box";
+				}
+			}
+		}
 	}
 
 	public void generateRoomTiles(Room room) {
