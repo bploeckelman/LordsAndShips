@@ -10,9 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.LordsAndShips;
@@ -42,7 +40,7 @@ public class GameScreen implements Screen {
 	private final LordsAndShips game;
 
 	private static final float key_move_amount = 16;
-	private static final float camera_shake_scale = 0.5f;
+	private static final float camera_shake_scale = 1.5f;
 
 	private TileMap tileMap;
 	private OrthographicCamera camera;
@@ -140,13 +138,6 @@ public class GameScreen implements Screen {
 		playerPosition.set(player.getPosition().x, player.getPosition().y, 0);
 		camera.position.lerp(playerPosition, 4*delta);
 
-		if (player.isShooting()) {
-			// Shake the camera a bit
-			temp.x = (float) Assets.rand.nextGaussian() * camera_shake_scale;
-			temp.y = (float) Assets.rand.nextGaussian() * camera_shake_scale;
-			camera.translate(temp.x, temp.y);
-		}
-
 		camera.update();
 	}
 
@@ -159,6 +150,9 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	// TODO : too many temp vectors
+	Vector3 mouse = new Vector3();
+	Vector2 dir = new Vector2();
 	private void updatePlayers(float delta) {
 		float dx, dy;
 
@@ -176,9 +170,20 @@ public class GameScreen implements Screen {
 			player.velocity.y = 0f;
 		}
 
-		if (game.input.isButtonDown(Input.Buttons.LEFT)) {
+		if (game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F)) {
+			float px = player.boundingBox.x + player.boundingBox.width / 2f;
+			float py = player.boundingBox.y + player.boundingBox.height / 2f;
+
+			mouse.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+			camera.unproject(mouse);
+
+			dir.set(mouse.x, mouse.y).sub(px, py).nor();
+			player.shoot(dir);
 			player.punch();
-			player.shoot(camera); // TODO : ugh... passing camera..
+
+			// displace the camera a bit
+			dir.scl(-1);
+			camera.translate(dir);
 		}
 
 		player.velocity.x += dx;

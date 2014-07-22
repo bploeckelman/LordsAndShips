@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.utils.Assets;
@@ -182,23 +183,19 @@ public class Player extends Entity {
 
 	public void punch() { punching = true; }
 
-	private Vector3 pos = new Vector3();
-	private Vector3 mouse = new Vector3();
-	private Vector3 vel = new Vector3();
-
-	public void shoot(Camera camera) {
+	public void shoot(Vector2 dir) {
 		if (shooting) return;
 
 		if ((bullets.size - 1) < MAX_BULLETS) {
-			pos.set(boundingBox.x + boundingBox.width / 2.f, boundingBox.y + boundingBox.height / 2.f, 0);
-			mouse.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(mouse);
+			float px = boundingBox.x + boundingBox.width / 2f;
+			float py = boundingBox.y + boundingBox.height / 2f;
+			float vx = dir.x * Bullet.BULLET_SPEED;
+			float vy = dir.y * Bullet.BULLET_SPEED;
 
-			vel.set(mouse).sub(pos).nor().scl(Bullet.BULLET_SPEED);
+			bullets.add(new Bullet(px, py, vx, vy));
 
 			shooting = true;
 			shootCooldown = SHOOT_COOLDOWN;
-			bullets.add(new Bullet(pos.x, pos.y, vel.x, vel.y));
 		}
 	}
 
