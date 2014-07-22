@@ -1,5 +1,9 @@
 package lando.systems.lordsandships.screens;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -9,6 +13,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
@@ -23,6 +28,7 @@ import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
+import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
 
@@ -153,6 +159,10 @@ public class GameScreen implements Screen {
 	// TODO : too many temp vectors
 	Vector3 mouse = new Vector3();
 	Vector2 dir = new Vector2();
+	// TODO : move this stuff
+	boolean isSlashing = false;
+	Color slashColor = new Color(1,1,1,0);
+	float slashRotation = 0;
 	private void updatePlayers(float delta) {
 		float dx, dy;
 
@@ -170,7 +180,7 @@ public class GameScreen implements Screen {
 			player.velocity.y = 0f;
 		}
 
-		if (game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F)) {
+		if (game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F) && !isSlashing) {
 			float px = player.boundingBox.x + player.boundingBox.width / 2f;
 			float py = player.boundingBox.y + player.boundingBox.height / 2f;
 
@@ -178,8 +188,24 @@ public class GameScreen implements Screen {
 			camera.unproject(mouse);
 
 			dir.set(mouse.x, mouse.y).sub(px, py).nor();
-			player.shoot(dir);
-			player.punch();
+			slashRotation = MathUtils.radiansToDegrees * (float) Math.atan2(dir.y, dir.x);
+
+			isSlashing = true;
+			slashColor.a = 1;
+			Tween.to(slashColor, ColorAccessor.A, 0.25f)
+					.target(0)
+					.ease(Cubic.INOUT)
+					.setCallback(new TweenCallback() {
+						@Override
+						public void onEvent(int type, BaseTween<?> source) {
+							isSlashing = false;
+						}
+					})
+					.start(game.tween);
+			Assets.sword_slice1.play();
+
+//			player.shoot(dir);
+//			player.punch();
 
 			// displace the camera a bit
 			dir.scl(-1);
@@ -303,14 +329,33 @@ public class GameScreen implements Screen {
 		}
 
 		Assets.batch.setProjectionMatrix(camera.combined);
-
 		Assets.batch.begin();
+
 		for (Enemy enemy : enemies) {
 			if (!enemy.isAlive()) continue;
 			enemy.render(Assets.batch);
 		}
+
 		player.render(Assets.batch);
+
+		// Draw a melee weapon slash arc
+		Assets.batch.setColor(slashColor);
+		TextureRegion slash = Assets.atlas.findRegion("slash"); // TODO cache-me
+		float w = slash.getRegionWidth();
+		float h = slash.getRegionHeight();
+		float hw = w / 2f;
+		float hh = h / 2f;
+		float ox = dir.x * hw * 1.1f;
+		float oy = dir.y * hh * 1.1f;
+		float px = player.getPosition().x - hw - ox;
+		float py = player.getPosition().y - hh - oy;
+		float sx = 0.75f;
+		float sy = 0.5f;
+		Assets.batch.draw(slash, px, py, hw, hh, w, h, sx, sy, slashRotation);
+		Assets.batch.setColor(Color.WHITE);
+
 		explosionEmitter.render(Assets.batch);
+
 		Assets.batch.end();
 
 		if (camController.debugRender) {

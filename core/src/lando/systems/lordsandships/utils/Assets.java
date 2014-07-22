@@ -25,7 +25,6 @@ public class Assets {
 	public static SpriteBatch batch;
 	public static ShapeRenderer shapes;
 
-	public static TextureRegion libgdx;
 	public static Texture playertex;
 	public static Texture enemytex;
 
@@ -40,6 +39,7 @@ public class Assets {
 	public static Sound hit3;
 	public static Sound hit4;
 	public static Sound hit_melee1;
+	public static Sound sword_slice1;
 
 	public static void load() {
 		rand = new Random(1);
@@ -48,7 +48,6 @@ public class Assets {
 		shapes = new ShapeRenderer();
 
 		atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
-		libgdx = atlas.findRegion("badlogic");
 
 		playertex = new Texture("darkknight.png");
 		enemytex = new Texture("character-sheet.png");
@@ -62,9 +61,11 @@ public class Assets {
 		hit3 = Gdx.audio.newSound(Gdx.files.internal("sounds/hit-3.mp3"));
 		hit4 = Gdx.audio.newSound(Gdx.files.internal("sounds/hit-4.mp3"));
 		hit_melee1 = Gdx.audio.newSound(Gdx.files.internal("sounds/hit-melee-1.mp3"));
+		sword_slice1 = Gdx.audio.newSound(Gdx.files.internal("sounds/sword-slice-1.mp3"));
 	}
 
 	public static void dispose() {
+		sword_slice1.dispose();
 		hit_melee1.dispose();
 		hit4.dispose();
 		hit3.dispose();
