@@ -40,6 +40,7 @@ public abstract class Entity {
 	public int getGridMaxX() { return (int) ((boundingBox.x + boundingBox.width ) / 16); }
 	public int getGridMaxY() { return (int) ((boundingBox.y + boundingBox.height) / 16); }
 
+	public boolean isAlive() { return alive; }
 	public Vector2 getPosition() { return position; }
 
 	static final Vector2 temp = new Vector2();
@@ -56,5 +57,19 @@ public abstract class Entity {
 		boundingBox.y += temp.y;
 	}
 
-	public boolean isAlive() { return alive; }
+	private Vector2 centerPos = new Vector2();
+	public Vector2 getCenterPos() {
+		centerPos.set(
+				boundingBox.x + boundingBox.width / 2f,
+				boundingBox.y + boundingBox.height / 2f);
+		return centerPos;
+	}
+
+	private Vector2 dir = new Vector2();
+	public Vector2 getDirection(float worldx, float worldy) {
+		getCenterPos();
+		dir.set(worldx, worldy).sub(centerPos).nor();
+		return dir;
+	}
+
 }
