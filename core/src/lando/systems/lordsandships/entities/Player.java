@@ -2,15 +2,19 @@ package lando.systems.lordsandships.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import lando.systems.lordsandships.LordsAndShips;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
+import lando.systems.lordsandships.weapons.Weapon;
 
 /**
  * Brian Ploeckelman created on 6/17/2014.
@@ -37,6 +41,8 @@ public class Player extends Entity {
 	Array<Bullet> bullets;
 	Array<Bullet> bulletsToRemove;
 
+	Weapon currentWeapon;
+	Array<Weapon> weapons;
 
 	public Player(Texture texture, float x, float y, float w, float h, float animRate) {
 		super(new TextureRegion(texture), x, y, w, h);
@@ -75,6 +81,10 @@ public class Player extends Entity {
 
 		bullets = new Array<Bullet>(MAX_BULLETS);
 		bulletsToRemove = new Array<Bullet>(MAX_BULLETS);
+
+		currentWeapon = new Weapon(new Weapon.Builder().damage(50));
+		weapons = new Array<Weapon>();
+		weapons.add(currentWeapon);
 	}
 
 
@@ -173,11 +183,21 @@ public class Player extends Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		currentWeapon.render(batch, getCenterPos().x, getCenterPos().y);
+
 		batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 1, 16, 16);
 		batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 24);
 
+		// TODO : move to weapon?
 		for (Bullet bullet : bullets) {
 			bullet.render(batch);
+		}
+	}
+
+	// TODO : remove game reference once singleton game instance is done
+	public void attack(Vector2 direction, LordsAndShips game) {
+		if (!currentWeapon.attacking) {
+			currentWeapon.attack(direction, game);
 		}
 	}
 

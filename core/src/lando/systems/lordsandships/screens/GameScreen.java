@@ -180,30 +180,15 @@ public class GameScreen implements Screen {
 			player.velocity.y = 0f;
 		}
 
-		if (game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F) && !isSlashing) {
-			float px = player.boundingBox.x + player.boundingBox.width / 2f;
-			float py = player.boundingBox.y + player.boundingBox.height / 2f;
-
+		if (game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F)) {
+			// TODO : unproject mouse coords every frame and reference that value here
 			mouse.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(mouse);
+			dir.set(player.getDirection(mouse.x, mouse.y));
 
-			dir.set(mouse.x, mouse.y).sub(px, py).nor();
-			slashRotation = MathUtils.radiansToDegrees * (float) Math.atan2(dir.y, dir.x);
+			player.attack(dir, game);
 
-			isSlashing = true;
-			slashColor.a = 1;
-			Tween.to(slashColor, ColorAccessor.A, 0.25f)
-					.target(0)
-					.ease(Cubic.INOUT)
-					.setCallback(new TweenCallback() {
-						@Override
-						public void onEvent(int type, BaseTween<?> source) {
-							isSlashing = false;
-						}
-					})
-					.start(game.tween);
-			Assets.sword_slice1.play();
-
+			// TODO : move to weapon
 //			player.shoot(dir);
 //			player.punch();
 
@@ -336,23 +321,8 @@ public class GameScreen implements Screen {
 			enemy.render(Assets.batch);
 		}
 
+		Assets.shapes.setProjectionMatrix(camera.combined);
 		player.render(Assets.batch);
-
-		// Draw a melee weapon slash arc
-		Assets.batch.setColor(slashColor);
-		TextureRegion slash = Assets.atlas.findRegion("slash"); // TODO cache-me
-		float w = slash.getRegionWidth();
-		float h = slash.getRegionHeight();
-		float hw = w / 2f;
-		float hh = h / 2f;
-		float ox = dir.x * hw * 1.1f;
-		float oy = dir.y * hh * 1.1f;
-		float px = player.getPosition().x - hw - ox;
-		float py = player.getPosition().y - hh - oy;
-		float sx = 0.75f;
-		float sy = 0.5f;
-		Assets.batch.draw(slash, px, py, hw, hh, w, h, sx, sy, slashRotation);
-		Assets.batch.setColor(Color.WHITE);
 
 		explosionEmitter.render(Assets.batch);
 
