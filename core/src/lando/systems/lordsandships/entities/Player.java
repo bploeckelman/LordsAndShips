@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.LordsAndShips;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
+import lando.systems.lordsandships.weapons.Sword;
 import lando.systems.lordsandships.weapons.Weapon;
 
 /**
@@ -82,7 +83,7 @@ public class Player extends Entity {
 		bullets = new Array<Bullet>(MAX_BULLETS);
 		bulletsToRemove = new Array<Bullet>(MAX_BULLETS);
 
-		currentWeapon = new Weapon(new Weapon.Builder().damage(50));
+		currentWeapon = new Sword(new Weapon.Builder().damage(50));
 		weapons = new Array<Weapon>();
 		weapons.add(currentWeapon);
 	}
@@ -196,13 +197,13 @@ public class Player extends Entity {
 
 	// TODO : remove game reference once singleton game instance is done
 	public void attack(Vector2 direction, LordsAndShips game) {
-		if (!currentWeapon.attacking) {
-			currentWeapon.attack(direction, game);
-		}
+		currentWeapon.attack(direction, game);
 	}
 
+	// TODO : remove to weapon subclass
 	public void punch() { punching = true; }
 
+	// TODO : remove to weapon subclass
 	public void shoot(Vector2 dir) {
 		if (shooting) return;
 
