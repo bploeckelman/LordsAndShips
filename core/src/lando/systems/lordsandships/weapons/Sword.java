@@ -7,8 +7,9 @@ import aurelienribon.tweenengine.equations.Cubic;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import lando.systems.lordsandships.LordsAndShips;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.utils.Assets;
@@ -22,7 +23,6 @@ public class Sword extends Weapon {
 	public static final float slash_duration = 0.25f;
 
 	public Color color;
-	public Vector2 direction;
 	// TODO : make animation and move to Weapon superclass
 	public TextureRegion texture;
 
@@ -39,6 +39,15 @@ public class Sword extends Weapon {
 		texture = Assets.atlas.findRegion("slash");
 		color = new Color(1,1,1,0);
 		direction = new Vector2();
+
+		float w = texture.getRegionWidth();
+		float h = texture.getRegionHeight();
+		bounds.setVertices(new float[] {
+				0, 0,
+				w, 0,
+				w, h,
+				0, h
+		});
 	}
 
 	/**
@@ -97,8 +106,25 @@ public class Sword extends Weapon {
 		float sx = 0.75f;
 		float sy = 0.5f;
 
+		bounds.setScale(sx, sy);
+		bounds.setPosition(originX, originY);
+		bounds.setRotation(angle);
+		bounds.dirty();
+
 		batch.setColor(color);
 		batch.draw(texture, px, py, hw, hh, w, h, sx, sy, angle);
 		batch.setColor(Color.WHITE);
+
+		batch.end();
+		Assets.shapes.setColor(Color.RED);
+		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+		Assets.shapes.polygon(bounds.getTransformedVertices());
+		Assets.shapes.end();
+		batch.begin();
+	}
+
+	@Override
+	public boolean collides(Polygon otherBounds) {
+		return attacking && Intersector.overlapConvexPolygons(bounds, otherBounds);
 	}
 }

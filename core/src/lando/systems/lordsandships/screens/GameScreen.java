@@ -151,18 +151,24 @@ public class GameScreen implements Screen {
 		updatePlayers(delta);
 		resolveCollisions();
 		for (Enemy enemy : enemies) {
-			if (!enemy.isAlive()) continue;
-			enemy.update(delta);
+			if (enemy.isAlive()) {
+				if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
+					enemy.takeDamage(player.getCurrentWeapon().getDamage(), player.getCurrentWeapon().getDirection());
+					Assets.getRandomHitSound().play();
+					if (!enemy.isAlive()) {
+						explosionEmitter.addSmallExplosion(enemy.position);
+					}
+				}
+			}
+			if (enemy.isAlive()) {
+				enemy.update(delta);
+			}
 		}
 	}
 
 	// TODO : too many temp vectors
 	Vector3 mouse = new Vector3();
 	Vector2 dir = new Vector2();
-	// TODO : move this stuff
-	boolean isSlashing = false;
-	Color slashColor = new Color(1,1,1,0);
-	float slashRotation = 0;
 	private void updatePlayers(float delta) {
 		float dx, dy;
 

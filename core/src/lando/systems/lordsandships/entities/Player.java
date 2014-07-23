@@ -157,6 +157,8 @@ public class Player extends Entity {
 		boundingBox.x += velocity.x * delta;
 		boundingBox.y += velocity.y * delta;
 		position.set(boundingBox.x + boundingBox.width / 2f, boundingBox.y + boundingBox.height / 2f);
+		collisionBounds.setPosition(boundingBox.x, boundingBox.y);
+		collisionBounds.dirty();
 
 		// Slow down and clamp velocity
 		velocity.x *= drag;
@@ -223,4 +225,6 @@ public class Player extends Entity {
 
 	public Array<Bullet> getBullets() { return bullets; }
 	public boolean isShooting() { return shooting; }
+
+	public Weapon getCurrentWeapon() { return currentWeapon; }
 }

@@ -1,9 +1,11 @@
 package lando.systems.lordsandships.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
 
@@ -105,6 +107,8 @@ public class Enemy extends Entity {
 		boundingBox.x += velocity.x * delta;
 		boundingBox.y += velocity.y * delta;
 		position.set(boundingBox.x + boundingBox.width / 2f, boundingBox.y + boundingBox.height / 2f);
+		collisionBounds.setPosition(boundingBox.x, boundingBox.y);
+		collisionBounds.dirty();
 
 		// Slow down and clamp velocity
 		velocity.x *= drag;
@@ -116,5 +120,13 @@ public class Enemy extends Entity {
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 18);
+		batch.end();
+		Assets.shapes.setColor(Color.RED);
+		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+		float[] vertices= collisionBounds.getTransformedVertices();
+		float[] v = collisionBounds.getVertices();
+		Assets.shapes.polygon(v);
+		Assets.shapes.end();
+		batch.begin();
 	}
 }

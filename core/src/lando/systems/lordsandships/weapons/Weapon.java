@@ -1,11 +1,9 @@
 package lando.systems.lordsandships.weapons;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.lordsandships.LordsAndShips;
-import lando.systems.lordsandships.utils.Assets;
 
 /**
  * Brian Ploeckelman created on 7/22/2014.
@@ -19,6 +17,8 @@ public abstract class Weapon {
 	protected int condition;
 	protected float angle;
 	protected boolean attacking;
+	protected Polygon bounds;
+	protected Vector2 direction;
 	// TODO : cooldown
 
 	public Weapon(Builder builder) {
@@ -28,11 +28,17 @@ public abstract class Weapon {
 		this.condition = builder.condition;
 		this.angle     = builder.angle;
 		this.attacking = builder.attacking;
+		this.bounds    = builder.bounds;
+		this.direction = builder.direction;
 	}
+
 
 	public abstract void attack(Vector2 direction, LordsAndShips game);
 
 	public abstract void render(SpriteBatch batch, float originX, float originY);
+
+	public abstract boolean collides(Polygon otherBounds);
+
 
 	public String getType() {
 		return type;
@@ -82,6 +88,22 @@ public abstract class Weapon {
 		this.attacking = attacking;
 	}
 
+	public Polygon getBounds() {
+		return bounds;
+	}
+
+	public void setBounds(Polygon bounds) {
+		this.bounds = bounds;
+	}
+
+	public Vector2 getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Vector2 direction) {
+		this.direction = direction;
+	}
+
 
 	/**
 	 * Weapon builder
@@ -94,6 +116,8 @@ public abstract class Weapon {
 		private int    condition = 100;
 		private float  angle     = 0;
 		private boolean attacking = false;
+		private Polygon bounds    = new Polygon();
+		private Vector2 direction = new Vector2();
 
 		public Builder() {}
 
@@ -123,6 +147,16 @@ public abstract class Weapon {
 
 		public Builder attacking(boolean attacking) {
 			this.attacking = attacking;
+			return this;
+		}
+
+		public Builder bounds(Polygon bounds) {
+			this.bounds = bounds;
+			return this;
+		}
+
+		public Builder direction(Vector2 direction) {
+			this.direction = direction;
 			return this;
 		}
 	}

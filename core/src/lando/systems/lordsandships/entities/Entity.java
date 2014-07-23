@@ -1,11 +1,10 @@
 package lando.systems.lordsandships.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.*;
 import lando.systems.lordsandships.utils.Assets;
 
 /**
@@ -17,6 +16,7 @@ public abstract class Entity {
 	public Vector2 velocity;
 	public Rectangle boundingBox;
 	public TextureRegion texture;
+	public Polygon collisionBounds;
 
 	// TODO : extract to attributes class
 	public int health = 100;
@@ -27,6 +27,12 @@ public abstract class Entity {
 		this.position = new Vector2(x + w/2f,y + h/2f);
 		this.velocity = new Vector2();
 		this.boundingBox = new Rectangle(x,y,w,h);
+		this.collisionBounds = new Polygon(new float[] {
+				x, y,
+				x + w, y,
+				x + w, y + h,
+				x, y + h
+		});
 	}
 
 	public abstract void update(float delta);
@@ -71,5 +77,7 @@ public abstract class Entity {
 		dir.set(worldx, worldy).sub(centerPos).nor();
 		return dir;
 	}
+
+	public Polygon getCollisionBounds() { return collisionBounds; }
 
 }
