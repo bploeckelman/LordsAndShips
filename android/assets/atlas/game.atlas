@@ -39,9 +39,16 @@ grate
   orig: 32, 32
   offset: 0, 0
   index: -1
-shadow
+gun
   rotate: false
   xy: 773, 674
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 807, 708
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -53,142 +60,149 @@ slash
   orig: 64, 64
   offset: 0, 0
   index: -1
-tile-blank
-  rotate: false
-  xy: 807, 708
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-tile-block
+sword
   rotate: false
   xy: 2, 38
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-box
+tile-blank
   rotate: false
   xy: 20, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-brick-horiz
+tile-block
   rotate: false
   xy: 68, 104
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-brick-ne
+tile-box
   rotate: false
   xy: 86, 122
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-brick-nw
+tile-brick-horiz
   rotate: false
   xy: 773, 656
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-brick-se
+tile-brick-ne
   rotate: false
   xy: 825, 708
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-brick-sw
+tile-brick-nw
   rotate: false
   xy: 2, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-brick-vert
+tile-brick-se
   rotate: false
   xy: 20, 38
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-floor1
+tile-brick-sw
   rotate: false
   xy: 38, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-floor2
+tile-brick-vert
   rotate: false
   xy: 68, 86
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-floor3
+tile-floor1
   rotate: false
   xy: 86, 104
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-floor4
+tile-floor2
   rotate: false
   xy: 104, 122
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-floor5
+tile-floor3
   rotate: false
   xy: 773, 638
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-wall-horiz
+tile-floor4
   rotate: false
   xy: 843, 708
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-wall-ne
+tile-floor5
   rotate: false
   xy: 2, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-wall-nw
+tile-wall-horiz
   rotate: false
   xy: 20, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-wall-se
+tile-wall-ne
   rotate: false
   xy: 38, 38
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-wall-sw
+tile-wall-nw
   rotate: false
   xy: 86, 86
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-tile-wall-vert
+tile-wall-se
   rotate: false
   xy: 104, 104
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+tile-wall-sw
+  rotate: false
+  xy: 122, 122
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+tile-wall-vert
+  rotate: false
+  xy: 773, 620
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

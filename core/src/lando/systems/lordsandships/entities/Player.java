@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.LordsAndShips;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
+import lando.systems.lordsandships.weapons.Handgun;
 import lando.systems.lordsandships.weapons.Sword;
 import lando.systems.lordsandships.weapons.Weapon;
 
@@ -32,15 +33,6 @@ public class Player extends Entity {
 
 	float animTimer = 0f;
 	boolean punching = false;
-
-	private static final float SHOOT_COOLDOWN = 0.2f;
-	float shootCooldown = SHOOT_COOLDOWN;
-	boolean shooting = false;
-
-	private static final int MAX_BULLETS = 100;
-	// TODO : make pools instead of arrays
-	Array<Bullet> bullets;
-	Array<Bullet> bulletsToRemove;
 
 	Weapon currentWeapon;
 	Array<Weapon> weapons;
@@ -80,12 +72,10 @@ public class Player extends Entity {
 		currentAnim = walkDown;
 		currentKeyFrame = currentAnim.getKeyFrame(0);
 
-		bullets = new Array<Bullet>(MAX_BULLETS);
-		bulletsToRemove = new Array<Bullet>(MAX_BULLETS);
-
-		currentWeapon = new Sword(new Weapon.Builder().damage(50));
 		weapons = new Array<Weapon>();
-		weapons.add(currentWeapon);
+		weapons.add(new Sword(new Weapon.Builder().damage(50)));
+		weapons.add(new Handgun(new Weapon.Builder().damage(35)));
+		currentWeapon = weapons.get(0);
 	}
 
 
@@ -93,7 +83,11 @@ public class Player extends Entity {
 	public void update(float delta) {
 		updateMovement(delta);
 		updateAnimation(delta);
-		updateBullets(delta);
+
+		if (currentWeapon instanceof Handgun) {
+			Handgun gun = (Handgun) currentWeapon;
+			gun.update(delta);
+		}
 	}
 
 	private void updateAnimation(float delta) {
@@ -166,63 +160,49 @@ public class Player extends Entity {
 		if (Math.abs(velocity.y) < 0.11f) velocity.y = 0;
 	}
 
-	private void updateBullets(float delta) {
-		// Update shooting state
-		if (shooting) {
-			if ((shootCooldown -= delta) < 0f) {
-				shooting = false;
-			}
-		}
-
-		// Update bullets
-		bulletsToRemove.clear();
-		for (Bullet bullet : bullets) {
-			if (bullet.isAlive()) bullet.update(delta);
-			else                  bulletsToRemove.add(bullet);
-		}
-		bullets.removeAll(bulletsToRemove, true);
-	}
-
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 1, 16, 16);
 		batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 24);
+
 		currentWeapon.render(batch, getCenterPos().x, getCenterPos().y);
 
-		// TODO : move to weapon?
-		for (Bullet bullet : bullets) {
-			bullet.render(batch);
+		// TODO : replace me
+		if (currentWeapon instanceof Handgun) {
+			Handgun gun = (Handgun) currentWeapon;
+			for (Bullet bullet : gun.bullets) {
+				bullet.render(batch);
+			}
 		}
 	}
 
 	// TODO : remove game reference once singleton game instance is done
 	public void attack(Vector2 direction, LordsAndShips game) {
-		currentWeapon.attack(direction, game);
+		currentWeapon.attack(position, direction, game);
 	}
 
-	// TODO : remove to weapon subclass
-	public void punch() { punching = true; }
+	// TODO : remove to weapon subclass?
+	public void punch() {
+		punching = true;
+	}
 
-	// TODO : remove to weapon subclass
-	public void shoot(Vector2 dir) {
-		if (shooting) return;
-
-		if ((bullets.size - 1) < MAX_BULLETS) {
-			float px = boundingBox.x + boundingBox.width / 2f;
-			float py = boundingBox.y + boundingBox.height / 2f;
-			float vx = dir.x * Bullet.BULLET_SPEED;
-			float vy = dir.y * Bullet.BULLET_SPEED;
-
-			bullets.add(new Bullet(px, py, vx, vy));
-
-			shooting = true;
-			shootCooldown = SHOOT_COOLDOWN;
-			Assets.gunshot_shot.play();
+	// TODO : this isn't really a great solution...
+	Array<Bullet> bullets = new Array<Bullet>();
+	public Array<Bullet> getBullets() {
+		bullets.clear();
+		for (Weapon weapon : weapons) {
+			if (weapon instanceof Handgun) {
+				bullets.addAll(((Handgun) weapon).bullets);
+			}
 		}
+		return bullets;
 	}
-
-	public Array<Bullet> getBullets() { return bullets; }
-	public boolean isShooting() { return shooting; }
 
 	public Weapon getCurrentWeapon() { return currentWeapon; }
+
+	public void setWeapon(int type) {
+		if (type >= 0 && type < Weapon.NUM_WEAPON_TYPES && type < weapons.size) {
+			currentWeapon = weapons.get(type);
+		}
+	}
 }

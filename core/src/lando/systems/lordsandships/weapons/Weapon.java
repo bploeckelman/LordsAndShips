@@ -2,7 +2,6 @@ package lando.systems.lordsandships.weapons;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.lordsandships.LordsAndShips;
 
@@ -10,6 +9,10 @@ import lando.systems.lordsandships.LordsAndShips;
  * Brian Ploeckelman created on 7/22/2014.
  */
 public abstract class Weapon {
+
+	public static final int TYPE_SWORD   = 0;
+	public static final int TYPE_HANDGUN = 1;
+	public static final int NUM_WEAPON_TYPES = 2;
 
 	private String type;
 
@@ -34,9 +37,11 @@ public abstract class Weapon {
 	}
 
 
-	public abstract void attack(Vector2 direction, LordsAndShips game);
+	public abstract void attack(Vector2 origin, Vector2 direction, LordsAndShips game);
 
 	public abstract void render(SpriteBatch batch, float originX, float originY);
+
+	public abstract void update(float delta);
 
 	public abstract boolean collides(Circle otherBounds);
 

@@ -51,7 +51,7 @@ public class Sword extends Weapon {
 	 * @param game The game instance... TODO : create singleton GameInstance and remove this
 	 */
 	@Override
-	public void attack(Vector2 direction, LordsAndShips game) {
+	public void attack(Vector2 origin, Vector2 direction, LordsAndShips game) {
 		if (attacking) return;
 		attacking = true;
 
@@ -119,6 +119,11 @@ public class Sword extends Weapon {
 //			Assets.shapes.end();
 //			batch.begin();
 //		}
+	}
+
+	@Override
+	public void update(float delta) {
+
 	}
 
 	@Override
