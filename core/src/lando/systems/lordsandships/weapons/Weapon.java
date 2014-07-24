@@ -1,6 +1,7 @@
 package lando.systems.lordsandships.weapons;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.lordsandships.LordsAndShips;
@@ -17,7 +18,7 @@ public abstract class Weapon {
 	protected int condition;
 	protected float angle;
 	protected boolean attacking;
-	protected Polygon bounds;
+	protected Circle bounds;
 	protected Vector2 direction;
 	// TODO : cooldown
 
@@ -37,7 +38,7 @@ public abstract class Weapon {
 
 	public abstract void render(SpriteBatch batch, float originX, float originY);
 
-	public abstract boolean collides(Polygon otherBounds);
+	public abstract boolean collides(Circle otherBounds);
 
 
 	public String getType() {
@@ -88,11 +89,11 @@ public abstract class Weapon {
 		this.attacking = attacking;
 	}
 
-	public Polygon getBounds() {
+	public Circle getBounds() {
 		return bounds;
 	}
 
-	public void setBounds(Polygon bounds) {
+	public void setBounds(Circle bounds) {
 		this.bounds = bounds;
 	}
 
@@ -116,7 +117,7 @@ public abstract class Weapon {
 		private int    condition = 100;
 		private float  angle     = 0;
 		private boolean attacking = false;
-		private Polygon bounds    = new Polygon();
+		private Circle  bounds    = new Circle();
 		private Vector2 direction = new Vector2();
 
 		public Builder() {}
@@ -150,7 +151,7 @@ public abstract class Weapon {
 			return this;
 		}
 
-		public Builder bounds(Polygon bounds) {
+		public Builder bounds(Circle bounds) {
 			this.bounds = bounds;
 			return this;
 		}

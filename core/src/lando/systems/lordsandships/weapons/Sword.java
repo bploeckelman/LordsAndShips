@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.math.collision.BoundingBox;
 import lando.systems.lordsandships.LordsAndShips;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.utils.Assets;
@@ -42,12 +41,7 @@ public class Sword extends Weapon {
 
 		float w = texture.getRegionWidth();
 		float h = texture.getRegionHeight();
-		bounds.setVertices(new float[] {
-				0, 0,
-				w, 0,
-				w, h,
-				0, h
-		});
+		bounds.set(0, 0, (w + h) / 4);
 	}
 
 	/**
@@ -104,27 +98,31 @@ public class Sword extends Weapon {
 
 		// Scale
 		float sx = 0.75f;
-		float sy = 0.5f;
+		float sy = 0.75f;
 
-		bounds.setScale(sx, sy);
-		bounds.setPosition(originX, originY);
-		bounds.setRotation(angle);
-		bounds.dirty();
+		bounds.set(originX + ox, originY + oy, (w * sx + h * sy) / 4);
 
 		batch.setColor(color);
 		batch.draw(texture, px, py, hw, hh, w, h, sx, sy, angle);
 		batch.setColor(Color.WHITE);
 
-		batch.end();
-		Assets.shapes.setColor(Color.RED);
-		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-		Assets.shapes.polygon(bounds.getTransformedVertices());
-		Assets.shapes.end();
-		batch.begin();
+//		if (attacking) {
+//			batch.end();
+//			Assets.shapes.setColor(Color.RED);
+//			Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+//			Assets.shapes.circle(bounds.x, bounds.y, bounds.radius);
+//			Assets.shapes.end();
+//
+//			Assets.shapes.setColor(Color.MAGENTA);
+//			Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
+//			Assets.shapes.circle(originX + ox, originY + oy, 1.1f);
+//			Assets.shapes.end();
+//			batch.begin();
+//		}
 	}
 
 	@Override
-	public boolean collides(Polygon otherBounds) {
-		return attacking && Intersector.overlapConvexPolygons(bounds, otherBounds);
+	public boolean collides(Circle otherBounds) {
+		return attacking && Intersector.overlaps(bounds, otherBounds);
 	}
 }

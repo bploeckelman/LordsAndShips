@@ -157,8 +157,7 @@ public class Player extends Entity {
 		boundingBox.x += velocity.x * delta;
 		boundingBox.y += velocity.y * delta;
 		position.set(boundingBox.x + boundingBox.width / 2f, boundingBox.y + boundingBox.height / 2f);
-		collisionBounds.setPosition(boundingBox.x, boundingBox.y);
-		collisionBounds.dirty();
+		collisionBounds.set(position, (boundingBox.width + boundingBox.height) / 2f);
 
 		// Slow down and clamp velocity
 		velocity.x *= drag;
@@ -186,10 +185,9 @@ public class Player extends Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		currentWeapon.render(batch, getCenterPos().x, getCenterPos().y);
-
 		batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 1, 16, 16);
 		batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 24);
+		currentWeapon.render(batch, getCenterPos().x, getCenterPos().y);
 
 		// TODO : move to weapon?
 		for (Bullet bullet : bullets) {

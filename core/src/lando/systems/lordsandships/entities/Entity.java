@@ -16,7 +16,7 @@ public abstract class Entity {
 	public Vector2 velocity;
 	public Rectangle boundingBox;
 	public TextureRegion texture;
-	public Polygon collisionBounds;
+	public Circle collisionBounds;
 
 	// TODO : extract to attributes class
 	public int health = 100;
@@ -27,12 +27,7 @@ public abstract class Entity {
 		this.position = new Vector2(x + w/2f,y + h/2f);
 		this.velocity = new Vector2();
 		this.boundingBox = new Rectangle(x,y,w,h);
-		this.collisionBounds = new Polygon(new float[] {
-				x, y,
-				x + w, y,
-				x + w, y + h,
-				x, y + h
-		});
+		this.collisionBounds = new Circle();
 	}
 
 	public abstract void update(float delta);
@@ -78,6 +73,6 @@ public abstract class Entity {
 		return dir;
 	}
 
-	public Polygon getCollisionBounds() { return collisionBounds; }
+	public Circle getCollisionBounds() { return collisionBounds; }
 
 }
