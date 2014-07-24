@@ -1,5 +1,10 @@
 package lando.systems.lordsandships.screens;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -9,6 +14,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
@@ -23,8 +29,13 @@ import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
+import lando.systems.lordsandships.tweens.ColorAccessor;
+import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
+import lando.systems.lordsandships.weapons.Handgun;
+import lando.systems.lordsandships.weapons.Sword;
+import lando.systems.lordsandships.weapons.Weapon;
 
 import java.util.*;
 import java.util.List;
@@ -51,6 +62,10 @@ public class GameScreen implements Screen {
 
 	private Player player;
 	private Array<Enemy> enemies;
+
+	private TextureRegion weaponIcon;
+	private Vector2 weaponIconPos = new Vector2(30, 30);
+	private Vector2 weaponIconSize = new Vector2(64, 64);
 
 	private ExplosionEmitter explosionEmitter = new ExplosionEmitter();
 
@@ -100,6 +115,12 @@ public class GameScreen implements Screen {
 				tileMap.spawnY * 16,
 				16, 16, 0.1f);
 
+		if (player.getCurrentWeapon() instanceof Sword) {
+			weaponIcon = Assets.atlas.findRegion("sword");
+		} else if (player.getCurrentWeapon() instanceof  Handgun) {
+			weaponIcon = Assets.atlas.findRegion("gun");
+		}
+
 		enemies = new Array<Enemy>(50);
 	}
 
@@ -119,18 +140,50 @@ public class GameScreen implements Screen {
 			enemies.add(new Enemy(Assets.enemytex, mouseCoords.x, mouseCoords.y, 16, 24, 0.3f));
 		}
 
-		// ***************** TESTING ****************
 		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
 			player.boundingBox.x = mouseCoords.x;
 			player.boundingBox.y = mouseCoords.y;
-//			if (game.input.isKeyDown(Input.Keys.SHIFT_LEFT)) LevelGenerator.generateInitialRooms(params);
-//			else if (game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) LevelGenerator.selectRooms(params);
-//			else if (game.input.isKeyDown(Input.Keys.ALT_LEFT)) LevelGenerator.generateRoomGraph(params);
-//			else if (game.input.isKeyDown(Input.Keys.SHIFT_RIGHT)) LevelGenerator.calculateMinimumSpanningTree(params);
-//			else if (game.input.isKeyDown(Input.Keys.CONTROL_RIGHT)) LevelGenerator.generateTilesFromRooms();
-//			else {
-//				LevelGenerator.separateInitialRooms(params);
-//			}
+		}
+
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+			if (player.getCurrentWeapon() instanceof Handgun) {
+				player.setWeapon(Weapon.TYPE_SWORD);
+				Timeline.createSequence()
+						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
+								.target(-weaponIconSize.y)
+								.ease(Cubic.OUT)
+								.setCallback(new TweenCallback() {
+									@Override
+									public void onEvent(int type, BaseTween<?> source) {
+										weaponIcon = Assets.atlas.findRegion("sword");
+										Assets.sword_slice1.play(0.1f);
+									}
+								}))
+						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
+								.target(30)
+								.ease(Bounce.OUT))
+						.start(game.tween);
+			}
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+			if (player.getCurrentWeapon() instanceof Sword) {
+				player.setWeapon(Weapon.TYPE_HANDGUN);
+				Timeline.createSequence()
+						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
+								.target(-weaponIconSize.y)
+								.ease(Cubic.OUT)
+								.setCallback(new TweenCallback() {
+									@Override
+									public void onEvent(int type, BaseTween<?> source) {
+										weaponIcon = Assets.atlas.findRegion("gun");
+										Assets.gunshot_reload.play(0.4f);
+									}
+								}))
+						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
+								.target(30)
+								.ease(Bounce.OUT))
+						.start(game.tween);
+			}
 		}
 
 		updateEntities(delta);
@@ -145,8 +198,18 @@ public class GameScreen implements Screen {
 		updatePlayers(delta);
 		resolveCollisions();
 		for (Enemy enemy : enemies) {
-			if (!enemy.isAlive()) continue;
-			enemy.update(delta);
+			if (enemy.isAlive()) {
+				if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
+					enemy.takeDamage(player.getCurrentWeapon().getDamage(), player.getCurrentWeapon().getDirection());
+					Assets.getRandomHitSound().play();
+					if (!enemy.isAlive()) {
+						explosionEmitter.addSmallExplosion(enemy.position);
+					}
+				}
+			}
+			if (enemy.isAlive()) {
+				enemy.update(delta);
+			}
 		}
 	}
 
@@ -171,15 +234,16 @@ public class GameScreen implements Screen {
 		}
 
 		if (game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F)) {
-			float px = player.boundingBox.x + player.boundingBox.width / 2f;
-			float py = player.boundingBox.y + player.boundingBox.height / 2f;
-
+			// TODO : unproject mouse coords every frame and reference that value here
 			mouse.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(mouse);
+			dir.set(player.getDirection(mouse.x, mouse.y));
 
-			dir.set(mouse.x, mouse.y).sub(px, py).nor();
-			player.shoot(dir);
-			player.punch();
+			player.attack(dir, game);
+
+			// TODO : move to weapon
+//			player.shoot(dir);
+//			player.punch();
 
 			// displace the camera a bit
 			dir.scl(-1);
@@ -303,14 +367,18 @@ public class GameScreen implements Screen {
 		}
 
 		Assets.batch.setProjectionMatrix(camera.combined);
-
 		Assets.batch.begin();
+
 		for (Enemy enemy : enemies) {
 			if (!enemy.isAlive()) continue;
 			enemy.render(Assets.batch);
 		}
+
+		Assets.shapes.setProjectionMatrix(camera.combined);
 		player.render(Assets.batch);
+
 		explosionEmitter.render(Assets.batch);
+
 		Assets.batch.end();
 
 		if (camController.debugRender) {
@@ -343,15 +411,26 @@ public class GameScreen implements Screen {
 			startTime = TimeUtils.nanoTime();
 		}
 
+		// Draw UI elements
 		Gdx.gl20.glViewport(0, 0, (int) uiCamera.viewportWidth, (int) uiCamera.viewportHeight);
-		String line1 = "Hold 'F' + Left Click to spawn 'enemy'";
-		String line2 = "FPS: " + Gdx.graphics.getFramesPerSecond();
+		final String line1 = "Hold 'F' + Left Click to spawn 'enemy'";
+		final String line2 = "Press '1' or '2' to switch weapons";
+		final String line3 = "FPS: " + Gdx.graphics.getFramesPerSecond();
+		final float line_spacing = 5;
+		final float line_offset = 20;
+
 		Assets.batch.setProjectionMatrix(uiCamera.combined);
 		Assets.batch.begin();
+
+		// Draw help text
 		font.setScale(0.5f);
 		font.setColor(Color.WHITE);
-		font.draw(Assets.batch, line1, 20, Gdx.graphics.getHeight() - 20);
-		font.draw(Assets.batch, line2, 20, Gdx.graphics.getHeight() - 20 - font.getLineHeight() - 5);
+		font.draw(Assets.batch, line1, line_offset, Gdx.graphics.getHeight() - line_offset);
+		font.draw(Assets.batch, line2, line_offset, Gdx.graphics.getHeight() - line_offset - 1 * (font.getLineHeight() - line_spacing));
+		font.draw(Assets.batch, line3, line_offset, Gdx.graphics.getHeight() - line_offset - 2 * (font.getLineHeight() - line_spacing));
+
+		// Draw current weapon icon
+		Assets.batch.draw(weaponIcon, weaponIconPos.x, weaponIconPos.y, weaponIconSize.x, weaponIconSize.y);
 		Assets.batch.end();
 	}
 

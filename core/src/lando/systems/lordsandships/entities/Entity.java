@@ -1,11 +1,10 @@
 package lando.systems.lordsandships.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.*;
 import lando.systems.lordsandships.utils.Assets;
 
 /**
@@ -17,6 +16,7 @@ public abstract class Entity {
 	public Vector2 velocity;
 	public Rectangle boundingBox;
 	public TextureRegion texture;
+	public Circle collisionBounds;
 
 	// TODO : extract to attributes class
 	public int health = 100;
@@ -27,6 +27,7 @@ public abstract class Entity {
 		this.position = new Vector2(x + w/2f,y + h/2f);
 		this.velocity = new Vector2();
 		this.boundingBox = new Rectangle(x,y,w,h);
+		this.collisionBounds = new Circle();
 	}
 
 	public abstract void update(float delta);
@@ -40,6 +41,7 @@ public abstract class Entity {
 	public int getGridMaxX() { return (int) ((boundingBox.x + boundingBox.width ) / 16); }
 	public int getGridMaxY() { return (int) ((boundingBox.y + boundingBox.height) / 16); }
 
+	public boolean isAlive() { return alive; }
 	public Vector2 getPosition() { return position; }
 
 	static final Vector2 temp = new Vector2();
@@ -56,5 +58,21 @@ public abstract class Entity {
 		boundingBox.y += temp.y;
 	}
 
-	public boolean isAlive() { return alive; }
+	private Vector2 centerPos = new Vector2();
+	public Vector2 getCenterPos() {
+		centerPos.set(
+				boundingBox.x + boundingBox.width / 2f,
+				boundingBox.y + boundingBox.height / 2f);
+		return centerPos;
+	}
+
+	private Vector2 dir = new Vector2();
+	public Vector2 getDirection(float worldx, float worldy) {
+		getCenterPos();
+		dir.set(worldx, worldy).sub(centerPos).nor();
+		return dir;
+	}
+
+	public Circle getCollisionBounds() { return collisionBounds; }
+
 }
