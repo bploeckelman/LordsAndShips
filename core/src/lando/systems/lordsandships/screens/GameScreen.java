@@ -233,7 +233,7 @@ public class GameScreen implements Screen {
 			player.velocity.y = 0f;
 		}
 
-		if (game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F)) {
+		if ((game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F)) || game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
 			// TODO : unproject mouse coords every frame and reference that value here
 			mouse.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(mouse);
