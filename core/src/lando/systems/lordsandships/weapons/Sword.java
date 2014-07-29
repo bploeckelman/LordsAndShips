@@ -4,7 +4,9 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -22,8 +24,9 @@ public class Sword extends Weapon {
 	public static final float slash_duration = 0.25f;
 
 	public Color color;
-	// TODO : make animation and move to Weapon superclass
-	public TextureRegion texture;
+	// TODO : move to weapon superclass
+	public Animation animation;
+	public float accum;
 
 
 	/**
@@ -35,12 +38,18 @@ public class Sword extends Weapon {
 		super(builder);
 		setType(sword_type);
 
-		texture = Assets.atlas.findRegion("slash");
+		animation = new Animation(slash_duration / 5f,
+				Assets.atlas.findRegion("slash1"),
+				Assets.atlas.findRegion("slash2"),
+				Assets.atlas.findRegion("slash3"),
+				Assets.atlas.findRegion("slash4"),
+				Assets.atlas.findRegion("slash5"));
+		animation.setPlayMode(Animation.PlayMode.NORMAL);
 		color = new Color(1,1,1,0);
 		direction = new Vector2();
 
-		float w = texture.getRegionWidth();
-		float h = texture.getRegionHeight();
+		float w = animation.getKeyFrames()[0].getRegionWidth();
+		float h = animation.getKeyFrames()[0].getRegionHeight();
 		bounds.set(0, 0, (w + h) / 4);
 	}
 
@@ -59,7 +68,7 @@ public class Sword extends Weapon {
 		this.color.a = 1;
 		this.direction.set(direction);
 
-		Assets.sword_slice1.play();
+		Assets.sword_slice1.play(0.1f);
 
 		Tween.to(color, ColorAccessor.A, slash_duration)
 				.target(0)
@@ -72,7 +81,7 @@ public class Sword extends Weapon {
 				})
 				.start(game.tween);
 
-		// TODO : update animation?
+		accum = 0f;
 	}
 
 	/**
@@ -85,8 +94,8 @@ public class Sword extends Weapon {
 	@Override
 	public void render(SpriteBatch batch, float originX, float originY) {
 		// Size and half size
-		float w = texture.getRegionWidth();
-		float h = texture.getRegionHeight();
+		float w = animation.getKeyFrames()[0].getRegionWidth();
+		float h = animation.getKeyFrames()[0].getRegionHeight();
 		float hw = w / 2f;
 		float hh = h / 2f;
 
@@ -98,12 +107,12 @@ public class Sword extends Weapon {
 
 		// Scale
 		float sx = 0.75f;
-		float sy = 0.75f;
+		float sy = 0.55f;
 
-		bounds.set(originX + ox, originY + oy, (w * sx + h * sy) / 4);
+		bounds.set(originX + ox, originY + oy, (w * sx + h * sy) / 4.75f);
 
 		batch.setColor(color);
-		batch.draw(texture, px, py, hw, hh, w, h, sx, sy, angle);
+		batch.draw(animation.getKeyFrame(accum += Gdx.graphics.getDeltaTime()), px, py, hw, hh, w, h, sx, sy, angle);
 		batch.setColor(Color.WHITE);
 
 //		if (attacking) {
