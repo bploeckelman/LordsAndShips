@@ -1,7 +1,9 @@
 package lando.systems.lordsandships.scene;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
@@ -76,6 +78,7 @@ public class TileMap implements Disposable
 	}
 
 	Tile[][] tiles = null;
+	Animation spawnTile;
 
 	int layers[];
 	int width, height;
@@ -98,6 +101,15 @@ public class TileMap implements Disposable
 
 		this.width = getMapWidthInTiles();
 		this.height = getMapHeightInTiles();
+
+		this.spawnTile = new Animation(0.1f,
+//				Assets.atlas.findRegion("purple_warp1"),
+				Assets.atlas.findRegion("purple_warp2"),
+				Assets.atlas.findRegion("purple_warp3"),
+				Assets.atlas.findRegion("purple_warp4"),
+				Assets.atlas.findRegion("purple_warp5"),
+				Assets.atlas.findRegion("purple_warp6"));
+		this.spawnTile.setPlayMode(Animation.PlayMode.LOOP);
 
 //		generateCacheFromGraph();
 		generateTilesFromGraph();
@@ -498,6 +510,7 @@ public class TileMap implements Disposable
 		}
 	}
 
+	float accum = 0f;
 	public void render(Camera camera) {
 //		for (int i = 0; i < NUM_LAYERS; i++) {
 //			SpriteCache cache = caches[i];
@@ -518,6 +531,8 @@ public class TileMap implements Disposable
 				tiles[y][x].render();
 			}
 		}
+
+		Assets.batch.draw(spawnTile.getKeyFrame(accum += Gdx.graphics.getDeltaTime()), spawnX * 16, spawnY * 16, 16, 16);
 		Assets.batch.end();
 	}
 

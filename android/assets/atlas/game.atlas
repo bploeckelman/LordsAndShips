@@ -4,41 +4,6 @@ size: 895,742
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
-Purple_warp1
-  rotate: false
-  xy: 2, 74
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-Purple_warp3
-  rotate: false
-  xy: 68, 140
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-Purple_warp4
-  rotate: false
-  xy: 773, 692
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-Purple_warp5
-  rotate: false
-  xy: 807, 726
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-Purple_warp6
-  rotate: false
-  xy: 2, 56
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
 bullet
   rotate: false
   xy: 791, 704
@@ -48,14 +13,14 @@ bullet
   index: -1
 cursor
   rotate: false
-  xy: 20, 74
+  xy: 2, 74
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 explosion
   rotate: false
-  xy: 68, 122
+  xy: 68, 140
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -76,33 +41,68 @@ grate
   index: -1
 gun
   rotate: false
-  xy: 86, 140
+  xy: 773, 692
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 purple_bricks1
   rotate: false
-  xy: 773, 674
+  xy: 807, 726
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 purple_floor_tile1
   rotate: false
-  xy: 825, 726
+  xy: 2, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 purple_min_blocks1
   rotate: false
-  xy: 2, 38
+  xy: 20, 74
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+purple_warp1
+  rotate: false
+  xy: 68, 122
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 purple_warp2
+  rotate: false
+  xy: 86, 140
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+purple_warp3
+  rotate: false
+  xy: 773, 674
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+purple_warp4
+  rotate: false
+  xy: 825, 726
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+purple_warp5
+  rotate: false
+  xy: 2, 38
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+purple_warp6
   rotate: false
   xy: 20, 56
   size: 16, 16
