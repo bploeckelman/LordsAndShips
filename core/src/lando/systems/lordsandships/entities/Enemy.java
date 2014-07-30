@@ -1,11 +1,9 @@
 package lando.systems.lordsandships.entities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
 
@@ -118,7 +116,9 @@ public class Enemy extends Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		batch.setColor(color);
 		batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 18);
+		batch.setColor(1,1,1,1);
 //		batch.end();
 //		Assets.shapes.setColor(Color.RED);
 //		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);

@@ -200,7 +200,7 @@ public class GameScreen implements Screen {
 		for (Enemy enemy : enemies) {
 			if (enemy.isAlive()) {
 				if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
-					enemy.takeDamage(player.getCurrentWeapon().getDamage(), player.getCurrentWeapon().getDirection());
+					enemy.takeDamage(player.getCurrentWeapon().getDamage(), player.getCurrentWeapon().getDirection(), game);
 					Assets.getRandomHitSound().play();
 					if (!enemy.isAlive()) {
 						explosionEmitter.addSmallExplosion(enemy.position);
@@ -278,7 +278,7 @@ public class GameScreen implements Screen {
 						if (!enemy.isAlive()) continue;
 
 						if (Intersector.overlaps(bullet.boundingBox, enemy.boundingBox)) {
-							enemy.takeDamage(bullet.damageAmount, bullet.velocity);
+							enemy.takeDamage(bullet.damageAmount, bullet.velocity, game);
 							Assets.getRandomHitSound().play();
 							if (!enemy.isAlive()) {
 								explosionEmitter.addSmallExplosion(enemy.position);

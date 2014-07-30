@@ -73,8 +73,8 @@ public class Player extends Entity {
 		currentKeyFrame = currentAnim.getKeyFrame(0);
 
 		weapons = new Array<Weapon>();
-		weapons.add(new Sword(new Weapon.Builder().damage(50)));
-		weapons.add(new Handgun(new Weapon.Builder().damage(35)));
+		weapons.add(new Sword(new Weapon.Builder().damage(15)));
+		weapons.add(new Handgun(new Weapon.Builder().damage(50)));
 		currentWeapon = weapons.get(0);
 	}
 

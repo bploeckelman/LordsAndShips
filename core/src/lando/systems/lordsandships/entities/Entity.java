@@ -1,10 +1,14 @@
 package lando.systems.lordsandships.entities;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Quint;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
+import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.utils.Assets;
 
 /**
@@ -17,6 +21,7 @@ public abstract class Entity {
 	public Rectangle boundingBox;
 	public TextureRegion texture;
 	public Circle collisionBounds;
+	public Color color;
 
 	// TODO : extract to attributes class
 	public int health = 100;
@@ -28,12 +33,15 @@ public abstract class Entity {
 		this.velocity = new Vector2();
 		this.boundingBox = new Rectangle(x,y,w,h);
 		this.collisionBounds = new Circle();
+		this.color = new Color(1,1,1,1);
 	}
 
 	public abstract void update(float delta);
 
 	public void render(SpriteBatch batch) {
+		batch.setColor(color);
 		batch.draw(texture, boundingBox.x, boundingBox.y);
+		batch.setColor(1,1,1,1);
 	}
 
 	public int getGridMinX() { return (int) (boundingBox.x / 16); }
@@ -46,7 +54,7 @@ public abstract class Entity {
 
 	static final Vector2 temp = new Vector2();
 	static final float entity_shake_scale = 2f;
-	public void takeDamage(int amount, Vector2 dir) {
+	public void takeDamage(int amount, Vector2 dir, LordsAndShips game) {
 		health -= amount;
 		if (health <= 0) {
 			health = 0;
@@ -56,6 +64,12 @@ public abstract class Entity {
 		temp.y = dir.y + MathUtils.random() * entity_shake_scale;
 		boundingBox.x += temp.x;
 		boundingBox.y += temp.y;
+
+		color.set(1, 0, 0, 1);
+		Tween.to(color, ColorAccessor.RGB, 0.2f)
+				.target(1, 1, 1)
+				.ease(Quint.IN)
+				.start(game.tween);
 	}
 
 	private Vector2 centerPos = new Vector2();
