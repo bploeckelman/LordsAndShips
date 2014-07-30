@@ -18,7 +18,7 @@ public class Handgun extends Weapon {
 
 	public static final String handgun_type = "Handgun";
 	public static final int max_bullets = 100;
-	public static final float attack_cooldown = 0.3f;
+	public static final float attack_cooldown = 0.225f;
 
 	public Color color;
 	// TODO : make animation and move to Weapon superclass
@@ -47,13 +47,13 @@ public class Handgun extends Weapon {
 		this.direction.set(direction);
 
 		if ((bullets.size - 1) < max_bullets) {
-			bullets.add(new Bullet(origin.x, origin.y,
+			bullets.add(new Bullet(origin.x - 3, origin.y - 3,
 					direction.x * Bullet.BULLET_SPEED,
 					direction.y * Bullet.BULLET_SPEED));
 
 			attacking = true;
 			attackCooldown = attack_cooldown;
-			Assets.gunshot_shot.play(0.1f);
+			Assets.gunshot_shot.play(0.2f);
 		}
 	}
 
