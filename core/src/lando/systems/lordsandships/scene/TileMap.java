@@ -102,14 +102,16 @@ public class TileMap implements Disposable
 		this.width = getMapWidthInTiles();
 		this.height = getMapHeightInTiles();
 
-		this.spawnTile = new Animation(0.1f,
-//				Assets.atlas.findRegion("purple_warp1"),
-				Assets.atlas.findRegion("purple_warp2"),
-				Assets.atlas.findRegion("purple_warp3"),
-				Assets.atlas.findRegion("purple_warp4"),
-				Assets.atlas.findRegion("purple_warp5"),
-				Assets.atlas.findRegion("purple_warp6"));
-		this.spawnTile.setPlayMode(Animation.PlayMode.LOOP);
+		this.spawnTile = new Animation(0.06f,
+				Assets.atlas.findRegion("spawn1"),
+				Assets.atlas.findRegion("spawn2"),
+				Assets.atlas.findRegion("spawn3"),
+				Assets.atlas.findRegion("spawn4"),
+				Assets.atlas.findRegion("spawn5"),
+				Assets.atlas.findRegion("spawn6"),
+				Assets.atlas.findRegion("spawn7"),
+				Assets.atlas.findRegion("spawn8"));
+		this.spawnTile.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
 //		generateCacheFromGraph();
 		generateTilesFromGraph();
