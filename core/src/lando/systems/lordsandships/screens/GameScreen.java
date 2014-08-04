@@ -340,8 +340,6 @@ public class GameScreen implements UpdatingScreen {
 
 	@Override
 	public void render(float delta) {
-		update(delta);
-
 		Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
 		Gdx.gl.glClearColor(0.08f,0.04f,0.0f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
