@@ -1,5 +1,7 @@
 package lando.systems.lordsandships.weapons;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
@@ -21,8 +23,10 @@ public abstract class Weapon {
 	protected int condition;
 	protected float angle;
 	protected boolean attacking;
+	protected Color color;
 	protected Circle bounds;
 	protected Vector2 direction;
+	protected Animation animation;
 	// TODO : cooldown
 
 	public Weapon(Builder builder) {
@@ -32,8 +36,10 @@ public abstract class Weapon {
 		this.condition = builder.condition;
 		this.angle     = builder.angle;
 		this.attacking = builder.attacking;
+		this.color     = builder.color;
 		this.bounds    = builder.bounds;
 		this.direction = builder.direction;
+		this.animation = builder.animation;
 	}
 
 
@@ -94,6 +100,14 @@ public abstract class Weapon {
 		this.attacking = attacking;
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	public Circle getBounds() {
 		return bounds;
 	}
@@ -110,6 +124,14 @@ public abstract class Weapon {
 		this.direction = direction;
 	}
 
+	public Animation getAnimation() {
+		return animation;
+	}
+
+	public void setAnimation(Animation animation) {
+		this.animation = animation;
+	}
+
 
 	/**
 	 * Weapon builder
@@ -122,8 +144,10 @@ public abstract class Weapon {
 		private int    condition = 100;
 		private float  angle     = 0;
 		private boolean attacking = false;
+		private Color   color     = new Color(1,1,1,1);
 		private Circle  bounds    = new Circle();
 		private Vector2 direction = new Vector2();
+		private Animation animation = new Animation(0);
 
 		public Builder() {}
 
@@ -156,6 +180,11 @@ public abstract class Weapon {
 			return this;
 		}
 
+		public Builder color(Color color) {
+			this.color = color;
+			return this;
+		}
+
 		public Builder bounds(Circle bounds) {
 			this.bounds = bounds;
 			return this;
@@ -163,6 +192,11 @@ public abstract class Weapon {
 
 		public Builder direction(Vector2 direction) {
 			this.direction = direction;
+			return this;
+		}
+
+		public Builder animation(Animation animation) {
+			this.animation = animation;
 			return this;
 		}
 	}

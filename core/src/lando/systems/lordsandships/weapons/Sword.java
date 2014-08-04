@@ -21,9 +21,6 @@ public class Sword extends Weapon {
 	public static final String sword_type = "Sword";
 	public static final float slash_duration = 0.25f;
 
-	public Color color;
-	// TODO : move to weapon superclass
-	public Animation animation;
 	public float accum;
 
 
@@ -43,8 +40,8 @@ public class Sword extends Weapon {
 				Assets.atlas.findRegion("slash4"),
 				Assets.atlas.findRegion("slash5"));
 		animation.setPlayMode(Animation.PlayMode.NORMAL);
-		color = new Color(1,1,1,0);
 		direction = new Vector2();
+		color.a = 0;
 
 		float w = animation.getKeyFrames()[0].getRegionWidth();
 		float h = animation.getKeyFrames()[0].getRegionHeight();
@@ -54,16 +51,16 @@ public class Sword extends Weapon {
 	/**
 	 * Attack in the specified direction
 	 *
-	 * @param direction The direction in which to use the weapon
+	 * @param dir The direction in which to use the weapon
 	 */
 	@Override
-	public void attack(Vector2 origin, Vector2 direction) {
+	public void attack(Vector2 origin, Vector2 dir) {
 		if (attacking) return;
 		attacking = true;
 
-		this.angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);
-		this.color.a = 1;
-		this.direction.set(direction);
+		color.a = 1;
+		direction.set(dir);
+		angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);
 
 		Assets.sword_slice1.play(0.1f);
 

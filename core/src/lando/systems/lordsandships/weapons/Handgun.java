@@ -1,6 +1,7 @@
 package lando.systems.lordsandships.weapons;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
@@ -20,31 +21,24 @@ public class Handgun extends Weapon {
 	public static final int max_bullets = 100;
 	public static final float attack_cooldown = 0.225f;
 
-	public Color color;
-	// TODO : make animation and move to Weapon superclass
-	public TextureRegion texture;
 	public Array<Bullet> bullets;
 	public Array<Bullet> bulletsToRemove;
 
 	public float attackCooldown = 0;
 
 	public Handgun(Builder builder) {
-		super(builder);
+		super(builder.animation(new Animation(1, Assets.atlas.findRegion("bullet"))));
 		setType(handgun_type);
-		color = new Color(1,1,1,1);
-		texture = Assets.atlas.findRegion("bullet");
-
 		bullets = new Array<Bullet>(max_bullets);
 		bulletsToRemove = new Array<Bullet>(max_bullets);
 	}
 
 	@Override
-	public void attack(Vector2 origin, Vector2 direction) {
+	public void attack(Vector2 origin, Vector2 dir) {
 		if (attacking) return;
 
-		this.angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);
-		this.color.a = 1;
-		this.direction.set(direction);
+		angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);
+		direction.set(dir);
 
 		if ((bullets.size - 1) < max_bullets) {
 			bullets.add(new Bullet(origin.x - 3, origin.y - 3,
@@ -59,7 +53,7 @@ public class Handgun extends Weapon {
 
 	@Override
 	public void render(SpriteBatch batch, float originX, float originY) {
-		// TODO : render gun attacked to player
+		// TODO : render gun attached to player
 	}
 
 	@Override
