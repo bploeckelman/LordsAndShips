@@ -1,17 +1,12 @@
 package lando.systems.lordsandships.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
 import lando.systems.lordsandships.weapons.Handgun;
@@ -177,7 +172,7 @@ public class Player extends Entity {
 	}
 
 	// TODO : remove game reference once singleton game instance is done
-	public void attack(Vector2 direction, LordsAndShips game) {
+	public void attack(Vector2 direction, GameInstance game) {
 		currentWeapon.attack(position, direction, game);
 	}
 

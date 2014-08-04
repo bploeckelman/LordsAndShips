@@ -8,7 +8,6 @@ import aurelienribon.tweenengine.equations.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,7 +18,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
 import lando.systems.lordsandships.entities.Enemy;
 import lando.systems.lordsandships.entities.Entity;
@@ -29,7 +28,6 @@ import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
-import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
@@ -47,8 +45,8 @@ import java.util.List;
  *
  * Brian Ploeckelman created on 5/28/2014.
  */
-public class GameScreen implements Screen {
-	private final LordsAndShips game;
+public class GameScreen implements UpdatingScreen {
+	private final GameInstance game;
 
 	private static final float key_move_amount = 16;
 	private static final float camera_shake_scale = 1.5f;
@@ -71,7 +69,7 @@ public class GameScreen implements Screen {
 
 	private long startTime = TimeUtils.nanoTime();
 
-	public GameScreen(LordsAndShips game) {
+	public GameScreen(GameInstance game) {
 		super();
 
 		this.game = game;
@@ -126,13 +124,8 @@ public class GameScreen implements Screen {
 
 	Vector3 playerPosition = new Vector3();
 	Vector3 mouseCoords = new Vector3();
-	private void update(float delta) {
-		game.tween.update(delta);
-
-		if (game.input.isKeyDown(Input.Keys.ESCAPE)) {
-			game.exit();
-		}
-
+	@Override
+	public void update(float delta) {
 		mouseCoords.set(game.input.getCurrMouse().x, game.input.getCurrMouse().y, 0);
 		mouseCoords = camera.unproject(mouseCoords);
 
@@ -162,7 +155,7 @@ public class GameScreen implements Screen {
 						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
 								.target(30)
 								.ease(Bounce.OUT))
-						.start(game.tween);
+						.start(game.tweens);
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
@@ -182,7 +175,7 @@ public class GameScreen implements Screen {
 						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
 								.target(30)
 								.ease(Bounce.OUT))
-						.start(game.tween);
+						.start(game.tweens);
 			}
 		}
 

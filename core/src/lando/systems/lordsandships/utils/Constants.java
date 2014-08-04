@@ -14,4 +14,7 @@ public class Constants
 	public static final int win_height = 720;
 	public static final int win_half_width  = win_width  / 2;
 	public static final int win_half_height = win_height / 2;
+
+	public static final String title_screen = "title";
+	public static final String game_screen = "game";
 }

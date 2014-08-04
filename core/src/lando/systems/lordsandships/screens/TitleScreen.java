@@ -5,14 +5,13 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
@@ -24,12 +23,12 @@ import lando.systems.lordsandships.utils.Constants;
  *
  * Brian Ploeckelman created on 5/27/2014.
  */
-public class TitleScreen implements Screen {
+public class TitleScreen implements UpdatingScreen {
 	private static final String title1 = "BattleLord Spaceships";
 	private static final String title2 = "         vs";
 	private static final String title3 = "SpaceLord Battleships";
 
-	private final LordsAndShips game;
+	private final GameInstance game;
 
 	private BitmapFont font;
 	private OrthographicCamera camera;
@@ -39,7 +38,7 @@ public class TitleScreen implements Screen {
 	private Vector2 titlePosLine2 = new Vector2();
 	private Vector2 titlePosLine3 = new Vector2();
 
-	public TitleScreen(LordsAndShips game) {
+	public TitleScreen(GameInstance game) {
 		super();
 
 		this.game = game;
@@ -70,28 +69,23 @@ public class TitleScreen implements Screen {
 				.push(Tween.to(titlePosLine3, Vector2Accessor.XY, 0.5f)
 						.target(140, font.getLineHeight() + 50)
 						.ease(Back.OUT))
-				.start(game.tween);
+				.start(game.tweens);
 
 		background = Assets.atlas.findRegion("gametex");
 	}
 
+	@Override
 	public void update(float delta) {
-		if (game.input.isKeyDown(Keys.ESCAPE)) {
-			game.exit();
-		} else if (Gdx.input.justTouched()) {
-			game.gameScreen = new GameScreen(game);
-			game.setScreen(game.gameScreen);
+		if (Gdx.input.justTouched()) {
+			game.screens.put(Constants.game_screen, new GameScreen(game));
+			game.setScreen(Constants.game_screen);
 		}
-
-		game.tween.update(delta);
 
 		camera.update();
 	}
 
 	@Override
 	public void render(float delta) {
-		update(delta);
-
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -123,15 +117,12 @@ public class TitleScreen implements Screen {
 	}
 
 	@Override
-	public void pause() {
-	}
+	public void pause() {}
 
 	@Override
-	public void resume() {
-	}
+	public void resume() {}
 
 	@Override
-	public void dispose() {
-	}
+	public void dispose() {}
 
 }

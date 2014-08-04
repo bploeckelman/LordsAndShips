@@ -5,11 +5,9 @@ import aurelienribon.tweenengine.equations.Quint;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.tweens.ColorAccessor;
-import lando.systems.lordsandships.utils.Assets;
 
 /**
  * Brian Ploeckelman created on 6/15/2014.
@@ -54,7 +52,7 @@ public abstract class Entity {
 
 	static final Vector2 temp = new Vector2();
 	static final float entity_shake_scale = 2f;
-	public void takeDamage(int amount, Vector2 dir, LordsAndShips game) {
+	public void takeDamage(int amount, Vector2 dir, GameInstance game) {
 		health -= amount;
 		if (health <= 0) {
 			health = 0;
@@ -69,7 +67,7 @@ public abstract class Entity {
 		Tween.to(color, ColorAccessor.RGB, 0.2f)
 				.target(1, 1, 1)
 				.ease(Quint.IN)
-				.start(game.tween);
+				.start(game.tweens);
 	}
 
 	private Vector2 centerPos = new Vector2();
