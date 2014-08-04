@@ -52,7 +52,7 @@ public abstract class Entity {
 
 	static final Vector2 temp = new Vector2();
 	static final float entity_shake_scale = 2f;
-	public void takeDamage(int amount, Vector2 dir, GameInstance game) {
+	public void takeDamage(int amount, Vector2 dir) {
 		health -= amount;
 		if (health <= 0) {
 			health = 0;
@@ -67,7 +67,7 @@ public abstract class Entity {
 		Tween.to(color, ColorAccessor.RGB, 0.2f)
 				.target(1, 1, 1)
 				.ease(Quint.IN)
-				.start(game.tweens);
+				.start(GameInstance.tweens);
 	}
 
 	private Vector2 centerPos = new Vector2();

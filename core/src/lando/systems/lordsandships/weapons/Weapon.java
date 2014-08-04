@@ -37,7 +37,7 @@ public abstract class Weapon {
 	}
 
 
-	public abstract void attack(Vector2 origin, Vector2 direction, GameInstance game);
+	public abstract void attack(Vector2 origin, Vector2 direction);
 
 	public abstract void render(SpriteBatch batch, float originX, float originY);
 

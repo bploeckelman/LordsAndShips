@@ -39,7 +39,7 @@ public class Handgun extends Weapon {
 	}
 
 	@Override
-	public void attack(Vector2 origin, Vector2 direction, GameInstance game) {
+	public void attack(Vector2 origin, Vector2 direction) {
 		if (attacking) return;
 
 		this.angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);

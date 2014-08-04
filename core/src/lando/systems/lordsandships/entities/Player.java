@@ -171,9 +171,8 @@ public class Player extends Entity {
 		}
 	}
 
-	// TODO : remove game reference once singleton game instance is done
-	public void attack(Vector2 direction, GameInstance game) {
-		currentWeapon.attack(position, direction, game);
+	public void attack(Vector2 direction) {
+		currentWeapon.attack(position, direction);
 	}
 
 	// TODO : remove to weapon subclass?

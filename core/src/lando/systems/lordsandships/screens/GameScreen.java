@@ -193,7 +193,7 @@ public class GameScreen implements UpdatingScreen {
 		for (Enemy enemy : enemies) {
 			if (enemy.isAlive()) {
 				if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
-					enemy.takeDamage(player.getCurrentWeapon().getDamage(), player.getCurrentWeapon().getDirection(), game);
+					enemy.takeDamage(player.getCurrentWeapon().getDamage(), player.getCurrentWeapon().getDirection());
 					Assets.getRandomHitSound().play();
 					if (!enemy.isAlive()) {
 						explosionEmitter.addSmallExplosion(enemy.position);
@@ -232,7 +232,7 @@ public class GameScreen implements UpdatingScreen {
 			camera.unproject(mouse);
 			dir.set(player.getDirection(mouse.x, mouse.y));
 
-			player.attack(dir, game);
+			player.attack(dir);
 
 			// TODO : move to weapon
 //			player.shoot(dir);
@@ -271,7 +271,7 @@ public class GameScreen implements UpdatingScreen {
 						if (!enemy.isAlive()) continue;
 
 						if (Intersector.overlaps(bullet.boundingBox, enemy.boundingBox)) {
-							enemy.takeDamage(bullet.damageAmount, bullet.velocity, game);
+							enemy.takeDamage(bullet.damageAmount, bullet.velocity);
 							Assets.getRandomHitSound().play();
 							if (!enemy.isAlive()) {
 								explosionEmitter.addSmallExplosion(enemy.position);

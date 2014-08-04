@@ -55,10 +55,9 @@ public class Sword extends Weapon {
 	 * Attack in the specified direction
 	 *
 	 * @param direction The direction in which to use the weapon
-	 * @param game The game instance... TODO : create singleton GameInstance and remove this
 	 */
 	@Override
-	public void attack(Vector2 origin, Vector2 direction, GameInstance game) {
+	public void attack(Vector2 origin, Vector2 direction) {
 		if (attacking) return;
 		attacking = true;
 
@@ -77,7 +76,7 @@ public class Sword extends Weapon {
 						attacking = false;
 					}
 				})
-				.start(game.tweens);
+				.start(GameInstance.tweens);
 
 		accum = 0f;
 	}

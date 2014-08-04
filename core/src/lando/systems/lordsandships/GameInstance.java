@@ -28,17 +28,9 @@ import java.util.Map;
  * Brian Ploeckelman created on 5/27/2014
  */
 public class GameInstance extends Game {
-	public final Input input;
-	public final TweenManager tweens;
-	public final Map<String, UpdatingScreen> screens;
-
-	public GameInstance() {
-		super();
-
-		input = new Input();
-		tweens = new TweenManager();
-		screens = new HashMap<String, UpdatingScreen>();
-	}
+	public static final Input input = new Input();
+	public static final TweenManager tweens = new TweenManager();
+	public static final Map<String, UpdatingScreen> screens = new HashMap<>();
 
 	@Override
 	public void create () {
@@ -81,7 +73,7 @@ public class GameInstance extends Game {
 		super.setScreen(screens.get(screen));
 	}
 
-	public void exit() {
+	public static void exit() {
 		Gdx.app.exit();
 	}
 
