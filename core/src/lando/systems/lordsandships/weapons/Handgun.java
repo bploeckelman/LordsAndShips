@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
 import lando.systems.lordsandships.utils.Assets;
 
@@ -39,7 +39,7 @@ public class Handgun extends Weapon {
 	}
 
 	@Override
-	public void attack(Vector2 origin, Vector2 direction, LordsAndShips game) {
+	public void attack(Vector2 origin, Vector2 direction) {
 		if (attacking) return;
 
 		this.angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);

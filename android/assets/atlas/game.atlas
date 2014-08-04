@@ -4,25 +4,11 @@ size: 943,808
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
-Untitled
-  rotate: false
-  xy: 857, 768
-  size: 6, 6
-  orig: 6, 6
-  offset: 0, 0
-  index: -1
 bullet
   rotate: false
   xy: 2, 74
   size: 16, 16
   orig: 16, 16
-  offset: 0, 0
-  index: -1
-bullet1
-  rotate: false
-  xy: 873, 786
-  size: 4, 4
-  orig: 4, 4
   offset: 0, 0
   index: -1
 cursor

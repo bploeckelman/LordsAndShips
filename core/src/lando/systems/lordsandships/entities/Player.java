@@ -1,17 +1,12 @@
 package lando.systems.lordsandships.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
 import lando.systems.lordsandships.weapons.Handgun;
@@ -90,45 +85,21 @@ public class Player extends Entity {
 		}
 	}
 
+	Vector2 dir = new Vector2();
 	private void updateAnimation(float delta) {
 		animTimer += delta;
 
-		// Update animation type and timer if appropriate
-		if (punching) {
-			if (currentAnim == punchAnim) {
-				if (currentAnim.isAnimationFinished(animTimer)) {
-					// TODO : reset to idle animation
-					currentAnim = walkDown;
-					punching = false;
-					animTimer = 0f;
-				}
-			} else {
-				currentAnim = punchAnim;
-				animTimer = 0f;
-			}
-		} else {
-			if (velocity.x == 0 && velocity.y == 0) {
-				// Reset animation when not moving
-				animTimer = 0f;
-			} else {
-				// Switch up/down animation
-				if (velocity.y > 0 && velocity.x == 0 && currentAnim != walkUp) {
-					currentAnim = walkUp;
-					animTimer = 0f;
-				} else if (velocity.y < 0 && velocity.x == 0 && currentAnim != walkDown) {
-					currentAnim = walkDown;
-					animTimer = 0f;
-				}
-
-				// Switch left/right animation
-				if (velocity.x > 0 && currentAnim != walkRight) {
-					currentAnim = walkRight;
-					animTimer = 0f;
-				} else if (velocity.x < 0 && currentAnim != walkLeft) {
-					currentAnim = walkLeft;
-					animTimer = 0f;
-				}
-			}
+		if (velocity.x == 0 && velocity.y == 0) {
+			animTimer = 0f;
+		}
+		// Switch left/right animation based on mouse pos
+		dir.set(GameInstance.mousePlayerDirection);
+		if (currentAnim != walkRight && dir.x > 0) {
+			currentAnim = walkRight;
+			animTimer = 0f;
+		} else if (currentAnim != walkLeft && dir.x < 0) {
+			currentAnim = walkLeft;
+			animTimer = 0f;
 		}
 
 		// Set current keyframe to draw with
@@ -137,8 +108,8 @@ public class Player extends Entity {
 
 	private void updateMovement(float delta) {
 		// TODO : convert to static
-		final float max_vel_x = 100;
-		final float max_vel_y = 100;
+		final float max_vel_x = 128;
+		final float max_vel_y = 128;
 		final float drag = 0.95f;
 
 		// Cap velocity
@@ -176,9 +147,8 @@ public class Player extends Entity {
 		}
 	}
 
-	// TODO : remove game reference once singleton game instance is done
-	public void attack(Vector2 direction, LordsAndShips game) {
-		currentWeapon.attack(position, direction, game);
+	public void attack(Vector2 direction) {
+		currentWeapon.attack(position, direction);
 	}
 
 	// TODO : remove to weapon subclass?

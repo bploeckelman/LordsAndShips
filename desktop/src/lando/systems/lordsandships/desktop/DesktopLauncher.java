@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.utils.Constants;
 
 public class DesktopLauncher {
@@ -19,6 +19,6 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width  = Constants.win_width;
 		config.height = Constants.win_height;
-		new LwjglApplication(new LordsAndShips(), config);
+		new LwjglApplication(new GameInstance(), config);
 	}
 }

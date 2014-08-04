@@ -3,7 +3,7 @@ package lando.systems.lordsandships.weapons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 
 /**
  * Brian Ploeckelman created on 7/22/2014.
@@ -37,7 +37,7 @@ public abstract class Weapon {
 	}
 
 
-	public abstract void attack(Vector2 origin, Vector2 direction, LordsAndShips game);
+	public abstract void attack(Vector2 origin, Vector2 direction);
 
 	public abstract void render(SpriteBatch batch, float originX, float originY);
 

@@ -8,10 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.utils.Assets;
 
@@ -57,10 +55,9 @@ public class Sword extends Weapon {
 	 * Attack in the specified direction
 	 *
 	 * @param direction The direction in which to use the weapon
-	 * @param game The game instance... TODO : create singleton GameInstance and remove this
 	 */
 	@Override
-	public void attack(Vector2 origin, Vector2 direction, LordsAndShips game) {
+	public void attack(Vector2 origin, Vector2 direction) {
 		if (attacking) return;
 		attacking = true;
 
@@ -79,7 +76,7 @@ public class Sword extends Weapon {
 						attacking = false;
 					}
 				})
-				.start(game.tween);
+				.start(GameInstance.tweens);
 
 		accum = 0f;
 	}

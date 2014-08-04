@@ -8,7 +8,6 @@ import aurelienribon.tweenengine.equations.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,7 +18,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import lando.systems.lordsandships.LordsAndShips;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
 import lando.systems.lordsandships.entities.Enemy;
 import lando.systems.lordsandships.entities.Entity;
@@ -29,7 +28,6 @@ import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
-import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
@@ -47,8 +45,8 @@ import java.util.List;
  *
  * Brian Ploeckelman created on 5/28/2014.
  */
-public class GameScreen implements Screen {
-	private final LordsAndShips game;
+public class GameScreen implements UpdatingScreen {
+	private final GameInstance game;
 
 	private static final float key_move_amount = 16;
 	private static final float camera_shake_scale = 1.5f;
@@ -58,7 +56,12 @@ public class GameScreen implements Screen {
 	private OrthographicCamera uiCamera;
 	private OrthoCamController camController;
 	private BitmapFont font;
-	private Vector3 temp = new Vector3();
+
+	private Vector2 temp2 = new Vector2();
+	private Vector3 temp3 = new Vector3();
+	private Vector3 playerPosition    = new Vector3();
+	private Vector3 mouseScreenCoords = new Vector3();
+	private Vector3 mouseWorldCoords  = new Vector3();
 
 	private Player player;
 	private Array<Enemy> enemies;
@@ -71,7 +74,7 @@ public class GameScreen implements Screen {
 
 	private long startTime = TimeUtils.nanoTime();
 
-	public GameScreen(LordsAndShips game) {
+	public GameScreen(GameInstance game) {
 		super();
 
 		this.game = game;
@@ -124,27 +127,17 @@ public class GameScreen implements Screen {
 		enemies = new Array<Enemy>(50);
 	}
 
-	Vector3 playerPosition = new Vector3();
-	Vector3 mouseCoords = new Vector3();
-	private void update(float delta) {
-		game.tween.update(delta);
+	@Override
+	public void update(float delta) {
+		updateMouseVectors();
 
-		if (game.input.isKeyDown(Input.Keys.ESCAPE)) {
-			game.exit();
-		}
-
-		mouseCoords.set(game.input.getCurrMouse().x, game.input.getCurrMouse().y, 0);
-		mouseCoords = camera.unproject(mouseCoords);
-
+		// DEBUG : Place enemies
 		if (Gdx.input.justTouched() && Gdx.input.isKeyPressed(Input.Keys.F)) {
-			enemies.add(new Enemy(Assets.enemytex, mouseCoords.x, mouseCoords.y, 16, 24, 0.3f));
+			enemies.add(new Enemy(Assets.enemytex, mouseWorldCoords.x, mouseWorldCoords.y, 16, 24, 0.3f));
 		}
 
-		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-			player.boundingBox.x = mouseCoords.x;
-			player.boundingBox.y = mouseCoords.y;
-		}
-
+		// TODO : extract this functionality out to a more generic place
+		// Switch weapons
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
 			if (player.getCurrentWeapon() instanceof Handgun) {
 				player.setWeapon(Weapon.TYPE_SWORD);
@@ -162,7 +155,7 @@ public class GameScreen implements Screen {
 						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
 								.target(30)
 								.ease(Bounce.OUT))
-						.start(game.tween);
+						.start(GameInstance.tweens);
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
@@ -182,7 +175,7 @@ public class GameScreen implements Screen {
 						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
 								.target(30)
 								.ease(Bounce.OUT))
-						.start(game.tween);
+						.start(GameInstance.tweens);
 			}
 		}
 
@@ -194,13 +187,22 @@ public class GameScreen implements Screen {
 		camera.update();
 	}
 
+	private void updateMouseVectors() {
+		mouseScreenCoords.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+		mouseWorldCoords.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+		camera.unproject(mouseWorldCoords);
+		GameInstance.mousePlayerDirection.set(
+				mouseWorldCoords.x - player.getCenterPos().x,
+				mouseWorldCoords.y - player.getCenterPos().y);
+	}
+
 	private void updateEntities(float delta) {
 		updatePlayers(delta);
 		resolveCollisions();
 		for (Enemy enemy : enemies) {
 			if (enemy.isAlive()) {
 				if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
-					enemy.takeDamage(player.getCurrentWeapon().getDamage(), player.getCurrentWeapon().getDirection(), game);
+					enemy.takeDamage(player.getCurrentWeapon().getDamage(), player.getCurrentWeapon().getDirection());
 					Assets.getRandomHitSound().play();
 					if (!enemy.isAlive()) {
 						explosionEmitter.addSmallExplosion(enemy.position);
@@ -213,41 +215,29 @@ public class GameScreen implements Screen {
 		}
 	}
 
-	// TODO : too many temp vectors
-	Vector3 mouse = new Vector3();
-	Vector2 dir = new Vector2();
 	private void updatePlayers(float delta) {
 		float dx, dy;
 
-		if (game.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
+		if      (game.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
 		else if (game.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount; }
 		else {
 			dx = 0f;
 			player.velocity.x = 0f;
 		}
 
-		if (game.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
+		if      (game.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
 		else if (game.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount; }
 		else {
 			dy = 0f;
 			player.velocity.y = 0f;
 		}
 
-		if ((game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F)) || game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
-			// TODO : unproject mouse coords every frame and reference that value here
-			mouse.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(mouse);
-			dir.set(player.getDirection(mouse.x, mouse.y));
-
-			player.attack(dir, game);
-
-			// TODO : move to weapon
-//			player.shoot(dir);
-//			player.punch();
-
-			// displace the camera a bit
-			dir.scl(-1);
-			camera.translate(dir);
+		// Attack!
+		if ((game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F))
+		 || game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
+			temp2.set(GameInstance.mousePlayerDirection).nor();
+			player.attack(temp2);
+			camera.translate(temp2.scl(-1));
 		}
 
 		player.velocity.x += dx;
@@ -278,7 +268,7 @@ public class GameScreen implements Screen {
 						if (!enemy.isAlive()) continue;
 
 						if (Intersector.overlaps(bullet.boundingBox, enemy.boundingBox)) {
-							enemy.takeDamage(bullet.damageAmount, bullet.velocity, game);
+							enemy.takeDamage(bullet.damageAmount, bullet.velocity);
 							Assets.getRandomHitSound().play();
 							if (!enemy.isAlive()) {
 								explosionEmitter.addSmallExplosion(enemy.position);
@@ -350,8 +340,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		update(delta);
-
 		Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
 		Gdx.gl.glClearColor(0.08f,0.04f,0.0f,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
