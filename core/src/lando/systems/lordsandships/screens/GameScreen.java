@@ -341,65 +341,62 @@ public class GameScreen implements UpdatingScreen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
-		Gdx.gl.glClearColor(0.08f,0.04f,0.0f,1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		tileMap.render(camera);
-
-		if (camController.debugRender) {
-			Gdx.gl.glEnable(GL20.GL_BLEND);
-			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			LevelGenerator.debugRender(camera);
-		}
+		Gdx.gl.glClearColor(0.08f, 0.04f, 0.0f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Assets.batch.setProjectionMatrix(camera.combined);
-		Assets.batch.begin();
+		Assets.shapes.setProjectionMatrix(camera.combined);
 
+		tileMap.render(camera);
+
+		Assets.batch.begin();
 		for (Enemy enemy : enemies) {
 			if (!enemy.isAlive()) continue;
 			enemy.render(Assets.batch);
 		}
-
-		Assets.shapes.setProjectionMatrix(camera.combined);
 		player.render(Assets.batch);
-
 		explosionEmitter.render(Assets.batch);
-
 		Assets.batch.end();
 
-		if (camController.debugRender) {
-			float minx = Float.MAX_VALUE;
-			float miny = Float.MAX_VALUE;
-			float maxx = Float.MIN_VALUE;
-			float maxy = Float.MIN_VALUE;
-			for (TileMap.Tile t : collisionTiles) {
-				if (minx > t.getWorldMinX()) minx = t.getWorldMinX();
-				if (miny > t.getWorldMinY()) miny = t.getWorldMinY();
-				if (maxx < t.getWorldMaxX()) maxx = t.getWorldMaxX();
-				if (maxy < t.getWorldMaxY()) maxy = t.getWorldMaxY();
-			}
-			Gdx.gl.glEnable(GL20.GL_BLEND);
-			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			Assets.shapes.setProjectionMatrix(camera.combined);
-			Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
-			Assets.shapes.setColor(0, 1, 0, 0.5f);
-			Assets.shapes.rect(minx, miny, maxx - minx, maxy - miny);
-			Assets.shapes.setColor(1, 0, 0, 0.75f);
-			Assets.shapes.rect(intersection.x, intersection.y, intersection.width, intersection.height);
-			Assets.shapes.end();
-			Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-			Assets.shapes.setColor(1, 0, 1, 1);
-			Assets.shapes.rect(player.boundingBox.x, player.boundingBox.y, player.boundingBox.width, player.boundingBox.height);
-			Assets.shapes.end();
-		}
+		renderDebug();
 
-		if (TimeUtils.nanoTime() - startTime >= 1000000000) {
-			startTime = TimeUtils.nanoTime();
-		}
+		uiRender();
+	}
 
-		// Draw UI elements
+	private void renderDebug() {
+		if (!camController.debugRender) return;
+
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		LevelGenerator.debugRender(camera);
+
+		float minx = Float.MAX_VALUE;
+		float miny = Float.MAX_VALUE;
+		float maxx = Float.MIN_VALUE;
+		float maxy = Float.MIN_VALUE;
+		for (TileMap.Tile t : collisionTiles) {
+			if (minx > t.getWorldMinX()) minx = t.getWorldMinX();
+			if (miny > t.getWorldMinY()) miny = t.getWorldMinY();
+			if (maxx < t.getWorldMaxX()) maxx = t.getWorldMaxX();
+			if (maxy < t.getWorldMaxY()) maxy = t.getWorldMaxY();
+		}
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		Assets.shapes.setProjectionMatrix(camera.combined);
+		Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
+		Assets.shapes.setColor(0, 1, 0, 0.5f);
+		Assets.shapes.rect(minx, miny, maxx - minx, maxy - miny);
+		Assets.shapes.setColor(1, 0, 0, 0.75f);
+		Assets.shapes.rect(intersection.x, intersection.y, intersection.width, intersection.height);
+		Assets.shapes.end();
+		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+		Assets.shapes.setColor(1, 0, 1, 1);
+		Assets.shapes.rect(player.boundingBox.x, player.boundingBox.y, player.boundingBox.width, player.boundingBox.height);
+		Assets.shapes.end();
+	}
+
+	private void uiRender() {
 		Gdx.gl20.glViewport(0, 0, (int) uiCamera.viewportWidth, (int) uiCamera.viewportHeight);
 		final String line1 = "Hold 'F' + Left Click to spawn 'enemy'";
 		final String line2 = "Press '1' or '2' to switch weapons";
