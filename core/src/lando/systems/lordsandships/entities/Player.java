@@ -132,8 +132,8 @@ public class Player extends Entity {
 
 	private void updateMovement(float delta) {
 		// TODO : convert to static
-		final float max_vel_x = 100;
-		final float max_vel_y = 100;
+		final float max_vel_x = 64;
+		final float max_vel_y = 64;
 		final float drag = 0.95f;
 
 		// Cap velocity

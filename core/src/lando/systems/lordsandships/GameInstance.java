@@ -32,6 +32,8 @@ public class GameInstance extends Game {
 	public static final TweenManager tweens = new TweenManager();
 	public static final Map<String, UpdatingScreen> screens = new HashMap<>();
 
+	public static final Vector2 mousePlayerDirection = new Vector2();
+
 	@Override
 	public void create () {
 		Assets.load();

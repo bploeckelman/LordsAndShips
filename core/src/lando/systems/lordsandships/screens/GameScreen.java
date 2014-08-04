@@ -56,7 +56,12 @@ public class GameScreen implements UpdatingScreen {
 	private OrthographicCamera uiCamera;
 	private OrthoCamController camController;
 	private BitmapFont font;
-	private Vector3 temp = new Vector3();
+
+	private Vector2 temp2 = new Vector2();
+	private Vector3 temp3 = new Vector3();
+	private Vector3 playerPosition    = new Vector3();
+	private Vector3 mouseScreenCoords = new Vector3();
+	private Vector3 mouseWorldCoords  = new Vector3();
 
 	private Player player;
 	private Array<Enemy> enemies;
@@ -122,22 +127,17 @@ public class GameScreen implements UpdatingScreen {
 		enemies = new Array<Enemy>(50);
 	}
 
-	Vector3 playerPosition = new Vector3();
-	Vector3 mouseCoords = new Vector3();
 	@Override
 	public void update(float delta) {
-		mouseCoords.set(game.input.getCurrMouse().x, game.input.getCurrMouse().y, 0);
-		mouseCoords = camera.unproject(mouseCoords);
+		updateMouseVectors();
 
+		// DEBUG : Place enemies
 		if (Gdx.input.justTouched() && Gdx.input.isKeyPressed(Input.Keys.F)) {
-			enemies.add(new Enemy(Assets.enemytex, mouseCoords.x, mouseCoords.y, 16, 24, 0.3f));
+			enemies.add(new Enemy(Assets.enemytex, mouseWorldCoords.x, mouseWorldCoords.y, 16, 24, 0.3f));
 		}
 
-		if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-			player.boundingBox.x = mouseCoords.x;
-			player.boundingBox.y = mouseCoords.y;
-		}
-
+		// TODO : extract this functionality out to a more generic place
+		// Switch weapons
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
 			if (player.getCurrentWeapon() instanceof Handgun) {
 				player.setWeapon(Weapon.TYPE_SWORD);
@@ -155,7 +155,7 @@ public class GameScreen implements UpdatingScreen {
 						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
 								.target(30)
 								.ease(Bounce.OUT))
-						.start(game.tweens);
+						.start(GameInstance.tweens);
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
@@ -175,7 +175,7 @@ public class GameScreen implements UpdatingScreen {
 						.push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
 								.target(30)
 								.ease(Bounce.OUT))
-						.start(game.tweens);
+						.start(GameInstance.tweens);
 			}
 		}
 
@@ -185,6 +185,15 @@ public class GameScreen implements UpdatingScreen {
 		camera.position.lerp(playerPosition, 4*delta);
 
 		camera.update();
+	}
+
+	private void updateMouseVectors() {
+		mouseScreenCoords.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+		mouseWorldCoords.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+		camera.unproject(mouseWorldCoords);
+		GameInstance.mousePlayerDirection.set(
+				mouseWorldCoords.x - player.getCenterPos().x,
+				mouseWorldCoords.y - player.getCenterPos().y);
 	}
 
 	private void updateEntities(float delta) {
@@ -206,41 +215,29 @@ public class GameScreen implements UpdatingScreen {
 		}
 	}
 
-	// TODO : too many temp vectors
-	Vector3 mouse = new Vector3();
-	Vector2 dir = new Vector2();
 	private void updatePlayers(float delta) {
 		float dx, dy;
 
-		if (game.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
+		if      (game.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
 		else if (game.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount; }
 		else {
 			dx = 0f;
 			player.velocity.x = 0f;
 		}
 
-		if (game.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
+		if      (game.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
 		else if (game.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount; }
 		else {
 			dy = 0f;
 			player.velocity.y = 0f;
 		}
 
-		if ((game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F)) || game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
-			// TODO : unproject mouse coords every frame and reference that value here
-			mouse.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(mouse);
-			dir.set(player.getDirection(mouse.x, mouse.y));
-
-			player.attack(dir);
-
-			// TODO : move to weapon
-//			player.shoot(dir);
-//			player.punch();
-
-			// displace the camera a bit
-			dir.scl(-1);
-			camera.translate(dir);
+		// Attack!
+		if ((game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F))
+		 || game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
+			temp2.set(GameInstance.mousePlayerDirection).nor();
+			player.attack(temp2);
+			camera.translate(temp2.scl(-1));
 		}
 
 		player.velocity.x += dx;
