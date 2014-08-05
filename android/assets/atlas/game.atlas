@@ -1,369 +1,481 @@
 
 game.png
-size: 943,808
+size: 1019,908
 format: RGBA8888
 filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
+bandit_idle0
+  rotate: false
+  xy: 2, 250
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+bandit_idle1
+  rotate: false
+  xy: 773, 836
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+bandit_idle2
+  rotate: false
+  xy: 2, 176
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+bandit_idle3
+  rotate: false
+  xy: 76, 250
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+bandle_idle0_a
+  rotate: false
+  xy: 913, 892
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+bandle_idle1_a
+  rotate: false
+  xy: 913, 892
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 bullet
   rotate: false
-  xy: 2, 74
+  xy: 2, 92
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 cursor
   rotate: false
-  xy: 68, 140
+  xy: 216, 306
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 explosion
   rotate: false
-  xy: 134, 206
+  xy: 773, 718
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 gametex
   rotate: false
-  xy: 2, 224
+  xy: 2, 324
   size: 769, 584
   orig: 769, 584
   offset: 0, 0
   index: -1
 grate
   rotate: false
-  xy: 839, 776
+  xy: 773, 736
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 gun
   rotate: false
-  xy: 773, 660
+  xy: 807, 752
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 purple_bricks1
   rotate: false
-  xy: 839, 758
+  xy: 913, 874
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 purple_floor_tile1
   rotate: false
-  xy: 873, 792
+  xy: 931, 892
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 purple_min_blocks1
   rotate: false
-  xy: 2, 56
+  xy: 2, 74
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 shadow
   rotate: false
-  xy: 20, 74
+  xy: 20, 92
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 slash1
   rotate: false
-  xy: 2, 158
+  xy: 773, 770
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 slash2
   rotate: false
-  xy: 773, 744
+  xy: 847, 844
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 slash3
   rotate: false
-  xy: 2, 92
+  xy: 2, 110
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 slash4
   rotate: false
-  xy: 68, 158
+  xy: 76, 184
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 slash5
   rotate: false
-  xy: 773, 678
+  xy: 150, 258
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+sparkle_small1
+  rotate: false
+  xy: 791, 725
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+sparkle_small10
+  rotate: false
+  xy: 288, 295
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+sparkle_small2
+  rotate: false
+  xy: 807, 741
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+sparkle_small3
+  rotate: false
+  xy: 825, 759
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+sparkle_small4
+  rotate: false
+  xy: 913, 845
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+sparkle_small5
+  rotate: false
+  xy: 56, 99
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+sparkle_small6
+  rotate: false
+  xy: 216, 259
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+sparkle_small7
+  rotate: false
+  xy: 20, 27
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+sparkle_small8
+  rotate: false
+  xy: 38, 45
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+sparkle_small9
+  rotate: false
+  xy: 270, 277
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
 spawn1
   rotate: false
-  xy: 68, 122
+  xy: 216, 288
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 spawn2
   rotate: false
-  xy: 86, 140
+  xy: 234, 306
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 spawn3
   rotate: false
-  xy: 134, 188
+  xy: 773, 700
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 spawn4
   rotate: false
-  xy: 152, 206
+  xy: 913, 856
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 spawn5
   rotate: false
-  xy: 773, 642
+  xy: 931, 874
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 spawn6
   rotate: false
-  xy: 791, 660
+  xy: 949, 892
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 spawn7
   rotate: false
-  xy: 839, 740
+  xy: 2, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 spawn8
   rotate: false
-  xy: 891, 792
+  xy: 20, 74
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 sword
   rotate: false
-  xy: 2, 38
+  xy: 38, 92
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-blank
   rotate: false
-  xy: 20, 56
+  xy: 216, 270
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-block
   rotate: false
-  xy: 38, 74
+  xy: 234, 288
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-box
   rotate: false
-  xy: 68, 104
+  xy: 252, 306
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-horiz
   rotate: false
-  xy: 86, 122
+  xy: 773, 682
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-ne
   rotate: false
-  xy: 104, 140
+  xy: 931, 856
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-nw
   rotate: false
-  xy: 134, 170
+  xy: 949, 874
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-se
   rotate: false
-  xy: 152, 188
+  xy: 967, 892
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-sw
   rotate: false
-  xy: 170, 206
+  xy: 2, 38
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-brick-vert
   rotate: false
-  xy: 773, 624
+  xy: 20, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-floor1
   rotate: false
-  xy: 791, 642
+  xy: 38, 74
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-floor2
   rotate: false
-  xy: 809, 660
+  xy: 234, 270
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-floor3
   rotate: false
-  xy: 839, 722
+  xy: 252, 288
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-floor4
   rotate: false
-  xy: 909, 792
+  xy: 270, 306
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-floor5
   rotate: false
-  xy: 2, 20
+  xy: 773, 664
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-horiz
   rotate: false
-  xy: 20, 38
+  xy: 949, 856
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-ne
   rotate: false
-  xy: 38, 56
+  xy: 967, 874
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-nw
   rotate: false
-  xy: 86, 104
+  xy: 985, 892
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-se
   rotate: false
-  xy: 104, 122
+  xy: 2, 20
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-sw
   rotate: false
-  xy: 152, 170
+  xy: 20, 38
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 tile-wall-vert
   rotate: false
-  xy: 170, 188
+  xy: 38, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 warp1
   rotate: false
-  xy: 188, 206
+  xy: 252, 270
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 warp2
   rotate: false
-  xy: 773, 606
+  xy: 270, 288
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 warp3
   rotate: false
-  xy: 791, 624
+  xy: 288, 306
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 warp4
   rotate: false
-  xy: 809, 642
+  xy: 773, 646
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 warp5
   rotate: false
-  xy: 839, 704
+  xy: 967, 856
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 warp6
   rotate: false
-  xy: 927, 792
+  xy: 985, 874
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 warp7
   rotate: false
-  xy: 2, 2
+  xy: 1003, 892
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 warp8
   rotate: false
-  xy: 20, 20
+  xy: 2, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

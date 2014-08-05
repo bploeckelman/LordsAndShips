@@ -5,6 +5,7 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.*;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -12,12 +13,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
 import lando.systems.lordsandships.entities.Enemy;
@@ -71,8 +72,9 @@ public class GameScreen implements UpdatingScreen {
 	private Vector2 weaponIconSize = new Vector2(64, 64);
 
 	private ExplosionEmitter explosionEmitter = new ExplosionEmitter();
-
-	private long startTime = TimeUtils.nanoTime();
+	private Animation sparkle;
+	private MutableFloat sparkle_accum = new MutableFloat(0);
+	private boolean sparkling = false;
 
 	public GameScreen(GameInstance game) {
 		super();
@@ -125,6 +127,19 @@ public class GameScreen implements UpdatingScreen {
 		}
 
 		enemies = new Array<Enemy>(50);
+
+		sparkle = new Animation(0.05f,
+				Assets.atlas.findRegion("sparkle_small1"),
+				Assets.atlas.findRegion("sparkle_small2"),
+				Assets.atlas.findRegion("sparkle_small3"),
+				Assets.atlas.findRegion("sparkle_small4"),
+				Assets.atlas.findRegion("sparkle_small5"),
+				Assets.atlas.findRegion("sparkle_small6"),
+				Assets.atlas.findRegion("sparkle_small7"),
+				Assets.atlas.findRegion("sparkle_small8"),
+				Assets.atlas.findRegion("sparkle_small9"),
+				Assets.atlas.findRegion("sparkle_small10"));
+		sparkle.setPlayMode(Animation.PlayMode.NORMAL);
 	}
 
 	@Override
@@ -238,6 +253,20 @@ public class GameScreen implements UpdatingScreen {
 			temp2.set(GameInstance.mousePlayerDirection).nor();
 			player.attack(temp2);
 			camera.translate(temp2.scl(-1));
+			if (!sparkling) {
+				sparkling = true;
+				sparkle_accum.setValue(0f);
+				Tween.to(sparkle_accum, 0, 0.2f)
+						.target(sparkle.getAnimationDuration())
+						.ease(Linear.INOUT)
+						.setCallback(new TweenCallback() {
+							@Override
+							public void onEvent(int type, BaseTween<?> source) {
+								sparkling = false;
+							}
+						})
+						.start(GameInstance.tweens);
+			}
 		}
 
 		player.velocity.x += dx;
@@ -357,6 +386,10 @@ public class GameScreen implements UpdatingScreen {
 			enemy.render(Assets.batch);
 		}
 		player.render(Assets.batch);
+		if (sparkling) {
+			TextureRegion keyframe = sparkle.getKeyFrame(sparkle_accum.floatValue());
+			Assets.batch.draw(keyframe, player.getCenterPos().x, player.getCenterPos().y);
+		}
 		explosionEmitter.render(Assets.batch);
 		Assets.batch.end();
 
