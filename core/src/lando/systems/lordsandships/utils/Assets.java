@@ -27,6 +27,7 @@ public class Assets {
 
 	public static Texture playertex;
 	public static Texture enemytex;
+	public static TextureRegion shadow;
 
 	public static TextureAtlas atlas;
 
@@ -51,6 +52,7 @@ public class Assets {
 
 		playertex = new Texture("darkknight.png");
 		enemytex = new Texture("character-sheet.png");
+		shadow = atlas.findRegion("shadow");
 
 		gunshot_shot   = Gdx.audio.newSound(Gdx.files.internal("sounds/gunshot-shot-1.mp3"));
 		gunshot_impact = Gdx.audio.newSound(Gdx.files.internal("sounds/gunshot-impact-1.mp3"));

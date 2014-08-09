@@ -11,6 +11,7 @@ import lando.systems.lordsandships.utils.Utils;
  * Brian Ploeckelman created on 6/17/2014.
  */
 public class Enemy extends Entity {
+	Animation idle;
 	Animation walkLeft;
 	Animation walkRight;
 	Animation walkUp;
@@ -46,6 +47,13 @@ public class Enemy extends Entity {
 		walkRight.setPlayMode(Animation.PlayMode.LOOP);
 		walkUp.setPlayMode(Animation.PlayMode.LOOP);
 
+		idle = new Animation(0.15f,
+				Assets.atlas.findRegion("enemy_basic0"),
+				Assets.atlas.findRegion("enemy_basic1"),
+				Assets.atlas.findRegion("enemy_basic2"),
+				Assets.atlas.findRegion("enemy_basic3"));
+		idle.setPlayMode(Animation.PlayMode.LOOP);
+
 		currentAnim = walkDown;
 		currentKeyFrame = currentAnim.getKeyFrame(0);
 	}
@@ -57,15 +65,21 @@ public class Enemy extends Entity {
 		final float max_vel_y = 50;
 		final float drag = 0.995f;
 
-		if ((timer += delta) > 3f) {
-			if (Assets.rand.nextBoolean()) {
-				velocity.x = ((float) Math.random() * 2f - 1f) * max_vel_x;
-				velocity.y = 0f;
-			} else {
-				velocity.x = 0f;
-				velocity.y = ((float) Math.random() * 2f - 1f) * max_vel_y;
-			}
+		if ((timer += delta) > Assets.rand.nextInt(5) + 2) {
 			timer = 0f;
+			switch (Assets.rand.nextInt(3)) {
+				case 0:
+					velocity.x = ((float) Math.random() * 2f - 1f) * max_vel_x;
+					velocity.y = 0f;
+					break;
+				case 1:
+					velocity.y = 0f;
+					velocity.x = ((float) Math.random() * 2f -1f) * max_vel_y;
+					break;
+				case 2:
+					velocity.x = 0f;
+					velocity.y = 0f;
+			}
 		}
 
 		     if (velocity.x >  max_vel_x) velocity.x =  max_vel_x;
@@ -76,8 +90,7 @@ public class Enemy extends Entity {
 		// Update animation type and timer if appropriate
 		animTimer += delta;
 		if (velocity.x == 0 && velocity.y == 0) {
-			// Reset animation when not moving
-			animTimer = 0f;
+			currentAnim = idle;
 		} else {
 			// Switch up/down animation
 			if (velocity.y > 0 && velocity.x == 0 && currentAnim != walkUp) {
@@ -116,6 +129,7 @@ public class Enemy extends Entity {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		batch.draw(Assets.shadow, boundingBox.x, boundingBox.y - 2);
 		batch.setColor(color);
 		batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 18);
 		batch.setColor(1,1,1,1);
