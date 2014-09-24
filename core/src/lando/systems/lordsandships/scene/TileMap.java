@@ -86,7 +86,6 @@ public class TileMap implements Disposable
 	SpriteCache caches[];
 
 	Graph<Room> roomGraph;
-	List<Room> rooms;
 
 	public TileMap(int width, int height) {
 		this.width = width;
@@ -95,10 +94,8 @@ public class TileMap implements Disposable
 		generate();
 	}
 
-	public TileMap(Graph<Room> roomGraph, List<Room> rooms) {
+    public TileMap(Graph<Room> roomGraph) {
 		this.roomGraph = roomGraph;
-		this.rooms = rooms;
-
 		this.width = getMapWidthInTiles();
 		this.height = getMapHeightInTiles();
 
@@ -125,7 +122,7 @@ public class TileMap implements Disposable
 			}
 		}
 
-		for (Room room : rooms) {
+        for (Room room : roomGraph.vertices()) {
 			generateRoomTiles(room);
 		}
 
@@ -167,8 +164,8 @@ public class TileMap implements Disposable
 		int xStart, xEnd;
 		int yStart, yEnd;
 
-		for (Room u : LevelGenerator.mst.vertices()) {
-			Iterable<Room> neighbors = LevelGenerator.mst.adjacentTo(u);
+        for (Room u : roomGraph.vertices()) {
+            Iterable<Room> neighbors = roomGraph.adjacentTo(u);
 			if (neighbors == null) continue;
 
 			// For each edge
@@ -329,11 +326,11 @@ public class TileMap implements Disposable
 
 	public int getMapWidthInTiles() {
 		int width = 0;
-		if (rooms == null) {
+        if (roomGraph.vertices() == null) {
 			return width;
 		}
 
-		for (Room room : rooms) {
+        for (Room room : roomGraph.vertices()) {
 			int x = (int) (room.rect.x + room.rect.width);
 			if (width < x) width = x;
 		}
@@ -342,11 +339,11 @@ public class TileMap implements Disposable
 
 	public int getMapHeightInTiles() {
 		int height = 0;
-		if (rooms == null) {
+        if (roomGraph.vertices() == null) {
 			return height;
 		}
 
-		for (Room room : rooms) {
+        for (Room room : roomGraph.vertices()) {
 			int y = (int) (room.rect.y + room.rect.height);
 			if (height < y) height = y;
 		}
@@ -363,7 +360,7 @@ public class TileMap implements Disposable
 			SpriteCache cache = caches[i];
 			cache.beginCache();
 
-			for (Room room : rooms) {
+            for (Room room : roomGraph.vertices()) {
 				generateRoomCacheTiles(room, cache);
 			}
 			generateCorridorCacheTiles(cache);
@@ -408,8 +405,8 @@ public class TileMap implements Disposable
 		int xStart, xEnd;
 		int yStart, yEnd;
 
-		for (Room u : LevelGenerator.mst.vertices()) {
-			Iterable<Room> neighbors = LevelGenerator.mst.adjacentTo(u);
+        for (Room u : roomGraph.vertices()) {
+            Iterable<Room> neighbors = roomGraph.adjacentTo(u);
 			if (neighbors == null) continue;
 
 			// For each edge

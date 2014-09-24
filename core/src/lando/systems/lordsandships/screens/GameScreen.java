@@ -28,10 +28,13 @@ import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
+import lando.systems.lordsandships.scene.levelgen.Room;
+import lando.systems.lordsandships.scene.levelgen.TinyDungeonGenerator;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
+import lando.systems.lordsandships.utils.graph.Graph;
 import lando.systems.lordsandships.weapons.Handgun;
 import lando.systems.lordsandships.weapons.Sword;
 import lando.systems.lordsandships.weapons.Weapon;
@@ -111,8 +114,9 @@ public class GameScreen implements UpdatingScreen {
 		params.roomHeightMin = 4;
 		params.roomHeightMax = 15;
 
-		LevelGenerator.generateLevel(params);
-		tileMap = new TileMap(LevelGenerator.mst, LevelGenerator.selectedRooms);
+        final TinyDungeonGenerator generator = new TinyDungeonGenerator();
+        final Graph<Room> roomGraph = generator.generateRoomGraph(params);
+        tileMap = new TileMap(roomGraph);
 
 		player = new Player(
 				Assets.playertex,
