@@ -44,9 +44,10 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
     private static final String tag = "LEVEL_GEN";
     private static final int tile_size = 16;
     private static final int delay_ms_create = 7;
-    private static final int delay_ms_separate = 3;
+    private static final int delay_ms_separate = 4;
     private static final int delay_ms_select = 8;
     private static final int delay_ms_reposition = 1;
+    private static final int delay_ms_mst = 50;
 
     private static final Random random = new Random();
     private static final Random selectRandom = new Random();
@@ -471,6 +472,8 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             // Add v0 to V_new and {u0, v0} to minimum spanning tree
             mst.addEdge(u0, v0);
             V_new.add(v0);
+
+            try { Thread.sleep(delay_ms_mst); } catch (Exception e) {}
         }
     }
 
