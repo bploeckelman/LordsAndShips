@@ -1,6 +1,9 @@
 package lando.systems.lordsandships.scene.levelgen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.DelaunayTriangulator;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -39,23 +42,133 @@ import java.util.*;
 public class TinyDungeonGenerator implements RoomGraphGenerator {
 
     private static final String tag = "LEVEL_GEN";
+    private static final int tile_size = 16;
+    private static final int delay_ms_create = 7;
+    private static final int delay_ms_separate = 3;
+    private static final int delay_ms_select = 8;
+    private static final int delay_ms_reposition = 1;
+
     private static final Random random = new Random();
     private static final Random selectRandom = new Random();
 
+    private LevelGenParams params;
+
+    private List<Room> rooms;
+    private Graph<Room> graph;
+
+    private Graph<Room> mst;
+    private FloatArray vertices;
+    private ShortArray triIndices;
+
+
+    public TinyDungeonGenerator() {
+        rooms = new ArrayList<Room>();
+        graph = new Graph<Room>();
+        mst = new Graph<Room>();
+        vertices = new FloatArray();
+        triIndices = new ShortArray();
+    }
+
     @Override
     public Graph<Room> generateRoomGraph(final LevelGenParams params) {
+        this.params = params;
+
         random.setSeed(params.randomSeed);
         selectRandom.setSeed(params.randomSeed);
 
-        List<Room> rooms = createRooms(params);
-        separateRooms(rooms, params);
-        selectRooms(rooms, params);
-
-        Graph<Room> graph = generateGraph(rooms, params);
-        repositionRooms(graph);
+        createRooms();
+        separateRooms();
+        selectRooms();
+        repositionRooms();
+        generateGraph();
 
         return graph;
     }
+
+    /**
+     * Draw rooms for debug visualization
+     *
+     * @param camera the camera used for viewing the rooms
+     */
+    public void render(Camera camera, ShapeRenderer shapes) {
+        shapes.setProjectionMatrix(camera.combined);
+
+        // Draw interior room bounds
+        shapes.begin(ShapeType.Filled);
+        {
+            for (int i = rooms.size() - 1; i >= 0; --i) {
+                final Room room = rooms.get(i);
+                if      (room.isSelected) shapes.setColor(1.0f,  0.0f,  0.0f,  0.05f);
+                else if (graph.V() > 0)   shapes.setColor(0.7f,  0.7f,  0.7f,  0.2f);
+                else                      shapes.setColor(0.25f, 0.25f, 0.25f ,0.05f);
+                shapes.rect(room.rect.x     * tile_size, room.rect.y      * tile_size,
+                            room.rect.width * tile_size, room.rect.height * tile_size);
+            }
+        }
+        shapes.end();
+
+        // Draw room bounds outlines
+        shapes.begin(ShapeType.Line);
+        {
+            for (int i = rooms.size() - 1; i >= 0; --i) {
+                final Room room = rooms.get(i);
+                if (room.isSelected) shapes.setColor(0, 1, 0, 0.75f);
+                else                 shapes.setColor(0, 0, 1, 0.75f);
+                shapes.rect(room.rect.x     * tile_size, room.rect.y      * tile_size,
+                            room.rect.width * tile_size, room.rect.height * tile_size);
+            }
+        }
+        shapes.end();
+
+        // Draw graphs
+        shapes.begin(ShapeType.Line);
+        {
+            // Delaunay triangles from selected rooms
+            shapes.setColor(0,0.2f,0,0.5f);
+            for (int i = triIndices.size - 4; i >= 0; i -= 3) {
+                int p1 = triIndices.get(i + 0) * 2;
+                int p2 = triIndices.get(i + 1) * 2;
+                int p3 = triIndices.get(i + 2) * 2;
+                shapes.triangle(
+                        vertices.get(p1) * 16, vertices.get(p1 + 1) * 16,
+                        vertices.get(p2) * 16, vertices.get(p2 + 1) * 16,
+                        vertices.get(p3) * 16, vertices.get(p3 + 1) * 16
+                );
+            }
+
+            // Minimum spanning tree from Delaunay triangulation
+            final int numRooms = mst.vertexSet().size();
+            final Room[] mstRooms = new Room[numRooms];
+            mst.vertexSet().toArray(mstRooms);
+
+            shapes.setColor(1,0,1,1);
+            for (int iu = numRooms - 1; iu >= 0; --iu) {
+                for (int iv = numRooms - 1; iv >= 0; --iv) {
+                    final Room u = mstRooms[iu];
+                    final Room v = mstRooms[iv];
+                    if (u == v) continue;
+
+                    if (mst.hasEdge(u, v)) {
+                        shapes.line(
+                                u.center.x * 16, u.center.y * 16,
+                                v.center.x * 16, v.center.y * 16);
+                    }
+                }
+            }
+        }
+        shapes.end();
+
+        // Coordinate frame
+        shapes.begin(ShapeType.Line);
+        {
+            shapes.setColor(1, 0, 0, 0.45f);
+            shapes.line(0, 0, 3000, 0);
+            shapes.setColor(0, 1, 0, 0.45f);
+            shapes.line(0, 0, 0, 2000);
+        }
+        shapes.end();
+    }
+
 
     // ------------------------------------------------------------------------
     //      Implementation Details
@@ -63,13 +176,9 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
 
     /**
      * Randomly create new rooms based on specified parameters
-     *
-     * @param params the level generation parameters
-     *
-     * @return a list of newly created rooms
      */
-    private List<Room> createRooms(final LevelGenParams params) {
-        List<Room> rooms = new ArrayList<Room>(params.numInitialRooms);
+    private void createRooms() {
+        rooms = new ArrayList<Room>(params.numInitialRooms);
 
         int w_range = (params.roomWidthMax - params.roomWidthMin) + 1;
         int h_range = (params.roomHeightMax - params.roomHeightMin) + 1;
@@ -85,20 +194,17 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             bounds.height = random.nextInt(h_range) + params.roomHeightMin;
 
             rooms.add(new Room(bounds));
+
+            try { Thread.sleep(delay_ms_create); } catch (Exception e) {}
         }
 
         Gdx.app.log(tag, "Created " + rooms.size() + " initial rooms");
-
-        return rooms;
     }
 
     /**
      * Move specified rooms away from each other
-     *
-     * @param rooms  the list of rooms to separate
-     * @param params the level generation parameters
      */
-    private void separateRooms(List<Room> rooms, final LevelGenParams params) {
+    private void separateRooms() {
         float sk = 1.0f; // separation amount scale factor
         int numIterationsRun = 0;
 
@@ -113,7 +219,7 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             overlapping = false;
 
             for (Room room : rooms) {
-                separation.set(computeSeparation(room, rooms));
+                separation.set(computeSeparation(room));
 
                 if (separation.x == 0 && separation.y == 0) {
                     room.vel.set(0, 0);
@@ -126,9 +232,12 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
                 // Reposition room bounds based on velocity
                 room.center.add(room.vel);
                 room.rect.setCenter(room.center);
+
             }
 
             ++numIterationsRun;
+
+            try { Thread.sleep(delay_ms_separate); } catch (Exception e) {}
         }
 
         Gdx.app.log(tag, "Separating rooms... complete : " + numIterationsRun + " iterations");
@@ -142,7 +251,7 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
      *
      * @return the velocity that moves the room away from overlapping rooms
      */
-    private Vector2 computeSeparation(Room room, final List<Room> rooms) {
+    private Vector2 computeSeparation(Room room) {
         final Rectangle intersection = new Rectangle();
         final Vector2 separation = new Vector2();
         final Vector2 temp = new Vector2();
@@ -178,13 +287,8 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
 
     /**
      * Select some rooms that will make up the main rooms in the level
-     *
-     * @param rooms  the list of rooms to choose from
-     * @param params the level generation parameters
-     *
-     * @return a list containing the rooms that were selected
      */
-    private List<Room> selectRooms(final List<Room> rooms, final LevelGenParams params) {
+    private void selectRooms() {
         final int mid_width = (params.roomWidthMax - params.roomWidthMin) / 2;
         final int mid_height = (params.roomHeightMax - params.roomHeightMin) / 2;
         final Random rand = new Random();
@@ -206,25 +310,22 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             } else {
                 room.isSelected = false;
             }
+
+            try { Thread.sleep(delay_ms_select); } catch (Exception e) {}
         }
 
         Gdx.app.log(tag, "Selected " + params.numSelectedRooms + " rooms");
-
-        return selected;
     }
 
     /**
      * Generate the final room graph
-     *
-     * @param rooms  the list of rooms, some of which are selected
-     * @param params the level generation parameters
-     *
-     * @return the final room graph, ready for map generation
      */
-    private Graph<Room> generateGraph(final List<Room> rooms, LevelGenParams params) {
+    private void generateGraph() {
+        graph = new Graph<Room>();
+
         // Snap room bounds to integer coordinates and
         // generate graph vertices from selected room centers
-        final FloatArray vertices = new FloatArray();
+        vertices = new FloatArray();
         for (Room room : rooms) {
             room.rect.set(
                     (float) Math.floor(room.rect.x),
@@ -241,35 +342,31 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
 
         // Compute Delaunay triangulation of graph vertices
         final DelaunayTriangulator triangulator = new DelaunayTriangulator();
-        final ShortArray triIndices = triangulator.computeTriangles(vertices, false);
-        final Graph<Room> delaunay = generateDelaunayGraph(rooms, vertices, triIndices, params);
+        triIndices = triangulator.computeTriangles(vertices, false);
+        final Graph<Room> delaunay = generateDelaunayGraph(vertices, triIndices);
 
         Gdx.app.log(tag, "Computed Delaunay triangulation");
 
         // Make graph fully connected and acyclic,
-        final Graph<Room> mst = generateMinSpanningTree(delaunay, params);
+        generateMinSpanningTree(delaunay);
         Gdx.app.log(tag, "Computed minimum spanning tree");
 
         // Restore some cycles in the minimum spanning tree
-        final Graph<Room> graph = restoreExtraEdges(delaunay, mst, params);
+        restoreExtraEdges(delaunay, params);
         Gdx.app.log(tag, "Restored " + (100f * params.percentCycleEdges) + "% of cycle edges");
-
-        return graph;
     }
 
     /**
      * Generate a graph from the existing Delaunay triangulation of the selected
      * rooms from the specified list of rooms.
      *
-     * @param rooms     the list of rooms, some of which are selected
      * @param vertices  the vertices of the Delaunay triangulation [x0, y0, x1,
      *                  y1, ..., xN, yN]
      * @param triangles the triangle indices of the specified vertices
-     * @param params    the level generation parameters
      *
      * @return the Delaunay triangulation of selected rooms as a graph
      */
-    private Graph<Room> generateDelaunayGraph(final List<Room> rooms, final FloatArray vertices, final ShortArray triangles, final LevelGenParams params) {
+    private Graph<Room> generateDelaunayGraph(final FloatArray vertices, final ShortArray triangles) {
         // Generate graph structure from Dalaunay triangulation
         final Graph<Room> delaunay = new Graph<Room>();
         final Vector2 v1 = new Vector2();
@@ -320,11 +417,8 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
      * Calculate a min spanning tree for specified graph using Prim's algorithm
      *
      * @param graph  the graph to calculate a min spanning tree for
-     * @param params the level generation parameters
-     *
-     * @return the calculated minimum spanning tree graph
      */
-    private Graph<Room> generateMinSpanningTree(final Graph<Room> graph, final LevelGenParams params) {
+    private void generateMinSpanningTree(final Graph<Room> graph) {
         // Create vertex sets:
         // V - all existing graph vertices
         // V_new - vertices connected to the minimum spanning tree
@@ -334,11 +428,11 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             V.add(room);
         }
 
-        final Graph<Room> mst = new Graph<Room>();
+        mst = new Graph<Room>();
 
         // Make sure there are vertices in the delaunay graph
         if (!V.iterator().hasNext()) {
-            return mst;
+            return;
         }
 
         // Add an arbitrary vertex to the mst graph
@@ -378,8 +472,6 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             mst.addEdge(u0, v0);
             V_new.add(v0);
         }
-
-        return mst;
     }
 
     /**
@@ -388,12 +480,9 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
      * (a minimum spanning tree for example)
      *
      * @param source the source graph
-     * @param dest   the destination graph
      * @param params the level generation parameters
-     *
-     * @return the destination graph, with some restored edges
      */
-    private Graph<Room> restoreExtraEdges(final Graph<Room> source, Graph<Room> dest, final LevelGenParams params) {
+    private void restoreExtraEdges(final Graph<Room> source, final LevelGenParams params) {
         final float max_edges_to_restore = params.percentCycleEdges * source.E();
 
         int numEdgesAdded = 0;
@@ -402,39 +491,36 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
                 if (u == v) continue;
 
                 // TODO : add some randomness to this edge selection
-                if (source.hasEdge(u, v) && !dest.hasEdge(u, v)) {
-                    dest.addEdge(u, v);
+                if (source.hasEdge(u, v) && !graph.hasEdge(u, v)) {
+                    graph.addEdge(u, v);
                     ++numEdgesAdded;
 
                     if (numEdgesAdded >= max_edges_to_restore) {
-                        return dest;
+                        return;
                     }
                 }
             }
         }
-
-        return dest;
     }
 
     /**
      * Reposition the bounds of each room in the graph so they are within the
      * first quadrant.
-     *
-     * @param rooms the graph of rooms to reposition
      */
-    private void repositionRooms(Graph<Room> rooms) {
+    private void repositionRooms() {
         // Find minimum room position
         final Vector2 min = new Vector2(Float.MAX_VALUE, Float.MAX_VALUE);
-        for (Room room : rooms.vertices()) {
+        for (Room room : rooms) {
             if (min.x > room.rect.x) min.x = room.rect.x;
             if (min.y > room.rect.y) min.y = room.rect.y;
         }
 
         // Shift rooms to 1st quadrant (x >= 0, y >= 0) and re-snap to integer bounds
-        for (Room room : rooms.vertices()) {
+        for (Room room : rooms) {
             room.rect.x = (int) Math.floor(room.rect.x - min.x);
             room.rect.y = (int) Math.floor(room.rect.y - min.y);
             room.rect.getCenter(room.center);
+            try { Thread.sleep(delay_ms_reposition); } catch (Exception e) {}
         }
     }
 

@@ -1,5 +1,6 @@
 package lando.systems.lordsandships.scene;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,9 +18,9 @@ public class OrthoCamController extends InputAdapter {
 	final Vector3 delta = new Vector3();
 	final float zoom_scale = 0.025f;
 	final float min_camera_zoom = 0.1f;
-	final float initial_camera_zoom = 0.25f;
+	final float initial_camera_zoom = 8;//0.25f;
 
-	public boolean debugRender = false;
+	public boolean debugRender = true;
 
 	public OrthoCamController (OrthographicCamera camera) {
 		this.camera = camera;
@@ -46,7 +47,11 @@ public class OrthoCamController extends InputAdapter {
 
 	@Override
 	public boolean scrolled (int amount) {
-		camera.zoom += zoom_scale * amount;
+        float scale = zoom_scale;
+        if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
+            scale *= 10;
+        }
+		camera.zoom += scale * amount;
 		if (camera.zoom < min_camera_zoom) {
 			camera.zoom = min_camera_zoom;
 		}
