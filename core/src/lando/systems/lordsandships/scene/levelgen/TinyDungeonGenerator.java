@@ -43,11 +43,13 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
 
     private static final String tag = "LEVEL_GEN";
     private static final int tile_size = 16;
-    private static final int delay_ms_create = 7;
-    private static final int delay_ms_separate = 4;
-    private static final int delay_ms_select = 8;
+
+    private static final int delay_ms_create = 6;
+    private static final int delay_ms_separate = 3;
+    private static final int delay_ms_select = 5;
     private static final int delay_ms_reposition = 1;
-    private static final int delay_ms_mst = 50;
+    private static final int delay_ms_mst = 40;
+    private static final int delay_ms_restore = 30;
 
     private static final Random random = new Random();
     private static final Random selectRandom = new Random();
@@ -63,6 +65,10 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
 
 
     public TinyDungeonGenerator() {
+        reset();
+    }
+
+    private void reset() {
         rooms = new ArrayList<Room>();
         graph = new Graph<Room>();
         mst = new Graph<Room>();
@@ -77,10 +83,16 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
         random.setSeed(params.randomSeed);
         selectRandom.setSeed(params.randomSeed);
 
+        reset();
+
         createRooms();
+        try { Thread.sleep(700); } catch(Exception e) {}
         separateRooms();
+        try { Thread.sleep(700); } catch(Exception e) {}
         selectRooms();
+        try { Thread.sleep(700); } catch(Exception e) {}
         repositionRooms();
+        try { Thread.sleep(700); } catch(Exception e) {}
         generateGraph();
 
         return graph;
@@ -142,7 +154,7 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             final Room[] mstRooms = new Room[numRooms];
             mst.vertexSet().toArray(mstRooms);
 
-            shapes.setColor(1,0,1,1);
+            shapes.setColor(1,1,0,1);
             for (int iu = numRooms - 1; iu >= 0; --iu) {
                 for (int iv = numRooms - 1; iv >= 0; --iv) {
                     final Room u = mstRooms[iu];
@@ -156,6 +168,27 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
                     }
                 }
             }
+
+            // Final room graph
+            final int roomCount = graph.vertexSet().size();
+            final Room[] graphRooms = new Room[numRooms];
+            graph.vertexSet().toArray(graphRooms);
+
+            shapes.setColor(1, 0, 0, 1);
+            for (int iu = roomCount - 1; iu >= 0; --iu) {
+                for (int iv = roomCount - 1; iv >= 0; --iv) {
+                    final Room u = graphRooms[iu];
+                    final Room v = graphRooms[iv];
+                    if (u == v) continue;
+
+                    if (graph.hasEdge(u, v)) {
+                        shapes.line(
+                                u.center.x * 16, u.center.y * 16,
+                                v.center.x * 16, v.center.y * 16);
+                    }
+                }
+            }
+
         }
         shapes.end();
 
@@ -417,15 +450,15 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
     /**
      * Calculate a min spanning tree for specified graph using Prim's algorithm
      *
-     * @param graph  the graph to calculate a min spanning tree for
+     * @param source the graph to calculate a min spanning tree for
      */
-    private void generateMinSpanningTree(final Graph<Room> graph) {
+    private void generateMinSpanningTree(final Graph<Room> source) {
         // Create vertex sets:
         // V - all existing graph vertices
         // V_new - vertices connected to the minimum spanning tree
         final Set<Room> V_new = new HashSet<Room>();
         final Set<Room> V = new HashSet<Room>();
-        for (Room room : graph.vertices()) {
+        for (Room room : source.vertices()) {
             V.add(room);
         }
 
@@ -458,7 +491,7 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
                     // Find minimum distance edge
                     // from a room 'u' in V_new...
                     // to a room 'v' not in V_new
-                    if (graph.hasEdge(u, v)) {
+                    if (source.hasEdge(u, v)) {
                         float dist = u.center.dst(v.center);
                         if (minDist > dist) {
                             minDist = dist;
@@ -489,18 +522,32 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
         final float max_edges_to_restore = params.percentCycleEdges * source.E();
 
         int numEdgesAdded = 0;
-        for (Room u : source.vertices()) {
-            for (Room v : source.vertices()) {
-                if (u == v) continue;
+        restoration:
+        while (numEdgesAdded < max_edges_to_restore) {
+            for (Room u : source.vertices()) {
+                for (Room v : source.vertices()) {
+                    if (u == v) continue;
 
-                // TODO : add some randomness to this edge selection
-                if (source.hasEdge(u, v) && !graph.hasEdge(u, v)) {
-                    graph.addEdge(u, v);
-                    ++numEdgesAdded;
+                    // TODO : add some randomness to this edge selection
+                    if (source.hasEdge(u, v) && !graph.hasEdge(u, v)) {
+                        graph.addEdge(u, v);
+                        ++numEdgesAdded;
 
-                    if (numEdgesAdded >= max_edges_to_restore) {
-                        return;
+                        if (numEdgesAdded >= max_edges_to_restore) {
+                            break restoration;
+                        }
                     }
+
+                    try { Thread.sleep(delay_ms_restore); } catch (Exception e) {}
+                }
+            }
+        }
+
+        for (Room u : mst.vertices()) {
+            for (Room v : mst.vertices()) {
+                if (u == v) continue;
+                if (mst.hasEdge(u, v) && !graph.hasEdge(u, v)) {
+                    graph.addEdge(u, v);
                 }
             }
         }
