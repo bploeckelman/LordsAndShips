@@ -83,7 +83,8 @@ public class GameScreen implements UpdatingScreen {
 	private ExplosionEmitter explosionEmitter = new ExplosionEmitter();
 	private Animation sparkle;
 	private MutableFloat sparkle_accum = new MutableFloat(0);
-	private boolean sparkling = false;
+    private boolean sparkling = false;
+    private boolean generatingLevel = false;
     private final LevelGenParams params;
 
     public GameScreen(GameInstance game) {
@@ -106,6 +107,7 @@ public class GameScreen implements UpdatingScreen {
 		uiCamera.update();
 
 		camController = new OrthoCamController(camera);
+        tileMap = new TileMap();
 
 		InputMultiplexer inputMux = new InputMultiplexer();
 		inputMux.addProcessor(camController);
@@ -156,8 +158,17 @@ public class GameScreen implements UpdatingScreen {
         executor.execute(new Runnable() {
             @Override
             public void run() {
+                generatingLevel = true;
+                Gdx.app.log("GAME_SCREEN", "Generating level...");
                 final Graph<Room> roomGraph = dungeonGenerator.generateRoomGraph(params);
-                tileMap = new TileMap(roomGraph);
+
+                Gdx.app.log("GAME_SCREEN", "Generating tilemap...");
+                try { Thread.sleep(2000); } catch (Exception e) {}
+                camController.debugRender = false;
+                tileMap.generateTilesFromGraph(roomGraph);
+
+                Gdx.app.log("GAME_SCREEN", "Level and tilemap generation complete.");
+                generatingLevel = false;
             }
         });
     }
@@ -171,7 +182,7 @@ public class GameScreen implements UpdatingScreen {
 			enemies.add(new Enemy(Assets.enemytex, mouseWorldCoords.x, mouseWorldCoords.y, 16, 24, 0.3f));
 		}
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !generatingLevel) {
             regenerateLevel();
         }
 
@@ -405,7 +416,9 @@ public class GameScreen implements UpdatingScreen {
 		Assets.batch.setProjectionMatrix(camera.combined);
 		Assets.shapes.setProjectionMatrix(camera.combined);
 
-        if (tileMap != null) {
+        renderDebug();
+
+        if (tileMap != null && tileMap.hasTiles) {
             tileMap.render(camera);
         }
 
@@ -422,7 +435,6 @@ public class GameScreen implements UpdatingScreen {
 		explosionEmitter.render(Assets.batch);
 		Assets.batch.end();
 
-		renderDebug();
 
 		uiRender();
 	}
@@ -433,10 +445,6 @@ public class GameScreen implements UpdatingScreen {
 		Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         dungeonGenerator.render(camera, Assets.shapes);
-
-//        if (tileMap != null) {
-//            tileMap.render(camera);
-//        }
 	}
 
 	private void uiRender() {

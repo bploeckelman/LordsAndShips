@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Disposable;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.scene.levelgen.Room;
 import lando.systems.lordsandships.scene.levelgen.RoomEdge;
+import lando.systems.lordsandships.screens.GameScreen;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.graph.Edge;
 import lando.systems.lordsandships.utils.graph.Graph;
@@ -74,19 +75,25 @@ public class TileMap implements Disposable
 		}
 	}
 
+    private static final int delay_ms_tiles = 1;
+    private static final int delay_ms_rooms = 5;
+    private static final int delay_ms_corners = 3;
+    private static final int delay_ms_walls = 1;
+
 	Tile[][] tiles = null;
 	Animation spawnTile;
 
 	int width, height;
 	public int spawnX, spawnY;
+    public boolean hasTiles = false;
 
 	Graph<Room> roomGraph;
 
-    public TileMap(Graph<Room> roomGraph) {
-		this.roomGraph = roomGraph;
-		this.width = getMapWidthInTiles();
-		this.height = getMapHeightInTiles();
-
+    public TileMap() {
+        this.roomGraph = null;
+        this.width = 0;
+        this.height = 0;
+        this.tiles = new Tile[height][width];
 		this.spawnTile = new Animation(0.06f,
 				Assets.atlas.findRegion("spawn1"),
 				Assets.atlas.findRegion("spawn2"),
@@ -97,21 +104,24 @@ public class TileMap implements Disposable
 				Assets.atlas.findRegion("spawn7"),
 				Assets.atlas.findRegion("spawn8"));
 		this.spawnTile.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-
-		generateTilesFromGraph();
 	}
 
-	public void generateTilesFromGraph() {
+	public void generateTilesFromGraph(Graph<Room> roomGraph) {
+        this.roomGraph = roomGraph;
+        this.width = getMapWidthInTiles();
+        this.height = getMapHeightInTiles();
+
 		tiles = new Tile[height][width];
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
 				tiles[y][x] = new Tile("tile-blank", x, y);
 			}
 		}
+        hasTiles = true;
 
         for (Room room : roomGraph.vertices()) {
 			generateRoomTiles(room);
-//            try { Thread.sleep(10); } catch (Exception e) {}
+            try { Thread.sleep(delay_ms_rooms); } catch (Exception e) {}
 		}
 
 		generateCorridorTiles();
@@ -129,6 +139,7 @@ public class TileMap implements Disposable
 		for (int y = worldy0 + 1; y < worldy1; ++y) {
 			for (int x = worldx0 + 1; x < worldx1; ++x) {
 				tiles[y][x].texture = "grate";
+                try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
 			}
 		}
 
@@ -199,18 +210,18 @@ public class TileMap implements Disposable
 						tiles[y][x+1].texture = "grate";
 					}
 				}
+                try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
 
 				// Add edge to completed list so its reverse isn't also processed
 				completedEdges.add(edge);
-
-//                try { Thread.sleep(10); } catch (Exception e) {}
-
 			}
 		}
 	}
 
 	public void generateWallTiles() {
+        try { Thread.sleep(5); } catch (Exception e) {}
 		addCornerTiles();
+        try { Thread.sleep(5); } catch (Exception e) {}
 		addWallTiles();
 	}
 
@@ -228,19 +239,21 @@ public class TileMap implements Disposable
 					// Check edge neighbors
 					if (tiles[yu][x].texture.equals("tile-blank")) {
 						tiles[yu][x].texture = "tile-brick-horiz";
+                        try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
 					}
 					if (tiles[yd][x].texture.equals("tile-blank")) {
 						tiles[yd][x].texture = "tile-brick-horiz";
+                        try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
 					}
 					if (tiles[y][xl].texture.equals("tile-blank")) {
 						tiles[y][xl].texture = "tile-brick-vert";
+                        try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
 					}
 					if (tiles[y][xr].texture.equals("tile-blank")) {
 						tiles[y][xr].texture = "tile-brick-vert";
+                        try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
 					}
 				}
-
-//                try { Thread.sleep(1); } catch (Exception e) {}
 			}
 		}
 	}
@@ -259,7 +272,6 @@ public class TileMap implements Disposable
 					addInnerCornerTiles(x, y, xl, yd, xr, yu);
 					addOuterCornerTiles(x, y, xl, yd, xr, yu);
 				}
-//                try { Thread.sleep(1); } catch (Exception e) {}
 			}
 		}
 	}
@@ -269,21 +281,25 @@ public class TileMap implements Disposable
 		 &&  tiles[yu][xl].texture.equals("tile-blank")
 		 && (tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-box"))) {
 			tiles[yu][xl].texture = "tile-brick-nw";
+            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 		if ((tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-box"))
 		 &&  tiles[yu][xr].texture.equals("tile-blank")
 		 && (tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-box"))) {
 			tiles[yu][xr].texture = "tile-brick-ne";
+            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 		if ((tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-box"))
 		 &&  tiles[yd][xr].texture.equals("tile-blank")
 		 && (tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-box"))) {
 			tiles[yd][xr].texture = "tile-brick-se";
+            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 		if ((tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-box"))
 		 &&  tiles[yd][xl].texture.equals("tile-blank")
 		 && (tiles[y ][xl].texture.equals("tile-blank") || tiles[y ][xl].texture.equals("tile-box"))) {
 			tiles[yd][xl].texture = "tile-brick-sw";
+            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 	}
 
@@ -292,21 +308,25 @@ public class TileMap implements Disposable
 		 &&  tiles[yu][xl].texture.equals("tile-blank")
 		 && !tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-box")) {
 			tiles[yu][xl].texture = "tile-box";
+            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 		if (!tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-box")
 		 &&  tiles[yu][xr].texture.equals("tile-blank")
 		 && !tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-box")) {
 			tiles[yu][xr].texture = "tile-box";
+            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 		if (!tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-box")
 		 &&  tiles[yd][xr].texture.equals("tile-blank")
 		 && !tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-box")) {
 			tiles[yd][xr].texture = "tile-box";
+            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 		if (!tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-box")
 		 &&  tiles[yd][xl].texture.equals("tile-blank")
 		 && !tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-box")) {
 			tiles[yd][xl].texture = "tile-box";
+            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 	}
 
@@ -342,11 +362,7 @@ public class TileMap implements Disposable
 			return true;
 		}
 
-		 if (tiles[y][x].texture.equals("grate") || tiles[y][x].texture.equals("tile-blank")) {
-			return false;
-		} else {
-			return true;
-		}
+        return !(tiles[y][x].texture.equals("grate") || tiles[y][x].texture.equals("tile-blank"));
 	}
 
 	float accum = 0f;

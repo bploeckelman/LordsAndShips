@@ -44,12 +44,12 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
     private static final String tag = "LEVEL_GEN";
     private static final int tile_size = 16;
 
-    private static final int delay_ms_create = 6;
+    private static final int delay_ms_create = 4;
     private static final int delay_ms_separate = 3;
-    private static final int delay_ms_select = 5;
+    private static final int delay_ms_select = 2;
     private static final int delay_ms_reposition = 1;
-    private static final int delay_ms_mst = 40;
-    private static final int delay_ms_restore = 30;
+    private static final int delay_ms_mst = 60;
+    private static final int delay_ms_restore = 20;
 
     private static final Random random = new Random();
     private static final Random selectRandom = new Random();
