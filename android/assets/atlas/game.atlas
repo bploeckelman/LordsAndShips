@@ -438,28 +438,28 @@ tile-wall-vert
   orig: 16, 16
   offset: 0, 0
   index: -1
-wall-horizontal-e
+wall-horizontal-n
   rotate: false
   xy: 38, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-wall-horizontal-w
+wall-horizontal-s
   rotate: false
   xy: 104, 122
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-wall-vertical-n
+wall-vertical-e
   rotate: false
   xy: 170, 188
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-wall-vertical-s
+wall-vertical-w
   rotate: false
   xy: 188, 206
   size: 16, 16

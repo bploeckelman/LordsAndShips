@@ -39,12 +39,17 @@ public class TileMap implements Disposable
 		tiles.put("tile-wall-ne",     Assets.atlas.findRegion("tile-wall-ne"));
 		tiles.put("tile-wall-se",     Assets.atlas.findRegion("tile-wall-se"));
 		tiles.put("tile-wall-sw",     Assets.atlas.findRegion("tile-wall-sw"));
-		tiles.put("tile-brick-horiz", Assets.atlas.findRegion("wall-vertical-n"));//purple_floor_tile1"));//tile-brick-horiz"));
-		tiles.put("tile-brick-vert",  Assets.atlas.findRegion("wall-horizontal-e"));//purple_floor_tile1"));//tile-brick-vert"));
+
+        tiles.put("tile-brick-horiz-n", Assets.atlas.findRegion("wall-horizontal-n"));
+        tiles.put("tile-brick-horiz-s", Assets.atlas.findRegion("wall-horizontal-s"));
+        tiles.put("tile-brick-vert-e", Assets.atlas.findRegion("wall-vertical-e"));
+        tiles.put("tile-brick-vert-w", Assets.atlas.findRegion("wall-vertical-w"));
+
 		tiles.put("tile-brick-nw",    Assets.atlas.findRegion("inner-corner-nw"));//purple_floor_tile1"));//"tile-brick-nw"));
 		tiles.put("tile-brick-ne",    Assets.atlas.findRegion("inner-corner-ne"));//purple_floor_tile1"));//"tile-brick-ne"));
 		tiles.put("tile-brick-se",    Assets.atlas.findRegion("inner-corner-se"));//purple_floor_tile1"));//"tile-brick-se"));
 		tiles.put("tile-brick-sw",    Assets.atlas.findRegion("inner-corner-sw"));//purple_floor_tile1"));//tile-brick-sw"));
+
 		tiles.put("grate",            Assets.atlas.findRegion("purple_bricks1"));//tile-floor5"));
 
 		tile_textures = Collections.unmodifiableMap(tiles);
@@ -238,19 +243,19 @@ public class TileMap implements Disposable
 
 					// Check edge neighbors
 					if (tiles[yu][x].texture.equals("tile-blank")) {
-						tiles[yu][x].texture = "tile-brick-horiz";
+						tiles[yu][x].texture = "tile-brick-horiz-n";
                         try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
 					}
 					if (tiles[yd][x].texture.equals("tile-blank")) {
-						tiles[yd][x].texture = "tile-brick-horiz";
+						tiles[yd][x].texture = "tile-brick-horiz-s";
                         try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
 					}
 					if (tiles[y][xl].texture.equals("tile-blank")) {
-						tiles[y][xl].texture = "tile-brick-vert";
+						tiles[y][xl].texture = "tile-brick-vert-e";
                         try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
 					}
 					if (tiles[y][xr].texture.equals("tile-blank")) {
-						tiles[y][xr].texture = "tile-brick-vert";
+						tiles[y][xr].texture = "tile-brick-vert-w";
                         try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
 					}
 				}
