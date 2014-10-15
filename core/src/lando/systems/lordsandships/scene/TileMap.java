@@ -45,10 +45,15 @@ public class TileMap implements Disposable
         tiles.put("tile-brick-vert-e", Assets.atlas.findRegion("wall-vertical-e"));
         tiles.put("tile-brick-vert-w", Assets.atlas.findRegion("wall-vertical-w"));
 
-		tiles.put("tile-brick-nw",    Assets.atlas.findRegion("inner-corner-nw"));//purple_floor_tile1"));//"tile-brick-nw"));
-		tiles.put("tile-brick-ne",    Assets.atlas.findRegion("inner-corner-ne"));//purple_floor_tile1"));//"tile-brick-ne"));
-		tiles.put("tile-brick-se",    Assets.atlas.findRegion("inner-corner-se"));//purple_floor_tile1"));//"tile-brick-se"));
-		tiles.put("tile-brick-sw",    Assets.atlas.findRegion("inner-corner-sw"));//purple_floor_tile1"));//tile-brick-sw"));
+        tiles.put("tile-outer-nw",    Assets.atlas.findRegion("outer-corner-nw"));//purple_floor_tile1"));//"tile-brick-nw"));
+        tiles.put("tile-outer-ne",    Assets.atlas.findRegion("outer-corner-ne"));//purple_floor_tile1"));//"tile-brick-ne"));
+        tiles.put("tile-outer-se",    Assets.atlas.findRegion("outer-corner-se"));//purple_floor_tile1"));//"tile-brick-se"));
+        tiles.put("tile-outer-sw",    Assets.atlas.findRegion("outer-corner-sw"));//purple_floor_tile1"));//tile-brick-sw"));
+
+		tiles.put("tile-inner-nw",    Assets.atlas.findRegion("inner-corner-nw"));//purple_floor_tile1"));//"tile-brick-nw"));
+		tiles.put("tile-inner-ne",    Assets.atlas.findRegion("inner-corner-ne"));//purple_floor_tile1"));//"tile-brick-ne"));
+		tiles.put("tile-inner-se",    Assets.atlas.findRegion("inner-corner-se"));//purple_floor_tile1"));//"tile-brick-se"));
+		tiles.put("tile-inner-sw",    Assets.atlas.findRegion("inner-corner-sw"));//purple_floor_tile1"));//tile-brick-sw"));
 
 		tiles.put("grate",            Assets.atlas.findRegion("purple_bricks1"));//tile-floor5"));
 
@@ -274,63 +279,70 @@ public class TileMap implements Disposable
 				int yu = (y + 1 >= height) ? y : y + 1;
 
 				if (tiles[y][x].texture.equals("grate")) {
-					addInnerCornerTiles(x, y, xl, yd, xr, yu);
+                    addInnerCornerTiles(x, y, xl, yd, xr, yu);
 					addOuterCornerTiles(x, y, xl, yd, xr, yu);
 				}
 			}
 		}
 	}
 
+    private boolean isCorner(String texture) {
+        return (texture.equals("tile-outer-ne") || texture.equals("tile-outer-nw")
+             || texture.equals("tile-outer-se") || texture.equals("tile-outer-sw")
+             || texture.equals("tile-inner-ne") || texture.equals("tile-inner-nw")
+             || texture.equals("tile-inner-se") || texture.equals("tile-inner-sw"));
+    }
+
 	private void addOuterCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
-		if ((tiles[y ][xl].texture.equals("tile-blank") || tiles[y ][xl].texture.equals("tile-box"))
+		if ((tiles[y ][xl].texture.equals("tile-blank") || isCorner(tiles[y ][xl].texture))//.equals("tile-box"))
 		 &&  tiles[yu][xl].texture.equals("tile-blank")
-		 && (tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-box"))) {
-			tiles[yu][xl].texture = "tile-brick-nw";
+		 && (tiles[yu][x ].texture.equals("tile-blank") || isCorner(tiles[yu][x ].texture))) {//.equals("tile-box"))) {
+			tiles[yu][xl].texture = "tile-outer-nw";
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
-		if ((tiles[yu][x ].texture.equals("tile-blank") || tiles[yu][x ].texture.equals("tile-box"))
+		if ((tiles[yu][x ].texture.equals("tile-blank") || isCorner(tiles[yu][x ].texture))//.equals("tile-box"))
 		 &&  tiles[yu][xr].texture.equals("tile-blank")
-		 && (tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-box"))) {
-			tiles[yu][xr].texture = "tile-brick-ne";
+		 && (tiles[y ][xr].texture.equals("tile-blank") || isCorner(tiles[y ][xr].texture))) {//.equals("tile-box"))) {
+			tiles[yu][xr].texture = "tile-outer-ne";
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
-		if ((tiles[y ][xr].texture.equals("tile-blank") || tiles[y ][xr].texture.equals("tile-box"))
+		if ((tiles[y ][xr].texture.equals("tile-blank") || isCorner(tiles[y ][xr].texture))//.equals("tile-box"))
 		 &&  tiles[yd][xr].texture.equals("tile-blank")
-		 && (tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-box"))) {
-			tiles[yd][xr].texture = "tile-brick-se";
+		 && (tiles[yd][x ].texture.equals("tile-blank") || isCorner(tiles[yd][x ].texture))) {//.equals("tile-box"))) {
+			tiles[yd][xr].texture = "tile-outer-se";
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
-		if ((tiles[yd][x ].texture.equals("tile-blank") || tiles[yd][x ].texture.equals("tile-box"))
+		if ((tiles[yd][x ].texture.equals("tile-blank") || isCorner(tiles[yd][x ].texture))//.equals("tile-box"))
 		 &&  tiles[yd][xl].texture.equals("tile-blank")
-		 && (tiles[y ][xl].texture.equals("tile-blank") || tiles[y ][xl].texture.equals("tile-box"))) {
-			tiles[yd][xl].texture = "tile-brick-sw";
+		 && (tiles[y ][xl].texture.equals("tile-blank") || isCorner(tiles[y ][xl].texture))) {//.equals("tile-box"))) {
+			tiles[yd][xl].texture = "tile-outer-sw";
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 	}
 
 	private void addInnerCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
-		if (!tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-box")
+		if (!tiles[y ][xl].texture.equals("tile-blank") && !isCorner(tiles[y ][xl].texture)//.equals("tile-box")
 		 &&  tiles[yu][xl].texture.equals("tile-blank")
-		 && !tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-box")) {
-			tiles[yu][xl].texture = "tile-box";
+		 && !tiles[yu][x ].texture.equals("tile-blank") && !isCorner(tiles[yu][x ].texture)) {//.equals("tile-box")) {
+			tiles[yu][xl].texture = "tile-inner-ne";
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
-		if (!tiles[yu][x ].texture.equals("tile-blank") && !tiles[yu][x ].texture.equals("tile-box")
+		if (!tiles[yu][x ].texture.equals("tile-blank") && !isCorner(tiles[yu][x ].texture)//.equals("tile-box")
 		 &&  tiles[yu][xr].texture.equals("tile-blank")
-		 && !tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-box")) {
-			tiles[yu][xr].texture = "tile-box";
+		 && !tiles[y ][xr].texture.equals("tile-blank") && !isCorner(tiles[y ][xr].texture)) {//.equals("tile-box")) {
+			tiles[yu][xr].texture = "tile-inner-nw";
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
-		if (!tiles[y ][xr].texture.equals("tile-blank") && !tiles[y ][xr].texture.equals("tile-box")
+		if (!tiles[y ][xr].texture.equals("tile-blank") && !isCorner(tiles[y ][xr].texture)//.equals("tile-box")
 		 &&  tiles[yd][xr].texture.equals("tile-blank")
-		 && !tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-box")) {
-			tiles[yd][xr].texture = "tile-box";
+		 && !tiles[yd][x ].texture.equals("tile-blank") && !isCorner(tiles[yd][x ].texture)) {//.equals("tile-box")) {
+			tiles[yd][xr].texture = "tile-inner-sw";
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
-		if (!tiles[yd][x ].texture.equals("tile-blank") && !tiles[yd][x ].texture.equals("tile-box")
+		if (!tiles[yd][x ].texture.equals("tile-blank") && !isCorner(tiles[yd][x ].texture)//.equals("tile-box")
 		 &&  tiles[yd][xl].texture.equals("tile-blank")
-		 && !tiles[y ][xl].texture.equals("tile-blank") && !tiles[y ][xl].texture.equals("tile-box")) {
-			tiles[yd][xl].texture = "tile-box";
+		 && !tiles[y ][xl].texture.equals("tile-blank") && !isCorner(tiles[y ][xl].texture)){//.equals("tile-box")) {
+			tiles[yd][xl].texture = "tile-inner-se";
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
 		}
 	}
