@@ -11,24 +11,26 @@ import lando.systems.lordsandships.utils.graph.Vertex;
  */
 public class Room extends Vertex
 {
-	public Rectangle rect;
-	public Vector2 center;
-	public Vector2 vel;
+    public Rectangle rect = new Rectangle();
+    public Vector2 center = new Vector2();
+    public Vector2 vel    = new Vector2();
 
-	public boolean isSelected;
+    public boolean isSelected;
 
-	// TODO : add other contents once level layout is done
+    // TODO : add other contents once level layout is done
 
-	public Room(float x, float y, float w, float h) {
-		super();
+    public Room(float x, float y, float w, float h) {
+        super();
+        rect.set(x, y, w, h);
+        rect.getCenter(center);
+        vel.set(0, 0);
+        isSelected = false;
+    }
 
-		center = new Vector2();
-
-		rect = new Rectangle(x,y,w,h);
-		rect.getCenter(center);
-
-		vel= new Vector2();
-
-		isSelected = false;
-	}
+    public Room(Rectangle bounds) {
+        super();
+        rect.set(bounds);
+        rect.getCenter(center);
+        isSelected = false;
+    }
 }

@@ -4,7 +4,9 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.equations.*;
+import aurelienribon.tweenengine.equations.Bounce;
+import aurelienribon.tweenengine.equations.Cubic;
+import aurelienribon.tweenengine.equations.Linear;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,28 +18,34 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
 import lando.systems.lordsandships.entities.Enemy;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.entities.Player;
-import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
-import lando.systems.lordsandships.scene.levelgen.LevelGenerator;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.TileMap;
+import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
+import lando.systems.lordsandships.scene.levelgen.Room;
+import lando.systems.lordsandships.scene.levelgen.TinyDungeonGenerator;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
+import lando.systems.lordsandships.utils.graph.Graph;
 import lando.systems.lordsandships.weapons.Handgun;
 import lando.systems.lordsandships.weapons.Sword;
 import lando.systems.lordsandships.weapons.Weapon;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * GameScreen
@@ -52,6 +60,7 @@ public class GameScreen implements UpdatingScreen {
 	private static final float key_move_amount = 16;
 	private static final float camera_shake_scale = 1.5f;
 
+    private TinyDungeonGenerator dungeonGenerator;
 	private TileMap tileMap;
 	private OrthographicCamera camera;
 	private OrthographicCamera uiCamera;
@@ -74,9 +83,11 @@ public class GameScreen implements UpdatingScreen {
 	private ExplosionEmitter explosionEmitter = new ExplosionEmitter();
 	private Animation sparkle;
 	private MutableFloat sparkle_accum = new MutableFloat(0);
-	private boolean sparkling = false;
+    private boolean sparkling = false;
+    private boolean generatingLevel = false;
+    private final LevelGenParams params;
 
-	public GameScreen(GameInstance game) {
+    public GameScreen(GameInstance game) {
 		super();
 
 		this.game = game;
@@ -96,14 +107,14 @@ public class GameScreen implements UpdatingScreen {
 		uiCamera.update();
 
 		camController = new OrthoCamController(camera);
+        tileMap = new TileMap();
 
 		InputMultiplexer inputMux = new InputMultiplexer();
 		inputMux.addProcessor(camController);
 		inputMux.addProcessor(game.input);
 		Gdx.input.setInputProcessor(inputMux);
 
-		// ***************** TESTING ****************
-		LevelGenParams params = new LevelGenParams();
+        params = new LevelGenParams();
 		params.numInitialRooms = 200;
 		params.numSelectedRooms = 50;
 		params.roomWidthMin = 3;
@@ -111,13 +122,13 @@ public class GameScreen implements UpdatingScreen {
 		params.roomHeightMin = 4;
 		params.roomHeightMax = 15;
 
-		LevelGenerator.generateLevel(params);
-		tileMap = new TileMap(LevelGenerator.mst, LevelGenerator.selectedRooms);
+        dungeonGenerator = new TinyDungeonGenerator();
 
 		player = new Player(
 				Assets.playertex,
-				tileMap.spawnX * 16,
-				tileMap.spawnY * 16,
+                100 * 16, 100 * 16,
+//				tileMap.spawnX * 16,
+//				tileMap.spawnY * 16,
 				16, 16, 0.1f);
 
 		if (player.getCurrentWeapon() instanceof Sword) {
@@ -142,7 +153,27 @@ public class GameScreen implements UpdatingScreen {
 		sparkle.setPlayMode(Animation.PlayMode.NORMAL);
 	}
 
-	@Override
+    private void regenerateLevel() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                generatingLevel = true;
+                Gdx.app.log("GAME_SCREEN", "Generating level...");
+                final Graph<Room> roomGraph = dungeonGenerator.generateRoomGraph(params);
+
+                Gdx.app.log("GAME_SCREEN", "Generating tilemap...");
+                try { Thread.sleep(2000); } catch (Exception e) {}
+                camController.debugRender = false;
+                tileMap.generateTilesFromGraph(roomGraph);
+
+                Gdx.app.log("GAME_SCREEN", "Level and tilemap generation complete.");
+                generatingLevel = false;
+            }
+        });
+    }
+
+    @Override
 	public void update(float delta) {
 		updateMouseVectors();
 
@@ -150,6 +181,10 @@ public class GameScreen implements UpdatingScreen {
 		if (Gdx.input.justTouched() && Gdx.input.isKeyPressed(Input.Keys.F)) {
 			enemies.add(new Enemy(Assets.enemytex, mouseWorldCoords.x, mouseWorldCoords.y, 16, 24, 0.3f));
 		}
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !generatingLevel) {
+            regenerateLevel();
+        }
 
 		// TODO : extract this functionality out to a more generic place
 		// Switch weapons
@@ -213,7 +248,8 @@ public class GameScreen implements UpdatingScreen {
 
 	private void updateEntities(float delta) {
 		updatePlayers(delta);
-		resolveCollisions();
+        // TODO
+//		resolveCollisions();
 		for (Enemy enemy : enemies) {
 			if (enemy.isAlive()) {
 				if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
@@ -311,10 +347,12 @@ public class GameScreen implements UpdatingScreen {
 
 		for (Enemy enemy : enemies) {
 			if (!enemy.isAlive()) continue;
-			resolveCollisions(enemy);
+            // TODO
+//			resolveCollisions(enemy);
 		}
 
-		resolveCollisions(player);
+        // TODO
+//		resolveCollisions(player);
 	}
 
 	private void resolveCollisions(Entity entity) {
@@ -372,13 +410,17 @@ public class GameScreen implements UpdatingScreen {
 		Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		Gdx.gl.glClearColor(0.08f, 0.04f, 0.0f, 1);
+        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Assets.batch.setProjectionMatrix(camera.combined);
 		Assets.shapes.setProjectionMatrix(camera.combined);
 
-		tileMap.render(camera);
+        renderDebug();
+
+        if (tileMap != null && tileMap.hasTiles) {
+            tileMap.render(camera);
+        }
 
 		Assets.batch.begin();
 		for (Enemy enemy : enemies) {
@@ -393,7 +435,6 @@ public class GameScreen implements UpdatingScreen {
 		explosionEmitter.render(Assets.batch);
 		Assets.batch.end();
 
-		renderDebug();
 
 		uiRender();
 	}
@@ -402,31 +443,8 @@ public class GameScreen implements UpdatingScreen {
 		if (!camController.debugRender) return;
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
-		LevelGenerator.debugRender(camera);
-
-		float minx = Float.MAX_VALUE;
-		float miny = Float.MAX_VALUE;
-		float maxx = Float.MIN_VALUE;
-		float maxy = Float.MIN_VALUE;
-		for (TileMap.Tile t : collisionTiles) {
-			if (minx > t.getWorldMinX()) minx = t.getWorldMinX();
-			if (miny > t.getWorldMinY()) miny = t.getWorldMinY();
-			if (maxx < t.getWorldMaxX()) maxx = t.getWorldMaxX();
-			if (maxy < t.getWorldMaxY()) maxy = t.getWorldMaxY();
-		}
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		Assets.shapes.setProjectionMatrix(camera.combined);
-		Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
-		Assets.shapes.setColor(0, 1, 0, 0.5f);
-		Assets.shapes.rect(minx, miny, maxx - minx, maxy - miny);
-		Assets.shapes.setColor(1, 0, 0, 0.75f);
-		Assets.shapes.rect(intersection.x, intersection.y, intersection.width, intersection.height);
-		Assets.shapes.end();
-		Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-		Assets.shapes.setColor(1, 0, 1, 1);
-		Assets.shapes.rect(player.boundingBox.x, player.boundingBox.y, player.boundingBox.width, player.boundingBox.height);
-		Assets.shapes.end();
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        dungeonGenerator.render(camera, Assets.shapes);
 	}
 
 	private void uiRender() {
@@ -484,7 +502,7 @@ public class GameScreen implements UpdatingScreen {
 
 	@Override
 	public void dispose() {
-		tileMap.dispose();
+//		tileMap.dispose();
 		explosionEmitter.dispose();
 		font.dispose();
 	}

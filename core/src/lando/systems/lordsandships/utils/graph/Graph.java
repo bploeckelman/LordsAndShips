@@ -158,14 +158,23 @@ public class Graph<T extends Vertex>
 		return (neighbors == null) ? 0 : neighbors.size();
 	}
 
-	/**
-	 * Get the container of vertices
-	 *
-	 * @return The container of vertices in the graph
-	 */
+    /**
+     * Get an iterator for the container of vertices
+     *
+     * @return An iterator for the container of vertices
+     */
 	public Iterable<T> vertices() {
 		return adjacencyLists.keySet();
 	}
+
+    /**
+     * Get the container of vertices
+     *
+     * @return The container of vertices in the graph
+     */
+    public Set<T> vertexSet() {
+        return adjacencyLists.keySet();
+    }
 
 	/**
 	 * Get the container vertices adjacent to the specified vertex
