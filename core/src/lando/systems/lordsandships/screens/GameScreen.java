@@ -249,7 +249,7 @@ public class GameScreen implements UpdatingScreen {
 	private void updateEntities(float delta) {
 		updatePlayers(delta);
         // TODO
-//		resolveCollisions();
+		resolveCollisions();
 		for (Enemy enemy : enemies) {
 			if (enemy.isAlive()) {
 				if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
@@ -348,14 +348,15 @@ public class GameScreen implements UpdatingScreen {
 		for (Enemy enemy : enemies) {
 			if (!enemy.isAlive()) continue;
             // TODO
-//			resolveCollisions(enemy);
+			resolveCollisions(enemy);
 		}
 
         // TODO
-//		resolveCollisions(player);
+		resolveCollisions(player);
 	}
 
 	private void resolveCollisions(Entity entity) {
+        if (!tileMap.hasTiles) return;
 		// Get grid tiles that the entity overlaps
 		tileMap.getCollisionTiles(entity, collisionTiles);
 
