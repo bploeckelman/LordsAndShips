@@ -23,8 +23,6 @@ import java.util.*;
  */
 public class TileMap implements Disposable
 {
-	static final int TILE_SIZE = 16; // pixels
-
 	private static final Map<String, TextureRegion> tile_textures;
 	private static final List<String> tile_textures_keys;
 	static {
@@ -61,34 +59,11 @@ public class TileMap implements Disposable
 		tile_textures_keys = new ArrayList<String>(tile_textures.keySet());
 	}
 
-	public class Tile
-	{
-		String texture;
-		int x,y;
-
-		public Tile(String texture, int x, int y) {
-			this.texture = texture;
-			this.x = x;
-			this.y = y;
-		}
-
-		public int getGridX() { return x; }
-		public int getGridY() { return y; }
-		public float getWorldMinX() { return x * TILE_SIZE; }
-		public float getWorldMinY() { return y * TILE_SIZE; }
-		public float getWorldMaxX() { return (x + 1) * TILE_SIZE; }
-		public float getWorldMaxY() { return (y + 1) * TILE_SIZE; }
-
-		public void render() {
-			Assets.batch.draw(tile_textures.get(texture),
-					getWorldMinX(), getWorldMinY(), TILE_SIZE, TILE_SIZE);
-		}
-	}
 
     private static final int delay_ms_tiles = 1;
-    private static final int delay_ms_rooms = 5;
-    private static final int delay_ms_corners = 3;
-    private static final int delay_ms_walls = 1;
+    private static final int delay_ms_rooms = 1;
+    private static final int delay_ms_corners = 8;
+    private static final int delay_ms_walls = 2;
 
 	Tile[][] tiles = null;
 	Animation spawnTile;
@@ -386,6 +361,7 @@ public class TileMap implements Disposable
 	public void render(Camera camera) {
 		int width = getMapWidthInTiles();
 		int height = getMapHeightInTiles();
+        Tile tile;
 
 		Assets.batch.begin();
 		Assets.batch.enableBlending();
@@ -393,7 +369,10 @@ public class TileMap implements Disposable
 		Assets.batch.setProjectionMatrix(camera.combined);
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < width; ++x) {
-				tiles[y][x].render();
+                tile = tiles[y][x];
+                Assets.batch.draw(tile_textures.get(tile.texture),
+                        tile.getWorldMinX(), tile.getWorldMinY(),
+                        Tile.TILE_SIZE, Tile.TILE_SIZE);
 			}
 		}
 

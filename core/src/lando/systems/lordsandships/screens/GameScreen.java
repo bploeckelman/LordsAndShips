@@ -29,6 +29,7 @@ import lando.systems.lordsandships.entities.Enemy;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.OrthoCamController;
+import lando.systems.lordsandships.scene.Tile;
 import lando.systems.lordsandships.scene.TileMap;
 import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.scene.levelgen.Room;
@@ -311,7 +312,7 @@ public class GameScreen implements UpdatingScreen {
 		player.update(delta);
 	}
 
-	List<TileMap.Tile> collisionTiles = new ArrayList<TileMap.Tile>(10);
+	List<Tile> collisionTiles = new ArrayList<Tile>(10);
 	Rectangle tileRect = new Rectangle();
 	Rectangle intersection = new Rectangle();
 	private void resolveCollisions() {
@@ -320,7 +321,7 @@ public class GameScreen implements UpdatingScreen {
 			if (bullet.isAlive()) {
 				// Check the bullet against the map
 				tileMap.getCollisionTiles(bullet, collisionTiles);
-				for (TileMap.Tile tile : collisionTiles) {
+				for (Tile tile : collisionTiles) {
 					if (tileMap.isBlocking(tile.getGridX(), tile.getGridY())) {
 						Assets.gunshot_impact.play(0.05f);
 						bullet.kill();
@@ -361,7 +362,7 @@ public class GameScreen implements UpdatingScreen {
 		tileMap.getCollisionTiles(entity, collisionTiles);
 
 		// For each overlapped blocking tile:
-		for (TileMap.Tile tile : collisionTiles) {
+		for (Tile tile : collisionTiles) {
 			if (!tileMap.isBlocking(tile.getGridX(), tile.getGridY())) {
 				tileRect.set(0,0,0,0);
 				intersection.set(0,0,0,0);
