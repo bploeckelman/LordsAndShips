@@ -4,12 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Disposable;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.scene.levelgen.Room;
 import lando.systems.lordsandships.scene.levelgen.RoomEdge;
-import lando.systems.lordsandships.screens.GameScreen;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.graph.Edge;
 import lando.systems.lordsandships.utils.graph.Graph;
@@ -21,44 +18,7 @@ import java.util.*;
  *
  * Brian Ploeckelman created on 5/31/2014.
  */
-public class TileMap implements Disposable
-{
-    private static final Map<String, TextureRegion> tile_textures;
-    private static final List<String> tile_textures_keys;
-    static {
-        Map<String, TextureRegion> tiles = new HashMap<String, TextureRegion>();
-        tiles.put("tile-blank",       Assets.atlas.findRegion("tile-blank"));
-        tiles.put("tile-block",       Assets.atlas.findRegion("tile-block"));
-        tiles.put("tile-box",         Assets.atlas.findRegion("purple_floor_tile1"));//tile-box"));
-        tiles.put("tile-floor1",      Assets.atlas.findRegion("purple_floor_tile1"));//tile-floor1"));
-        tiles.put("tile-wall-horiz",  Assets.atlas.findRegion("tile-wall-horiz"));
-        tiles.put("tile-wall-vert",   Assets.atlas.findRegion("tile-wall-vert"));
-        tiles.put("tile-wall-nw",     Assets.atlas.findRegion("tile-wall-nw"));
-        tiles.put("tile-wall-ne",     Assets.atlas.findRegion("tile-wall-ne"));
-        tiles.put("tile-wall-se",     Assets.atlas.findRegion("tile-wall-se"));
-        tiles.put("tile-wall-sw",     Assets.atlas.findRegion("tile-wall-sw"));
-
-        tiles.put("tile-brick-horiz-n", Assets.atlas.findRegion("wall-horizontal-n"));
-        tiles.put("tile-brick-horiz-s", Assets.atlas.findRegion("wall-horizontal-s"));
-        tiles.put("tile-brick-vert-e", Assets.atlas.findRegion("wall-vertical-e"));
-        tiles.put("tile-brick-vert-w", Assets.atlas.findRegion("wall-vertical-w"));
-
-        tiles.put("tile-outer-nw",    Assets.atlas.findRegion("outer-corner-nw"));//purple_floor_tile1"));//"tile-brick-nw"));
-        tiles.put("tile-outer-ne",    Assets.atlas.findRegion("outer-corner-ne"));//purple_floor_tile1"));//"tile-brick-ne"));
-        tiles.put("tile-outer-se",    Assets.atlas.findRegion("outer-corner-se"));//purple_floor_tile1"));//"tile-brick-se"));
-        tiles.put("tile-outer-sw",    Assets.atlas.findRegion("outer-corner-sw"));//purple_floor_tile1"));//tile-brick-sw"));
-
-        tiles.put("tile-inner-nw",    Assets.atlas.findRegion("inner-corner-nw"));//purple_floor_tile1"));//"tile-brick-nw"));
-        tiles.put("tile-inner-ne",    Assets.atlas.findRegion("inner-corner-ne"));//purple_floor_tile1"));//"tile-brick-ne"));
-        tiles.put("tile-inner-se",    Assets.atlas.findRegion("inner-corner-se"));//purple_floor_tile1"));//"tile-brick-se"));
-        tiles.put("tile-inner-sw",    Assets.atlas.findRegion("inner-corner-sw"));//purple_floor_tile1"));//tile-brick-sw"));
-
-        tiles.put("grate",            Assets.atlas.findRegion("purple_bricks1"));//tile-floor5"));
-
-        tile_textures = Collections.unmodifiableMap(tiles);
-        tile_textures_keys = new ArrayList<String>(tile_textures.keySet());
-    }
-
+public class TileMap {
 
     private static final int delay_ms_tiles = 1;
     private static final int delay_ms_rooms = 1;
@@ -66,13 +26,14 @@ public class TileMap implements Disposable
     private static final int delay_ms_walls = 2;
 
     Tile[][] tiles = null;
+    TileSet tileSet;
     Animation spawnTile;
+    Graph<Room> roomGraph;
 
-    int width, height;
+    public int width, height;
     public int spawnX, spawnY;
     public boolean hasTiles = false;
 
-    Graph<Room> roomGraph;
 
     public TileMap() {
         this.roomGraph = null;
@@ -89,6 +50,7 @@ public class TileMap implements Disposable
                 Assets.atlas.findRegion("spawn7"),
                 Assets.atlas.findRegion("spawn8"));
         this.spawnTile.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        this.tileSet = new TileSetDefault();
     }
 
     public void generateTilesFromGraph(Graph<Room> roomGraph) {
@@ -99,7 +61,7 @@ public class TileMap implements Disposable
         tiles = new Tile[height][width];
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
-                tiles[y][x] = new Tile("tile-blank", x, y);
+                tiles[y][x] = new Tile(TileType.BLANK, x, y);
             }
         }
         hasTiles = true;
@@ -123,7 +85,7 @@ public class TileMap implements Disposable
         // Internal tiles
         for (int y = worldy0 + 1; y < worldy1; ++y) {
             for (int x = worldx0 + 1; x < worldx1; ++x) {
-                tiles[y][x].texture = "grate";
+                tiles[y][x].type = TileType.FLOOR;
                 try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
             }
         }
@@ -159,9 +121,9 @@ public class TileMap implements Disposable
                     int y  = (int) Math.floor(u.center.y);
                     // u is to the left of v
                     for (int x = xStart; x <= xEnd; ++x) {
-                        tiles[y-1][x].texture = "grate";
-                        tiles[y-0][x].texture = "grate";
-                        tiles[y+1][x].texture = "grate";
+                        tiles[y-1][x].type = TileType.FLOOR;
+                        tiles[y-0][x].type = TileType.FLOOR;
+                        tiles[y+1][x].type = TileType.FLOOR;
                     }
                 } else {
                     xStart = (int) Math.floor(u.center.x);
@@ -169,9 +131,9 @@ public class TileMap implements Disposable
                     int y  = (int) Math.floor(u.center.y);
                     // u is to the right of v
                     for (int x = xStart; x >= xEnd; --x) {
-                        tiles[y-1][x].texture = "grate";
-                        tiles[y-0][x].texture = "grate";
-                        tiles[y+1][x].texture = "grate";
+                        tiles[y-1][x].type = TileType.FLOOR;
+                        tiles[y-0][x].type = TileType.FLOOR;
+                        tiles[y+1][x].type = TileType.FLOOR;
                     }
                 }
                 if (u.center.y <= v.center.y) {
@@ -180,9 +142,9 @@ public class TileMap implements Disposable
                     int x  = (int) Math.floor(v.center.x);
                     // u is above v
                     for (int y = yStart; y <= yEnd; ++y) {
-                        tiles[y][x-1].texture = "grate";
-                        tiles[y][x-0].texture = "grate";
-                        tiles[y][x+1].texture = "grate";
+                        tiles[y][x-1].type = TileType.FLOOR;
+                        tiles[y][x-0].type = TileType.FLOOR;
+                        tiles[y][x+1].type = TileType.FLOOR;
                     }
                 } else {
                     yStart = (int) Math.floor(u.center.y);
@@ -190,9 +152,9 @@ public class TileMap implements Disposable
                     int x  = (int) Math.floor(v.center.x);
                     // u is below v
                     for (int y = yStart; y >= yEnd; --y) {
-                        tiles[y][x-1].texture = "grate";
-                        tiles[y][x-0].texture = "grate";
-                        tiles[y][x+1].texture = "grate";
+                        tiles[y][x-1].type = TileType.FLOOR;
+                        tiles[y][x-0].type = TileType.FLOOR;
+                        tiles[y][x+1].type = TileType.FLOOR;
                     }
                 }
                 try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
@@ -214,7 +176,7 @@ public class TileMap implements Disposable
         // Add non-corner wall tiles
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
-                if (tiles[y][x].texture.equals("grate")) {
+                if (tiles[y][x].type == TileType.FLOOR) {
                     // Clamp neighbor indices to map boundaries
                     int xl = (x - 1 < 0) ? x : x - 1;
                     int yd = (y - 1 < 0) ? y : y - 1;
@@ -222,20 +184,20 @@ public class TileMap implements Disposable
                     int yu = (y + 1 >= height) ? y : y + 1;
 
                     // Check edge neighbors
-                    if (tiles[yu][x].texture.equals("tile-blank")) {
-                        tiles[yu][x].texture = "tile-brick-horiz-n";
+                    if (tiles[yu][x].type == TileType.BLANK) {
+                        tiles[yu][x].type = TileType.WALL_HORIZ_N;
                         try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
                     }
-                    if (tiles[yd][x].texture.equals("tile-blank")) {
-                        tiles[yd][x].texture = "tile-brick-horiz-s";
+                    if (tiles[yd][x].type == TileType.BLANK) {
+                        tiles[yd][x].type = TileType.WALL_HORIZ_S;
                         try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
                     }
-                    if (tiles[y][xl].texture.equals("tile-blank")) {
-                        tiles[y][xl].texture = "tile-brick-vert-e";
+                    if (tiles[y][xl].type == TileType.BLANK) {
+                        tiles[y][xl].type = TileType.WALL_VERT_E;
                         try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
                     }
-                    if (tiles[y][xr].texture.equals("tile-blank")) {
-                        tiles[y][xr].texture = "tile-brick-vert-w";
+                    if (tiles[y][xr].type == TileType.BLANK) {
+                        tiles[y][xr].type = TileType.WALL_VERT_W;
                         try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
                     }
                 }
@@ -253,7 +215,7 @@ public class TileMap implements Disposable
                 int xr = (x + 1 >= width) ? x : x + 1;
                 int yu = (y + 1 >= height) ? y : y + 1;
 
-                if (tiles[y][x].texture.equals("grate")) {
+                if (tiles[y][x].type == TileType.FLOOR) {
                     addInnerCornerTiles(x, y, xl, yd, xr, yu);
                     addOuterCornerTiles(x, y, xl, yd, xr, yu);
                 }
@@ -261,63 +223,63 @@ public class TileMap implements Disposable
         }
     }
 
-    private boolean isCorner(String texture) {
-        return (texture.equals("tile-outer-ne") || texture.equals("tile-outer-nw")
-             || texture.equals("tile-outer-se") || texture.equals("tile-outer-sw")
-             || texture.equals("tile-inner-ne") || texture.equals("tile-inner-nw")
-             || texture.equals("tile-inner-se") || texture.equals("tile-inner-sw"));
+    private boolean isCorner(TileType type) {
+        return (type == TileType.CORNER_OUTER_NE || type == TileType.CORNER_OUTER_NW
+             || type == TileType.CORNER_OUTER_SE || type == TileType.CORNER_OUTER_SW
+             || type == TileType.CORNER_INNER_NE || type == TileType.CORNER_INNER_NW
+             || type == TileType.CORNER_INNER_SE || type == TileType.CORNER_INNER_SW);
     }
 
     private void addOuterCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
-        if ((tiles[y ][xl].texture.equals("tile-blank") || isCorner(tiles[y ][xl].texture))//.equals("tile-box"))
-         &&  tiles[yu][xl].texture.equals("tile-blank")
-         && (tiles[yu][x ].texture.equals("tile-blank") || isCorner(tiles[yu][x ].texture))) {//.equals("tile-box"))) {
-            tiles[yu][xl].texture = "tile-outer-nw";
+        if ((tiles[y ][xl].type == TileType.BLANK || isCorner(tiles[y ][xl].type))
+         &&  tiles[yu][xl].type == TileType.BLANK
+         && (tiles[yu][x ].type == TileType.BLANK || isCorner(tiles[yu][x ].type))) {
+            tiles[yu][xl].type = TileType.CORNER_OUTER_NW;
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
-        if ((tiles[yu][x ].texture.equals("tile-blank") || isCorner(tiles[yu][x ].texture))//.equals("tile-box"))
-         &&  tiles[yu][xr].texture.equals("tile-blank")
-         && (tiles[y ][xr].texture.equals("tile-blank") || isCorner(tiles[y ][xr].texture))) {//.equals("tile-box"))) {
-            tiles[yu][xr].texture = "tile-outer-ne";
+        if ((tiles[yu][x ].type == TileType.BLANK || isCorner(tiles[yu][x ].type))
+         &&  tiles[yu][xr].type == TileType.BLANK
+         && (tiles[y ][xr].type == TileType.BLANK || isCorner(tiles[y ][xr].type))) {
+            tiles[yu][xr].type = TileType.CORNER_OUTER_NE;
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
-        if ((tiles[y ][xr].texture.equals("tile-blank") || isCorner(tiles[y ][xr].texture))//.equals("tile-box"))
-         &&  tiles[yd][xr].texture.equals("tile-blank")
-         && (tiles[yd][x ].texture.equals("tile-blank") || isCorner(tiles[yd][x ].texture))) {//.equals("tile-box"))) {
-            tiles[yd][xr].texture = "tile-outer-se";
+        if ((tiles[y ][xr].type == TileType.BLANK || isCorner(tiles[y ][xr].type))
+         &&  tiles[yd][xr].type == TileType.BLANK
+         && (tiles[yd][x ].type == TileType.BLANK || isCorner(tiles[yd][x ].type))) {
+            tiles[yd][xr].type = TileType.CORNER_OUTER_SE;
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
-        if ((tiles[yd][x ].texture.equals("tile-blank") || isCorner(tiles[yd][x ].texture))//.equals("tile-box"))
-         &&  tiles[yd][xl].texture.equals("tile-blank")
-         && (tiles[y ][xl].texture.equals("tile-blank") || isCorner(tiles[y ][xl].texture))) {//.equals("tile-box"))) {
-            tiles[yd][xl].texture = "tile-outer-sw";
+        if ((tiles[yd][x ].type == TileType.BLANK || isCorner(tiles[yd][x ].type))
+         &&  tiles[yd][xl].type == TileType.BLANK
+         && (tiles[y ][xl].type == TileType.BLANK || isCorner(tiles[y ][xl].type))) {
+            tiles[yd][xl].type = TileType.CORNER_OUTER_SW;
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
     }
 
     private void addInnerCornerTiles(int x, int y, int xl, int yd, int xr, int yu) {
-        if (!tiles[y ][xl].texture.equals("tile-blank") && !isCorner(tiles[y ][xl].texture)//.equals("tile-box")
-         &&  tiles[yu][xl].texture.equals("tile-blank")
-         && !tiles[yu][x ].texture.equals("tile-blank") && !isCorner(tiles[yu][x ].texture)) {//.equals("tile-box")) {
-            tiles[yu][xl].texture = "tile-inner-ne";
+        if (tiles[y ][xl].type != TileType.BLANK && !isCorner(tiles[y ][xl].type)
+         && tiles[yu][xl].type == TileType.BLANK
+         && tiles[yu][x ].type != TileType.BLANK && !isCorner(tiles[yu][x ].type)) {
+            tiles[yu][xl].type = TileType.CORNER_INNER_NE;
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
-        if (!tiles[yu][x ].texture.equals("tile-blank") && !isCorner(tiles[yu][x ].texture)//.equals("tile-box")
-         &&  tiles[yu][xr].texture.equals("tile-blank")
-         && !tiles[y ][xr].texture.equals("tile-blank") && !isCorner(tiles[y ][xr].texture)) {//.equals("tile-box")) {
-            tiles[yu][xr].texture = "tile-inner-nw";
+        if (tiles[yu][x ].type != TileType.BLANK && !isCorner(tiles[yu][x ].type)
+         && tiles[yu][xr].type == TileType.BLANK
+         && tiles[y ][xr].type != TileType.BLANK && !isCorner(tiles[y ][xr].type)) {
+            tiles[yu][xr].type = TileType.CORNER_INNER_NW;
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
-        if (!tiles[y ][xr].texture.equals("tile-blank") && !isCorner(tiles[y ][xr].texture)//.equals("tile-box")
-         &&  tiles[yd][xr].texture.equals("tile-blank")
-         && !tiles[yd][x ].texture.equals("tile-blank") && !isCorner(tiles[yd][x ].texture)) {//.equals("tile-box")) {
-            tiles[yd][xr].texture = "tile-inner-sw";
+        if (tiles[y ][xr].type != TileType.BLANK && !isCorner(tiles[y ][xr].type)
+         && tiles[yd][xr].type == TileType.BLANK
+         && tiles[yd][x ].type != TileType.BLANK && !isCorner(tiles[yd][x ].type)) {
+            tiles[yd][xr].type = TileType.CORNER_INNER_SW;
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
-        if (!tiles[yd][x ].texture.equals("tile-blank") && !isCorner(tiles[yd][x ].texture)//.equals("tile-box")
-         &&  tiles[yd][xl].texture.equals("tile-blank")
-         && !tiles[y ][xl].texture.equals("tile-blank") && !isCorner(tiles[y ][xl].texture)){//.equals("tile-box")) {
-            tiles[yd][xl].texture = "tile-inner-se";
+        if (tiles[yd][x ].type != TileType.BLANK && !isCorner(tiles[yd][x ].type)
+         && tiles[yd][xl].type == TileType.BLANK
+         && tiles[y ][xl].type != TileType.BLANK && !isCorner(tiles[y ][xl].type)) {
+            tiles[yd][xl].type = TileType.CORNER_INNER_SE;
             try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
     }
@@ -354,7 +316,8 @@ public class TileMap implements Disposable
             return true;
         }
 
-        return !(tiles[y][x].texture.equals("grate") || tiles[y][x].texture.equals("tile-blank"));
+        TileType type = tiles[y][x].type;
+        return !(type == TileType.FLOOR || type == TileType.BLANK);
     }
 
     float accum = 0f;
@@ -370,7 +333,7 @@ public class TileMap implements Disposable
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 tile = tiles[y][x];
-                Assets.batch.draw(tile_textures.get(tile.texture),
+                Assets.batch.draw(tileSet.getTexture(tile.type),
                         tile.getWorldMinX(), tile.getWorldMinY(),
                         Tile.TILE_SIZE, Tile.TILE_SIZE);
             }
@@ -378,10 +341,6 @@ public class TileMap implements Disposable
 
         Assets.batch.draw(spawnTile.getKeyFrame(accum += Gdx.graphics.getDeltaTime()), spawnX * 16, spawnY * 16, 16, 16);
         Assets.batch.end();
-    }
-
-    @Override
-    public void dispose() {
     }
 
     public void getCollisionTiles(Entity entity, List<Tile> collisionTiles) {
@@ -396,12 +355,6 @@ public class TileMap implements Disposable
                 collisionTiles.add(tiles[y][x]);
             }
         }
-    }
-
-    private TextureRegion getRandomTileTexture() {
-        return tile_textures.get(
-            tile_textures_keys.get(Assets.rand.nextInt(tile_textures_keys.size()))
-        );
     }
 
 }

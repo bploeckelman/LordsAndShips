@@ -7,11 +7,11 @@ public class Tile {
 
     public static final int TILE_SIZE = 16; // pixels
 
-    public String texture; // TODO : change to enum for lookup
+    public TileType type;
     private int x, y;
 
-    public Tile(String texture, int x, int y) {
-        this.texture = texture;
+    public Tile(TileType type, int x, int y) {
+        this.type = type;
         this.x = x;
         this.y = y;
     }
