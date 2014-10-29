@@ -7,6 +7,6 @@ import com.badlogic.gdx.Screen;
  */
 public interface UpdatingScreen extends Screen {
 
-	public void update(float delta);
+    public void update(float delta);
 
 }
