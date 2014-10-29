@@ -1,4 +1,4 @@
-package lando.systems.lordsandships.scene;
+package lando.systems.lordsandships.scene.tilemap;
 
 /**
  * Brian Ploeckelman created on 10/28/2014.

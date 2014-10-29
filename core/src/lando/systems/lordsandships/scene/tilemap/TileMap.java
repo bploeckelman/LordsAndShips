@@ -1,4 +1,4 @@
-package lando.systems.lordsandships.scene;
+package lando.systems.lordsandships.scene.tilemap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;

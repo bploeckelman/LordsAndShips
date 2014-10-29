@@ -1,4 +1,4 @@
-package lando.systems.lordsandships.scene;
+package lando.systems.lordsandships.scene.tilemap;
 
 import lando.systems.lordsandships.utils.Assets;
 
