@@ -2,6 +2,7 @@ package lando.systems.lordsandships.scene.levelgen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.DelaunayTriangulator;
@@ -106,14 +107,25 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
     public void render(Camera camera, ShapeRenderer shapes) {
         shapes.setProjectionMatrix(camera.combined);
 
+        final Color roomSelectedInterior   = new Color(0.0f, 0.75f, 0.0f, 0.5f);
+        final Color roomUnselectedInterior = new Color(0.75f, 0.75f, 0.75f, 0.5f);
+        final Color roomManyInterior       = new Color(0.1f, 0.1f, 0.1f, 0.5f);
+
+        final Color roomSelectedExterior   = new Color(1.0f, 1.0f, 1.0f, 0.9f);
+        final Color roomUnselectedExterior = new Color(0.0f, 0.0f, 0.0f, 0.9f);
+
+        final Color delauneyEdges = new Color(0.1f, 0.3f, 0.3f, 0.5f);
+        final Color minSpanningTree = new Color(1.0f, 1.0f, 0.0f, 0.5f);
+        final Color finalGraphEdges = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+
         // Draw interior room bounds
         shapes.begin(ShapeType.Filled);
         {
             for (int i = rooms.size() - 1; i >= 0; --i) {
                 final Room room = rooms.get(i);
-                if      (room.isSelected) shapes.setColor(1.0f,  0.0f,  0.0f,  0.05f);
-                else if (graph.V() > 0)   shapes.setColor(0.7f,  0.7f,  0.7f,  0.2f);
-                else                      shapes.setColor(0.25f, 0.25f, 0.25f ,0.05f);
+                if      (room.isSelected) shapes.setColor(roomSelectedInterior);
+                else if (graph.V() > 0)   shapes.setColor(roomManyInterior);
+                else                      shapes.setColor(roomUnselectedInterior);
                 shapes.rect(room.rect.x     * tile_size, room.rect.y      * tile_size,
                             room.rect.width * tile_size, room.rect.height * tile_size);
             }
@@ -125,8 +137,9 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
         {
             for (int i = rooms.size() - 1; i >= 0; --i) {
                 final Room room = rooms.get(i);
-                if (room.isSelected) shapes.setColor(0, 1, 0, 0.75f);
-                else                 shapes.setColor(0, 0, 1, 0.75f);
+                if (room == null) continue;
+                if (room.isSelected) shapes.setColor(roomSelectedExterior);
+                else                 shapes.setColor(roomUnselectedExterior);
                 shapes.rect(room.rect.x     * tile_size, room.rect.y      * tile_size,
                             room.rect.width * tile_size, room.rect.height * tile_size);
             }
@@ -137,7 +150,7 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
         shapes.begin(ShapeType.Line);
         {
             // Delaunay triangles from selected rooms
-            shapes.setColor(0,0.2f,0,0.5f);
+            shapes.setColor(delauneyEdges);
             for (int i = triIndices.size - 4; i >= 0; i -= 3) {
                 int p1 = triIndices.get(i + 0) * 2;
                 int p2 = triIndices.get(i + 1) * 2;
@@ -154,7 +167,7 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             final Room[] mstRooms = new Room[numRooms];
             mst.vertexSet().toArray(mstRooms);
 
-            shapes.setColor(1,1,0,1);
+            shapes.setColor(minSpanningTree);
             for (int iu = numRooms - 1; iu >= 0; --iu) {
                 for (int iv = numRooms - 1; iv >= 0; --iv) {
                     final Room u = mstRooms[iu];
@@ -174,7 +187,7 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             final Room[] graphRooms = new Room[numRooms];
             graph.vertexSet().toArray(graphRooms);
 
-            shapes.setColor(1, 0, 0, 1);
+            shapes.setColor(finalGraphEdges);
             for (int iu = roomCount - 1; iu >= 0; --iu) {
                 for (int iv = roomCount - 1; iv >= 0; --iv) {
                     final Room u = graphRooms[iu];
@@ -193,14 +206,14 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
         shapes.end();
 
         // Coordinate frame
-        shapes.begin(ShapeType.Line);
-        {
-            shapes.setColor(1, 0, 0, 0.45f);
-            shapes.line(0, 0, 3000, 0);
-            shapes.setColor(0, 1, 0, 0.45f);
-            shapes.line(0, 0, 0, 2000);
-        }
-        shapes.end();
+//        shapes.begin(ShapeType.Line);
+//        {
+//            shapes.setColor(1, 0, 0, 0.45f);
+//            shapes.line(0, 0, 3000, 0);
+//            shapes.setColor(0, 1, 0, 0.45f);
+//            shapes.line(0, 0, 0, 2000);
+//        }
+//        shapes.end();
     }
 
 

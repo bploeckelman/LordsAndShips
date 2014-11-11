@@ -4,9 +4,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.equations.Bounce;
-import aurelienribon.tweenengine.equations.Cubic;
-import aurelienribon.tweenengine.equations.Linear;
+import aurelienribon.tweenengine.equations.*;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -18,10 +16,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
@@ -127,9 +122,7 @@ public class GameScreen implements UpdatingScreen {
 
         player = new Player(
                 Assets.playertex,
-                100 * 16, 100 * 16,
-//                tileMap.spawnX * 16,
-//                tileMap.spawnY * 16,
+                100 * 16, 75 * 16,
                 16, 16, 0.1f);
 
         if (player.getCurrentWeapon() instanceof Sword) {
@@ -160,12 +153,12 @@ public class GameScreen implements UpdatingScreen {
             @Override
             public void run() {
                 generatingLevel = true;
+                doneGenerating = false;
                 Gdx.app.log("GAME_SCREEN", "Generating level...");
                 final Graph<Room> roomGraph = dungeonGenerator.generateRoomGraph(params);
 
                 Gdx.app.log("GAME_SCREEN", "Generating tilemap...");
                 try { Thread.sleep(2000); } catch (Exception e) {}
-                camController.debugRender = false;
                 tileMap.generateTilesFromGraph(roomGraph);
 
                 Gdx.app.log("GAME_SCREEN", "Level and tilemap generation complete.");
@@ -174,9 +167,24 @@ public class GameScreen implements UpdatingScreen {
         });
     }
 
+    public boolean doneGenerating = true;
     @Override
     public void update(float delta) {
         updateMouseVectors();
+
+        if (!generatingLevel && !doneGenerating) {
+            doneGenerating = true;
+
+            player.boundingBox.x = tileMap.spawnX * 16;
+            player.boundingBox.y = tileMap.spawnY * 16;
+
+            camController.camera_zoom.setValue(camera.zoom);
+            Tween.to(camController.camera_zoom, 0, 1.75f)
+                    .target(0.3f)
+                    .ease(Circ.OUT)
+                    .start(GameInstance.tweens);
+        }
+        camera.zoom = camController.camera_zoom.floatValue();
 
         // DEBUG : Place enemies
         if (Gdx.input.justTouched() && Gdx.input.isKeyPressed(Input.Keys.F)) {
@@ -412,7 +420,7 @@ public class GameScreen implements UpdatingScreen {
         Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+        Gdx.gl.glClearColor(0.17969f, 0.20313f, 0.21094f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         Assets.batch.setProjectionMatrix(camera.combined);

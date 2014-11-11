@@ -22,8 +22,8 @@ public class TileMap {
 
     private static final int delay_ms_tiles = 1;
     private static final int delay_ms_rooms = 1;
-    private static final int delay_ms_corners = 8;
-    private static final int delay_ms_walls = 2;
+    private static final int delay_ms_corners = 4;
+    private static final int delay_ms_walls = 1;
 
     Tile[][] tiles = null;
     TileSet tileSet;
@@ -86,8 +86,8 @@ public class TileMap {
         for (int y = worldy0 + 1; y < worldy1; ++y) {
             for (int x = worldx0 + 1; x < worldx1; ++x) {
                 tiles[y][x].type = TileType.FLOOR;
-                try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
             }
+            try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
         }
 
         if (spawnX == 0 && spawnY == 0) {
@@ -124,6 +124,7 @@ public class TileMap {
                         tiles[y-1][x].type = TileType.FLOOR;
                         tiles[y-0][x].type = TileType.FLOOR;
                         tiles[y+1][x].type = TileType.FLOOR;
+                        try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
                     }
                 } else {
                     xStart = (int) Math.floor(u.center.x);
@@ -134,6 +135,7 @@ public class TileMap {
                         tiles[y-1][x].type = TileType.FLOOR;
                         tiles[y-0][x].type = TileType.FLOOR;
                         tiles[y+1][x].type = TileType.FLOOR;
+                        try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
                     }
                 }
                 if (u.center.y <= v.center.y) {
@@ -145,6 +147,7 @@ public class TileMap {
                         tiles[y][x-1].type = TileType.FLOOR;
                         tiles[y][x-0].type = TileType.FLOOR;
                         tiles[y][x+1].type = TileType.FLOOR;
+                        try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
                     }
                 } else {
                     yStart = (int) Math.floor(u.center.y);
@@ -155,9 +158,9 @@ public class TileMap {
                         tiles[y][x-1].type = TileType.FLOOR;
                         tiles[y][x-0].type = TileType.FLOOR;
                         tiles[y][x+1].type = TileType.FLOOR;
+                        try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
                     }
                 }
-                try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
 
                 // Add edge to completed list so its reverse isn't also processed
                 completedEdges.add(edge);
