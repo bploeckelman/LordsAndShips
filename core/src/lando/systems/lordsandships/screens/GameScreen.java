@@ -163,6 +163,14 @@ public class GameScreen implements UpdatingScreen {
 
                 Gdx.app.log("GAME_SCREEN", "Level and tilemap generation complete.");
                 generatingLevel = false;
+
+                Vector2 pos = new Vector2();
+                for (int i = 0; i < 100; ++i) {
+                    pos.set(tileMap.getRandomFloorTile());
+                    enemies.add(new Enemy(Assets.enemytex,
+                            pos.x * Tile.TILE_SIZE, pos.y * Tile.TILE_SIZE,
+                            Tile.TILE_SIZE, 24, 0.3f));
+                }
             }
         });
     }
@@ -175,8 +183,8 @@ public class GameScreen implements UpdatingScreen {
         if (!generatingLevel && !doneGenerating) {
             doneGenerating = true;
 
-            player.boundingBox.x = tileMap.spawnX * 16;
-            player.boundingBox.y = tileMap.spawnY * 16;
+            player.boundingBox.x = tileMap.spawnX * Tile.TILE_SIZE;
+            player.boundingBox.y = tileMap.spawnY * Tile.TILE_SIZE;
 
             camController.camera_zoom.setValue(camera.zoom);
             Tween.to(camController.camera_zoom, 0, 1.75f)

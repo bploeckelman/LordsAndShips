@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.scene.levelgen.Room;
 import lando.systems.lordsandships.scene.levelgen.RoomEdge;
@@ -358,6 +359,22 @@ public class TileMap {
                 collisionTiles.add(tiles[y][x]);
             }
         }
+    }
+
+    public Vector2 getRandomFloorTile() {
+//        final int max_iters = 500;
+//        int iters = 0;
+        while (true) {
+            int x = Assets.rand.nextInt(tiles[0].length - 5) + 5;
+            int y = Assets.rand.nextInt(tiles.length - 5) + 5;
+            if (tiles[y][x].type == TileType.FLOOR) {
+                return new Vector2(x, y);
+            }
+//            if (++iters >= max_iters) {
+//                break;
+//            }
+        }
+//        return new Vector2();
     }
 
 }
