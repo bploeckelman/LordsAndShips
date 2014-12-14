@@ -30,6 +30,7 @@ import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.scene.levelgen.Room;
 import lando.systems.lordsandships.scene.levelgen.TinyDungeonGenerator;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
+import lando.systems.lordsandships.scene.ui.UserInterface;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
@@ -55,6 +56,8 @@ public class GameScreen implements UpdatingScreen {
 
     private static final float key_move_amount = 16;
     private static final float camera_shake_scale = 1.5f;
+
+    private UserInterface ui;
 
     private TinyDungeonGenerator dungeonGenerator;
     private TileMap tileMap;
@@ -145,6 +148,8 @@ public class GameScreen implements UpdatingScreen {
                 Assets.atlas.findRegion("sparkle_small9"),
                 Assets.atlas.findRegion("sparkle_small10"));
         sparkle.setPlayMode(Animation.PlayMode.NORMAL);
+
+        ui = new UserInterface();
     }
 
     private void regenerateLevel() {
@@ -250,6 +255,8 @@ public class GameScreen implements UpdatingScreen {
 
         playerPosition.set(player.getPosition().x, player.getPosition().y, 0);
         camera.position.lerp(playerPosition, 4*delta);
+
+        ui.update(delta);
 
         camera.update();
     }
@@ -486,6 +493,8 @@ public class GameScreen implements UpdatingScreen {
         // Draw current weapon icon
         Assets.batch.draw(weaponIcon, weaponIconPos.x, weaponIconPos.y, weaponIconSize.x, weaponIconSize.y);
         Assets.batch.end();
+
+        ui.draw();
     }
 
     @Override
@@ -520,7 +529,7 @@ public class GameScreen implements UpdatingScreen {
 
     @Override
     public void dispose() {
-//        tileMap.dispose();
+        ui.dispose();
         explosionEmitter.dispose();
         font.dispose();
     }
