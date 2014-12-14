@@ -1,5 +1,6 @@
 package lando.systems.lordsandships.scene;
 
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
@@ -7,6 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.utils.Utils;
+
+import java.lang.invoke.MutableCallSite;
 
 
 /**
@@ -19,13 +22,15 @@ public class OrthoCamController extends InputAdapter {
     final Vector3 delta = new Vector3();
     final float zoom_scale = 0.025f;
     final float min_camera_zoom = 0.1f;
-    final float initial_camera_zoom = 8;//0.25f;
+    final float initial_camera_zoom = 4;
+
+    public MutableFloat camera_zoom = new MutableFloat(initial_camera_zoom);
 
     public boolean debugRender = true;
 
     public OrthoCamController (OrthographicCamera camera) {
         this.camera = camera;
-        this.camera.zoom = initial_camera_zoom;
+        this.camera.zoom = camera_zoom.floatValue();
     }
 
     @Override
@@ -52,11 +57,12 @@ public class OrthoCamController extends InputAdapter {
         if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {
             scale *= 10;
         }
-        float destZoom = camera.zoom + scale * amount;
-        camera.zoom = MathUtils.lerp(camera.zoom, destZoom, 0.9f);
+        float destZoom = camera_zoom.floatValue() + scale * amount;
+        camera_zoom.setValue(MathUtils.lerp(camera_zoom.floatValue(), destZoom, 0.9f));
         if (destZoom < min_camera_zoom) {
-            camera.zoom = min_camera_zoom;
+            camera_zoom.setValue(min_camera_zoom);
         }
+        camera.zoom = camera_zoom.floatValue();
         return false;
     }
 
