@@ -1,0 +1,7741 @@
+
+world.png
+size: 1024,1024
+format: RGBA8888
+filter: MipMapNearestNearest,MipMapNearestNearest
+repeat: none
+oryx_16bit_scifi_world_01
+  rotate: false
+  xy: 798, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_02
+  rotate: false
+  xy: 798, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_03
+  rotate: false
+  xy: 750, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_04
+  rotate: false
+  xy: 682, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_05
+  rotate: false
+  xy: 344, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_06
+  rotate: false
+  xy: 418, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_07
+  rotate: false
+  xy: 2, 24
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_08
+  rotate: false
+  xy: 202, 720
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_09
+  rotate: false
+  xy: 228, 770
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_10
+  rotate: false
+  xy: 28, 212
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_100
+  rotate: false
+  xy: 730, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_297
+  rotate: false
+  xy: 730, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_101
+  rotate: false
+  xy: 730, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_298
+  rotate: false
+  xy: 730, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1000
+  rotate: false
+  xy: 574, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1001
+  rotate: false
+  xy: 600, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1002
+  rotate: false
+  xy: 314, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1003
+  rotate: false
+  xy: 340, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1004
+  rotate: false
+  xy: 366, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1005
+  rotate: false
+  xy: 392, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1006
+  rotate: false
+  xy: 418, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1007
+  rotate: false
+  xy: 444, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1008
+  rotate: false
+  xy: 470, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1009
+  rotate: false
+  xy: 496, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1010
+  rotate: false
+  xy: 522, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1011
+  rotate: false
+  xy: 548, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1012
+  rotate: false
+  xy: 574, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1013
+  rotate: false
+  xy: 600, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1014
+  rotate: false
+  xy: 626, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1015
+  rotate: false
+  xy: 28, 438
+  size: 96, 144
+  orig: 96, 144
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1016
+  rotate: false
+  xy: 340, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1017
+  rotate: false
+  xy: 366, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1018
+  rotate: false
+  xy: 392, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1019
+  rotate: false
+  xy: 418, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_102
+  rotate: false
+  xy: 682, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_299
+  rotate: false
+  xy: 682, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1020
+  rotate: false
+  xy: 444, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1021
+  rotate: false
+  xy: 470, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1022
+  rotate: false
+  xy: 496, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1023
+  rotate: false
+  xy: 522, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1024
+  rotate: false
+  xy: 548, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1025
+  rotate: false
+  xy: 574, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1026
+  rotate: false
+  xy: 600, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1027
+  rotate: false
+  xy: 626, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1028
+  rotate: false
+  xy: 652, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1029
+  rotate: false
+  xy: 366, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_103
+  rotate: false
+  xy: 756, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_300
+  rotate: false
+  xy: 756, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1030
+  rotate: false
+  xy: 392, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1031
+  rotate: false
+  xy: 418, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1032
+  rotate: false
+  xy: 444, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1033
+  rotate: false
+  xy: 470, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1037
+  rotate: false
+  xy: 496, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1038
+  rotate: false
+  xy: 522, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1039
+  rotate: false
+  xy: 548, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1040
+  rotate: false
+  xy: 574, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1041
+  rotate: false
+  xy: 600, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1042
+  rotate: false
+  xy: 626, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1043
+  rotate: false
+  xy: 652, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1044
+  rotate: false
+  xy: 678, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1045
+  rotate: false
+  xy: 392, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1046
+  rotate: false
+  xy: 418, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1047
+  rotate: false
+  xy: 444, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1048
+  rotate: false
+  xy: 470, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1049
+  rotate: false
+  xy: 496, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_105
+  rotate: false
+  xy: 708, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_302
+  rotate: false
+  xy: 708, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1050
+  rotate: false
+  xy: 522, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1051
+  rotate: false
+  xy: 548, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1052
+  rotate: false
+  xy: 574, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1053
+  rotate: false
+  xy: 600, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1054
+  rotate: false
+  xy: 626, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1055
+  rotate: false
+  xy: 652, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1056
+  rotate: false
+  xy: 678, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1057
+  rotate: false
+  xy: 704, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1058
+  rotate: false
+  xy: 418, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1059
+  rotate: false
+  xy: 444, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_106
+  rotate: false
+  xy: 782, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1060
+  rotate: false
+  xy: 470, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1061
+  rotate: false
+  xy: 496, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1062
+  rotate: false
+  xy: 522, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1063
+  rotate: false
+  xy: 548, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1064
+  rotate: false
+  xy: 574, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1065
+  rotate: false
+  xy: 600, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1066
+  rotate: false
+  xy: 626, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1067
+  rotate: false
+  xy: 652, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1068
+  rotate: false
+  xy: 678, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1069
+  rotate: false
+  xy: 704, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_107
+  rotate: false
+  xy: 734, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1070
+  rotate: false
+  xy: 730, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1071
+  rotate: false
+  xy: 444, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1072
+  rotate: false
+  xy: 470, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1073
+  rotate: false
+  xy: 496, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1074
+  rotate: false
+  xy: 522, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1075
+  rotate: false
+  xy: 548, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1076
+  rotate: false
+  xy: 574, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1077
+  rotate: false
+  xy: 600, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_108
+  rotate: false
+  xy: 808, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1085
+  rotate: false
+  xy: 2, 946
+  size: 600, 24
+  orig: 600, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1086
+  rotate: false
+  xy: 626, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1087
+  rotate: false
+  xy: 652, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1088
+  rotate: false
+  xy: 678, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1089
+  rotate: false
+  xy: 704, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_109
+  rotate: false
+  xy: 760, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_306
+  rotate: false
+  xy: 760, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1090
+  rotate: false
+  xy: 730, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1091
+  rotate: false
+  xy: 756, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1092
+  rotate: false
+  xy: 470, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1093
+  rotate: false
+  xy: 496, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1094
+  rotate: false
+  xy: 522, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1095
+  rotate: false
+  xy: 548, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1096
+  rotate: false
+  xy: 574, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1097
+  rotate: false
+  xy: 600, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1098
+  rotate: false
+  xy: 626, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1099
+  rotate: false
+  xy: 652, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_11
+  rotate: false
+  xy: 54, 262
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_110
+  rotate: false
+  xy: 834, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_307
+  rotate: false
+  xy: 834, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1100
+  rotate: false
+  xy: 678, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1101
+  rotate: false
+  xy: 704, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1102
+  rotate: false
+  xy: 730, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1103
+  rotate: false
+  xy: 756, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1104
+  rotate: false
+  xy: 782, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1105
+  rotate: false
+  xy: 604, 946
+  size: 144, 24
+  orig: 144, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_111
+  rotate: false
+  xy: 786, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_308
+  rotate: false
+  xy: 786, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_112
+  rotate: false
+  xy: 860, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_309
+  rotate: false
+  xy: 860, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_506
+  rotate: false
+  xy: 860, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_113
+  rotate: false
+  xy: 812, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_507
+  rotate: false
+  xy: 812, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_310
+  rotate: false
+  xy: 812, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_114
+  rotate: false
+  xy: 886, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_115
+  rotate: false
+  xy: 838, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_116
+  rotate: false
+  xy: 912, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_117
+  rotate: false
+  xy: 864, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_118
+  rotate: false
+  xy: 938, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_119
+  rotate: false
+  xy: 890, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_12
+  rotate: false
+  xy: 176, 620
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_120
+  rotate: false
+  xy: 916, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_121
+  rotate: false
+  xy: 126, 558
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_122
+  rotate: false
+  xy: 126, 532
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_123
+  rotate: false
+  xy: 126, 506
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_124
+  rotate: false
+  xy: 126, 480
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_125
+  rotate: false
+  xy: 126, 454
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_126
+  rotate: false
+  xy: 80, 362
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_127
+  rotate: false
+  xy: 80, 336
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_128
+  rotate: false
+  xy: 80, 310
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_129
+  rotate: false
+  xy: 80, 284
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_13
+  rotate: false
+  xy: 824, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_130
+  rotate: false
+  xy: 80, 258
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_131
+  rotate: false
+  xy: 80, 232
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_132
+  rotate: false
+  xy: 80, 206
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_134
+  rotate: false
+  xy: 80, 180
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_135
+  rotate: false
+  xy: 80, 154
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_136
+  rotate: false
+  xy: 80, 128
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_137
+  rotate: false
+  xy: 80, 102
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_138
+  rotate: false
+  xy: 80, 76
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_139
+  rotate: false
+  xy: 176, 594
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_14
+  rotate: false
+  xy: 776, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_140
+  rotate: false
+  xy: 202, 616
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_141
+  rotate: false
+  xy: 228, 640
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_142
+  rotate: false
+  xy: 254, 640
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_143
+  rotate: false
+  xy: 280, 640
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_144
+  rotate: false
+  xy: 54, 28
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_145
+  rotate: false
+  xy: 80, 50
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_146
+  rotate: false
+  xy: 228, 614
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_147
+  rotate: false
+  xy: 254, 614
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_148
+  rotate: false
+  xy: 280, 614
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_149
+  rotate: false
+  xy: 202, 590
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_15
+  rotate: false
+  xy: 708, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_150
+  rotate: false
+  xy: 228, 588
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_151
+  rotate: false
+  xy: 254, 588
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_152
+  rotate: false
+  xy: 280, 588
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_153
+  rotate: false
+  xy: 322, 820
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_154
+  rotate: false
+  xy: 322, 794
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_155
+  rotate: false
+  xy: 984, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_156
+  rotate: false
+  xy: 968, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_157
+  rotate: false
+  xy: 964, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_158
+  rotate: false
+  xy: 942, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_159
+  rotate: false
+  xy: 104, 412
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_16
+  rotate: false
+  xy: 370, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_160
+  rotate: false
+  xy: 80, 24
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_161
+  rotate: false
+  xy: 968, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_162
+  rotate: false
+  xy: 994, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_163
+  rotate: false
+  xy: 990, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_164
+  rotate: false
+  xy: 994, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_165
+  rotate: false
+  xy: 306, 768
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_166
+  rotate: false
+  xy: 306, 742
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_167
+  rotate: false
+  xy: 306, 716
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_168
+  rotate: false
+  xy: 306, 690
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_169
+  rotate: false
+  xy: 306, 664
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_17
+  rotate: false
+  xy: 444, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_170
+  rotate: false
+  xy: 306, 638
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_171
+  rotate: false
+  xy: 306, 612
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_172
+  rotate: false
+  xy: 306, 586
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_173
+  rotate: false
+  xy: 332, 768
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_174
+  rotate: false
+  xy: 332, 742
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_175
+  rotate: false
+  xy: 332, 716
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_176
+  rotate: false
+  xy: 332, 690
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_177
+  rotate: false
+  xy: 332, 664
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_178
+  rotate: false
+  xy: 332, 638
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_179
+  rotate: false
+  xy: 332, 612
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_18
+  rotate: false
+  xy: 202, 694
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_180
+  rotate: false
+  xy: 332, 586
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_181
+  rotate: false
+  xy: 28, 4
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_182
+  rotate: false
+  xy: 54, 2
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_183
+  rotate: false
+  xy: 130, 428
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_184
+  rotate: false
+  xy: 130, 402
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_185
+  rotate: false
+  xy: 348, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_382
+  rotate: false
+  xy: 348, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_186
+  rotate: false
+  xy: 348, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_383
+  rotate: false
+  xy: 348, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_187
+  rotate: false
+  xy: 374, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_188
+  rotate: false
+  xy: 374, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_189
+  rotate: false
+  xy: 400, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_19
+  rotate: false
+  xy: 228, 744
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_190
+  rotate: false
+  xy: 400, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_191
+  rotate: false
+  xy: 426, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_388
+  rotate: false
+  xy: 426, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_192
+  rotate: false
+  xy: 426, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_389
+  rotate: false
+  xy: 426, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_193
+  rotate: false
+  xy: 452, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_390
+  rotate: false
+  xy: 452, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_194
+  rotate: false
+  xy: 452, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_195
+  rotate: false
+  xy: 478, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_196
+  rotate: false
+  xy: 478, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_197
+  rotate: false
+  xy: 628, 972
+  size: 168, 24
+  orig: 168, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_394
+  rotate: false
+  xy: 628, 972
+  size: 168, 24
+  orig: 168, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_591
+  rotate: false
+  xy: 628, 972
+  size: 168, 24
+  orig: 168, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1034
+  rotate: false
+  xy: 628, 972
+  size: 168, 24
+  orig: 168, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_198
+  rotate: false
+  xy: 504, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_199
+  rotate: false
+  xy: 504, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_20
+  rotate: false
+  xy: 254, 770
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_200
+  rotate: false
+  xy: 504, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_201
+  rotate: false
+  xy: 530, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_202
+  rotate: false
+  xy: 530, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_203
+  rotate: false
+  xy: 556, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_204
+  rotate: false
+  xy: 556, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_205
+  rotate: false
+  xy: 582, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_206
+  rotate: false
+  xy: 582, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_207
+  rotate: false
+  xy: 608, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_208
+  rotate: false
+  xy: 608, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_209
+  rotate: false
+  xy: 634, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_21
+  rotate: false
+  xy: 28, 186
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_210
+  rotate: false
+  xy: 634, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_211
+  rotate: false
+  xy: 660, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_212
+  rotate: false
+  xy: 660, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_213
+  rotate: false
+  xy: 686, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_214
+  rotate: false
+  xy: 686, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_215
+  rotate: false
+  xy: 712, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_216
+  rotate: false
+  xy: 712, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_217
+  rotate: false
+  xy: 738, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_218
+  rotate: false
+  xy: 738, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_219
+  rotate: false
+  xy: 764, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_22
+  rotate: false
+  xy: 54, 236
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_23
+  rotate: false
+  xy: 850, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_417
+  rotate: false
+  xy: 850, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_220
+  rotate: false
+  xy: 850, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_231
+  rotate: false
+  xy: 764, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_232
+  rotate: false
+  xy: 790, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_233
+  rotate: false
+  xy: 790, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_234
+  rotate: false
+  xy: 816, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_235
+  rotate: false
+  xy: 816, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_236
+  rotate: false
+  xy: 842, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_237
+  rotate: false
+  xy: 842, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_238
+  rotate: false
+  xy: 868, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_239
+  rotate: false
+  xy: 868, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_24
+  rotate: false
+  xy: 802, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_221
+  rotate: false
+  xy: 802, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_418
+  rotate: false
+  xy: 802, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_240
+  rotate: false
+  xy: 894, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_241
+  rotate: false
+  xy: 894, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_242
+  rotate: false
+  xy: 920, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_243
+  rotate: false
+  xy: 920, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_244
+  rotate: false
+  xy: 946, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_245
+  rotate: false
+  xy: 946, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_246
+  rotate: false
+  xy: 972, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_247
+  rotate: false
+  xy: 998, 842
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_248
+  rotate: false
+  xy: 972, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_249
+  rotate: false
+  xy: 998, 816
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_25
+  rotate: false
+  xy: 734, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_419
+  rotate: false
+  xy: 734, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_222
+  rotate: false
+  xy: 734, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_250
+  rotate: false
+  xy: 358, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_251
+  rotate: false
+  xy: 358, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_253
+  rotate: false
+  xy: 384, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_254
+  rotate: false
+  xy: 358, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_255
+  rotate: false
+  xy: 384, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_256
+  rotate: false
+  xy: 410, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_257
+  rotate: false
+  xy: 358, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_258
+  rotate: false
+  xy: 384, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_259
+  rotate: false
+  xy: 410, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_26
+  rotate: false
+  xy: 396, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_420
+  rotate: false
+  xy: 396, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_223
+  rotate: false
+  xy: 396, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_260
+  rotate: false
+  xy: 436, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_261
+  rotate: false
+  xy: 358, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_262
+  rotate: false
+  xy: 28, 338
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_263
+  rotate: false
+  xy: 78, 388
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_264
+  rotate: false
+  xy: 150, 696
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_27
+  rotate: false
+  xy: 470, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_421
+  rotate: false
+  xy: 470, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_224
+  rotate: false
+  xy: 470, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_271
+  rotate: false
+  xy: 384, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_272
+  rotate: false
+  xy: 410, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_273
+  rotate: false
+  xy: 436, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_274
+  rotate: false
+  xy: 462, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_275
+  rotate: false
+  xy: 358, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_276
+  rotate: false
+  xy: 384, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_277
+  rotate: false
+  xy: 410, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_278
+  rotate: false
+  xy: 436, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_279
+  rotate: false
+  xy: 462, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_28
+  rotate: false
+  xy: 202, 668
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_225
+  rotate: false
+  xy: 202, 668
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_422
+  rotate: false
+  xy: 202, 668
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_280
+  rotate: false
+  xy: 488, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_281
+  rotate: false
+  xy: 358, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_282
+  rotate: false
+  xy: 384, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_283
+  rotate: false
+  xy: 410, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_284
+  rotate: false
+  xy: 436, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_285
+  rotate: false
+  xy: 462, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_286
+  rotate: false
+  xy: 488, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_287
+  rotate: false
+  xy: 514, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_288
+  rotate: false
+  xy: 358, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_289
+  rotate: false
+  xy: 384, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_29
+  rotate: false
+  xy: 228, 718
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_226
+  rotate: false
+  xy: 228, 718
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_290
+  rotate: false
+  xy: 410, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_291
+  rotate: false
+  xy: 436, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_292
+  rotate: false
+  xy: 462, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_293
+  rotate: false
+  xy: 488, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_294
+  rotate: false
+  xy: 514, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_295
+  rotate: false
+  xy: 540, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_30
+  rotate: false
+  xy: 254, 744
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_227
+  rotate: false
+  xy: 254, 744
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_303
+  rotate: false
+  xy: 384, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_304
+  rotate: false
+  xy: 410, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_305
+  rotate: false
+  xy: 436, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_31
+  rotate: false
+  xy: 280, 770
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_228
+  rotate: false
+  xy: 280, 770
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_311
+  rotate: false
+  xy: 462, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_312
+  rotate: false
+  xy: 488, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_313
+  rotate: false
+  xy: 514, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_314
+  rotate: false
+  xy: 540, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_315
+  rotate: false
+  xy: 566, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_316
+  rotate: false
+  xy: 410, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_317
+  rotate: false
+  xy: 436, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_318
+  rotate: false
+  xy: 462, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_319
+  rotate: false
+  xy: 488, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_32
+  rotate: false
+  xy: 28, 160
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_229
+  rotate: false
+  xy: 28, 160
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_320
+  rotate: false
+  xy: 514, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_321
+  rotate: false
+  xy: 540, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_322
+  rotate: false
+  xy: 566, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_323
+  rotate: false
+  xy: 592, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_324
+  rotate: false
+  xy: 436, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_325
+  rotate: false
+  xy: 462, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_326
+  rotate: false
+  xy: 488, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_327
+  rotate: false
+  xy: 514, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_328
+  rotate: false
+  xy: 540, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_329
+  rotate: false
+  xy: 566, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_33
+  rotate: false
+  xy: 344, 894
+  size: 72, 24
+  orig: 72, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_230
+  rotate: false
+  xy: 344, 894
+  size: 72, 24
+  orig: 72, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_427
+  rotate: false
+  xy: 344, 894
+  size: 72, 24
+  orig: 72, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_331
+  rotate: false
+  xy: 592, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_332
+  rotate: false
+  xy: 618, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_333
+  rotate: false
+  xy: 462, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_334
+  rotate: false
+  xy: 488, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_335
+  rotate: false
+  xy: 514, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_336
+  rotate: false
+  xy: 540, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_337
+  rotate: false
+  xy: 566, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_338
+  rotate: false
+  xy: 592, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_339
+  rotate: false
+  xy: 618, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_34
+  rotate: false
+  xy: 54, 210
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_340
+  rotate: false
+  xy: 644, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_341
+  rotate: false
+  xy: 488, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_342
+  rotate: false
+  xy: 514, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_343
+  rotate: false
+  xy: 540, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_344
+  rotate: false
+  xy: 566, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_345
+  rotate: false
+  xy: 592, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_346
+  rotate: false
+  xy: 618, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_347
+  rotate: false
+  xy: 644, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_348
+  rotate: false
+  xy: 670, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_349
+  rotate: false
+  xy: 514, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_35
+  rotate: false
+  xy: 876, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_350
+  rotate: false
+  xy: 540, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_351
+  rotate: false
+  xy: 566, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_352
+  rotate: false
+  xy: 592, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_353
+  rotate: false
+  xy: 618, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_354
+  rotate: false
+  xy: 644, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_355
+  rotate: false
+  xy: 670, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_356
+  rotate: false
+  xy: 696, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_357
+  rotate: false
+  xy: 540, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_358
+  rotate: false
+  xy: 566, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_359
+  rotate: false
+  xy: 592, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_36
+  rotate: false
+  xy: 828, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_360
+  rotate: false
+  xy: 618, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_361
+  rotate: false
+  xy: 644, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_362
+  rotate: false
+  xy: 670, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_363
+  rotate: false
+  xy: 696, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_364
+  rotate: false
+  xy: 722, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_365
+  rotate: false
+  xy: 566, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_366
+  rotate: false
+  xy: 592, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_367
+  rotate: false
+  xy: 618, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_368
+  rotate: false
+  xy: 644, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_369
+  rotate: false
+  xy: 670, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_37
+  rotate: false
+  xy: 760, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_370
+  rotate: false
+  xy: 696, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_371
+  rotate: false
+  xy: 722, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_372
+  rotate: false
+  xy: 748, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_373
+  rotate: false
+  xy: 592, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_374
+  rotate: false
+  xy: 618, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_375
+  rotate: false
+  xy: 644, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_376
+  rotate: false
+  xy: 670, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_377
+  rotate: false
+  xy: 696, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_378
+  rotate: false
+  xy: 722, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_379
+  rotate: false
+  xy: 748, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_38
+  rotate: false
+  xy: 422, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_380
+  rotate: false
+  xy: 774, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_381
+  rotate: false
+  xy: 618, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_384
+  rotate: false
+  xy: 644, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_385
+  rotate: false
+  xy: 670, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_386
+  rotate: false
+  xy: 696, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_387
+  rotate: false
+  xy: 722, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_39
+  rotate: false
+  xy: 496, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_391
+  rotate: false
+  xy: 748, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_392
+  rotate: false
+  xy: 774, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_393
+  rotate: false
+  xy: 800, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_395
+  rotate: false
+  xy: 644, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_396
+  rotate: false
+  xy: 644, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_397
+  rotate: false
+  xy: 670, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_398
+  rotate: false
+  xy: 696, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_399
+  rotate: false
+  xy: 722, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_40
+  rotate: false
+  xy: 202, 642
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_400
+  rotate: false
+  xy: 748, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_401
+  rotate: false
+  xy: 774, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_402
+  rotate: false
+  xy: 800, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_403
+  rotate: false
+  xy: 826, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_404
+  rotate: false
+  xy: 670, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_405
+  rotate: false
+  xy: 696, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_406
+  rotate: false
+  xy: 722, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_407
+  rotate: false
+  xy: 748, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_408
+  rotate: false
+  xy: 774, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_409
+  rotate: false
+  xy: 800, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_41
+  rotate: false
+  xy: 228, 692
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_410
+  rotate: false
+  xy: 826, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_411
+  rotate: false
+  xy: 852, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_412
+  rotate: false
+  xy: 696, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_413
+  rotate: false
+  xy: 722, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_414
+  rotate: false
+  xy: 748, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_415
+  rotate: false
+  xy: 774, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_416
+  rotate: false
+  xy: 800, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_42
+  rotate: false
+  xy: 254, 718
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_423
+  rotate: false
+  xy: 826, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_424
+  rotate: false
+  xy: 852, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_425
+  rotate: false
+  xy: 878, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_426
+  rotate: false
+  xy: 722, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_428
+  rotate: false
+  xy: 748, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_429
+  rotate: false
+  xy: 774, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_43
+  rotate: false
+  xy: 280, 744
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_430
+  rotate: false
+  xy: 800, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_431
+  rotate: false
+  xy: 826, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_432
+  rotate: false
+  xy: 852, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_433
+  rotate: false
+  xy: 878, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_434
+  rotate: false
+  xy: 904, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_435
+  rotate: false
+  xy: 748, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_436
+  rotate: false
+  xy: 774, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_437
+  rotate: false
+  xy: 800, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_438
+  rotate: false
+  xy: 826, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_439
+  rotate: false
+  xy: 852, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_44
+  rotate: false
+  xy: 28, 134
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_440
+  rotate: false
+  xy: 878, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_441
+  rotate: false
+  xy: 904, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_442
+  rotate: false
+  xy: 930, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_443
+  rotate: false
+  xy: 774, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_444
+  rotate: false
+  xy: 800, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_445
+  rotate: false
+  xy: 826, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_446
+  rotate: false
+  xy: 852, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_447
+  rotate: false
+  xy: 878, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_448
+  rotate: false
+  xy: 904, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_45
+  rotate: false
+  xy: 54, 184
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_450
+  rotate: false
+  xy: 930, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_451
+  rotate: false
+  xy: 956, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_452
+  rotate: false
+  xy: 800, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_453
+  rotate: false
+  xy: 826, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_454
+  rotate: false
+  xy: 852, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_455
+  rotate: false
+  xy: 878, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_456
+  rotate: false
+  xy: 904, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_457
+  rotate: false
+  xy: 930, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_458
+  rotate: false
+  xy: 956, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_459
+  rotate: false
+  xy: 176, 746
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_46
+  rotate: false
+  xy: 902, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_460
+  rotate: false
+  xy: 28, 288
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_461
+  rotate: false
+  xy: 54, 338
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_463
+  rotate: false
+  xy: 982, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_464
+  rotate: false
+  xy: 982, 790
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_465
+  rotate: false
+  xy: 826, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_466
+  rotate: false
+  xy: 852, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_468
+  rotate: false
+  xy: 878, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_469
+  rotate: false
+  xy: 904, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_47
+  rotate: false
+  xy: 854, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_470
+  rotate: false
+  xy: 930, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_471
+  rotate: false
+  xy: 956, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_472
+  rotate: false
+  xy: 982, 764
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_473
+  rotate: false
+  xy: 852, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_474
+  rotate: false
+  xy: 878, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_475
+  rotate: false
+  xy: 904, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_476
+  rotate: false
+  xy: 930, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_477
+  rotate: false
+  xy: 956, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_478
+  rotate: false
+  xy: 982, 738
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_479
+  rotate: false
+  xy: 878, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_48
+  rotate: false
+  xy: 786, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_480
+  rotate: false
+  xy: 904, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_481
+  rotate: false
+  xy: 930, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_482
+  rotate: false
+  xy: 956, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_483
+  rotate: false
+  xy: 982, 712
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_484
+  rotate: false
+  xy: 904, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_485
+  rotate: false
+  xy: 930, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_486
+  rotate: false
+  xy: 956, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_487
+  rotate: false
+  xy: 982, 686
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_488
+  rotate: false
+  xy: 930, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_489
+  rotate: false
+  xy: 956, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_49
+  rotate: false
+  xy: 448, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_490
+  rotate: false
+  xy: 982, 660
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_491
+  rotate: false
+  xy: 956, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_492
+  rotate: false
+  xy: 982, 634
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_494
+  rotate: false
+  xy: 982, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_495
+  rotate: false
+  xy: 982, 608
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_496
+  rotate: false
+  xy: 358, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_497
+  rotate: false
+  xy: 384, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_499
+  rotate: false
+  xy: 410, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_50
+  rotate: false
+  xy: 522, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_500
+  rotate: false
+  xy: 436, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_501
+  rotate: false
+  xy: 462, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_502
+  rotate: false
+  xy: 488, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_503
+  rotate: false
+  xy: 514, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_504
+  rotate: false
+  xy: 540, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_505
+  rotate: false
+  xy: 566, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_508
+  rotate: false
+  xy: 592, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_509
+  rotate: false
+  xy: 618, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_51
+  rotate: false
+  xy: 228, 666
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_510
+  rotate: false
+  xy: 644, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_511
+  rotate: false
+  xy: 670, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_512
+  rotate: false
+  xy: 696, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_513
+  rotate: false
+  xy: 722, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_514
+  rotate: false
+  xy: 748, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_515
+  rotate: false
+  xy: 774, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_516
+  rotate: false
+  xy: 800, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_517
+  rotate: false
+  xy: 826, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_518
+  rotate: false
+  xy: 852, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_519
+  rotate: false
+  xy: 878, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_52
+  rotate: false
+  xy: 254, 692
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_520
+  rotate: false
+  xy: 904, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_521
+  rotate: false
+  xy: 930, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_522
+  rotate: false
+  xy: 956, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_523
+  rotate: false
+  xy: 982, 582
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_524
+  rotate: false
+  xy: 152, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_525
+  rotate: false
+  xy: 152, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_526
+  rotate: false
+  xy: 152, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_528
+  rotate: false
+  xy: 152, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_529
+  rotate: false
+  xy: 178, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_53
+  rotate: false
+  xy: 280, 718
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_530
+  rotate: false
+  xy: 178, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_531
+  rotate: false
+  xy: 178, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_532
+  rotate: false
+  xy: 178, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_533
+  rotate: false
+  xy: 156, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_534
+  rotate: false
+  xy: 156, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_535
+  rotate: false
+  xy: 156, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_536
+  rotate: false
+  xy: 182, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_537
+  rotate: false
+  xy: 182, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_538
+  rotate: false
+  xy: 182, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_539
+  rotate: false
+  xy: 204, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_54
+  rotate: false
+  xy: 28, 108
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_540
+  rotate: false
+  xy: 204, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_541
+  rotate: false
+  xy: 204, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_542
+  rotate: false
+  xy: 204, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_543
+  rotate: false
+  xy: 208, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_544
+  rotate: false
+  xy: 208, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_545
+  rotate: false
+  xy: 208, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_546
+  rotate: false
+  xy: 230, 562
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_547
+  rotate: false
+  xy: 256, 562
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_548
+  rotate: false
+  xy: 230, 536
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_549
+  rotate: false
+  xy: 230, 510
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_55
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1081
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1082
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_99
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_330
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1084
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1080
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_449
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_104
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_296
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1079
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_301
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1083
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_527
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_493
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_252
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1078
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_133
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_498
+  rotate: false
+  xy: 54, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_550
+  rotate: false
+  xy: 256, 536
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_551
+  rotate: false
+  xy: 230, 484
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_552
+  rotate: false
+  xy: 256, 510
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_553
+  rotate: false
+  xy: 256, 484
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_554
+  rotate: false
+  xy: 234, 458
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_555
+  rotate: false
+  xy: 234, 432
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_556
+  rotate: false
+  xy: 234, 406
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_557
+  rotate: false
+  xy: 260, 458
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_558
+  rotate: false
+  xy: 260, 432
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_559
+  rotate: false
+  xy: 260, 406
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_56
+  rotate: false
+  xy: 928, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_560
+  rotate: false
+  xy: 234, 380
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_561
+  rotate: false
+  xy: 260, 380
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_562
+  rotate: false
+  xy: 282, 560
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_563
+  rotate: false
+  xy: 282, 534
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_564
+  rotate: false
+  xy: 308, 560
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_565
+  rotate: false
+  xy: 282, 508
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_566
+  rotate: false
+  xy: 308, 534
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_567
+  rotate: false
+  xy: 308, 508
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_568
+  rotate: false
+  xy: 334, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_569
+  rotate: false
+  xy: 334, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_57
+  rotate: false
+  xy: 880, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_570
+  rotate: false
+  xy: 360, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_571
+  rotate: false
+  xy: 360, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_572
+  rotate: false
+  xy: 386, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_573
+  rotate: false
+  xy: 386, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_574
+  rotate: false
+  xy: 412, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_575
+  rotate: false
+  xy: 412, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_576
+  rotate: false
+  xy: 438, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_577
+  rotate: false
+  xy: 438, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_578
+  rotate: false
+  xy: 464, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_579
+  rotate: false
+  xy: 464, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_58
+  rotate: false
+  xy: 812, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_580
+  rotate: false
+  xy: 490, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_581
+  rotate: false
+  xy: 490, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_582
+  rotate: false
+  xy: 516, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_583
+  rotate: false
+  xy: 516, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_584
+  rotate: false
+  xy: 542, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_585
+  rotate: false
+  xy: 542, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_586
+  rotate: false
+  xy: 568, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_587
+  rotate: false
+  xy: 568, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_588
+  rotate: false
+  xy: 594, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_589
+  rotate: false
+  xy: 594, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_59
+  rotate: false
+  xy: 474, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_590
+  rotate: false
+  xy: 620, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_592
+  rotate: false
+  xy: 620, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_593
+  rotate: false
+  xy: 646, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_594
+  rotate: false
+  xy: 646, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_595
+  rotate: false
+  xy: 672, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_596
+  rotate: false
+  xy: 672, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_597
+  rotate: false
+  xy: 698, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_598
+  rotate: false
+  xy: 698, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_599
+  rotate: false
+  xy: 724, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_60
+  rotate: false
+  xy: 548, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_600
+  rotate: false
+  xy: 724, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_601
+  rotate: false
+  xy: 750, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_602
+  rotate: false
+  xy: 750, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_603
+  rotate: false
+  xy: 776, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_604
+  rotate: false
+  xy: 776, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_605
+  rotate: false
+  xy: 802, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_606
+  rotate: false
+  xy: 802, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_607
+  rotate: false
+  xy: 828, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_608
+  rotate: false
+  xy: 828, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_609
+  rotate: false
+  xy: 854, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_61
+  rotate: false
+  xy: 254, 666
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_610
+  rotate: false
+  xy: 854, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_611
+  rotate: false
+  xy: 880, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_612
+  rotate: false
+  xy: 880, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_613
+  rotate: false
+  xy: 906, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_614
+  rotate: false
+  xy: 906, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_615
+  rotate: false
+  xy: 932, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_616
+  rotate: false
+  xy: 150, 646
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_617
+  rotate: false
+  xy: 176, 696
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_618
+  rotate: false
+  xy: 202, 746
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_619
+  rotate: false
+  xy: 28, 238
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_62
+  rotate: false
+  xy: 280, 692
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_620
+  rotate: false
+  xy: 54, 288
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_621
+  rotate: false
+  xy: 150, 596
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_622
+  rotate: false
+  xy: 932, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_623
+  rotate: false
+  xy: 958, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_624
+  rotate: false
+  xy: 958, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_625
+  rotate: false
+  xy: 984, 556
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_626
+  rotate: false
+  xy: 2, 392
+  size: 24, 552
+  orig: 24, 552
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_627
+  rotate: false
+  xy: 984, 530
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_628
+  rotate: false
+  xy: 334, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_629
+  rotate: false
+  xy: 360, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_631
+  rotate: false
+  xy: 360, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_63
+  rotate: false
+  xy: 28, 82
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_630
+  rotate: false
+  xy: 386, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_632
+  rotate: false
+  xy: 412, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_633
+  rotate: false
+  xy: 438, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_634
+  rotate: false
+  xy: 464, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_635
+  rotate: false
+  xy: 490, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_637
+  rotate: false
+  xy: 490, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_636
+  rotate: false
+  xy: 516, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_638
+  rotate: false
+  xy: 542, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_639
+  rotate: false
+  xy: 568, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_64
+  rotate: false
+  xy: 54, 132
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_640
+  rotate: false
+  xy: 594, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_641
+  rotate: false
+  xy: 620, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_643
+  rotate: false
+  xy: 620, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_642
+  rotate: false
+  xy: 646, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_644
+  rotate: false
+  xy: 672, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_645
+  rotate: false
+  xy: 698, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_646
+  rotate: false
+  xy: 724, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_647
+  rotate: false
+  xy: 750, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_649
+  rotate: false
+  xy: 750, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_648
+  rotate: false
+  xy: 776, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_65
+  rotate: false
+  xy: 150, 746
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_650
+  rotate: false
+  xy: 802, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_651
+  rotate: false
+  xy: 828, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_652
+  rotate: false
+  xy: 854, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_653
+  rotate: false
+  xy: 28, 388
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_654
+  rotate: false
+  xy: 880, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_655
+  rotate: false
+  xy: 906, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_656
+  rotate: false
+  xy: 932, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_657
+  rotate: false
+  xy: 958, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_658
+  rotate: false
+  xy: 984, 504
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_659
+  rotate: false
+  xy: 286, 482
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_66
+  rotate: false
+  xy: 296, 796
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_660
+  rotate: false
+  xy: 286, 456
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_661
+  rotate: false
+  xy: 286, 430
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_662
+  rotate: false
+  xy: 286, 404
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_663
+  rotate: false
+  xy: 286, 378
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_664
+  rotate: false
+  xy: 312, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_665
+  rotate: false
+  xy: 312, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_666
+  rotate: false
+  xy: 338, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_667
+  rotate: false
+  xy: 312, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_668
+  rotate: false
+  xy: 338, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_669
+  rotate: false
+  xy: 364, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_67
+  rotate: false
+  xy: 2, 50
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_670
+  rotate: false
+  xy: 312, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_671
+  rotate: false
+  xy: 338, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_672
+  rotate: false
+  xy: 364, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_673
+  rotate: false
+  xy: 390, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_674
+  rotate: false
+  xy: 338, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_675
+  rotate: false
+  xy: 364, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_676
+  rotate: false
+  xy: 390, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_677
+  rotate: false
+  xy: 416, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_678
+  rotate: false
+  xy: 820, 998
+  size: 192, 24
+  orig: 192, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_679
+  rotate: false
+  xy: 364, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_68
+  rotate: false
+  xy: 2, 100
+  size: 24, 72
+  orig: 24, 72
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_462
+  rotate: false
+  xy: 2, 100
+  size: 24, 72
+  orig: 24, 72
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_265
+  rotate: false
+  xy: 2, 100
+  size: 24, 72
+  orig: 24, 72
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_680
+  rotate: false
+  xy: 390, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_681
+  rotate: false
+  xy: 416, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_682
+  rotate: false
+  xy: 442, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_683
+  rotate: false
+  xy: 390, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_684
+  rotate: false
+  xy: 416, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_685
+  rotate: false
+  xy: 442, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_686
+  rotate: false
+  xy: 468, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_687
+  rotate: false
+  xy: 416, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_688
+  rotate: false
+  xy: 442, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_689
+  rotate: false
+  xy: 468, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_69
+  rotate: false
+  xy: 954, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_267
+  rotate: false
+  xy: 954, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_266
+  rotate: false
+  xy: 954, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_70
+  rotate: false
+  xy: 954, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_690
+  rotate: false
+  xy: 494, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_691
+  rotate: false
+  xy: 442, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_692
+  rotate: false
+  xy: 468, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_693
+  rotate: false
+  xy: 494, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_694
+  rotate: false
+  xy: 520, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_695
+  rotate: false
+  xy: 468, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_696
+  rotate: false
+  xy: 494, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_697
+  rotate: false
+  xy: 520, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_698
+  rotate: false
+  xy: 546, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_699
+  rotate: false
+  xy: 494, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_700
+  rotate: false
+  xy: 520, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_701
+  rotate: false
+  xy: 546, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_702
+  rotate: false
+  xy: 572, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_703
+  rotate: false
+  xy: 520, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_704
+  rotate: false
+  xy: 546, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_705
+  rotate: false
+  xy: 572, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_706
+  rotate: false
+  xy: 598, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_707
+  rotate: false
+  xy: 546, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_708
+  rotate: false
+  xy: 572, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_709
+  rotate: false
+  xy: 598, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_71
+  rotate: false
+  xy: 906, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_268
+  rotate: false
+  xy: 906, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_710
+  rotate: false
+  xy: 624, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_711
+  rotate: false
+  xy: 572, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_712
+  rotate: false
+  xy: 598, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_713
+  rotate: false
+  xy: 2, 998
+  size: 816, 24
+  orig: 816, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_714
+  rotate: false
+  xy: 624, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_715
+  rotate: false
+  xy: 650, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_716
+  rotate: false
+  xy: 598, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_717
+  rotate: false
+  xy: 624, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_718
+  rotate: false
+  xy: 650, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_719
+  rotate: false
+  xy: 676, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_72
+  rotate: false
+  xy: 838, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_269
+  rotate: false
+  xy: 838, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_720
+  rotate: false
+  xy: 624, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_721
+  rotate: false
+  xy: 650, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_722
+  rotate: false
+  xy: 676, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_723
+  rotate: false
+  xy: 702, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_724
+  rotate: false
+  xy: 650, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_725
+  rotate: false
+  xy: 676, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_726
+  rotate: false
+  xy: 702, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_727
+  rotate: false
+  xy: 728, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_728
+  rotate: false
+  xy: 676, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_729
+  rotate: false
+  xy: 702, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_73
+  rotate: false
+  xy: 500, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_467
+  rotate: false
+  xy: 500, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_270
+  rotate: false
+  xy: 500, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_730
+  rotate: false
+  xy: 728, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_731
+  rotate: false
+  xy: 754, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_732
+  rotate: false
+  xy: 702, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_733
+  rotate: false
+  xy: 728, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_734
+  rotate: false
+  xy: 754, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_735
+  rotate: false
+  xy: 780, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_736
+  rotate: false
+  xy: 728, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_737
+  rotate: false
+  xy: 754, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_738
+  rotate: false
+  xy: 780, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_739
+  rotate: false
+  xy: 806, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_74
+  rotate: false
+  xy: 574, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_740
+  rotate: false
+  xy: 150, 846
+  size: 192, 72
+  orig: 192, 72
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_741
+  rotate: false
+  xy: 754, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_742
+  rotate: false
+  xy: 780, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_743
+  rotate: false
+  xy: 806, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_744
+  rotate: false
+  xy: 832, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_745
+  rotate: false
+  xy: 780, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_746
+  rotate: false
+  xy: 806, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_747
+  rotate: false
+  xy: 832, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_748
+  rotate: false
+  xy: 858, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_749
+  rotate: false
+  xy: 806, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_75
+  rotate: false
+  xy: 280, 666
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_750
+  rotate: false
+  xy: 832, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_751
+  rotate: false
+  xy: 858, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_752
+  rotate: false
+  xy: 884, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_753
+  rotate: false
+  xy: 832, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_754
+  rotate: false
+  xy: 858, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_755
+  rotate: false
+  xy: 884, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_756
+  rotate: false
+  xy: 910, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_757
+  rotate: false
+  xy: 858, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_758
+  rotate: false
+  xy: 884, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_759
+  rotate: false
+  xy: 910, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_76
+  rotate: false
+  xy: 28, 56
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_760
+  rotate: false
+  xy: 936, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_761
+  rotate: false
+  xy: 884, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_762
+  rotate: false
+  xy: 910, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_763
+  rotate: false
+  xy: 936, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_764
+  rotate: false
+  xy: 962, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_765
+  rotate: false
+  xy: 910, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_766
+  rotate: false
+  xy: 936, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_767
+  rotate: false
+  xy: 2, 972
+  size: 624, 24
+  orig: 624, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_768
+  rotate: false
+  xy: 962, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_769
+  rotate: false
+  xy: 936, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_77
+  rotate: false
+  xy: 54, 106
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_770
+  rotate: false
+  xy: 962, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_771
+  rotate: false
+  xy: 962, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_772
+  rotate: false
+  xy: 2, 174
+  size: 24, 216
+  orig: 24, 216
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_773
+  rotate: false
+  xy: 312, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_774
+  rotate: false
+  xy: 338, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_775
+  rotate: false
+  xy: 364, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_776
+  rotate: false
+  xy: 390, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_777
+  rotate: false
+  xy: 416, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_778
+  rotate: false
+  xy: 442, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_779
+  rotate: false
+  xy: 468, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_78
+  rotate: false
+  xy: 980, 972
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_780
+  rotate: false
+  xy: 494, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_781
+  rotate: false
+  xy: 520, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_782
+  rotate: false
+  xy: 546, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_783
+  rotate: false
+  xy: 572, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_784
+  rotate: false
+  xy: 598, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_785
+  rotate: false
+  xy: 624, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_786
+  rotate: false
+  xy: 650, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_787
+  rotate: false
+  xy: 676, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_788
+  rotate: false
+  xy: 702, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_789
+  rotate: false
+  xy: 728, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_79
+  rotate: false
+  xy: 932, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_790
+  rotate: false
+  xy: 754, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_791
+  rotate: false
+  xy: 780, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_792
+  rotate: false
+  xy: 806, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_793
+  rotate: false
+  xy: 832, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_794
+  rotate: false
+  xy: 858, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_795
+  rotate: false
+  xy: 884, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_796
+  rotate: false
+  xy: 910, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_797
+  rotate: false
+  xy: 28, 584
+  size: 120, 360
+  orig: 120, 360
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_798
+  rotate: false
+  xy: 936, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_799
+  rotate: false
+  xy: 962, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_80
+  rotate: false
+  xy: 864, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_800
+  rotate: false
+  xy: 988, 478
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_801
+  rotate: false
+  xy: 988, 452
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_802
+  rotate: false
+  xy: 988, 426
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_803
+  rotate: false
+  xy: 988, 400
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_804
+  rotate: false
+  xy: 988, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_805
+  rotate: false
+  xy: 106, 354
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_806
+  rotate: false
+  xy: 106, 328
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_807
+  rotate: false
+  xy: 106, 302
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_808
+  rotate: false
+  xy: 106, 276
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_809
+  rotate: false
+  xy: 106, 250
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_81
+  rotate: false
+  xy: 526, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_810
+  rotate: false
+  xy: 106, 224
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_811
+  rotate: false
+  xy: 106, 198
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_812
+  rotate: false
+  xy: 106, 172
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_813
+  rotate: false
+  xy: 106, 146
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_814
+  rotate: false
+  xy: 106, 120
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_815
+  rotate: false
+  xy: 106, 94
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_816
+  rotate: false
+  xy: 106, 68
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_817
+  rotate: false
+  xy: 106, 42
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_818
+  rotate: false
+  xy: 106, 16
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_819
+  rotate: false
+  xy: 132, 354
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_82
+  rotate: false
+  xy: 600, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_820
+  rotate: false
+  xy: 132, 328
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_821
+  rotate: false
+  xy: 132, 302
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_822
+  rotate: false
+  xy: 132, 276
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_823
+  rotate: false
+  xy: 132, 250
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_824
+  rotate: false
+  xy: 132, 224
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_825
+  rotate: false
+  xy: 176, 646
+  size: 24, 48
+  orig: 24, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_826
+  rotate: false
+  xy: 132, 198
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_827
+  rotate: false
+  xy: 132, 172
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_828
+  rotate: false
+  xy: 132, 146
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_829
+  rotate: false
+  xy: 132, 120
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_83
+  rotate: false
+  xy: 28, 30
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_830
+  rotate: false
+  xy: 132, 94
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_831
+  rotate: false
+  xy: 132, 68
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_832
+  rotate: false
+  xy: 132, 42
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_833
+  rotate: false
+  xy: 132, 16
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_834
+  rotate: false
+  xy: 158, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_835
+  rotate: false
+  xy: 158, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_836
+  rotate: false
+  xy: 184, 374
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_837
+  rotate: false
+  xy: 158, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_838
+  rotate: false
+  xy: 184, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_839
+  rotate: false
+  xy: 158, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_84
+  rotate: false
+  xy: 54, 80
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_840
+  rotate: false
+  xy: 184, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_841
+  rotate: false
+  xy: 158, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_842
+  rotate: false
+  xy: 184, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_843
+  rotate: false
+  xy: 158, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_844
+  rotate: false
+  xy: 184, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_845
+  rotate: false
+  xy: 158, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_846
+  rotate: false
+  xy: 184, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_847
+  rotate: false
+  xy: 158, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_848
+  rotate: false
+  xy: 184, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_849
+  rotate: false
+  xy: 158, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_85
+  rotate: false
+  xy: 958, 946
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_850
+  rotate: false
+  xy: 184, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_851
+  rotate: false
+  xy: 158, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_852
+  rotate: false
+  xy: 184, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_853
+  rotate: false
+  xy: 158, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1036
+  rotate: false
+  xy: 158, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_854
+  rotate: false
+  xy: 184, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_855
+  rotate: false
+  xy: 158, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_856
+  rotate: false
+  xy: 184, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_1035
+  rotate: false
+  xy: 184, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_857
+  rotate: false
+  xy: 158, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_858
+  rotate: false
+  xy: 184, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_859
+  rotate: false
+  xy: 158, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_86
+  rotate: false
+  xy: 890, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_860
+  rotate: false
+  xy: 184, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_861
+  rotate: false
+  xy: 184, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_862
+  rotate: false
+  xy: 158, 10
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_863
+  rotate: false
+  xy: 184, 10
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_864
+  rotate: false
+  xy: 210, 354
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_865
+  rotate: false
+  xy: 236, 354
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_866
+  rotate: false
+  xy: 210, 328
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_867
+  rotate: false
+  xy: 210, 302
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_868
+  rotate: false
+  xy: 236, 328
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_869
+  rotate: false
+  xy: 210, 276
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_87
+  rotate: false
+  xy: 552, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_870
+  rotate: false
+  xy: 236, 302
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_871
+  rotate: false
+  xy: 210, 250
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_872
+  rotate: false
+  xy: 236, 276
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_873
+  rotate: false
+  xy: 210, 224
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_874
+  rotate: false
+  xy: 236, 250
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_875
+  rotate: false
+  xy: 210, 198
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_876
+  rotate: false
+  xy: 236, 224
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_877
+  rotate: false
+  xy: 210, 172
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_878
+  rotate: false
+  xy: 236, 198
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_879
+  rotate: false
+  xy: 210, 146
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_88
+  rotate: false
+  xy: 626, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_880
+  rotate: false
+  xy: 236, 172
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_881
+  rotate: false
+  xy: 210, 120
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_882
+  rotate: false
+  xy: 236, 146
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_883
+  rotate: false
+  xy: 236, 146
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_884
+  rotate: false
+  xy: 210, 94
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_885
+  rotate: false
+  xy: 236, 120
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_886
+  rotate: false
+  xy: 210, 68
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_887
+  rotate: false
+  xy: 236, 94
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_888
+  rotate: false
+  xy: 210, 42
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_889
+  rotate: false
+  xy: 236, 68
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_89
+  rotate: false
+  xy: 54, 54
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_890
+  rotate: false
+  xy: 210, 16
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_891
+  rotate: false
+  xy: 236, 42
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_892
+  rotate: false
+  xy: 236, 16
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_893
+  rotate: false
+  xy: 262, 352
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_894
+  rotate: false
+  xy: 262, 326
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_895
+  rotate: false
+  xy: 262, 300
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_896
+  rotate: false
+  xy: 262, 274
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_897
+  rotate: false
+  xy: 262, 248
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_898
+  rotate: false
+  xy: 262, 222
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_899
+  rotate: false
+  xy: 262, 196
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_90
+  rotate: false
+  xy: 916, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_900
+  rotate: false
+  xy: 262, 170
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_901
+  rotate: false
+  xy: 262, 144
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_902
+  rotate: false
+  xy: 262, 118
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_903
+  rotate: false
+  xy: 262, 92
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_904
+  rotate: false
+  xy: 262, 66
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_905
+  rotate: false
+  xy: 262, 40
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_906
+  rotate: false
+  xy: 262, 14
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_907
+  rotate: false
+  xy: 288, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_908
+  rotate: false
+  xy: 288, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_909
+  rotate: false
+  xy: 314, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_91
+  rotate: false
+  xy: 578, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_910
+  rotate: false
+  xy: 288, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_911
+  rotate: false
+  xy: 288, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_912
+  rotate: false
+  xy: 314, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_913
+  rotate: false
+  xy: 340, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_914
+  rotate: false
+  xy: 288, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_915
+  rotate: false
+  xy: 314, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_916
+  rotate: false
+  xy: 340, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_917
+  rotate: false
+  xy: 366, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_918
+  rotate: false
+  xy: 288, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_919
+  rotate: false
+  xy: 314, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_92
+  rotate: false
+  xy: 652, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_920
+  rotate: false
+  xy: 340, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_921
+  rotate: false
+  xy: 366, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_922
+  rotate: false
+  xy: 392, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_923
+  rotate: false
+  xy: 288, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_924
+  rotate: false
+  xy: 314, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_925
+  rotate: false
+  xy: 340, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_926
+  rotate: false
+  xy: 366, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_927
+  rotate: false
+  xy: 392, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_928
+  rotate: false
+  xy: 418, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_929
+  rotate: false
+  xy: 288, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_93
+  rotate: false
+  xy: 942, 920
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_930
+  rotate: false
+  xy: 314, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_931
+  rotate: false
+  xy: 340, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_932
+  rotate: false
+  xy: 366, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_933
+  rotate: false
+  xy: 392, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_934
+  rotate: false
+  xy: 418, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_935
+  rotate: false
+  xy: 444, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_936
+  rotate: false
+  xy: 288, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_937
+  rotate: false
+  xy: 314, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_938
+  rotate: false
+  xy: 340, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_939
+  rotate: false
+  xy: 366, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_94
+  rotate: false
+  xy: 604, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_940
+  rotate: false
+  xy: 392, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_941
+  rotate: false
+  xy: 418, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_942
+  rotate: false
+  xy: 444, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_943
+  rotate: false
+  xy: 470, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_944
+  rotate: false
+  xy: 288, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_945
+  rotate: false
+  xy: 314, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_946
+  rotate: false
+  xy: 340, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_947
+  rotate: false
+  xy: 366, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_948
+  rotate: false
+  xy: 392, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_949
+  rotate: false
+  xy: 418, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_95
+  rotate: false
+  xy: 678, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_950
+  rotate: false
+  xy: 444, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_951
+  rotate: false
+  xy: 470, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_952
+  rotate: false
+  xy: 496, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_953
+  rotate: false
+  xy: 288, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_954
+  rotate: false
+  xy: 314, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_955
+  rotate: false
+  xy: 340, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_956
+  rotate: false
+  xy: 366, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_957
+  rotate: false
+  xy: 392, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_958
+  rotate: false
+  xy: 418, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_959
+  rotate: false
+  xy: 444, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_96
+  rotate: false
+  xy: 630, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_960
+  rotate: false
+  xy: 470, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_961
+  rotate: false
+  xy: 496, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_962
+  rotate: false
+  xy: 522, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_963
+  rotate: false
+  xy: 288, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_964
+  rotate: false
+  xy: 314, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_965
+  rotate: false
+  xy: 340, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_966
+  rotate: false
+  xy: 366, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_967
+  rotate: false
+  xy: 392, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_968
+  rotate: false
+  xy: 418, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_969
+  rotate: false
+  xy: 444, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_97
+  rotate: false
+  xy: 704, 894
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_970
+  rotate: false
+  xy: 470, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_971
+  rotate: false
+  xy: 496, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_972
+  rotate: false
+  xy: 522, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_973
+  rotate: false
+  xy: 548, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_974
+  rotate: false
+  xy: 288, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_975
+  rotate: false
+  xy: 314, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_976
+  rotate: false
+  xy: 340, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_977
+  rotate: false
+  xy: 366, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_978
+  rotate: false
+  xy: 392, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_979
+  rotate: false
+  xy: 418, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_98
+  rotate: false
+  xy: 656, 868
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_980
+  rotate: false
+  xy: 444, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_981
+  rotate: false
+  xy: 470, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_982
+  rotate: false
+  xy: 496, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_983
+  rotate: false
+  xy: 522, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_984
+  rotate: false
+  xy: 548, 322
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_985
+  rotate: false
+  xy: 574, 348
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_986
+  rotate: false
+  xy: 288, 36
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_987
+  rotate: false
+  xy: 150, 796
+  size: 144, 48
+  orig: 144, 48
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_988
+  rotate: false
+  xy: 584, 920
+  size: 96, 24
+  orig: 96, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_989
+  rotate: false
+  xy: 150, 920
+  size: 432, 24
+  orig: 432, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_990
+  rotate: false
+  xy: 314, 62
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_991
+  rotate: false
+  xy: 340, 88
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_992
+  rotate: false
+  xy: 366, 114
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_993
+  rotate: false
+  xy: 392, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_994
+  rotate: false
+  xy: 418, 166
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_995
+  rotate: false
+  xy: 444, 192
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_996
+  rotate: false
+  xy: 470, 218
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_997
+  rotate: false
+  xy: 496, 244
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_998
+  rotate: false
+  xy: 522, 270
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+oryx_16bit_scifi_world_999
+  rotate: false
+  xy: 548, 296
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
