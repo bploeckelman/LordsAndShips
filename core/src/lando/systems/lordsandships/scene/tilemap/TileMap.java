@@ -12,7 +12,9 @@ import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.graph.Edge;
 import lando.systems.lordsandships.utils.graph.Graph;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * TileMap
@@ -20,11 +22,6 @@ import java.util.*;
  * Brian Ploeckelman created on 5/31/2014.
  */
 public class TileMap {
-
-    private static final int delay_ms_tiles = 1;
-    private static final int delay_ms_rooms = 1;
-    private static final int delay_ms_corners = 4;
-    private static final int delay_ms_walls = 1;
 
     Tile[][] tiles = null;
     TileSet tileSet;
@@ -70,7 +67,6 @@ public class TileMap {
 
         for (Room room : roomGraph.vertices()) {
             generateRoomTiles(room);
-            try { Thread.sleep(delay_ms_rooms); } catch (Exception e) {}
         }
 
         generateCorridorTiles();
@@ -89,7 +85,6 @@ public class TileMap {
             for (int x = worldx0 + 1; x < worldx1; ++x) {
                 tiles[y][x].type = TileType.FLOOR;
             }
-            try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
         }
 
         if (spawnX == 0 && spawnY == 0) {
@@ -126,7 +121,6 @@ public class TileMap {
                         tiles[y-1][x].type = TileType.FLOOR;
                         tiles[y-0][x].type = TileType.FLOOR;
                         tiles[y+1][x].type = TileType.FLOOR;
-                        try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
                     }
                 } else {
                     xStart = (int) Math.floor(u.center.x);
@@ -137,7 +131,6 @@ public class TileMap {
                         tiles[y-1][x].type = TileType.FLOOR;
                         tiles[y-0][x].type = TileType.FLOOR;
                         tiles[y+1][x].type = TileType.FLOOR;
-                        try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
                     }
                 }
                 if (u.center.y <= v.center.y) {
@@ -149,7 +142,6 @@ public class TileMap {
                         tiles[y][x-1].type = TileType.FLOOR;
                         tiles[y][x-0].type = TileType.FLOOR;
                         tiles[y][x+1].type = TileType.FLOOR;
-                        try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
                     }
                 } else {
                     yStart = (int) Math.floor(u.center.y);
@@ -160,7 +152,6 @@ public class TileMap {
                         tiles[y][x-1].type = TileType.FLOOR;
                         tiles[y][x-0].type = TileType.FLOOR;
                         tiles[y][x+1].type = TileType.FLOOR;
-                        try { Thread.sleep(delay_ms_tiles); } catch (Exception e) {}
                     }
                 }
 
@@ -171,9 +162,7 @@ public class TileMap {
     }
 
     public void generateWallTiles() {
-        try { Thread.sleep(5); } catch (Exception e) {}
         addCornerTiles();
-        try { Thread.sleep(5); } catch (Exception e) {}
         addWallTiles();
     }
 
@@ -191,19 +180,15 @@ public class TileMap {
                     // Check edge neighbors
                     if (tiles[yu][x].type == TileType.BLANK) {
                         tiles[yu][x].type = TileType.WALL_HORIZ_N;
-                        try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
                     }
                     if (tiles[yd][x].type == TileType.BLANK) {
                         tiles[yd][x].type = TileType.WALL_HORIZ_S;
-                        try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
                     }
                     if (tiles[y][xl].type == TileType.BLANK) {
                         tiles[y][xl].type = TileType.WALL_VERT_E;
-                        try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
                     }
                     if (tiles[y][xr].type == TileType.BLANK) {
                         tiles[y][xr].type = TileType.WALL_VERT_W;
-                        try { Thread.sleep(delay_ms_walls); } catch (Exception e) {}
                     }
                 }
             }
@@ -240,25 +225,21 @@ public class TileMap {
          &&  tiles[yu][xl].type == TileType.BLANK
          && (tiles[yu][x ].type == TileType.BLANK || isCorner(tiles[yu][x ].type))) {
             tiles[yu][xl].type = TileType.CORNER_OUTER_NW;
-            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
         if ((tiles[yu][x ].type == TileType.BLANK || isCorner(tiles[yu][x ].type))
          &&  tiles[yu][xr].type == TileType.BLANK
          && (tiles[y ][xr].type == TileType.BLANK || isCorner(tiles[y ][xr].type))) {
             tiles[yu][xr].type = TileType.CORNER_OUTER_NE;
-            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
         if ((tiles[y ][xr].type == TileType.BLANK || isCorner(tiles[y ][xr].type))
          &&  tiles[yd][xr].type == TileType.BLANK
          && (tiles[yd][x ].type == TileType.BLANK || isCorner(tiles[yd][x ].type))) {
             tiles[yd][xr].type = TileType.CORNER_OUTER_SE;
-            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
         if ((tiles[yd][x ].type == TileType.BLANK || isCorner(tiles[yd][x ].type))
          &&  tiles[yd][xl].type == TileType.BLANK
          && (tiles[y ][xl].type == TileType.BLANK || isCorner(tiles[y ][xl].type))) {
             tiles[yd][xl].type = TileType.CORNER_OUTER_SW;
-            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
     }
 
@@ -267,25 +248,21 @@ public class TileMap {
          && tiles[yu][xl].type == TileType.BLANK
          && tiles[yu][x ].type != TileType.BLANK && !isCorner(tiles[yu][x ].type)) {
             tiles[yu][xl].type = TileType.CORNER_INNER_NE;
-            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
         if (tiles[yu][x ].type != TileType.BLANK && !isCorner(tiles[yu][x ].type)
          && tiles[yu][xr].type == TileType.BLANK
          && tiles[y ][xr].type != TileType.BLANK && !isCorner(tiles[y ][xr].type)) {
             tiles[yu][xr].type = TileType.CORNER_INNER_NW;
-            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
         if (tiles[y ][xr].type != TileType.BLANK && !isCorner(tiles[y ][xr].type)
          && tiles[yd][xr].type == TileType.BLANK
          && tiles[yd][x ].type != TileType.BLANK && !isCorner(tiles[yd][x ].type)) {
             tiles[yd][xr].type = TileType.CORNER_INNER_SW;
-            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
         if (tiles[yd][x ].type != TileType.BLANK && !isCorner(tiles[yd][x ].type)
          && tiles[yd][xl].type == TileType.BLANK
          && tiles[y ][xl].type != TileType.BLANK && !isCorner(tiles[y ][xl].type)) {
             tiles[yd][xl].type = TileType.CORNER_INNER_SE;
-            try { Thread.sleep(delay_ms_corners); } catch (Exception e) {}
         }
     }
 
