@@ -4,7 +4,10 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.equations.*;
+import aurelienribon.tweenengine.equations.Bounce;
+import aurelienribon.tweenengine.equations.Circ;
+import aurelienribon.tweenengine.equations.Cubic;
+import aurelienribon.tweenengine.equations.Linear;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,7 +19,10 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
@@ -24,12 +30,12 @@ import lando.systems.lordsandships.entities.Enemy;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.OrthoCamController;
-import lando.systems.lordsandships.scene.tilemap.Tile;
-import lando.systems.lordsandships.scene.tilemap.TileMap;
 import lando.systems.lordsandships.scene.levelgen.LevelGenParams;
 import lando.systems.lordsandships.scene.levelgen.Room;
 import lando.systems.lordsandships.scene.levelgen.TinyDungeonGenerator;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
+import lando.systems.lordsandships.scene.tilemap.Tile;
+import lando.systems.lordsandships.scene.tilemap.TileMap;
 import lando.systems.lordsandships.scene.ui.UserInterface;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
@@ -41,8 +47,6 @@ import lando.systems.lordsandships.weapons.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * GameScreen
@@ -153,31 +157,25 @@ public class GameScreen implements UpdatingScreen {
     }
 
     private void regenerateLevel() {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                generatingLevel = true;
-                doneGenerating = false;
-                Gdx.app.log("GAME_SCREEN", "Generating level...");
-                final Graph<Room> roomGraph = dungeonGenerator.generateRoomGraph(params);
+        generatingLevel = true;
+        doneGenerating = false;
+        Gdx.app.log("GAME_SCREEN", "Generating level...");
+        final Graph<Room> roomGraph = dungeonGenerator.generateRoomGraph(params);
 
-                Gdx.app.log("GAME_SCREEN", "Generating tilemap...");
-                try { Thread.sleep(2000); } catch (Exception e) {}
-                tileMap.generateTilesFromGraph(roomGraph);
+        Gdx.app.log("GAME_SCREEN", "Generating tilemap...");
+        tileMap.generateTilesFromGraph(roomGraph);
 
-                Gdx.app.log("GAME_SCREEN", "Level and tilemap generation complete.");
-                generatingLevel = false;
+        Gdx.app.log("GAME_SCREEN", "Level and tilemap generation complete.");
+        generatingLevel = false;
 
-                Vector2 pos = new Vector2();
-                for (int i = 0; i < 100; ++i) {
-                    pos.set(tileMap.getRandomFloorTile());
-                    enemies.add(new Enemy(Assets.enemytex,
-                            pos.x * Tile.TILE_SIZE, pos.y * Tile.TILE_SIZE,
-                            Tile.TILE_SIZE, 24, 0.3f));
-                }
-            }
-        });
+        enemies.clear();
+        Vector2 pos = new Vector2();
+        for (int i = 0; i < 100; ++i) {
+            pos.set(tileMap.getRandomFloorTile());
+            enemies.add(new Enemy(Assets.enemytex,
+                    pos.x * Tile.TILE_SIZE, pos.y * Tile.TILE_SIZE,
+                    Tile.TILE_SIZE, 24, 0.3f));
+        }
     }
 
     public boolean doneGenerating = true;

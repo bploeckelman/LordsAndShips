@@ -45,13 +45,6 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
     private static final String tag = "LEVEL_GEN";
     private static final int tile_size = 16;
 
-    private static final int delay_ms_create = 4;
-    private static final int delay_ms_separate = 3;
-    private static final int delay_ms_select = 2;
-    private static final int delay_ms_reposition = 1;
-    private static final int delay_ms_mst = 60;
-    private static final int delay_ms_restore = 20;
-
     private static final Random random = new Random();
     private static final Random selectRandom = new Random();
 
@@ -87,13 +80,9 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
         reset();
 
         createRooms();
-        try { Thread.sleep(700); } catch(Exception e) {}
         separateRooms();
-        try { Thread.sleep(700); } catch(Exception e) {}
         selectRooms();
-        try { Thread.sleep(700); } catch(Exception e) {}
         repositionRooms();
-        try { Thread.sleep(700); } catch(Exception e) {}
         generateGraph();
 
         return graph;
@@ -241,8 +230,6 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             bounds.height = random.nextInt(h_range) + params.roomHeightMin;
 
             rooms.add(new Room(bounds));
-
-            try { Thread.sleep(delay_ms_create); } catch (Exception e) {}
         }
 
         Gdx.app.log(tag, "Created " + rooms.size() + " initial rooms");
@@ -283,8 +270,6 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             }
 
             ++numIterationsRun;
-
-            try { Thread.sleep(delay_ms_separate); } catch (Exception e) {}
         }
 
         Gdx.app.log(tag, "Separating rooms... complete : " + numIterationsRun + " iterations");
@@ -357,8 +342,6 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             } else {
                 room.isSelected = false;
             }
-
-            try { Thread.sleep(delay_ms_select); } catch (Exception e) {}
         }
 
         Gdx.app.log(tag, "Selected " + params.numSelectedRooms + " rooms");
@@ -518,8 +501,6 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             // Add v0 to V_new and {u0, v0} to minimum spanning tree
             mst.addEdge(u0, v0);
             V_new.add(v0);
-
-            try { Thread.sleep(delay_ms_mst); } catch (Exception e) {}
         }
     }
 
@@ -550,8 +531,6 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
                             break restoration;
                         }
                     }
-
-                    try { Thread.sleep(delay_ms_restore); } catch (Exception e) {}
                 }
             }
         }
@@ -583,7 +562,6 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
             room.rect.x = (int) Math.floor(room.rect.x - min.x);
             room.rect.y = (int) Math.floor(room.rect.y - min.y);
             room.rect.getCenter(room.center);
-            try { Thread.sleep(delay_ms_reposition); } catch (Exception e) {}
         }
     }
 
