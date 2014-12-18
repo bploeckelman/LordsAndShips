@@ -2,10 +2,7 @@ package lando.systems.lordsandships.scene.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -28,6 +25,8 @@ public class UserInterface implements Disposable {
     Label label;
     Window window;
 
+    Console console;
+
     // -------------------------------------------------------------------------
 
     public UserInterface() {
@@ -40,11 +39,13 @@ public class UserInterface implements Disposable {
     // -------------------------------------------------------------------------
 
     public void update(float delta) {
+        console.update(delta);
         stage.act(delta);
     }
 
     public void draw() {
         stage.draw();
+        stage.setDebugUnderMouse(true);
     }
 
     public void resize(int width, int height) {
@@ -55,11 +56,14 @@ public class UserInterface implements Disposable {
         stage.dispose();
     }
 
+    public Stage getStage() { return stage; }
+
     // -------------------------------------------------------------------------
 
     private void initializeWidgets() {
         initializeButtons();
         initializeWindow();
+        console = new Console(stage, skin);
     }
 
     private void initializeButtons() {
@@ -74,17 +78,21 @@ public class UserInterface implements Disposable {
         window.add(label).width(stage.getWidth()).align(Align.left);
         window.pack();
         window.setPosition(margin_left, stage.getHeight() - margin_top);
-        window.setSize(stage.getWidth() - margin_left - margin_right, 64f);
+        window.setSize(stage.getWidth() - margin_left - margin_right, 256f);
         window.setTitleAlignment(Align.left);
 //        window.pad(margin_top, margin_left, margin_bottom, margin_right);
         window.left();
+        window.setZIndex(0);
 
         avatar = new Image(Assets.avatartex);
+        avatar.setColor(1,1,1,0.5f);
         avatar.setScale(0.5f, 0.5f);
-        avatar.setPosition(10, stage.getHeight() - avatar.getHeight() * 0.5f - 10);
+        avatar.setPosition(10, stage.getHeight() - avatar.getHeight() * 0.5f - 20);
+        avatar.setZIndex(1);
 
-        stage.addActor(avatar);
+        window.addActor(avatar);
 
 //        stage.addActor(window);
+//        stage.addActor(avatar);
     }
 }

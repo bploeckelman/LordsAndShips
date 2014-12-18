@@ -105,6 +105,8 @@ public class GameScreen implements UpdatingScreen {
         camera.position.set(0,0,0);
         camera.update();
 
+
+        ui = new UserInterface();
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uiCamera.update();
@@ -115,6 +117,7 @@ public class GameScreen implements UpdatingScreen {
         InputMultiplexer inputMux = new InputMultiplexer();
         inputMux.addProcessor(camController);
         inputMux.addProcessor(game.input);
+        inputMux.addProcessor(ui.getStage());
         Gdx.input.setInputProcessor(inputMux);
 
         params = new LevelGenParams();
@@ -152,8 +155,6 @@ public class GameScreen implements UpdatingScreen {
                 Assets.atlas.findRegion("sparkle_small9"),
                 Assets.atlas.findRegion("sparkle_small10"));
         sparkle.setPlayMode(Animation.PlayMode.NORMAL);
-
-        ui = new UserInterface();
     }
 
     private void regenerateLevel() {
