@@ -40,6 +40,9 @@ public class UserInterface implements Disposable {
 
     public void update(float delta) {
         console.update(delta);
+        if (console.visible)
+            stage.setKeyboardFocus(console.inputField);
+
         stage.act(delta);
     }
 
