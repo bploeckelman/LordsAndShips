@@ -1,6 +1,7 @@
 package lando.systems.lordsandships.scene.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -32,9 +33,13 @@ public class Console implements TextField.TextFieldListener {
     Stage stage;
     Skin skin;
 
+    boolean visible;
+
     public Console(Stage stage, Skin skin) {
         this.stage = stage;
         this.skin = skin;
+
+        visible = false;
 
         currentLine = 0;
         numLines = num_lines;
@@ -61,6 +66,7 @@ public class Console implements TextField.TextFieldListener {
         window.setPosition(pos.x, pos.y);
         window.setSize(size.x, size.y);
         window.setColor(Color.GRAY);
+        window.setVisible(visible);
 
         for (int i = numLines - 2; i >= 0; --i) {
             Label label = textLabels[i];
@@ -80,7 +86,10 @@ public class Console implements TextField.TextFieldListener {
 
 
     public void update(float dt) {
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.GRAVE)) {
+            visible = !visible;
+            window.setVisible(visible);
+        }
     }
 
     @Override
