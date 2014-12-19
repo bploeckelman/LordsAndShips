@@ -1,10 +1,10 @@
 package lando.systems.lordsandships.scene.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 /**
  * Brian Ploeckelman created on 12/17/2014.
  */
-public class Console implements TextInputListener {
+public class Console implements TextField.TextFieldListener {
 
     private static final int num_lines = 6;
     private static final float margin_left = 20f;
@@ -22,8 +22,8 @@ public class Console implements TextInputListener {
 
     int numLines;
     int currentLine;
-    String[] textLines;
-    TextField[] textFields;
+    Label[] textLabels;
+    TextField inputField;
 
     Vector2 pos;
     Vector2 size;
@@ -38,22 +38,18 @@ public class Console implements TextInputListener {
 
         currentLine = 0;
         numLines = num_lines;
-        textLines = new String[numLines];
-        textFields = new TextField[numLines];
+        textLabels = new Label[numLines];
+
+        inputField = new TextField("", skin);
+        inputField.setTextFieldListener(this);
 
         for (int i = 0; i < numLines; ++i) {
-            textLines[i] = "foo:" + i;
-            textFields[i] = new TextField(textLines[i], skin);
-            textFields[i].setZIndex(1);
-            textFields[i].setDisabled(i != 0);
-            if (textFields[i].isDisabled())
-                textFields[i].setColor(Color.GRAY);
-            else
-                textFields[i].setColor(Color.LIGHT_GRAY);
-
+            textLabels[i] = new Label(" ", skin);
+            textLabels[i].setZIndex(1);
+            textLabels[i].setColor(Color.GRAY);
         }
 
-        float text_height = textFields[0].getHeight();
+        float text_height = inputField.getHeight();
         float padding = 2f;
 
         size = new Vector2(stage.getWidth(), (numLines + 1) * (text_height + padding));
@@ -66,13 +62,18 @@ public class Console implements TextInputListener {
         window.setSize(size.x, size.y);
         window.setColor(Color.GRAY);
 
-        for (int i = numLines - 1; i >= 0; --i) {
-            TextField field = textFields[i];
+        for (int i = numLines - 2; i >= 0; --i) {
+            Label label = textLabels[i];
             window.row();
-            window.add(field).width(size.x - (padding * 2))
+            window.add(label).width(size.x - (padding * 2))
                   .padTop(padding).padBottom(padding)
-                  .align(Align.left).fill();
+                  .fill();
         }
+
+        window.row();
+        window.add(inputField).width(size.x - (padding * 2))
+              .padTop(padding * 2).padBottom(padding / 2)
+              .fill();
 
         stage.addActor(window);
     }
@@ -83,12 +84,23 @@ public class Console implements TextInputListener {
     }
 
     @Override
-    public void input(String text) {
-        Gdx.app.log("foo", "text: " + text);
+    public void keyTyped(TextField textField, char c) {
+        if (c != '\r' && c != '\n')
+            return;
+
+        // Move each label text up a line
+        for (int i = textLabels.length - 1; i > 0; --i) {
+            textLabels[i].setText(textLabels[i - 1].getText());
+        }
+
+        processInput();
+
+        final String text = inputField.getText().isEmpty() ? " " : inputField.getText();
+        textLabels[0].setText(text);
+        inputField.setText("");
     }
 
-    @Override
-    public void canceled() {
-        Gdx.app.log("foo", "cxl");
+    private void processInput() {
+        Gdx.app.log("INPUT", inputField.getText());
     }
 }
