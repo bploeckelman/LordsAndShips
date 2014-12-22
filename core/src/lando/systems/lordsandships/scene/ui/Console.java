@@ -15,9 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.screens.GameScreen;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -36,6 +38,7 @@ public class Console implements TextField.TextFieldListener {
     TextField inputField;
 
     List<CVar> vars;
+    List<CCmd> cmds;
 
     Vector2 pos;
     Vector2 size;
@@ -45,9 +48,12 @@ public class Console implements TextField.TextFieldListener {
     Stage stage;
     Skin skin;
 
+    GameInstance game;
+
     boolean visible;
 
-    public Console(Stage stage, Skin skin) {
+    public Console(GameInstance game, Stage stage, Skin skin) {
+        this.game = game;
         this.stage = stage;
         this.skin = skin;
 
@@ -103,7 +109,7 @@ public class Console implements TextField.TextFieldListener {
 
         consoleAlpha = new MutableFloat(0f);
 
-        initializeVars();
+        initialize();
     }
 
 
@@ -151,11 +157,17 @@ public class Console implements TextField.TextFieldListener {
     private void processInput() {
         Gdx.app.log("INPUT", inputField.getText());
 
-        final String cmd = inputField.getText();
-        final String[] tokens = cmd.split(" ");
+        final String cmdline = inputField.getText();
+        final String[] tokens = cmdline.split(" ");
         if (tokens.length == 0) return;
 
-        // TODO (brian): need CCommand also
+        for (CCmd cmd : cmds) {
+            if (cmd.command.equals(tokens[0])) {
+                Object result = cmd.function.invoke(cmds.subList(1, cmds.size()));
+                inputField.setText(cmd.command + ": " + result.toString());
+                return;
+            }
+        }
 
         for (CVar var : vars) {
             if (tokens[0].equals(var.key)) {
@@ -163,13 +175,25 @@ public class Console implements TextField.TextFieldListener {
                     var.value = tokens[1];
                 }
                 inputField.setText(var.key + " = " + var.value);
-                break;
+                return;
             }
         }
     }
 
-    private void initializeVars() {
+    private void initialize() {
         vars = new ArrayList<CVar>();
         vars.add(new CVar("test"));
+
+        cmds = new ArrayList<CCmd>();
+        cmds.add(new CCmd("regenerate", new CCmd.Function() {
+            @Override
+            public Object invoke(Object... params) {
+                if (game.getScreen() instanceof GameScreen) {
+                    ((GameScreen) game.getScreen()).regenerateLevel();
+                    return "Level regenerated.";
+                }
+                return "";
+            }
+        }));
     }
 }

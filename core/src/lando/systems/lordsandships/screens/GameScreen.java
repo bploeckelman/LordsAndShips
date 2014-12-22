@@ -106,7 +106,7 @@ public class GameScreen implements UpdatingScreen {
         camera.update();
 
 
-        ui = new UserInterface();
+        ui = new UserInterface(game);
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uiCamera.update();
@@ -157,7 +157,9 @@ public class GameScreen implements UpdatingScreen {
         sparkle.setPlayMode(Animation.PlayMode.NORMAL);
     }
 
-    private void regenerateLevel() {
+    public void regenerateLevel() {
+        if (!doneGenerating) return;
+
         generatingLevel = true;
         doneGenerating = false;
         Gdx.app.log("GAME_SCREEN", "Generating level...");
@@ -201,10 +203,6 @@ public class GameScreen implements UpdatingScreen {
         // DEBUG : Place enemies
         if (Gdx.input.justTouched() && Gdx.input.isKeyPressed(Input.Keys.F)) {
             enemies.add(new Enemy(Assets.enemytex, mouseWorldCoords.x, mouseWorldCoords.y, 16, 24, 0.3f));
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !generatingLevel) {
-            regenerateLevel();
         }
 
         // TODO : extract this functionality out to a more generic place

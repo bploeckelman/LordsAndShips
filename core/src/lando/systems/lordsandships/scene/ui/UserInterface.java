@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.utils.Assets;
 
 /**
@@ -27,9 +28,12 @@ public class UserInterface implements Disposable {
 
     Console console;
 
+    GameInstance game;
+
     // -------------------------------------------------------------------------
 
-    public UserInterface() {
+    public UserInterface(GameInstance game) {
+        this.game = game;
         skin  = new Skin(Gdx.files.internal("ui/uiskin.json"));
         stage = new Stage(new ScreenViewport());
 
@@ -48,7 +52,7 @@ public class UserInterface implements Disposable {
 
     public void draw() {
         stage.draw();
-        stage.setDebugUnderMouse(true);
+//        stage.setDebugUnderMouse(true);
     }
 
     public void resize(int width, int height) {
@@ -66,7 +70,7 @@ public class UserInterface implements Disposable {
     private void initializeWidgets() {
         initializeButtons();
         initializeWindow();
-        console = new Console(stage, skin);
+        console = new Console(game, stage, skin);
     }
 
     private void initializeButtons() {
