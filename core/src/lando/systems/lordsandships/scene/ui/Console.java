@@ -17,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Brian Ploeckelman created on 12/17/2014.
@@ -31,6 +34,8 @@ public class Console implements TextField.TextFieldListener {
     int currentLine;
     Label[] textLabels;
     TextField inputField;
+
+    List<CVar> vars;
 
     Vector2 pos;
     Vector2 size;
@@ -97,6 +102,8 @@ public class Console implements TextField.TextFieldListener {
         stage.addActor(window);
 
         consoleAlpha = new MutableFloat(0f);
+
+        initializeVars();
     }
 
 
@@ -143,5 +150,26 @@ public class Console implements TextField.TextFieldListener {
 
     private void processInput() {
         Gdx.app.log("INPUT", inputField.getText());
+
+        final String cmd = inputField.getText();
+        final String[] tokens = cmd.split(" ");
+        if (tokens.length == 0) return;
+
+        // TODO (brian): need CCommand also
+
+        for (CVar var : vars) {
+            if (tokens[0].equals(var.key)) {
+                if (tokens.length >= 2) {
+                    var.value = tokens[1];
+                }
+                inputField.setText(var.key + " = " + var.value);
+                break;
+            }
+        }
+    }
+
+    private void initializeVars() {
+        vars = new ArrayList<CVar>();
+        vars.add(new CVar("test"));
     }
 }
