@@ -46,6 +46,8 @@ public class UserInterface implements Disposable {
         console.update(delta);
         if (console.visible)
             stage.setKeyboardFocus(console.inputField);
+        else
+            stage.setKeyboardFocus(null);
 
         stage.act(delta);
     }
