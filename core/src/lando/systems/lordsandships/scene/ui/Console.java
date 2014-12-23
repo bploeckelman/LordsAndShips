@@ -2,7 +2,7 @@ package lando.systems.lordsandships.scene.ui;
 
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.equations.*;
+import aurelienribon.tweenengine.equations.Bounce;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -19,7 +19,6 @@ import lando.systems.lordsandships.screens.GameScreen;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -33,7 +32,6 @@ public class Console implements TextField.TextFieldListener {
     private static final String title = "Console";
 
     int numLines;
-    int currentLine;
     Label[] textLabels;
     TextField inputField;
 
@@ -57,88 +55,33 @@ public class Console implements TextField.TextFieldListener {
         this.stage = stage;
         this.skin = skin;
 
-        visible = false;
-
-        currentLine = 0;
-        numLines = num_lines;
-        textLabels = new Label[numLines];
-
-        inputField = new TextField("", skin);
-        inputField.setTextFieldListener(this);
-        inputField.setColor(0.1f, 0.1f, 0.1f, 1.0f);
-
-        for (int i = 0; i < numLines; ++i) {
-            textLabels[i] = new Label(" ", skin);
-            textLabels[i].setZIndex(1);
-            textLabels[i].setColor(Color.GRAY);
-        }
-
-        float text_height = inputField.getHeight();
-        float padding = 2f;
-
-        size = new Vector2(stage.getWidth(), (numLines) * (text_height + padding));
-        pos = new Vector2(0, stage.getHeight());
-
-        window = new Window(title, skin);
-        window.setZIndex(0);
-        window.setTitleAlignment(Align.center);
-        window.setColor(Color.GRAY);
-        window.setPosition(pos.x, pos.y);
-        window.setSize(size.x, size.y);
-        window.setKeepWithinStage(false);
-        window.setMovable(false);
-        window.setResizable(false);
-
-        for (int i = numLines - 2; i >= 0; --i) {
-            window.add(new Label("", skin)).width(margin);
-            window.add(textLabels[i]).left()
-                      .width(stage.getWidth() - 2 * margin)
-                      .padTop(padding).padBottom(padding);
-            window.add(new Label("", skin)).width(margin);
-            window.row();
-        }
-
-        window.add(new Label("", skin)).width(margin);
-        window.add(inputField).left()
-                  .width(stage.getWidth() - 2 * margin)
-                  .padTop(padding * 2).fill();
-        window.add(new Label("", skin)).width(margin);
-        window.row();
-
-        stage.addActor(window);
-
-        consoleAlpha = new MutableFloat(0f);
-
         initialize();
     }
 
 
+    /**
+     * Update the current state of this Console
+     *
+     * @param dt the amount of time that has passed since last update, in ms
+     */
     public void update(float dt) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-            visible = !visible;
-            float y = stage.getHeight() - (visible ? size.y : 0f);
-            float a = visible ? 1f : 0f;
-            float duration = visible ? 0.33f : 0.66f;
-            Timeline.createParallel()
-                    .push(
-                        Tween.to(pos, Vector2Accessor.Y, duration)
-                                .target(y)
-                                .ease(Bounce.OUT)
-                    )
-                    .push(
-                        Tween.to(consoleAlpha, 0, duration)
-                                .target(a)
-                                .ease(Bounce.OUT)
-                    )
-                    .start(GameInstance.tweens);
+            toggleVisibility();
         }
 
         window.setPosition(pos.x, pos.y);
         window.setColor(1, 1, 1, consoleAlpha.floatValue());
     }
 
+    /**
+     * Handle a key press by handling input and updating all lines of output
+     *
+     * @param textField the TextField that received a key event
+     * @param c the key character that was typed
+     */
     @Override
     public void keyTyped(TextField textField, char c) {
+        // Ignore empty lines
         if (c != '\r' && c != '\n')
             return;
 
@@ -154,6 +97,11 @@ public class Console implements TextField.TextFieldListener {
         inputField.setText("");
     }
 
+    /**
+     * Process the current input field command:
+     * if its a registered CCmd, invoke it and display its output
+     * if its a registered CVar, set it or display its current value
+     */
     private void processInput() {
         Gdx.app.log("INPUT", inputField.getText());
 
@@ -180,7 +128,59 @@ public class Console implements TextField.TextFieldListener {
         }
     }
 
+    /**
+     * Initialze all data for the console
+     */
     private void initialize() {
+        visible = false;
+        consoleAlpha = new MutableFloat(0f);
+
+        inputField = new TextField("", skin);
+        inputField.setTextFieldListener(this);
+        inputField.setColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+        numLines = num_lines;
+        textLabels = new Label[numLines];
+        for (int i = 0; i < numLines; ++i) {
+            textLabels[i] = new Label(" ", skin);
+            textLabels[i].setZIndex(1);
+            textLabels[i].setColor(Color.GRAY);
+        }
+
+        float text_height = inputField.getHeight();
+        float padding = 2f;
+
+        size = new Vector2(stage.getWidth(), (numLines) * (text_height + padding));
+        pos = new Vector2(0, stage.getHeight());
+
+        window = new Window(title, skin);
+        window.setZIndex(0);
+        window.setTitleAlignment(Align.center);
+        window.setColor(Color.GRAY);
+        window.setPosition(pos.x, pos.y);
+        window.setSize(size.x, size.y);
+        window.setKeepWithinStage(false);
+        window.setMovable(false);
+        window.setResizable(false);
+
+        for (int i = numLines - 2; i >= 0; --i) {
+            window.add(new Label("", skin)).width(margin);
+            window.add(textLabels[i]).left()
+                    .width(stage.getWidth() - 2 * margin)
+                    .padTop(padding).padBottom(padding);
+            window.add(new Label("", skin)).width(margin);
+            window.row();
+        }
+
+        window.add(new Label("", skin)).width(margin);
+        window.add(inputField).left()
+                .width(stage.getWidth() - 2 * margin)
+                .padTop(padding * 2).fill();
+        window.add(new Label("", skin)).width(margin);
+        window.row();
+
+        stage.addActor(window);
+
         vars = new ArrayList<CVar>();
         vars.add(new CVar("test"));
 
@@ -196,4 +196,27 @@ public class Console implements TextField.TextFieldListener {
             }
         }));
     }
+
+    /**
+     * Toggle console visibility: after toggling,
+     * if the console is visible, move on screen and fade in
+     * otherwise move off screen and fade out
+     */
+    private void toggleVisibility() {
+        visible = !visible;
+
+        float ypos = stage.getHeight() - (visible ? size.y : 0f);
+        float alpha = visible ? 1f : 0f;
+        float duration = visible ? 0.33f : 0.66f;
+
+        Timeline.createParallel()
+                .push(Tween.to(pos, Vector2Accessor.Y, duration)
+                           .target(ypos)
+                           .ease(Bounce.OUT))
+                .push(Tween.to(consoleAlpha, 0, duration)
+                           .target(alpha)
+                           .ease(Bounce.OUT))
+                .start(GameInstance.tweens);
+    }
+
 }
