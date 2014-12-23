@@ -1,5 +1,7 @@
 package lando.systems.lordsandships.utils.graph;
 
+import lando.systems.lordsandships.scene.levelgen.Room;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -220,7 +222,7 @@ public class Graph<T extends Vertex>
      * @param g The graph to compare to this graph
      * @return True if the graphs consist of the same vertices and edges, false otherwise
      */
-    public boolean equals(Graph g) {
+    public boolean equals(Graph<T> g) {
         Set<T> neighbors = null;
         for (T v : adjacencyLists.keySet()) {
             if (!g.hasVertex(v)) {

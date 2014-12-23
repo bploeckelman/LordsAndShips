@@ -392,9 +392,9 @@ public class LevelGenerator
      *
      * @return The generated Dalaunay triangulation graph
      */
-    private static Graph generateDelaunayGraph() {
+    private static Graph<Room> generateDelaunayGraph() {
         // Generate graph structure from Dalaunay triangulation
-        Graph delaunay = new Graph();
+        Graph<Room> delaunay = new Graph<Room>();
         Vector2 v1 = new Vector2();
         Vector2 v2 = new Vector2();
         Vector2 v3 = new Vector2();
