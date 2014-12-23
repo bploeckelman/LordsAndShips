@@ -67,6 +67,8 @@ public class UserInterface implements Disposable {
 
     public Stage getStage() { return stage; }
 
+    public Console getConsole() { return console; }
+
     // -------------------------------------------------------------------------
 
     private void initializeWidgets() {

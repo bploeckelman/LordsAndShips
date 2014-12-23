@@ -71,6 +71,7 @@ public class Console implements TextField.TextFieldListener {
 
         window.setPosition(pos.x, pos.y);
         window.setColor(1, 1, 1, consoleAlpha.floatValue());
+        window.setTitle("Console ( " + Gdx.graphics.getFramesPerSecond() + " )");
     }
 
     /**
@@ -126,6 +127,15 @@ public class Console implements TextField.TextFieldListener {
                 return;
             }
         }
+    }
+
+    /**
+     * Change the console window's title text
+     *
+     * @param titleText the new conosole window title text
+     */
+    public void setTitle(String titleText) {
+        window.setTitle(titleText);
     }
 
     /**

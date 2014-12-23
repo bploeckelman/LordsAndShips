@@ -471,23 +471,9 @@ public class GameScreen implements UpdatingScreen {
 
     private void uiRender() {
         Gdx.gl20.glViewport(0, 0, (int) uiCamera.viewportWidth, (int) uiCamera.viewportHeight);
-        final String line1 = "Hold 'F' + Left Click to spawn 'enemy'";
-        final String line2 = "Press '1' or '2' to switch weapons";
-        final String line3 = "FPS: " + Gdx.graphics.getFramesPerSecond();
-        final float line_spacing = 5;
-        final float line_offset = 20;
 
         Assets.batch.setProjectionMatrix(uiCamera.combined);
         Assets.batch.begin();
-
-        // Draw help text
-        font.setScale(0.5f);
-        font.setColor(Color.WHITE);
-        font.draw(Assets.batch, line1, line_offset, Gdx.graphics.getHeight() - line_offset);
-        font.draw(Assets.batch, line2, line_offset, Gdx.graphics.getHeight() - line_offset - 1 * (font.getLineHeight() - line_spacing));
-        font.draw(Assets.batch, line3, line_offset, Gdx.graphics.getHeight() - line_offset - 2 * (font.getLineHeight() - line_spacing));
-
-        // Draw current weapon icon
         Assets.batch.draw(weaponIcon, weaponIconPos.x, weaponIconPos.y, weaponIconSize.x, weaponIconSize.y);
         Assets.batch.end();
 
