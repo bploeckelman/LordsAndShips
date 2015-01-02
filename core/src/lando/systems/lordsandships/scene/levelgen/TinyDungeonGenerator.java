@@ -91,9 +91,10 @@ public class TinyDungeonGenerator implements RoomGraphGenerator {
     /**
      * Draw rooms for debug visualization
      *
+     * @param shapes the ShapeRenderer to use for rendering graph shapes in debug mode
      * @param camera the camera used for viewing the rooms
      */
-    public void render(Camera camera, ShapeRenderer shapes) {
+    public void render(ShapeRenderer shapes, Camera camera) {
         shapes.setProjectionMatrix(camera.combined);
 
         final Color roomSelectedInterior   = new Color(0.0f, 0.75f, 0.0f, 0.5f);
