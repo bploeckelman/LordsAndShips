@@ -116,7 +116,7 @@ public class GameScreen implements UpdatingScreen {
 
         InputMultiplexer inputMux = new InputMultiplexer();
         inputMux.addProcessor(camController);
-        inputMux.addProcessor(game.input);
+        inputMux.addProcessor(GameInstance.input);
         inputMux.addProcessor(ui.getStage());
         Gdx.input.setInputProcessor(inputMux);
 
@@ -290,23 +290,23 @@ public class GameScreen implements UpdatingScreen {
     private void updatePlayers(float delta) {
         float dx, dy;
 
-        if      (game.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
-        else if (game.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount; }
+        if      (GameInstance.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
+        else if (GameInstance.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount; }
         else {
             dx = 0f;
             player.velocity.x = 0f;
         }
 
-        if      (game.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
-        else if (game.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount; }
+        if      (GameInstance.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
+        else if (GameInstance.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount; }
         else {
             dy = 0f;
             player.velocity.y = 0f;
         }
 
         // Attack!
-        if ((game.input.isButtonDown(Input.Buttons.LEFT) && !game.input.isKeyDown(Input.Keys.F))
-         || game.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
+        if ((GameInstance.input.isButtonDown(Input.Buttons.LEFT) && !GameInstance.input.isKeyDown(Input.Keys.F))
+         ||  GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
             temp2.set(GameInstance.mousePlayerDirection).nor();
             player.attack(temp2);
             camera.translate(temp2.scl(-1));
@@ -492,12 +492,12 @@ public class GameScreen implements UpdatingScreen {
 
     @Override
     public void show() {
-        game.input.reset();
+        GameInstance.input.reset();
     }
 
     @Override
     public void hide() {
-        game.input.reset();
+        GameInstance.input.reset();
     }
 
     @Override
