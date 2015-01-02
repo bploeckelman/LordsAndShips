@@ -3,6 +3,7 @@ package lando.systems.lordsandships.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -24,6 +25,8 @@ public class Assets {
 
     public static SpriteBatch batch;
     public static ShapeRenderer shapes;
+
+    public static BitmapFont font;
 
     public static Texture playertex;
     public static Texture enemytex;
@@ -49,6 +52,8 @@ public class Assets {
 
         batch = new SpriteBatch();
         shapes = new ShapeRenderer();
+
+        font = new BitmapFont(Gdx.files.internal("fonts/tolkien.fnt"), false);
 
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
         world = new TextureAtlas(Gdx.files.internal("atlas/world.atlas"));
@@ -87,6 +92,8 @@ public class Assets {
         enemytex.dispose();
         playertex.dispose();
         avatartex.dispose();
+
+        font.dispose();
 
         shapes.dispose();
         batch.dispose();

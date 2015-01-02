@@ -12,12 +12,10 @@ import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -68,7 +66,6 @@ public class GameScreen implements UpdatingScreen {
     private OrthographicCamera camera;
     private OrthographicCamera uiCamera;
     private OrthoCamController camController;
-    private BitmapFont font;
 
     private Vector2 temp2 = new Vector2();
     private Vector3 temp3 = new Vector3();
@@ -94,8 +91,6 @@ public class GameScreen implements UpdatingScreen {
         super();
 
         this.game = game;
-
-        font = new BitmapFont(Gdx.files.internal("fonts/tolkien.fnt"), false);
 
         Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("images/cursor.png"));
         Gdx.input.setCursorImage(cursorPixmap, 8, 8);
@@ -514,6 +509,5 @@ public class GameScreen implements UpdatingScreen {
     public void dispose() {
         ui.dispose();
         explosionEmitter.dispose();
-        font.dispose();
     }
 }
