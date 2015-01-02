@@ -195,7 +195,7 @@ public class Console implements TextField.TextFieldListener {
         vars.add(new CVar("test"));
 
         cmds = new ArrayList<CCmd>();
-        cmds.add(new CCmd("regenerate", new CCmd.Function() {
+        cmds.add(new CCmd("regen", new CCmd.Function() {
             @Override
             public Object invoke(Object... params) {
                 if (game.getScreen() instanceof GameScreen) {
