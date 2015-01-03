@@ -1,6 +1,8 @@
 package lando.systems.lordsandships.scene.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -26,6 +28,7 @@ public class UserInterface implements Disposable {
     Label label;
     Window window;
 
+    Arsenal arsenal;
     Console console;
 
     GameInstance game;
@@ -36,6 +39,7 @@ public class UserInterface implements Disposable {
         this.game = game;
         skin  = new Skin(Gdx.files.internal("ui/uiskin.json"));
         stage = new Stage(new ScreenViewport());
+        arsenal = new Arsenal();
 
         initializeWidgets();
     }
@@ -52,9 +56,13 @@ public class UserInterface implements Disposable {
         stage.act(delta);
     }
 
-    public void draw() {
+    public void render(SpriteBatch batch, Camera camera) {
+        Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
+
         stage.draw();
 //        stage.setDebugUnderMouse(true);
+
+        arsenal.render(batch, camera);
     }
 
     public void resize(int width, int height) {
@@ -68,6 +76,8 @@ public class UserInterface implements Disposable {
     public Stage getStage() { return stage; }
 
     public Console getConsole() { return console; }
+
+    public Arsenal getArsenal() { return arsenal; }
 
     // -------------------------------------------------------------------------
 

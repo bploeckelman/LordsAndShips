@@ -1,30 +1,20 @@
 package lando.systems.lordsandships.screens;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.equations.*;
+import aurelienribon.tweenengine.equations.Circ;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.World;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
 import lando.systems.lordsandships.scene.ui.UserInterface;
-import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
-import lando.systems.lordsandships.weapons.Handgun;
-import lando.systems.lordsandships.weapons.Sword;
-import lando.systems.lordsandships.weapons.Weapon;
 
 /**
  * GameScreen
@@ -47,10 +37,6 @@ public class GameScreen implements UpdatingScreen {
     private Vector3 playerPosition    = new Vector3();
     private Vector3 mouseScreenCoords = new Vector3();
     private Vector3 mouseWorldCoords  = new Vector3();
-
-    private TextureRegion weaponIcon;
-    private Vector2 weaponIconPos = new Vector2(30, 30);
-    private Vector2 weaponIconSize = new Vector2(64, 64);
 
     private ExplosionEmitter explosionEmitter = new ExplosionEmitter();
 
@@ -82,13 +68,6 @@ public class GameScreen implements UpdatingScreen {
         inputMux.addProcessor(GameInstance.input);
         inputMux.addProcessor(ui.getStage());
         Gdx.input.setInputProcessor(inputMux);
-
-        // TODO (brian): handle the weapon inventory separately, find each region once and cache them internally
-        if (world.getPlayer().getCurrentWeapon() instanceof Sword) {
-            weaponIcon = Assets.atlas.findRegion("sword");
-        } else if (world.getPlayer().getCurrentWeapon() instanceof  Handgun) {
-            weaponIcon = Assets.atlas.findRegion("gun");
-        }
     }
 
     // -------------------------------------------------------------------------
@@ -98,7 +77,6 @@ public class GameScreen implements UpdatingScreen {
     @Override
     public void update(float delta) {
         updateMouseVectors();
-        updateCurrentWeapon();
 
         world.update(delta);
 
@@ -107,6 +85,7 @@ public class GameScreen implements UpdatingScreen {
         camera.position.lerp(playerPosition, 4*delta);
 
         ui.update(delta);
+        ui.getArsenal().updateCurrentWeapon(world.getPlayer());
 
         camera.zoom = camController.camera_zoom.floatValue();
         camera.update();
@@ -126,7 +105,7 @@ public class GameScreen implements UpdatingScreen {
 
         world.render(Assets.batch, camera);
 
-        uiRender();
+        ui.render(Assets.batch, uiCamera);
     }
 
     // -------------------------------------------------------------------------
@@ -197,62 +176,6 @@ public class GameScreen implements UpdatingScreen {
         GameInstance.mousePlayerDirection.set(
                 mouseWorldCoords.x - world.getPlayer().getCenterPos().x,
                 mouseWorldCoords.y - world.getPlayer().getCenterPos().y);
-    }
-
-
-    private void updateCurrentWeapon() {
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
-            if (world.getPlayer().getCurrentWeapon() instanceof Handgun) {
-                world.getPlayer().setWeapon(Weapon.TYPE_SWORD);
-                Timeline.createSequence()
-                        .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
-                                .target(-weaponIconSize.y)
-                                .ease(Cubic.OUT)
-                                .setCallback(new TweenCallback() {
-                                    @Override
-                                    public void onEvent(int type, BaseTween<?> source) {
-                                        weaponIcon = Assets.atlas.findRegion("sword");
-                                        Assets.sword_slice1.play(0.1f);
-                                    }
-                                }))
-                        .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
-                                .target(30)
-                                .ease(Bounce.OUT))
-                        .start(GameInstance.tweens);
-            }
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
-            if (world.getPlayer().getCurrentWeapon() instanceof Sword) {
-                world.getPlayer().setWeapon(Weapon.TYPE_HANDGUN);
-                Timeline.createSequence()
-                        .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
-                                .target(-weaponIconSize.y)
-                                .ease(Cubic.OUT)
-                                .setCallback(new TweenCallback() {
-                                    @Override
-                                    public void onEvent(int type, BaseTween<?> source) {
-                                        weaponIcon = Assets.atlas.findRegion("gun");
-                                        Assets.gunshot_reload.play(0.4f);
-                                    }
-                                }))
-                        .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
-                                .target(30)
-                                .ease(Bounce.OUT))
-                        .start(GameInstance.tweens);
-            }
-        }
-    }
-
-    // TODO (brian): move into ui object
-    private void uiRender() {
-        Gdx.gl20.glViewport(0, 0, (int) uiCamera.viewportWidth, (int) uiCamera.viewportHeight);
-
-        Assets.batch.setProjectionMatrix(uiCamera.combined);
-        Assets.batch.begin();
-        Assets.batch.draw(weaponIcon, weaponIconPos.x, weaponIconPos.y, weaponIconSize.x, weaponIconSize.y);
-        Assets.batch.end();
-
-        ui.draw();
     }
 
 }
