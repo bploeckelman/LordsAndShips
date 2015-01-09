@@ -1,5 +1,6 @@
 package lando.systems.lordsandships.scene.tilemap;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import lando.systems.lordsandships.utils.Assets;
 
 /**
@@ -7,27 +8,35 @@ import lando.systems.lordsandships.utils.Assets;
  */
 public class TileSetOryx extends TileSet {
 
+    public static final int TILE_SIZE = 24;
+
     public TileSetOryx() {
         super();
 
-        tiles.put(TileType.BLANK, Assets.world.findRegion("oryx_16bit_scifi_world_1103"));
-        tiles.put(TileType.FLOOR, Assets.world.findRegion("oryx_16bit_scifi_world_01"));
+        TextureRegion[][] textures = TextureRegion.split(Assets.oryxWorld,
+                                                         TILE_SIZE, TILE_SIZE);
 
-        tiles.put(TileType.WALL_HORIZ_N, Assets.world.findRegion("oryx_16bit_scifi_world_206"));
-        tiles.put(TileType.WALL_HORIZ_S, Assets.world.findRegion("oryx_16bit_scifi_world_206"));
+        final int rows = textures.length;
+        final int cols = textures[0].length;
 
-        tiles.put(TileType.WALL_VERT_E, Assets.world.findRegion("oryx_16bit_scifi_world_209"));
-        tiles.put(TileType.WALL_VERT_W, Assets.world.findRegion("oryx_16bit_scifi_world_209"));
+        tiles.put(TileType.BLANK, textures[rows - 1][18]);
+        tiles.put(TileType.FLOOR, textures[0][0]);
 
-        tiles.put(TileType.CORNER_OUTER_NW, Assets.world.findRegion("oryx_16bit_scifi_world_211"));
-        tiles.put(TileType.CORNER_OUTER_NE, Assets.world.findRegion("oryx_16bit_scifi_world_212"));
-        tiles.put(TileType.CORNER_OUTER_SW, Assets.world.findRegion("oryx_16bit_scifi_world_213"));
-        tiles.put(TileType.CORNER_OUTER_SE, Assets.world.findRegion("oryx_16bit_scifi_world_214"));
+        tiles.put(TileType.WALL_HORIZ_N, textures[0][8]);
+        tiles.put(TileType.WALL_HORIZ_S, textures[0][8]);
 
-        tiles.put(TileType.CORNER_INNER_NW, Assets.world.findRegion("oryx_16bit_scifi_world_213"));
-        tiles.put(TileType.CORNER_INNER_NE, Assets.world.findRegion("oryx_16bit_scifi_world_214"));
-        tiles.put(TileType.CORNER_INNER_SE, Assets.world.findRegion("oryx_16bit_scifi_world_212"));
-        tiles.put(TileType.CORNER_INNER_SW, Assets.world.findRegion("oryx_16bit_scifi_world_211"));
+        tiles.put(TileType.WALL_VERT_E, textures[0][11]);
+        tiles.put(TileType.WALL_VERT_W, textures[0][11]);
+
+        tiles.put(TileType.CORNER_OUTER_NW, textures[0][13]);
+        tiles.put(TileType.CORNER_OUTER_NE, textures[0][14]);
+        tiles.put(TileType.CORNER_OUTER_SW, textures[0][15]);
+        tiles.put(TileType.CORNER_OUTER_SE, textures[0][16]);
+
+        tiles.put(TileType.CORNER_INNER_NW, textures[0][15]);
+        tiles.put(TileType.CORNER_INNER_NE, textures[0][16]);
+        tiles.put(TileType.CORNER_INNER_SE, textures[0][14]);
+        tiles.put(TileType.CORNER_INNER_SW, textures[0][13]);
     }
 
 }

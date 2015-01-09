@@ -28,13 +28,14 @@ public class Assets {
 
     public static BitmapFont font;
 
+    public static Texture oryxWorld;
+
     public static Texture playertex;
     public static Texture enemytex;
     public static Texture avatartex;
     public static TextureRegion shadow;
 
     public static TextureAtlas atlas;
-    public static TextureAtlas world;
 
     public static Sound gunshot_shot;
     public static Sound gunshot_impact;
@@ -56,7 +57,8 @@ public class Assets {
         font = new BitmapFont(Gdx.files.internal("fonts/tolkien.fnt"), false);
 
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
-        world = new TextureAtlas(Gdx.files.internal("atlas/world.atlas"));
+
+        oryxWorld = new Texture("oryx/world.png");
 
         playertex = new Texture("darkknight.png");
         enemytex = new Texture("character-sheet.png");
@@ -87,11 +89,12 @@ public class Assets {
         gunshot_impact.dispose();
         gunshot_shot.dispose();
 
-        world.dispose();
         atlas.dispose();
         enemytex.dispose();
         playertex.dispose();
         avatartex.dispose();
+
+        oryxWorld.dispose();
 
         font.dispose();
 

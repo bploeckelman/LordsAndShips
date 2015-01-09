@@ -39,15 +39,7 @@ public class TileMap {
         this.height = 0;
         this.tiles = new Tile[height][width];
         this.spawnTile = new Animation(0.06f,
-                Assets.world.findRegion("oryx_16bit_scifi_world_03"));
-//                Assets.atlas.findRegion("spawn1"),
-//                Assets.atlas.findRegion("spawn2"),
-//                Assets.atlas.findRegion("spawn3"),
-//                Assets.atlas.findRegion("spawn4"),
-//                Assets.atlas.findRegion("spawn5"),
-//                Assets.atlas.findRegion("spawn6"),
-//                Assets.atlas.findRegion("spawn7"),
-//                Assets.atlas.findRegion("spawn8"));
+                                       Assets.shadow);
         this.spawnTile.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         this.tileSet = new TileSetOryx();
     }
