@@ -2,14 +2,11 @@ package lando.systems.lordsandships.scene;
 
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-import lando.systems.lordsandships.utils.Utils;
-
-import java.lang.invoke.MutableCallSite;
 
 
 /**
@@ -26,7 +23,7 @@ public class OrthoCamController extends InputAdapter {
 
     public MutableFloat camera_zoom = new MutableFloat(initial_camera_zoom);
 
-    public boolean debugRender = true;
+    public boolean debugRender = false;
 
     public OrthoCamController (OrthographicCamera camera) {
         this.camera = camera;
