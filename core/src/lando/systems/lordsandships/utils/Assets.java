@@ -29,6 +29,10 @@ public class Assets {
     public static BitmapFont font;
 
     public static Texture oryxWorld;
+    public static Texture oryxCreatures;
+
+    public static Texture starfieldLayer0;
+    public static Texture starfieldLayer1;
 
     public static Texture playertex;
     public static Texture enemytex;
@@ -59,6 +63,10 @@ public class Assets {
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
 
         oryxWorld = new Texture("oryx/world.png");
+        oryxCreatures = new Texture("oryx/creatures.png");
+
+        starfieldLayer0 = new Texture("starfield_0.png");
+        starfieldLayer1 = new Texture("starfield_1.png");
 
         playertex = new Texture("darkknight.png");
         enemytex = new Texture("character-sheet.png");
@@ -94,6 +102,10 @@ public class Assets {
         playertex.dispose();
         avatartex.dispose();
 
+        starfieldLayer1.dispose();
+        starfieldLayer0.dispose();
+
+        oryxCreatures.dispose();
         oryxWorld.dispose();
 
         font.dispose();

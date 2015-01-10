@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
@@ -39,15 +39,28 @@ public class World {
     private Player player;
     private Array<Enemy> enemies;
 
+    private Camera camera;
+    private ParallaxBackround background;
+
     private Vector2 temp = new Vector2();
 
-    public World() {
+    // TODO (brian): move camera out to View class and inject View class dependency here instead
+    public World(Camera camera) {
+        this.camera = camera;
+
         player = new Player(
                 Assets.playertex,
                 100 * 16, 75 * 16,
                 16, 16, 0.1f);
 
         enemies = new Array<Enemy>(50);
+
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+        background = new ParallaxBackround(0, 0, width, height,
+                                           new Rectangle(0, 0, width, height),
+                                           new TextureRegion(Assets.starfieldLayer0),
+                                           new TextureRegion(Assets.starfieldLayer1));
     }
 
     // -------------------------------------------------------------------------
@@ -100,22 +113,24 @@ public class World {
         updatePlayer(delta);
 
         resolveCollisions();
+
+        background.position(camera.position.x, camera.position.y);
     }
 
     public void render(SpriteBatch batch, Camera camera) {
-        batch.setProjectionMatrix(camera.combined);
+        background.render(batch);
 
         // TODO (brian): this isn't really needed now that multithreaded regeneration has been removed
         if (tileMap != null && tileMap.hasTiles) {
             tileMap.render(camera);
         }
 
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         for (Enemy enemy : enemies) {
             if (!enemy.isAlive()) continue;
             enemy.render(batch);
         }
-
         player.render(batch);
         batch.end();
     }

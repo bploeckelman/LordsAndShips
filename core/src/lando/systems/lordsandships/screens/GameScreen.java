@@ -60,7 +60,7 @@ public class GameScreen implements UpdatingScreen {
 
         camController = new OrthoCamController(camera);
 
-        world = new World();
+        world = new World(camera);
         regenerateLevel();
 
         InputMultiplexer inputMux = new InputMultiplexer();
@@ -96,7 +96,7 @@ public class GameScreen implements UpdatingScreen {
         Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        Gdx.gl.glClearColor(0.17969f, 0.20313f, 0.21094f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (camController.debugRender) {
