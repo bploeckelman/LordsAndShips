@@ -1,15 +1,18 @@
 package lando.systems.lordsandships.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
 import lando.systems.lordsandships.weapons.Handgun;
+import lando.systems.lordsandships.weapons.Spear;
 import lando.systems.lordsandships.weapons.Sword;
 import lando.systems.lordsandships.weapons.Weapon;
 
@@ -26,6 +29,7 @@ public class Player extends Entity {
     Animation punchAnim;
     TextureRegion currentKeyFrame;
 
+
     float animTimer = 0f;
     boolean punching = false;
 
@@ -35,23 +39,18 @@ public class Player extends Entity {
     public Player(Texture texture, float x, float y, float w, float h, float animRate) {
         super(new TextureRegion(texture), x, y, w, h);
 
-        final int frameWidth = 32;
-        final int frameHeight = 48;
-        final int sheetCol = 0;
-        final int sheetRow = 0;
-        final int xTiles = 4;
-        final int yTiles = 4;
-
-        TextureRegion[][] keyframes = Utils.splitAndGet(
-                Assets.playertex,
-                frameWidth, frameHeight,
-                sheetCol, sheetRow,
-                xTiles, yTiles);
-
-        walkDown  = new Animation(animRate, keyframes[0]);
-        walkLeft  = new Animation(animRate, keyframes[1]);
-        walkRight = new Animation(animRate, keyframes[2]);
-        walkUp    = new Animation(animRate, keyframes[3]);
+        TextureRegion[] up    = new TextureRegion[4];
+        TextureRegion[] down  = new TextureRegion[4];
+        TextureRegion[] right = new TextureRegion[4];
+        for (int i = 0; i < 4; ++i) {
+            up[i]    = Assets.raphAtlas.findRegion("sHeroHornsUp", i);
+            down[i]  = Assets.raphAtlas.findRegion("sHeroHornsDown", i);
+            right[i] = Assets.raphAtlas.findRegion("sHeroHornsSide", i);
+        }
+        walkDown  = new Animation(animRate, down);
+        walkLeft  = new Animation(animRate, right);
+        walkRight = new Animation(animRate, right);
+        walkUp    = new Animation(animRate, up);
 
         TextureRegion[][] keyframesTest = Utils.splitAndGet(
                 Assets.enemytex, 16, 18, 3, 0, 1, 4);
@@ -70,7 +69,8 @@ public class Player extends Entity {
         weapons = new Array<Weapon>();
         weapons.add(new Sword(new Weapon.Builder().damage(15)));
         weapons.add(new Handgun(new Weapon.Builder().damage(50)));
-        currentWeapon = weapons.get(0);
+        weapons.add(new Spear(new Weapon.Builder().damage(100)));
+        currentWeapon = weapons.get(2);
     }
 
 
@@ -92,18 +92,59 @@ public class Player extends Entity {
         if (velocity.x == 0 && velocity.y == 0) {
             animTimer = 0f;
         }
-        // Switch left/right animation based on mouse pos
+
+        // Set walk direction based on movement direction
+//        if (velocity.y == 0) {
+//            if (currentAnim != walkRight && velocity.x > 0) {
+//                currentAnim  = walkRight;
+//                animTimer = 0f;
+//            } else if (currentAnim != walkLeft && velocity.x < 0) {
+//                currentAnim = walkLeft;
+//                animTimer = 0f;
+//            }
+//        } else if (velocity.x == 0) {
+//            if (currentAnim != walkUp && velocity.y > 0) {
+//                currentAnim  = walkUp;
+//                animTimer = 0f;
+//            }
+//            else if (currentAnim != walkDown && velocity.y < 0) {
+//                currentAnim = walkDown;
+//                animTimer = 0f;
+//            }
+//        }
+
+        // Set walk direction based on relative mouse orientation
         dir.set(GameInstance.mousePlayerDirection);
-        if (currentAnim != walkRight && dir.x > 0) {
-            currentAnim = walkRight;
-            animTimer = 0f;
-        } else if (currentAnim != walkLeft && dir.x < 0) {
-            currentAnim = walkLeft;
-            animTimer = 0f;
+        if (dir.x != 0 && dir.y != 0) {
+            float deg =
+                    MathUtils.radiansToDegrees * MathUtils.atan2(dir.y, dir.x);
+            if (currentAnim != walkRight &&
+                ((deg >= -45 && deg <= 0) || (deg >= 0 && deg <= 45))) {
+                currentAnim = walkRight;
+                animTimer = 0f;
+            } else if (currentAnim != walkLeft &&
+                       ((deg >= -180 && deg <= (-180 + 45)) ||
+                        (deg >= (180 - 45) && deg <= 180))) {
+                currentAnim = walkLeft;
+                animTimer = 0f;
+            } else if (currentAnim != walkUp &&
+                       (deg >= 45 && deg <= (180 - 45))) {
+                currentAnim = walkUp;
+                animTimer = 0f;
+            } else if (currentAnim != walkDown &&
+                       (deg >= (-180 + 45) && deg <= -45)) {
+                currentAnim = walkDown;
+                animTimer = 0f;
+            }
         }
 
-        // Set current keyframe to draw with
-        currentKeyFrame = currentAnim.getKeyFrame(animTimer);
+        // Set current keyframe to draw with, flipped if needed
+        TextureRegion keyframe = currentAnim.getKeyFrame(animTimer);
+        if ((currentAnim == walkLeft  && !keyframe.isFlipX())
+         || (currentAnim == walkRight &&  keyframe.isFlipX())) {
+            keyframe.flip(true, false);
+        }
+        currentKeyFrame = keyframe;
     }
 
     private void updateMovement(float delta) {
@@ -134,7 +175,7 @@ public class Player extends Entity {
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 1, 16, 16);
-        batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 24);
+        batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 16);//24);
 
         currentWeapon.render(batch, getCenterPos().x, getCenterPos().y);
 
