@@ -30,6 +30,7 @@ public class UserInterface implements Disposable {
 
     Arsenal arsenal;
     Console console;
+    LevelGenDialog levelGenDialog;
 
     GameInstance game;
 
@@ -85,6 +86,8 @@ public class UserInterface implements Disposable {
         initializeButtons();
         initializeWindow();
         console = new Console(game, stage, skin);
+        levelGenDialog = new LevelGenDialog("Level Gen Parameters", skin);
+        stage.addActor(levelGenDialog);
     }
 
     private void initializeButtons() {
