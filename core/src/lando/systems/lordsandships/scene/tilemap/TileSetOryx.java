@@ -19,7 +19,7 @@ public class TileSetOryx extends TileSet {
         final int rows = textures.length;
         final int cols = textures[0].length;
 
-        tiles.put(TileType.BLANK, textures[rows - 1][18]);
+        tiles.put(TileType.BLANK, textures[rows - 1][cols - 1]);//textures[rows - 1][18]);
         tiles.put(TileType.FLOOR, textures[0][0]);
 
         tiles.put(TileType.WALL_HORIZ_N, textures[0][8]);
