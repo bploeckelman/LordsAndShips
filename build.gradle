@@ -5,8 +5,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.5'
-        classpath 'com.android.tools.build:gradle:0.14.2'
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath 'com.android.tools.build:gradle:1.0.0'
         classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.10'
     }
 }
@@ -18,7 +18,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'LordsAndShips'
-        gdxVersion = '1.5.2'
+        gdxVersion = '1.5.4'
         roboVMVersion = '0.0.14'
     }
 
@@ -118,6 +118,7 @@ project(":core") {
         compile "com.badlogicgames.box2dlights:box2dlights:1.2"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile fileTree(dir: '../libs', include: '*.jar')
+//        provided "org.projectlombok:lombok:1.14.8"
     }
 }
 
