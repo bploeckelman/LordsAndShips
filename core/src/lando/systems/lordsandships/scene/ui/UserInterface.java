@@ -86,8 +86,8 @@ public class UserInterface implements Disposable {
         initializeButtons();
         initializeWindow();
         console = new Console(game, stage, skin);
-        levelGenDialog = new LevelGenDialog("Level Gen Parameters", skin);
-        stage.addActor(levelGenDialog);
+//        levelGenDialog = new LevelGenDialog("Level Gen Parameters", skin);
+//        stage.addActor(levelGenDialog);
     }
 
     private void initializeButtons() {
