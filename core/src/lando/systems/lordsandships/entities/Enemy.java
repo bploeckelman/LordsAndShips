@@ -24,34 +24,22 @@ public class Enemy extends Entity {
     public Enemy(Texture texture, float x, float y, float w, float h, float animRate) {
         super(new TextureRegion(texture), x, y, w, h);
 
-        final int frameWidth = 16;
-        final int frameHeight = 18;
-        final int sheetCol = 0;
-        final int sheetRow = 0;
-        final int xTiles = 3;
-        final int yTiles = 4;
+        TextureRegion[] keyframes = new TextureRegion[4];
+        keyframes[0] = Assets.raphAtlas.findRegion("dragonFly", 0);
+        keyframes[1] = Assets.raphAtlas.findRegion("dragonFly", 1);
+        keyframes[2] = Assets.raphAtlas.findRegion("dragonFly", 2);
+        keyframes[3] = Assets.raphAtlas.findRegion("dragonFly", 3);
 
-        TextureRegion[][] keyframes = Utils.splitAndGet(
-                Assets.enemytex,
-                frameWidth, frameHeight,
-                sheetCol, sheetRow,
-                xTiles, yTiles);
-
-        walkUp    = new Animation(animRate, keyframes[0]);
-        walkRight = new Animation(animRate, keyframes[1]);
-        walkDown  = new Animation(animRate, keyframes[2]);
-        walkLeft  = new Animation(animRate, keyframes[3]);
+        walkUp    = new Animation(animRate, keyframes);
+        walkRight = new Animation(animRate, keyframes);
+        walkDown  = new Animation(animRate, keyframes);
+        walkLeft  = new Animation(animRate, keyframes);
+        idle      = new Animation(animRate, keyframes);
 
         walkDown.setPlayMode(Animation.PlayMode.LOOP);
         walkLeft.setPlayMode(Animation.PlayMode.LOOP);
         walkRight.setPlayMode(Animation.PlayMode.LOOP);
         walkUp.setPlayMode(Animation.PlayMode.LOOP);
-
-        idle = new Animation(0.15f,
-                Assets.atlas.findRegion("enemy_basic0"),
-                Assets.atlas.findRegion("enemy_basic1"),
-                Assets.atlas.findRegion("enemy_basic2"),
-                Assets.atlas.findRegion("enemy_basic3"));
         idle.setPlayMode(Animation.PlayMode.LOOP);
 
         currentAnim = walkDown;
