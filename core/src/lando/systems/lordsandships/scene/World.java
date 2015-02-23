@@ -94,7 +94,7 @@ public class World {
             pos.set(tileMap.getRandomFloorTile());
             enemies.add(new Enemy(Assets.enemytex,
                     pos.x * Tile.TILE_SIZE, pos.y * Tile.TILE_SIZE,
-                    Tile.TILE_SIZE, 24, 0.3f));
+                    Tile.TILE_SIZE, 24, 0.15f));
         }
 
         Gdx.app.log("WORLD", "Level and tilemap generation complete.");
