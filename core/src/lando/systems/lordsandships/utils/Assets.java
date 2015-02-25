@@ -40,6 +40,7 @@ public class Assets {
     public static TextureRegion shadow;
 
     public static TextureAtlas atlas;
+    public static TextureAtlas uiAtlas;
     public static TextureAtlas raphAtlas;
 
     public static Sound gunshot_shot;
@@ -62,6 +63,7 @@ public class Assets {
         font = new BitmapFont(Gdx.files.internal("fonts/tolkien.fnt"), false);
 
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
+        uiAtlas = new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas"));
         raphAtlas = new TextureAtlas(Gdx.files.internal("raph-atlas/raph.atlas"));
 
         oryxWorld = new Texture("oryx/world.png");
@@ -100,6 +102,7 @@ public class Assets {
         gunshot_shot.dispose();
 
         raphAtlas.dispose();
+        uiAtlas.dispose();
         atlas.dispose();
         enemytex.dispose();
         playertex.dispose();

@@ -17,4 +17,5 @@ public class Constants
 
     public static final String title_screen = "title";
     public static final String game_screen = "game";
+    public static final String player_select_screen = "player_select";
 }
