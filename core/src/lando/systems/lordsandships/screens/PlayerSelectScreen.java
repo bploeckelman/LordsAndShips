@@ -1,7 +1,9 @@
 package lando.systems.lordsandships.screens;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Elastic;
 import aurelienribon.tweenengine.equations.Linear;
+import aurelienribon.tweenengine.equations.Quint;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
@@ -29,10 +32,12 @@ public class PlayerSelectScreen implements UpdatingScreen {
     private Vector3 mouseWorldCoords  = new Vector3();
     private Vector3 mouseScreenCoords = new Vector3();
 
+    private PlayerIcon selectedPlayer;
     private PlayerIcon playerIcons[];
-    private NinePatch border;
+    private NinePatch  border;
+    private Color      backgroundColor;
 
-    private Color backgroundColor;
+    final float anim_speed = 0.3f;
 
     public PlayerSelectScreen(GameInstance game) {
         super();
@@ -60,7 +65,7 @@ public class PlayerSelectScreen implements UpdatingScreen {
         final float padding = (camera.viewportWidth -
                                (num_players * size + (num_players - 1) * margin)) / 2;
 
-        final float anim_speed = 0.15f;
+        selectedPlayer = null;
         playerIcons = new PlayerIcon[num_players];
         for (int i = 0; i < num_players; ++i) {
             PlayerType playerType = PlayerType.values()[i];
@@ -77,12 +82,11 @@ public class PlayerSelectScreen implements UpdatingScreen {
                                             .target(30)
                                             .ease(Linear.INOUT)
                                             .repeatYoyo(1, 0);
+            String iconRegionName = "sHero" + playerType.name() + "Icon";
+            playerIcons[i].iconTexture = new TextureRegion(Assets.raphAtlas.findRegion(iconRegionName, 0));
         }
 
         backgroundColor = new Color(1, 1, 1, 1);
-        Tween.to(backgroundColor, ColorAccessor.R, 3).target(0).repeatYoyo(Tween.INFINITY, 1).start(GameInstance.tweens);
-        Tween.to(backgroundColor, ColorAccessor.G, 4).target(0).repeatYoyo(Tween.INFINITY, 2).start(GameInstance.tweens);
-        Tween.to(backgroundColor, ColorAccessor.B, 5).target(0).repeatYoyo(Tween.INFINITY, 3).start(GameInstance.tweens);
     }
 
     // -------------------------------------------------------------------------
@@ -95,6 +99,19 @@ public class PlayerSelectScreen implements UpdatingScreen {
 
         for (PlayerIcon icon : playerIcons) {
             icon.update(delta, mouseWorldCoords.x, mouseWorldCoords.y);
+        }
+
+        final PlayerIcon currentSelectedPlayer = getSelectedIcon();
+        if (selectedPlayer != currentSelectedPlayer) {
+            selectedPlayer  = currentSelectedPlayer;
+
+            if (selectedPlayer != null) {
+                final Color newColor = selectedPlayer.type.color();
+                Tween.to(backgroundColor, ColorAccessor.RGB, anim_speed * 2)
+                     .target(newColor.r, newColor.g, newColor.b)
+                     .ease(Quint.OUT)
+                     .start(GameInstance.tweens);
+            }
         }
     }
 
@@ -168,7 +185,7 @@ public class PlayerSelectScreen implements UpdatingScreen {
                 return playerIcon;
             }
         }
-        return playerIcons[0];
+        return null;
     }
 
 
@@ -188,12 +205,22 @@ public class PlayerSelectScreen implements UpdatingScreen {
 
         Cloak(0), Feather(1), Horns(2), Locks(3), NUM_PLAYERS(4);
 
+        private static final Color[] colors = {
+                new Color(0.466f, 0.702f, 0.404f, 1),
+                new Color(0.984f, 0.396f, 0.000f, 1),
+                new Color(0.698f, 0.397f, 0.718f, 1),
+                new Color(0.411f, 0.592f, 0.922f, 1)
+        };
+
         private int value;
         private PlayerType(int value) {
             this.value = value;
         }
         public int value() {
             return this.value;
+        }
+        public final Color color() {
+            return colors[value];
         }
 
     }
@@ -203,6 +230,7 @@ public class PlayerSelectScreen implements UpdatingScreen {
         final PlayerType type;
 
         Rectangle     bounds;
+        TextureRegion iconTexture;
         float         iconTimer;
         Animation     iconAnim;
         Tween         iconTween;
@@ -220,16 +248,21 @@ public class PlayerSelectScreen implements UpdatingScreen {
 
         public void update(float delta, float mousex, float mousey) {
             if (bounds.contains(mousex, mousey)) {
-                if (iconTween.isFinished() || !iconTween.isStarted()) {
-                    bounce.setValue(0);
-                    iconTween = Tween.to(bounce, -1, 0.25f)
-                                     .target(30)
-                                     .ease(Linear.INOUT)
-                                     .repeatYoyo(1, 0).start(GameInstance.tweens);
+                if (!active) {
+                    iconTween = Tween.to(bounce, -1, anim_speed)
+                                     .target(100)
+                                     .ease(Elastic.OUT)
+                                     .start(GameInstance.tweens);
                 }
                 active = true;
                 iconTimer += delta;
             } else {
+                if (active) {
+                    iconTween = Tween.to(bounce, -1, anim_speed)
+                                     .target(0)
+                                     .ease(Elastic.OUT)
+                                     .start(GameInstance.tweens);
+                }
                 active = false;
                 iconTimer = 0;
             }
@@ -237,10 +270,22 @@ public class PlayerSelectScreen implements UpdatingScreen {
 
         public void draw(SpriteBatch batch) {
             float padding = 40;
-            border.draw(batch, bounds.x, bounds.y + bounce.floatValue(), bounds.width, bounds.height);
+
+            batch.draw(iconTexture,
+                       bounds.x,
+                       bounds.y - bounce.floatValue(),
+                       bounds.width,
+                       bounds.height);
+            border.draw(batch,
+                        bounds.x,
+                        bounds.y + bounce.floatValue(),
+                        bounds.width,
+                        bounds.height);
             batch.draw(iconAnim.getKeyFrame(iconTimer),
-                       bounds.x + padding, bounds.y + padding + bounce.floatValue(),
-                       bounds.width - 2 * padding, bounds.height - 2 * padding);
+                       bounds.x + padding,
+                       bounds.y + padding + bounce.floatValue(),
+                       bounds.width - 2 * padding,
+                       bounds.height - 2 * padding);
         }
 
     }
