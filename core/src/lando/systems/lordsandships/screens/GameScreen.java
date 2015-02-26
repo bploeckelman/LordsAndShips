@@ -3,6 +3,8 @@ package lando.systems.lordsandships.screens;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Circ;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,7 +25,7 @@ import lando.systems.lordsandships.utils.Constants;
  *
  * Brian Ploeckelman created on 5/28/2014.
  */
-public class GameScreen implements UpdatingScreen {
+public class GameScreen extends InputAdapter implements UpdatingScreen {
     private final GameInstance game;
 
     private UserInterface ui;
@@ -61,13 +63,18 @@ public class GameScreen implements UpdatingScreen {
         camController = new OrthoCamController(camera);
 
         world = new World(camera);
-        regenerateLevel();
 
         InputMultiplexer inputMux = new InputMultiplexer();
         inputMux.addProcessor(camController);
         inputMux.addProcessor(GameInstance.input);
         inputMux.addProcessor(ui.getStage());
+        inputMux.addProcessor(this);
         Gdx.input.setInputProcessor(inputMux);
+    }
+
+    public void create(PlayerSelectScreen.PlayerType playerType) {
+        world.initializePlayer(playerType);
+        regenerateLevel();
     }
 
     // -------------------------------------------------------------------------
@@ -125,11 +132,18 @@ public class GameScreen implements UpdatingScreen {
     @Override
     public void show() {
         GameInstance.input.reset();
+        InputMultiplexer inputMux = new InputMultiplexer();
+        inputMux.addProcessor(camController);
+        inputMux.addProcessor(GameInstance.input);
+        inputMux.addProcessor(ui.getStage());
+        inputMux.addProcessor(this);
+        Gdx.input.setInputProcessor(inputMux);
     }
 
     @Override
     public void hide() {
         GameInstance.input.reset();
+        Gdx.input.setInputProcessor(GameInstance.input);
     }
 
     @Override
@@ -178,4 +192,11 @@ public class GameScreen implements UpdatingScreen {
                 mouseWorldCoords.y - world.getPlayer().getCenterPos().y);
     }
 
+    @Override
+    public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.ESCAPE) {
+            game.setScreen(Constants.player_select_screen);
+        }
+        return true;
+    }
 }

@@ -21,6 +21,7 @@ import lando.systems.lordsandships.scene.levelgen.RoomGraphGenerator;
 import lando.systems.lordsandships.scene.levelgen.TinyDungeonGenerator;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.tilemap.TileMap;
+import lando.systems.lordsandships.screens.PlayerSelectScreen;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.graph.Graph;
 
@@ -66,6 +67,12 @@ public class World {
     // -------------------------------------------------------------------------
     // Public Interface
     // -------------------------------------------------------------------------
+
+    public void initializePlayer(PlayerSelectScreen.PlayerType playerType) {
+        player = new Player(playerType,
+                100 * 16, 75 * 16,
+                16, 16, 0.1f);
+    }
 
     /**
      * Run the level generation process

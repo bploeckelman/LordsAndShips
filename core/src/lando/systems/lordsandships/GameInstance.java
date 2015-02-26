@@ -48,15 +48,15 @@ public class GameInstance extends Game {
 
 //        screens.put(Constants.title_screen, new TitleScreen(this));
 //        setScreen(Constants.title_screen);
+        screens.put(Constants.game_screen, new GameScreen(this));
+        setScreen(Constants.game_screen);
         screens.put(Constants.player_select_screen, new PlayerSelectScreen(this));
         setScreen(Constants.player_select_screen);
-//        screens.put(Constants.game_screen, new GameScreen(this));
-//        setScreen(Constants.game_screen);
     }
 
     @Override
     public void render() {
-        if (input.isKeyDown(Keys.ESCAPE)) exit();
+//        if (input.isKeyDown(Keys.ESCAPE)) exit();
 
         final float delta = Gdx.graphics.getDeltaTime();
 

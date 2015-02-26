@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.screens.PlayerSelectScreen;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
 import lando.systems.lordsandships.weapons.Handgun;
@@ -36,6 +37,36 @@ public class Player extends Entity {
     Weapon currentWeapon;
     Array<Weapon> weapons;
 
+    public Player(PlayerSelectScreen.PlayerType type, float x, float y, float w, float h, float animRate) {
+        super(new TextureRegion(), x, y, w, h);
+
+        TextureRegion[] up    = new TextureRegion[4];
+        TextureRegion[] down  = new TextureRegion[4];
+        TextureRegion[] right = new TextureRegion[4];
+        for (int i = 0; i < 4; ++i) {
+            up[i]    = Assets.raphAtlas.findRegion("sHero" + type.name() + "Up", i);
+            down[i]  = Assets.raphAtlas.findRegion("sHero" + type.name() + "Down", i);
+            right[i] = Assets.raphAtlas.findRegion("sHero" + type.name() + "Side", i);
+        }
+        walkDown  = new Animation(animRate, down);
+        walkLeft  = new Animation(animRate, right);
+        walkRight = new Animation(animRate, right);
+        walkUp    = new Animation(animRate, up);
+
+        walkDown.setPlayMode(Animation.PlayMode.LOOP);
+        walkLeft.setPlayMode(Animation.PlayMode.LOOP);
+        walkRight.setPlayMode(Animation.PlayMode.LOOP);
+        walkUp.setPlayMode(Animation.PlayMode.LOOP);
+
+        currentAnim = walkDown;
+        currentKeyFrame = currentAnim.getKeyFrame(0);
+
+        weapons = new Array<Weapon>();
+        weapons.add(new Sword(new Weapon.Builder().damage(15)));
+        weapons.add(new Handgun(new Weapon.Builder().damage(50)));
+        weapons.add(new Spear(new Weapon.Builder().damage(100)));
+        currentWeapon = weapons.get(2);
+    }
     public Player(Texture texture, float x, float y, float w, float h, float animRate) {
         super(new TextureRegion(texture), x, y, w, h);
 

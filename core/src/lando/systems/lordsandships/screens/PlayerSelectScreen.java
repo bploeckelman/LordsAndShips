@@ -6,6 +6,8 @@ import aurelienribon.tweenengine.equations.Linear;
 import aurelienribon.tweenengine.equations.Quint;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -24,8 +26,8 @@ import lando.systems.lordsandships.utils.Constants;
 /**
  * Brian Ploeckelman created on 2/23/2015.
  */
-public class PlayerSelectScreen implements UpdatingScreen {
-//    private final GameInstance game;
+public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
+    private final GameInstance game;
 
     private OrthographicCamera camera;
 
@@ -42,7 +44,7 @@ public class PlayerSelectScreen implements UpdatingScreen {
     public PlayerSelectScreen(GameInstance game) {
         super();
 
-//        this.game = game;
+        this.game = game;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);
@@ -56,6 +58,7 @@ public class PlayerSelectScreen implements UpdatingScreen {
 
         InputMultiplexer inputMux = new InputMultiplexer();
         inputMux.addProcessor(GameInstance.input);
+        inputMux.addProcessor(this);
         Gdx.input.setInputProcessor(inputMux);
 
         final int   num_players = PlayerType.NUM_PLAYERS.value();
@@ -132,6 +135,28 @@ public class PlayerSelectScreen implements UpdatingScreen {
         Assets.batch.end();
     }
 
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        PlayerIcon selected = getSelectedIcon();
+        if (selected == null) {
+            return super.touchDown(screenX, screenY, pointer, button);
+        }
+
+        GameScreen gameScreen = (GameScreen) GameInstance.screens.get(Constants.game_screen);
+        gameScreen.create(selected.type);
+        game.setScreen(Constants.game_screen);
+        return super.touchDown(screenX, screenY, pointer, button);
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.ESCAPE) {
+            GameInstance.exit();
+        }
+        return true;
+    }
+
+
     // -------------------------------------------------------------------------
     // Lifecycle Methods
     // -------------------------------------------------------------------------
@@ -147,11 +172,16 @@ public class PlayerSelectScreen implements UpdatingScreen {
     @Override
     public void show() {
         GameInstance.input.reset();
+        InputMultiplexer inputMux = new InputMultiplexer();
+        inputMux.addProcessor(GameInstance.input);
+        inputMux.addProcessor(this);
+        Gdx.input.setInputProcessor(inputMux);
     }
 
     @Override
     public void hide() {
         GameInstance.input.reset();
+        Gdx.input.setInputProcessor(GameInstance.input);
     }
 
     @Override
@@ -201,7 +231,7 @@ public class PlayerSelectScreen implements UpdatingScreen {
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
 
-    enum PlayerType {
+    public enum PlayerType {
 
         Cloak(0), Feather(1), Horns(2), Locks(3), NUM_PLAYERS(4);
 
@@ -225,7 +255,7 @@ public class PlayerSelectScreen implements UpdatingScreen {
 
     }
 
-    class PlayerIcon {
+    public class PlayerIcon {
 
         final PlayerType type;
 
