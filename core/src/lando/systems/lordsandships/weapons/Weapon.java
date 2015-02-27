@@ -14,7 +14,8 @@ public abstract class Weapon {
 
     public static final int TYPE_SWORD   = 0;
     public static final int TYPE_HANDGUN = 1;
-    public static final int NUM_WEAPON_TYPES = 2;
+    public static final int TYPE_SPEAR   = 2;
+    public static final int NUM_WEAPON_TYPES = 3;
 
     private String type;
 

@@ -23,7 +23,7 @@ import lando.systems.lordsandships.utils.Assets;
  */
 public class Spear extends Weapon {
 
-    public static final String sword_type = "Spear";
+    public static final String spear_type = "Spear";
     public static final float spear_duration = 0.5f;
 
     public float accum;
@@ -36,25 +36,13 @@ public class Spear extends Weapon {
      */
     public Spear(Builder builder) {
         super(builder);
-        setType(sword_type);
+        setType(spear_type);
 
-        animation = new Animation(spear_duration / 16f,
-                Assets.raphAtlas.findRegion("sSpear", 0),
-                Assets.raphAtlas.findRegion("sSpear", 1),
-                Assets.raphAtlas.findRegion("sSpear", 2),
-                Assets.raphAtlas.findRegion("sSpear", 3),
-                Assets.raphAtlas.findRegion("sSpear", 4),
-                Assets.raphAtlas.findRegion("sSpear", 5),
-                Assets.raphAtlas.findRegion("sSpear", 6),
-                Assets.raphAtlas.findRegion("sSpear", 7),
-                Assets.raphAtlas.findRegion("sSpear", 8),
-                Assets.raphAtlas.findRegion("sSpear", 9),
-                Assets.raphAtlas.findRegion("sSpear", 10),
-                Assets.raphAtlas.findRegion("sSpear", 11),
-                Assets.raphAtlas.findRegion("sSpear", 12),
-                Assets.raphAtlas.findRegion("sSpear", 13),
-                Assets.raphAtlas.findRegion("sSpear", 14),
-                Assets.raphAtlas.findRegion("sSpear", 15));
+        TextureRegion keyframes[] = new TextureRegion[16];
+        for (int i = 0; i < 16; ++i) {
+            keyframes[i] = Assets.raphAtlas.findRegion("sSpear", i);
+        }
+        animation = new Animation(spear_duration / 16f, keyframes);
         animation.setPlayMode(Animation.PlayMode.NORMAL);
         direction = new Vector2();
         color.a = 0;

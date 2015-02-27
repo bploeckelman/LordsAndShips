@@ -101,7 +101,7 @@ public class Player extends Entity {
         weapons.add(new Sword(new Weapon.Builder().damage(15)));
         weapons.add(new Handgun(new Weapon.Builder().damage(50)));
         weapons.add(new Spear(new Weapon.Builder().damage(100)));
-        currentWeapon = weapons.get(2);
+        currentWeapon = weapons.get(0);
     }
 
 
