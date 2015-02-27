@@ -39,6 +39,10 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
     private NinePatch  border;
     private Color      backgroundColor;
 
+    private Animation  selectAnim;
+    private float      selectAnimTimer;
+    private Rectangle  selectAnimBounds;
+
     final float anim_speed = 0.3f;
 
     public PlayerSelectScreen(GameInstance game) {
@@ -89,6 +93,10 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
             playerIcons[i].iconTexture = new TextureRegion(Assets.raphAtlas.findRegion(iconRegionName, 0));
         }
 
+        selectAnim = null;
+        selectAnimTimer = 0;
+        selectAnimBounds = new Rectangle();
+
         backgroundColor = new Color(1, 1, 1, 1);
     }
 
@@ -100,20 +108,29 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
     public void update(float delta) {
         updateMouseVectors();
 
-        for (PlayerIcon icon : playerIcons) {
-            icon.update(delta, mouseWorldCoords.x, mouseWorldCoords.y);
-        }
+        if (selectAnim != null && selectedPlayer != null) {
+            selectAnimTimer += delta;
+            if (selectAnimTimer >= selectAnim.getAnimationDuration()) {
+                selectAnimTimer = 0;
+                selectAnim = null;
+                launchGame(selectedPlayer.type);
+            }
+        } else {
+            for (PlayerIcon icon : playerIcons) {
+                icon.update(delta, mouseWorldCoords.x, mouseWorldCoords.y);
+            }
 
-        final PlayerIcon currentSelectedPlayer = getSelectedIcon();
-        if (selectedPlayer != currentSelectedPlayer) {
-            selectedPlayer  = currentSelectedPlayer;
+            final PlayerIcon currentSelectedPlayer = getSelectedIcon();
+            if (selectedPlayer != currentSelectedPlayer) {
+                selectedPlayer = currentSelectedPlayer;
 
-            if (selectedPlayer != null) {
-                final Color newColor = selectedPlayer.type.color();
-                Tween.to(backgroundColor, ColorAccessor.RGB, anim_speed * 2)
-                     .target(newColor.r, newColor.g, newColor.b)
-                     .ease(Quint.OUT)
-                     .start(GameInstance.tweens);
+                if (selectedPlayer != null) {
+                    final Color newColor = selectedPlayer.type.color();
+                    Tween.to(backgroundColor, ColorAccessor.RGB, anim_speed * 2)
+                         .target(newColor.r, newColor.g, newColor.b)
+                         .ease(Quint.OUT)
+                         .start(GameInstance.tweens);
+                }
             }
         }
     }
@@ -132,20 +149,36 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
         for (PlayerIcon icon : playerIcons) {
             icon.draw(Assets.batch);
         }
+        if (selectAnim != null) {
+            Assets.batch.draw(selectAnim.getKeyFrame(selectAnimTimer),
+                              selectAnimBounds.x,
+                              selectAnimBounds.y,
+                              selectAnimBounds.width,
+                              selectAnimBounds.height);
+        }
         Assets.batch.end();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        PlayerIcon selected = getSelectedIcon();
-        if (selected == null) {
+        if (selectedPlayer == null) {
             return super.touchDown(screenX, screenY, pointer, button);
         }
 
-        GameScreen gameScreen = (GameScreen) GameInstance.screens.get(Constants.game_screen);
-        gameScreen.create(selected.type);
-        game.setScreen(Constants.game_screen);
+        // Start the attack animation for the selected player
+        if (selectAnim == null) {
+            selectAnim = selectedPlayer.attackAnim;
+            selectAnimTimer = 0;
+            selectAnimBounds.set(selectedPlayer.bounds);
+            selectAnimBounds.y += 100;
+        }
         return super.touchDown(screenX, screenY, pointer, button);
+    }
+
+    private void launchGame(PlayerType selectedPlayerType) {
+        GameScreen gameScreen = (GameScreen) GameInstance.screens.get(Constants.game_screen);
+        gameScreen.create(selectedPlayerType);
+        game.setScreen(Constants.game_screen);
     }
 
     @Override
@@ -266,6 +299,7 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
         Tween         iconTween;
         MutableFloat  bounce;
         boolean       active;
+        Animation     attackAnim;
 
 
         public PlayerIcon(PlayerType type) {
@@ -274,6 +308,8 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
             bounds = new Rectangle();
             iconTimer = 0;
             active = false;
+
+            attackAnim = createAttackAnim(type);
         }
 
         public void update(float delta, float mousex, float mousey) {
@@ -316,6 +352,46 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
                        bounds.y + padding + bounce.floatValue(),
                        bounds.width - 2 * padding,
                        bounds.height - 2 * padding);
+        }
+
+        private Animation createAttackAnim(PlayerType type) {
+            String regionName;
+            int    num_keyframes;
+            switch (type.value) {
+                case 0:
+                    regionName = "sBow";
+                    num_keyframes = 8;
+                    break;
+                case 1:
+                    regionName = "sSpear";
+                    num_keyframes = 16;
+                    break;
+                case 2:
+                    regionName = "sAxe";
+                    num_keyframes = 24;
+                    break;
+                case 3:
+                    regionName = "sSword";
+                    num_keyframes = 12;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Cannot create player attack animation for invalid type: " + type.toString());
+            }
+
+            // Super hack, super hack, its super hacky... yeowwwwwww
+            TextureRegion[] keyframes;
+            if (type.value == 0 || type.value == 3) {
+                keyframes = new TextureRegion[2*num_keyframes];
+                for (int i = 0; i < 2*num_keyframes; ++i) {
+                    keyframes[i] = new TextureRegion(Assets.raphAtlas.findRegion(regionName, i % num_keyframes));
+                }
+            } else {
+                keyframes = new TextureRegion[num_keyframes];
+                for (int i = 0; i < num_keyframes; ++i) {
+                    keyframes[i] = new TextureRegion(Assets.raphAtlas.findRegion(regionName, i));
+                }
+            }
+            return new Animation(0.05f, keyframes);
         }
 
     }
