@@ -8,6 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -101,26 +103,28 @@ public class Spear extends Weapon {
      */
     @Override
     public void render(SpriteBatch batch, float originX, float originY) {
+        accum += Gdx.graphics.getDeltaTime();
+        TextureRegion keyframe = animation.getKeyFrame(accum);
         // Size and half size
-        float w = animation.getKeyFrames()[0].getRegionWidth();
-        float h = animation.getKeyFrames()[0].getRegionHeight();
+        float w = keyframe.getRegionWidth();
+        float h = keyframe.getRegionHeight();
         float hw = w / 2f;
         float hh = h / 2f;
 
         // Offset and position
-        float ox = direction.x * hw * 0.9f;
-        float oy = direction.y * hh * 0.9f;
+        float ox = direction.x * hw * 0.65f;
+        float oy = direction.y * hh * 1.95f;
         float px = originX - hw + ox;
         float py = originY - hh + oy;
 
         // Scale
-        float sx = 0.75f;
-        float sy = 0.55f;
+        float sx = 1;//0.75f;
+        float sy = 1;//0.55f;
 
         bounds.set(originX + ox, originY + oy, (w * sx + h * sy) / 4.75f);
 
         batch.setColor(color);
-        batch.draw(animation.getKeyFrame(accum += Gdx.graphics.getDeltaTime()), px, py, hw, hh, w, h, sx, sy, angle);
+        batch.draw(keyframe, px, py, hw, hh, w, h, sx, sy, angle);
         batch.setColor(Color.WHITE);
 
 //        if (attacking) {
