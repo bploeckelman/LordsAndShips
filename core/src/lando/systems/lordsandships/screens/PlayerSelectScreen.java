@@ -12,10 +12,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
@@ -155,6 +152,16 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
                               selectAnimBounds.y,
                               selectAnimBounds.width,
                               selectAnimBounds.height);
+        }
+        if (selectedPlayer != null) {
+            final float paddingx = selectedPlayer.type == PlayerType.Feather ? -15 : 20;
+            final float paddingy = 140;
+            Assets.font.setColor(selectedPlayer.type.color());
+            Assets.font.draw(Assets.batch,
+                             selectedPlayer.type.name(),
+                             selectedPlayer.bounds.x + paddingx,
+                             selectedPlayer.bounds.y + selectedPlayer.bounds.height + paddingy);
+            Assets.font.setColor(1,1,1,1);
         }
         Assets.batch.end();
     }
