@@ -19,6 +19,7 @@ import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
+import lando.systems.lordsandships.weapons.Weapon;
 
 /**
  * Brian Ploeckelman created on 2/23/2015.
@@ -106,6 +107,15 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
         updateMouseVectors();
 
         if (selectAnim != null && selectedPlayer != null) {
+            if (selectAnimTimer == 0) {
+                switch (selectedPlayer.type.value()) {
+                    case Weapon.TYPE_BOW     : Assets.bow_shot1.play(1.0f);      break;
+                    case Weapon.TYPE_SPEAR   : Assets.spear_stab1.play(0.1f);    break;
+                    case Weapon.TYPE_AXE     : Assets.axe_swing1.play(0.1f);     break;
+                    case Weapon.TYPE_SWORD   : Assets.sword_slice1.play(0.1f);   break;
+                    case Weapon.TYPE_HANDGUN : Assets.gunshot_reload.play(0.1f); break;
+                }
+            }
             selectAnimTimer += delta;
             if (selectAnimTimer >= selectAnim.getAnimationDuration()) {
                 selectAnimTimer = 0;
@@ -122,6 +132,7 @@ public class PlayerSelectScreen extends InputAdapter implements UpdatingScreen {
                 selectedPlayer = currentSelectedPlayer;
 
                 if (selectedPlayer != null) {
+                    Assets.bing.play(0.075f);
                     final Color newColor = selectedPlayer.type.color();
                     Tween.to(backgroundColor, ColorAccessor.RGB, anim_speed * 2)
                          .target(newColor.r, newColor.g, newColor.b)

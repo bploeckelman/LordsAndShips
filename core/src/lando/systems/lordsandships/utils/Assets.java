@@ -56,6 +56,7 @@ public class Assets {
     public static Sound bow_shot1;
     public static Sound spear_stab1;
     public static Sound axe_swing1;
+    public static Sound bing;
 
     public static void load() {
         rand = new Random(1);
@@ -93,9 +94,11 @@ public class Assets {
         bow_shot1 = Gdx.audio.newSound(Gdx.files.internal("sounds/bow-shot-1.mp3"));
         spear_stab1 = Gdx.audio.newSound(Gdx.files.internal("sounds/spear-stab-1.mp3"));
         axe_swing1 = Gdx.audio.newSound(Gdx.files.internal("sounds/axe-swing-1.mp3"));
+        bing = Gdx.audio.newSound(Gdx.files.internal("sounds/bing.mp3"));
     }
 
     public static void dispose() {
+        bing.dispose();
         axe_swing1.dispose();
         spear_stab1.dispose();
         bow_shot1.dispose();
