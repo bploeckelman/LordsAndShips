@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.*;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.tweens.ColorAccessor;
@@ -18,8 +19,8 @@ import lando.systems.lordsandships.utils.Assets;
  */
 public class Sword extends Weapon {
 
-    public static final String sword_type = "Sword";
-    public static final float slash_duration = 0.25f;
+    public static final String sword_type     = "Sword";
+    public static final float  sword_duration = 0.25f;
 
     public float accum;
 
@@ -33,12 +34,12 @@ public class Sword extends Weapon {
         super(builder);
         setType(sword_type);
 
-        animation = new Animation(slash_duration / 5f,
-                Assets.atlas.findRegion("slash1"),
-                Assets.atlas.findRegion("slash2"),
-                Assets.atlas.findRegion("slash3"),
-                Assets.atlas.findRegion("slash4"),
-                Assets.atlas.findRegion("slash5"));
+        int num_frames = 12;
+        TextureRegion keyframes[] = new TextureRegion[num_frames];
+        for (int i = 0; i < num_frames; ++i) {
+            keyframes[i] = Assets.raphAtlas.findRegion("sSword", i);
+        }
+        animation = new Animation(sword_duration / num_frames, keyframes);
         animation.setPlayMode(Animation.PlayMode.NORMAL);
         direction = new Vector2();
         color.a = 0;
@@ -64,7 +65,7 @@ public class Sword extends Weapon {
 
         Assets.sword_slice1.play(0.1f);
 
-        Tween.to(color, ColorAccessor.A, slash_duration)
+        Tween.to(color, ColorAccessor.A, sword_duration)
                 .target(0)
                 .ease(Cubic.INOUT)
                 .setCallback(new TweenCallback() {
@@ -100,8 +101,8 @@ public class Sword extends Weapon {
         float py = originY - hh + oy;
 
         // Scale
-        float sx = 0.75f;
-        float sy = 0.55f;
+        float sx = 1;
+        float sy = 1;
 
         bounds.set(originX + ox, originY + oy, (w * sx + h * sy) / 4.75f);
 
