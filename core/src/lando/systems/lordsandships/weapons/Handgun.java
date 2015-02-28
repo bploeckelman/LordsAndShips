@@ -41,7 +41,9 @@ public class Handgun extends Weapon {
         direction.set(dir);
 
         if ((bullets.size - 1) < max_bullets) {
-            bullets.add(new Bullet(origin.x - 3, origin.y - 3,
+            bullets.add(new Bullet(
+                    origin.x - animation.getKeyFrames()[0].getRegionWidth()  / 2f,
+                    origin.y - animation.getKeyFrames()[0].getRegionHeight() / 2f,
                     direction.x * Bullet.BULLET_SPEED,
                     direction.y * Bullet.BULLET_SPEED));
 
