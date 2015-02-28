@@ -12,22 +12,23 @@ import lando.systems.lordsandships.GameInstance;
  */
 public abstract class Weapon {
 
-    public static final int TYPE_SWORD   = 0;
-    public static final int TYPE_HANDGUN = 1;
-    public static final int TYPE_SPEAR   = 2;
-    public static final int TYPE_AXE     = 3;
-    public static final int NUM_WEAPON_TYPES = 4;
+    public static final int TYPE_BOW         = 0;
+    public static final int TYPE_SPEAR       = 1;
+    public static final int TYPE_AXE         = 2;
+    public static final int TYPE_SWORD       = 3;
+    public static final int TYPE_HANDGUN     = 4;
+    public static final int NUM_WEAPON_TYPES = 5;
 
     private String type;
 
-    protected String name;
-    protected int damage;
-    protected int condition;
-    protected float angle;
-    protected boolean attacking;
-    protected Color color;
-    protected Circle bounds;
-    protected Vector2 direction;
+    protected String    name;
+    protected int       damage;
+    protected int       condition;
+    protected float     angle;
+    protected boolean   attacking;
+    protected Color     color;
+    protected Circle    bounds;
+    protected Vector2   direction;
     protected Animation animation;
     // TODO : cooldown
 

@@ -74,6 +74,7 @@ public class GameScreen extends InputAdapter implements UpdatingScreen {
 
     public void create(PlayerSelectScreen.PlayerType playerType) {
         world.initializePlayer(playerType);
+        ui.getArsenal().setCurrentWeaponIcon(playerType.value(), world.getPlayer());
         regenerateLevel();
     }
 

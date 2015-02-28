@@ -32,10 +32,11 @@ public class Arsenal {
 
     public Arsenal() {
         weaponIcons = new TextureRegion[Weapon.NUM_WEAPON_TYPES];
-        weaponIcons[0] = Assets.atlas.findRegion("sword");
-        weaponIcons[1] = Assets.atlas.findRegion("gun");
-        weaponIcons[2] = Assets.atlas.findRegion("sword");
-        weaponIcons[3] = Assets.atlas.findRegion("sword");
+        weaponIcons[Weapon.TYPE_BOW]     = Assets.atlas.findRegion("bow");
+        weaponIcons[Weapon.TYPE_SPEAR]   = Assets.atlas.findRegion("spear");
+        weaponIcons[Weapon.TYPE_AXE]     = Assets.atlas.findRegion("axe");
+        weaponIcons[Weapon.TYPE_SWORD]   = Assets.atlas.findRegion("sword");
+        weaponIcons[Weapon.TYPE_HANDGUN] = Assets.atlas.findRegion("gun");
         currentWeaponIcon = 0;
     }
 
@@ -53,82 +54,47 @@ public class Arsenal {
     }
 
     public void updateCurrentWeapon(Player player) {
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)
-         && !(player.getCurrentWeapon() instanceof Sword)) {
-             player.setWeapon(Weapon.TYPE_SWORD);
-             Timeline.createSequence()
-                     .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
-                                .target(-weaponIconSize.y)
-                                .ease(Cubic.OUT)
-                                .setCallback(new TweenCallback() {
-                                    @Override
-                                    public void onEvent(int type, BaseTween<?> source) {
-                                        Assets.sword_slice1.play(0.1f);
-                                        currentWeaponIcon = 0;
-                                    }
-                                }))
-                     .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
-                                .target(30)
-                                .ease(Bounce.OUT))
-                     .start(GameInstance.tweens);
+        final Weapon weapon = player.getCurrentWeapon();
+
+        if      (Gdx.input.isKeyPressed(Input.Keys.NUM_1) && !(weapon instanceof Bow)) {
+            setCurrentWeaponIcon(Weapon.TYPE_BOW, player);
         }
-        else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)
-         && !(player.getCurrentWeapon() instanceof Handgun)) {
-             player.setWeapon(Weapon.TYPE_HANDGUN);
-             Timeline.createSequence()
-                     .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
-                             .target(-weaponIconSize.y)
-                             .ease(Cubic.OUT)
-                             .setCallback(new TweenCallback() {
-                                    @Override
-                                    public void onEvent(int type, BaseTween<?> source) {
-                                       Assets.gunshot_reload.play(0.4f);
-                                       currentWeaponIcon = 1;
-                                    }
-                             }))
-                     .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
-                             .target(30)
-                             .ease(Bounce.OUT))
-                     .start(GameInstance.tweens);
+        else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2) && !(weapon instanceof Spear)) {
+            setCurrentWeaponIcon(Weapon.TYPE_SPEAR, player);
         }
-        else if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)
-         && !(player.getCurrentWeapon() instanceof Spear)) {
-             player.setWeapon(Weapon.TYPE_SPEAR);
-             Timeline.createSequence()
-                     .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
-                                .target(-weaponIconSize.y)
-                                .ease(Cubic.OUT)
-                                .setCallback(new TweenCallback() {
-                                    @Override
-                                    public void onEvent(int type, BaseTween<?> source) {
-                                        Assets.sword_slice1.play(0.1f);
-                                        currentWeaponIcon = 2;
-                                    }
-                                }))
-                     .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
-                                .target(30)
-                                .ease(Bounce.OUT))
-                     .start(GameInstance.tweens);
+        else if (Gdx.input.isKeyPressed(Input.Keys.NUM_3) && !(weapon instanceof Axe)) {
+            setCurrentWeaponIcon(Weapon.TYPE_AXE, player);
         }
-        else if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)
-          && !(player.getCurrentWeapon() instanceof Axe)) {
-            player.setWeapon(Weapon.TYPE_AXE);
-            Timeline.createSequence()
-                    .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
-                               .target(-weaponIconSize.y)
-                               .ease(Cubic.OUT)
-                               .setCallback(new TweenCallback() {
-                                   @Override
-                                   public void onEvent(int type, BaseTween<?> source) {
-                                       Assets.sword_slice1.play(0.1f);
-                                       currentWeaponIcon = 3;
-                                   }
-                               }))
-                    .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
-                               .target(30)
-                               .ease(Bounce.OUT))
-                    .start(GameInstance.tweens);
+        else if (Gdx.input.isKeyPressed(Input.Keys.NUM_4) && !(weapon instanceof Sword)) {
+            setCurrentWeaponIcon(Weapon.TYPE_SWORD, player);
         }
+        else if (Gdx.input.isKeyPressed(Input.Keys.NUM_5) && !(weapon instanceof Handgun)) {
+            setCurrentWeaponIcon(Weapon.TYPE_HANDGUN, player);
+        }
+    }
+
+    public void setCurrentWeaponIcon(final int weaponType, Player player) {
+        if (weaponType < 0 || weaponType >= Weapon.NUM_WEAPON_TYPES) {
+            throw new IllegalArgumentException("Unable to change weapon, unknown weapon type: " + weaponType);
+        }
+
+        player.setWeapon(weaponType);
+        Timeline.createSequence()
+                .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
+                           .target(-weaponIconSize.y)
+                           .ease(Cubic.OUT)
+                           .setCallback(new TweenCallback() {
+                               @Override
+                               public void onEvent(int type, BaseTween<?> source) {
+                                   // TODO (brian): switch based on type to play correct sound
+                                   Assets.sword_slice1.play(0.1f);
+                                   currentWeaponIcon = weaponType;
+                               }
+                           }))
+                .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
+                           .target(30)
+                           .ease(Bounce.OUT))
+                .start(GameInstance.tweens);
     }
 
 }
