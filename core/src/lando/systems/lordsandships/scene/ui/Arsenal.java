@@ -35,7 +35,7 @@ public class Arsenal {
         weaponIcons[0] = Assets.atlas.findRegion("sword");
         weaponIcons[1] = Assets.atlas.findRegion("gun");
         weaponIcons[2] = Assets.atlas.findRegion("sword");
-
+        weaponIcons[3] = Assets.atlas.findRegion("sword");
         currentWeaponIcon = 0;
     }
 
@@ -109,6 +109,25 @@ public class Arsenal {
                                 .target(30)
                                 .ease(Bounce.OUT))
                      .start(GameInstance.tweens);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)
+          && !(player.getCurrentWeapon() instanceof Axe)) {
+            player.setWeapon(Weapon.TYPE_AXE);
+            Timeline.createSequence()
+                    .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
+                               .target(-weaponIconSize.y)
+                               .ease(Cubic.OUT)
+                               .setCallback(new TweenCallback() {
+                                   @Override
+                                   public void onEvent(int type, BaseTween<?> source) {
+                                       Assets.sword_slice1.play(0.1f);
+                                       currentWeaponIcon = 3;
+                                   }
+                               }))
+                    .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
+                               .target(30)
+                               .ease(Bounce.OUT))
+                    .start(GameInstance.tweens);
         }
     }
 

@@ -1,6 +1,5 @@
 package lando.systems.lordsandships.entities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,10 +11,7 @@ import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.screens.PlayerSelectScreen;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
-import lando.systems.lordsandships.weapons.Handgun;
-import lando.systems.lordsandships.weapons.Spear;
-import lando.systems.lordsandships.weapons.Sword;
-import lando.systems.lordsandships.weapons.Weapon;
+import lando.systems.lordsandships.weapons.*;
 
 /**
  * Brian Ploeckelman created on 6/17/2014.
@@ -62,10 +58,12 @@ public class Player extends Entity {
         currentKeyFrame = currentAnim.getKeyFrame(0);
 
         weapons = new Array<Weapon>();
-        weapons.add(new Sword(new Weapon.Builder().damage(15)));
-        weapons.add(new Handgun(new Weapon.Builder().damage(50)));
-        weapons.add(new Spear(new Weapon.Builder().damage(100)));
-        currentWeapon = weapons.get(2);
+        weapons.add(new Sword(new Weapon.Builder().damage(15)));   // bow + arrow
+//        weapons.add(new Handgun(new Weapon.Builder().damage(50))); // spear
+        weapons.add(new Spear(new Weapon.Builder().damage(50))); // spear
+        weapons.add(new Axe(new Weapon.Builder().damage(100)));  // axe
+        weapons.add(new Sword(new Weapon.Builder().damage(150)));    // sword
+        currentWeapon = weapons.get(type.value());
     }
     public Player(Texture texture, float x, float y, float w, float h, float animRate) {
         super(new TextureRegion(texture), x, y, w, h);
