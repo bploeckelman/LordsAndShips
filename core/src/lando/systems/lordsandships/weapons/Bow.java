@@ -67,7 +67,7 @@ public class Bow extends Weapon {
         direction.set(dir);
         angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);
 
-        Assets.sword_slice1.play(0.1f);
+        Assets.bow_shot1.play(1.0f);
 
         Tween.to(color, ColorAccessor.A, bow_duration)
                 .target(0)

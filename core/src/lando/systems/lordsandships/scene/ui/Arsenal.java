@@ -86,8 +86,13 @@ public class Arsenal {
                            .setCallback(new TweenCallback() {
                                @Override
                                public void onEvent(int type, BaseTween<?> source) {
-                                   // TODO (brian): switch based on type to play correct sound
-                                   Assets.sword_slice1.play(0.1f);
+                                   switch (weaponType) {
+                                       case Weapon.TYPE_BOW     : Assets.bow_shot1.play(1.0f); break;
+                                       case Weapon.TYPE_SPEAR   : Assets.spear_stab1.play(0.04f); break;
+                                       case Weapon.TYPE_AXE     : Assets.axe_swing1.play(0.04f); break;
+                                       case Weapon.TYPE_SWORD   : Assets.sword_slice1.play(0.04f); break;
+                                       case Weapon.TYPE_HANDGUN : Assets.gunshot_reload.play(0.1f); break;
+                                   }
                                    currentWeaponIcon = weaponType;
                                }
                            }))

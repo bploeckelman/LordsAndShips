@@ -53,6 +53,9 @@ public class Assets {
     public static Sound hit4;
     public static Sound hit_melee1;
     public static Sound sword_slice1;
+    public static Sound bow_shot1;
+    public static Sound spear_stab1;
+    public static Sound axe_swing1;
 
     public static void load() {
         rand = new Random(1);
@@ -87,9 +90,15 @@ public class Assets {
         hit4 = Gdx.audio.newSound(Gdx.files.internal("sounds/hit-4.mp3"));
         hit_melee1 = Gdx.audio.newSound(Gdx.files.internal("sounds/hit-melee-1.mp3"));
         sword_slice1 = Gdx.audio.newSound(Gdx.files.internal("sounds/sword-slice-1.mp3"));
+        bow_shot1 = Gdx.audio.newSound(Gdx.files.internal("sounds/bow-shot-1.mp3"));
+        spear_stab1 = Gdx.audio.newSound(Gdx.files.internal("sounds/spear-stab-1.mp3"));
+        axe_swing1 = Gdx.audio.newSound(Gdx.files.internal("sounds/axe-swing-1.mp3"));
     }
 
     public static void dispose() {
+        axe_swing1.dispose();
+        spear_stab1.dispose();
+        bow_shot1.dispose();
         sword_slice1.dispose();
         hit_melee1.dispose();
         hit4.dispose();

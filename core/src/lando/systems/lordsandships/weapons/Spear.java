@@ -66,7 +66,7 @@ public class Spear extends Weapon {
         direction.set(dir);
         angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);
 
-        Assets.sword_slice1.play(0.1f);
+        Assets.spear_stab1.play(0.3f);
 
         Tween.to(color, ColorAccessor.A, spear_duration)
                 .target(0)

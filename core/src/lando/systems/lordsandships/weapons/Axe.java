@@ -67,7 +67,7 @@ public class Axe extends Weapon {
 //        angle = MathUtils.radiansToDegrees *
 //                (float) Math.atan2(direction.y, direction.x);
 
-        Assets.sword_slice1.play(0.1f);
+        Assets.axe_swing1.play(0.1f);
 
         Tween.to(color, ColorAccessor.A, axe_duration)
              .target(0)
