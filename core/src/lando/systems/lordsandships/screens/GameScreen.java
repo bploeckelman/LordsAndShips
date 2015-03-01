@@ -97,6 +97,7 @@ public class GameScreen extends InputAdapter implements UpdatingScreen {
 
         camera.zoom = camController.camera_zoom.floatValue();
         camera.update();
+        Assets.shapes.setProjectionMatrix(camera.combined);
     }
 
     @Override
