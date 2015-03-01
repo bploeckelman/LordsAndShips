@@ -4,8 +4,10 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,6 +29,9 @@ public class Spear extends Weapon {
     public static final float spear_duration = 0.5f;
 
     public float accum;
+    public boolean debug = true;
+
+    private MutableFloat offsetX, offsetY;
 
 
     /**
@@ -50,6 +55,9 @@ public class Spear extends Weapon {
         float w = animation.getKeyFrames()[0].getRegionWidth();
         float h = animation.getKeyFrames()[0].getRegionHeight();
         bounds.set(0, 0, (w + h) / 4);
+
+        offsetX = new MutableFloat(0);
+        offsetY = new MutableFloat(0);
     }
 
     /**
@@ -67,6 +75,15 @@ public class Spear extends Weapon {
         angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);
 
         Assets.spear_stab1.play(0.3f);
+
+        offsetX.setValue(0);
+        offsetY.setValue(0);
+        Tween.to(offsetX, -1, spear_duration/4)
+                .target(1.1f)
+                .start(GameInstance.tweens);
+        Tween.to(offsetY, -1, spear_duration/4)
+                .target(1.1f)
+                .start(GameInstance.tweens);
 
         Tween.to(color, ColorAccessor.A, spear_duration)
                 .target(0)
@@ -91,8 +108,11 @@ public class Spear extends Weapon {
      */
     @Override
     public void render(SpriteBatch batch, float originX, float originY) {
+        if (!attacking) return;
+
         accum += Gdx.graphics.getDeltaTime();
         TextureRegion keyframe = animation.getKeyFrame(accum);
+
         // Size and half size
         float w = keyframe.getRegionWidth();
         float h = keyframe.getRegionHeight();
@@ -100,34 +120,37 @@ public class Spear extends Weapon {
         float hh = h / 2f;
 
         // Offset and position
-        float ox = direction.x * hw * 0.65f;
-        float oy = direction.y * hh * 1.95f;
-        float px = originX - hw + ox;
-        float py = originY - hh + oy;
+        float ox = direction.x * w * 0.65f * offsetX.floatValue() ;
+        float oy = direction.y * h * 1.95f * offsetY.floatValue() ;
+        float px = originX - hw + direction.x * hw * 0.65f;
+        float py = originY - hh + direction.y * hh * 1.95f;
 
         // Scale
         float sx = 1;//0.75f;
         float sy = 1;//0.55f;
 
-        bounds.set(originX + ox, originY + oy, (w * sx + h * sy) / 4.75f);
+        bounds.set(originX + ox, originY + oy, hh/2);
 
         batch.setColor(color);
         batch.draw(keyframe, px, py, hw, hh, w, h, sx, sy, angle);
         batch.setColor(Color.WHITE);
 
-//        if (attacking) {
-//            batch.end();
-//            Assets.shapes.setColor(Color.RED);
-//            Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-//            Assets.shapes.circle(bounds.x, bounds.y, bounds.radius);
-//            Assets.shapes.end();
-//
-//            Assets.shapes.setColor(Color.MAGENTA);
-//            Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
-//            Assets.shapes.circle(originX + ox, originY + oy, 1.1f);
-//            Assets.shapes.end();
-//            batch.begin();
-//        }
+        if (debug) {
+            batch.end();
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA,
+                               GL20.GL_ONE_MINUS_SRC_ALPHA);
+            Assets.shapes.setColor(1, 1, 0, 1);
+            Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+            Assets.shapes.circle(bounds.x, bounds.y, bounds.radius);
+            Assets.shapes.end();
+
+            Assets.shapes.setColor(1, 0, 1, 0.2f);
+            Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
+            Assets.shapes.circle(bounds.x, bounds.y, bounds.radius);
+            Assets.shapes.end();
+            batch.begin();
+        }
     }
 
     @Override
