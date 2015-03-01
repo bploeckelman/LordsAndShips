@@ -108,9 +108,9 @@ public class Player extends Entity {
         updateMovement(delta);
         updateAnimation(delta);
 
-        if (currentWeapon instanceof Handgun) {
-            Handgun gun = (Handgun) currentWeapon;
-            gun.update(delta);
+        if (currentWeapon instanceof Handgun
+         || currentWeapon instanceof Bow) {
+            currentWeapon.update(delta);
         }
     }
 
@@ -209,9 +209,14 @@ public class Player extends Entity {
         currentWeapon.render(batch, getCenterPos().x, getCenterPos().y);
 
         // TODO : replace me
+        Array<Bullet> bullets = null;
         if (currentWeapon instanceof Handgun) {
-            Handgun gun = (Handgun) currentWeapon;
-            for (Bullet bullet : gun.bullets) {
+            bullets = ((Handgun) currentWeapon).bullets;
+        } else if (currentWeapon instanceof Bow) {
+            bullets = ((Bow) currentWeapon).bullets;
+        }
+        if (bullets != null) {
+            for (Bullet bullet : bullets) {
                 bullet.render(batch);
             }
         }
@@ -233,6 +238,8 @@ public class Player extends Entity {
         for (Weapon weapon : weapons) {
             if (weapon instanceof Handgun) {
                 bullets.addAll(((Handgun) weapon).bullets);
+            } else if (weapon instanceof Bow) {
+                bullets.addAll(((Bow) weapon).bullets);
             }
         }
         return bullets;

@@ -15,7 +15,9 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.entities.Bullet;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.utils.Assets;
 
@@ -26,10 +28,16 @@ public class Bow extends Weapon {
 
     public static final String bow_type     = "Bow";
     public static final float  bow_duration = 0.6f;
+    public static final float attack_cooldown = bow_duration;
 
     public float accum;
-    public boolean debug = true;
+    public boolean debug = false;
 
+    public Array<Bullet> bullets;
+    public Array<Bullet> bulletsToRemove;
+
+    public float attackCooldown = 0;
+    final int max_bullets = 100;
 
     /**
      * Constructor
@@ -54,6 +62,9 @@ public class Bow extends Weapon {
         float w = animation.getKeyFrames()[0].getRegionWidth();
         float h = animation.getKeyFrames()[0].getRegionHeight();
         bounds.set(0, 0, (w + h) / 4);
+
+        bullets = new Array<Bullet>(max_bullets);
+        bulletsToRemove = new Array<Bullet>(max_bullets);
     }
 
     /**
@@ -84,6 +95,16 @@ public class Bow extends Weapon {
                 .start(GameInstance.tweens);
 
         accum = 0f;
+
+        if ((bullets.size - 1) < max_bullets) {
+            bullets.add(new Bullet(
+                    origin.x + 8 - animation.getKeyFrame(accum).getRegionWidth()  / 2f,
+                    origin.y + 8 - animation.getKeyFrame(accum).getRegionHeight() / 2f,
+                    direction.x * Bullet.BULLET_SPEED,
+                    direction.y * Bullet.BULLET_SPEED));
+
+            attackCooldown = attack_cooldown;
+        }
     }
 
     /**
@@ -142,11 +163,21 @@ public class Bow extends Weapon {
 
     @Override
     public void update(float delta) {
+        // Update bullets
+        bulletsToRemove.clear();
+        for (Bullet bullet : bullets) {
+            if (bullet.isAlive()) bullet.update(delta);
+            else                  bulletsToRemove.add(bullet);
+        }
+        bullets.removeAll(bulletsToRemove, true);
 
+        if (attacking && (attackCooldown -= delta) < 0f) {
+            attacking = false;
+        }
     }
 
     @Override
     public boolean collides(Circle otherBounds) {
-        return attacking && Intersector.overlaps(bounds, otherBounds);
+        return false; //attacking && Intersector.overlaps(bounds, otherBounds);
     }
 }
