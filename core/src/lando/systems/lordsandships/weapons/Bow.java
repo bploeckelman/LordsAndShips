@@ -6,9 +6,11 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -26,6 +28,7 @@ public class Bow extends Weapon {
     public static final float  bow_duration = 0.6f;
 
     public float accum;
+    public boolean debug = true;
 
 
     /**
@@ -92,8 +95,11 @@ public class Bow extends Weapon {
      */
     @Override
     public void render(SpriteBatch batch, float originX, float originY) {
+        if (!attacking) return;
+
         accum += Gdx.graphics.getDeltaTime();
         TextureRegion keyframe = animation.getKeyFrame(accum);
+
         // Size and half size
         float w = keyframe.getRegionWidth();
         float h = keyframe.getRegionHeight();
@@ -116,19 +122,22 @@ public class Bow extends Weapon {
         batch.draw(keyframe, px, py, hw, hh, w, h, sx, sy, angle);
         batch.setColor(Color.WHITE);
 
-//        if (attacking) {
-//            batch.end();
-//            Assets.shapes.setColor(Color.RED);
-//            Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-//            Assets.shapes.circle(bounds.x, bounds.y, bounds.radius);
-//            Assets.shapes.end();
-//
-//            Assets.shapes.setColor(Color.MAGENTA);
-//            Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
-//            Assets.shapes.circle(originX + ox, originY + oy, 1.1f);
-//            Assets.shapes.end();
-//            batch.begin();
-//        }
+        if (debug) {
+            batch.end();
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA,
+                               GL20.GL_ONE_MINUS_SRC_ALPHA);
+            Assets.shapes.setColor(1, 1, 0, 1);
+            Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+            Assets.shapes.circle(bounds.x, bounds.y, bounds.radius);
+            Assets.shapes.end();
+
+            Assets.shapes.setColor(1, 0, 1, 0.2f);
+            Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
+            Assets.shapes.circle(bounds.x, bounds.y, bounds.radius);
+            Assets.shapes.end();
+            batch.begin();
+        }
     }
 
     @Override
