@@ -113,7 +113,14 @@ public class Console implements TextField.TextFieldListener {
         for (CCmd cmd : cmds) {
             if (cmd.command.equals(tokens[0])) {
                 Object result = cmd.function.invoke(cmds.subList(1, cmds.size()));
-                inputField.setText(cmd.command + ": " + result.toString());
+                String output = result.toString();
+                if (result instanceof String[]) {
+                    output = "";
+                    for (String res : (String[]) result) {
+                        output += res + "  ";
+                    }
+                }
+                inputField.setText(cmd.command + ": " + output);
                 return;
             }
         }
@@ -195,6 +202,16 @@ public class Console implements TextField.TextFieldListener {
         vars.add(new CVar("test"));
 
         cmds = new ArrayList<CCmd>();
+        cmds.add(new CCmd("help", new CCmd.Function() {
+            @Override
+            public Object invoke(Object... params) {
+                String result[] = new String[cmds.size()];
+                for (int i = 0; i < cmds.size(); ++i) {
+                    result[i] = cmds.get(i).command;
+                }
+                return result;
+            }
+        }));
         cmds.add(new CCmd("regen", new CCmd.Function() {
             @Override
             public Object invoke(Object... params) {
