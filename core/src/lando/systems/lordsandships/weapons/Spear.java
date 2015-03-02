@@ -29,7 +29,6 @@ public class Spear extends Weapon {
     public static final float spear_duration = 0.5f;
 
     public float accum;
-    public boolean debug = true;
 
     private MutableFloat offsetX, offsetY;
 

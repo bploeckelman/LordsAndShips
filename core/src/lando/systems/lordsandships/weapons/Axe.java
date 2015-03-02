@@ -28,7 +28,6 @@ public class Axe extends Weapon {
     public static final float  axe_duration = 0.5f;
 
     public float accum;
-    public boolean debug = true;
 
 
     /**

@@ -30,6 +30,7 @@ public abstract class Weapon {
     protected Circle    bounds;
     protected Vector2   direction;
     protected Animation animation;
+    protected boolean   debug;
     // TODO : cooldown
 
     public Weapon(Builder builder) {
@@ -43,6 +44,7 @@ public abstract class Weapon {
         this.bounds    = builder.bounds;
         this.direction = builder.direction;
         this.animation = builder.animation;
+        this.debug     = false;
     }
 
 
@@ -133,6 +135,10 @@ public abstract class Weapon {
 
     public void setAnimation(Animation animation) {
         this.animation = animation;
+    }
+
+    public void showHitBounds(boolean showWeaponHitBounds) {
+        debug = showWeaponHitBounds;
     }
 
 

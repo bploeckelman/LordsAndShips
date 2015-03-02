@@ -31,7 +31,6 @@ public class Bow extends Weapon {
     public static final float attack_cooldown = bow_duration;
 
     public float accum;
-    public boolean debug = false;
 
     public Array<Bullet> bullets;
     public Array<Bullet> bulletsToRemove;

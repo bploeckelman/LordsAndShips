@@ -25,7 +25,6 @@ public class Sword extends Weapon {
     public static final float  sword_duration = 0.25f;
 
     public float accum;
-    public boolean debug = true;
 
 
     /**
