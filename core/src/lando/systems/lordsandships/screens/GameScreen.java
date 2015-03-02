@@ -181,6 +181,10 @@ public class GameScreen extends InputAdapter implements UpdatingScreen {
                 .start(GameInstance.tweens);
     }
 
+    public boolean toggleWeaponBounds() {
+        return world.getPlayer().toggleWeaponBounds();
+    }
+
     // -------------------------------------------------------------------------
     // Implementation Details
     // -------------------------------------------------------------------------

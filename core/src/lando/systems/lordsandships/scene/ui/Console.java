@@ -222,6 +222,16 @@ public class Console implements TextField.TextFieldListener {
                 return "";
             }
         }));
+        cmds.add(new CCmd("toggle_weapon_bounds", new CCmd.Function() {
+            @Override
+            public Object invoke(Object... params) {
+                if (game.getScreen() instanceof GameScreen) {
+                    boolean state = ((GameScreen) game.getScreen()).toggleWeaponBounds();
+                    return "Weapon hit bounds " + (state ? "enabled" : "disabled");
+                }
+                return "";
+            }
+        }));
     }
 
     /**

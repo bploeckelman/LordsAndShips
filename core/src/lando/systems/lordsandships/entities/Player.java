@@ -29,6 +29,7 @@ public class Player extends Entity {
 
     float animTimer = 0f;
     boolean punching = false;
+    boolean showWeaponHitBounds = false;
 
     Weapon currentWeapon;
     Array<Weapon> weapons;
@@ -251,5 +252,13 @@ public class Player extends Entity {
         if (type >= 0 && type < Weapon.NUM_WEAPON_TYPES && type < weapons.size) {
             currentWeapon = weapons.get(type);
         }
+    }
+
+    public boolean toggleWeaponBounds() {
+        showWeaponHitBounds = !showWeaponHitBounds;
+        for (Weapon weapon : weapons) {
+            weapon.showHitBounds(showWeaponHitBounds);
+        }
+        return showWeaponHitBounds;
     }
 }
