@@ -8,10 +8,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Input.Keys;
-import lando.systems.lordsandships.screens.GameScreen;
-import lando.systems.lordsandships.screens.PlayerSelectScreen;
-import lando.systems.lordsandships.screens.TitleScreen;
-import lando.systems.lordsandships.screens.UpdatingScreen;
+import lando.systems.lordsandships.screens.*;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 import lando.systems.lordsandships.utils.Assets;
@@ -52,6 +49,8 @@ public class GameInstance extends Game {
         setScreen(Constants.game_screen);
         screens.put(Constants.player_select_screen, new PlayerSelectScreen(this));
         setScreen(Constants.player_select_screen);
+        screens.put(Constants.map_editor_screen, new MapEditorScreen(this));
+        setScreen(Constants.map_editor_screen);
     }
 
     @Override
