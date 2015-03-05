@@ -125,7 +125,7 @@ public class World {
     }
 
     public void render(SpriteBatch batch, Camera camera) {
-        background.render(batch);
+//        background.render(batch);
 
         // TODO (brian): this isn't really needed now that multithreaded regeneration has been removed
         if (tileMap != null && tileMap.hasTiles) {

@@ -41,7 +41,8 @@ public class TileMap {
         this.spawnTile = new Animation(0.06f,
                                        Assets.shadow);
         this.spawnTile.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        this.tileSet = new TileSetOryx();
+//        this.tileSet = new TileSetOryx();
+        this.tileSet = new TileSetRaph();
     }
 
     public void generateTilesFromGraph(Graph<Room> roomGraph) {
