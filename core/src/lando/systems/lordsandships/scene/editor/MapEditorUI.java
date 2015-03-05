@@ -18,14 +18,11 @@ public class MapEditorUI {
     Stage stage;
 
     class EditorConfig {
-        public static final float default_tile_size = 24;
-        public static final float default_tile_zoom = 4/3;
-        public static final float default_tile_pad  = 6;
 
-        public float tile_size = default_tile_size;
-        public float tile_zoom = default_tile_zoom;
-        public float tile_pad  = default_tile_pad;
-        public float picker_width = 200; //4 * (tile_size + tile_pad) * tile_zoom;
+        public float picker_table_pad = 10;
+        public float picker_height = 100;
+        public float cell_height = picker_height - 30;
+
     }
 
 
@@ -49,7 +46,7 @@ public class MapEditorUI {
                             (int) camera.viewportWidth,
                             (int) camera.viewportHeight);
         stage.draw();
-        stage.setDebugUnderMouse(true);
+//        stage.setDebugUnderMouse(true);
     }
 
     // -------------------------------------------------------------------------
@@ -72,41 +69,35 @@ public class MapEditorUI {
     // -------------------------------------------------------------------------
 
     private void initializeWidgets(EditorConfig config) {
-        TextureRegion[][] tileRegions = TextureRegion.split(Assets.oryxWorld, 16, 16);
+        TextureRegion[][] tiles = TextureRegion.split(Assets.oryxWorld, 24, 24);
 
-        float cell_width = config.tile_size * config.tile_zoom + config.tile_pad;
-        int   cells_per_row = (int) Math.floor(config.picker_width / cell_width);
+        Table table = new Table(skin);
+        table.padLeft(config.picker_table_pad);
+        table.padRight(config.picker_table_pad);
+        table.bottom();
 
-        int   cell  = 0;
-        Image image = null;
+        for (TextureRegion[] tileRow : tiles) {
+            for (TextureRegion tile : tileRow) {
+                Image image = new Image(tile);
 
-        Table tileTable = new Table(skin);
-        tileTable.debug();
-        for (int y = 0; y < tileRegions.length; ++y) {
-            for (int x = 0; x < tileRegions[0].length; ++x) {
-                image = new Image(tileRegions[y][x]);
-                image.setSize(config.tile_size, config.tile_size);
-                image.setScale(config.tile_zoom);
-
-                tileTable.add(image).fill().expand().pad(config.tile_pad);
-
-                if (++cell == cells_per_row) {
-                    cell = 0;
-                    tileTable.row();
-                }
+                table.add(image)
+                     .size(config.cell_height)
+                     .fill()
+                     .space(10);
             }
         }
-        ScrollPane pickerScroll = new ScrollPane(tileTable);
-        pickerScroll.setFillParent(true);
-        pickerScroll.setScrollbarsOnTop(true);
-        pickerScroll.setScrollingDisabled(true, false);
 
-        Window picker = new Window("Tile Picker", skin);
-        picker.setResizable(true);
-        picker.setSize(config.picker_width, stage.getHeight());
-        picker.add(pickerScroll).fill().expand();
+        ScrollPane scroll = new ScrollPane(table);
+        scroll.setFillParent(true);
+        scroll.setScrollingDisabled(false, true);
+        scroll.setScrollBarPositions(false, false);
+        scroll.setSmoothScrolling(true);
 
-        stage.addActor(picker);
+        Window window = new Window("Tile Picker", skin);
+        window.setSize(stage.getWidth(), config.picker_height);
+        window.add(scroll);
+
+        stage.addActor(window);
     }
 
 }
