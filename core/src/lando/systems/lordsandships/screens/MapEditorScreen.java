@@ -35,6 +35,8 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
 
     private Drawable[][] mapTiles;
 
+    boolean isPainting = false;
+
     final float map_tile_size  = 32;
     final int   map_tiles_wide = 200;
     final int   map_tiles_high = 125;
@@ -142,10 +144,34 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
             if (selectedTile != null
              && ix >= 0 && ix < map_tiles_wide
              && iy >= 0 && iy < map_tiles_high) {
+                isPainting = true;
                 mapTiles[iy][ix] = selectedTile.getDrawable();
             }
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (button == Input.Buttons.LEFT) {
+            isPainting = false;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        Image selectedTile = ui.getSelectedTile();
+        if (isPainting && selectedTile != null) {
+            int ix = (int) (mouseWorldCoords.x / map_tile_size);
+            int iy = (int) (mouseWorldCoords.y / map_tile_size);
+
+            if (ix >= 0 && ix < map_tiles_wide
+             && iy >= 0 && iy < map_tiles_high) {
+                mapTiles[iy][ix] = selectedTile.getDrawable();
+            }
+        }
         return false;
     }
 

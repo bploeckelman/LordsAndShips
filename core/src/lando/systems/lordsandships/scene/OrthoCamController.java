@@ -2,6 +2,7 @@ package lando.systems.lordsandships.scene;
 
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,10 +21,13 @@ public class OrthoCamController extends InputAdapter {
     final float zoom_scale = 0.025f;
     final float min_camera_zoom = 0.1f;
     final float initial_camera_zoom = 4;
+    final boolean pan_right_mouse_only = true;
 
     public MutableFloat camera_zoom = new MutableFloat(initial_camera_zoom);
 
     public boolean debugRender = false;
+
+    boolean isRightMouseDown = false;
 
     public OrthoCamController (OrthographicCamera camera) {
         this.camera = camera;
@@ -32,19 +36,32 @@ public class OrthoCamController extends InputAdapter {
 
     @Override
     public boolean touchDragged (int x, int y, int pointer) {
-        camera.unproject(curr.set(x, y, 0));
-        if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
-            camera.unproject(delta.set(last.x, last.y, 0));
-            delta.sub(curr);
-            camera.position.add(delta.x, delta.y, 0);
+        if (pan_right_mouse_only && isRightMouseDown) {
+            camera.unproject(curr.set(x, y, 0));
+            if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
+                camera.unproject(delta.set(last.x, last.y, 0));
+                delta.sub(curr);
+                camera.position.add(delta.x, delta.y, 0);
+            }
+            last.set(x, y, 0);
         }
-        last.set(x, y, 0);
         return false;
     }
 
     @Override
     public boolean touchUp (int x, int y, int pointer, int button) {
+        if (button == Input.Buttons.RIGHT) {
+            isRightMouseDown = false;
+        }
         last.set(-1, -1, -1);
+        return false;
+    }
+
+    @Override
+    public boolean touchDown (int x, int y, int pointer, int button) {
+        if (button == Input.Buttons.RIGHT) {
+            isRightMouseDown = true;
+        }
         return false;
     }
 
