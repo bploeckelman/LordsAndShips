@@ -17,13 +17,18 @@ public class MapEditorUI {
     Stage stage;
 
     TilePicker tilePicker;
+    InfoWindow infoWindow;
 
     class EditorConfig {
 
         public float picker_table_pad = 10;
-        public float picker_height = 100;
-        public float picker_width  = 400;
-        public float cell_height = picker_height - 30;
+        public float picker_height    = 100;
+        public float picker_width     = 400;
+        public float cell_height      = picker_height - 30;
+
+        public float info_height      = 720 - picker_height;
+        public float info_width       = 300;
+        public float info_pad         = 10;
 
     }
 
@@ -34,6 +39,8 @@ public class MapEditorUI {
 
         EditorConfig config = new EditorConfig();
         config.picker_width = stage.getWidth();
+        config.info_width   = stage.getWidth() / 5;
+        config.info_height  = stage.getHeight() - config.picker_height;
         initializeWidgets(config);
     }
 
@@ -41,6 +48,10 @@ public class MapEditorUI {
 
     public void update(float delta) {
         stage.act(delta);
+        Image selected = tilePicker.getSelected();
+        if (selected != null) {
+            infoWindow.setSelected(selected.getDrawable());
+        }
     }
 
     public void render(SpriteBatch batch, Camera camera) {
@@ -50,14 +61,6 @@ public class MapEditorUI {
                             (int) camera.viewportHeight);
 //        stage.setDebugUnderMouse(true);
         stage.draw();
-
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        Image selected = tilePicker.getSelected();
-        if (selected != null) {
-            selected.getDrawable().draw(batch, 0, tilePicker.getHeight(), 32, 32);
-        }
-        batch.end();
     }
 
     // -------------------------------------------------------------------------
@@ -65,6 +68,7 @@ public class MapEditorUI {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
         tilePicker.resize(width, height);
+        infoWindow.resize(width, height);
     }
 
     public void dispose() {
@@ -83,6 +87,9 @@ public class MapEditorUI {
     private void initializeWidgets(EditorConfig config) {
         tilePicker = new TilePicker("Tile Picker", skin, config);
         stage.addActor(tilePicker);
+
+        infoWindow = new InfoWindow("Info", skin, config);
+        stage.addActor(infoWindow);
     }
 
 }
