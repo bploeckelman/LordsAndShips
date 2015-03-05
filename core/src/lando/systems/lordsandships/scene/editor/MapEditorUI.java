@@ -17,6 +17,8 @@ public class MapEditorUI {
     Skin  skin;
     Stage stage;
 
+    Window tilePicker;
+
     class EditorConfig {
 
         public float picker_table_pad = 10;
@@ -53,6 +55,7 @@ public class MapEditorUI {
 
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        tilePicker.setWidth(width);
     }
 
     public void dispose() {
@@ -93,11 +96,11 @@ public class MapEditorUI {
         scroll.setScrollBarPositions(false, false);
         scroll.setSmoothScrolling(true);
 
-        Window window = new Window("Tile Picker", skin);
-        window.setSize(stage.getWidth(), config.picker_height);
-        window.add(scroll);
+        tilePicker = new Window("Tile Picker", skin);
+        tilePicker.setSize(stage.getWidth(), config.picker_height);
+        tilePicker.add(scroll);
 
-        stage.addActor(window);
+        stage.addActor(tilePicker);
     }
 
 }
