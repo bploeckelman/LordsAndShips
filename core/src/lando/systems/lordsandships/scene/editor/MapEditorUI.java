@@ -58,10 +58,9 @@ public class MapEditorUI {
     }
 
     public void render(SpriteBatch batch, Camera camera) {
-        Gdx.gl20.glViewport(0,
-                            0,
-                            (int) stage.getCamera().viewportWidth,
-                            (int) stage.getCamera().viewportHeight);
+        int width  = (int) stage.getCamera().viewportWidth;
+        int height = (int) stage.getCamera().viewportHeight;
+        Gdx.gl20.glViewport(0, 0, width, height);
         stage.draw();
     }
 
