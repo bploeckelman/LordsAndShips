@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.editor.MapEditorUI;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
@@ -58,6 +59,7 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
     @Override
     public void update(float delta) {
         updateMouseVectors();
+        camera.update();
         ui.update(delta);
     }
 
@@ -127,6 +129,7 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
         InputMultiplexer inputMux = new InputMultiplexer();
         inputMux.addProcessor(GameInstance.input);
         inputMux.addProcessor(ui.getStage());
+        inputMux.addProcessor(new OrthoCamController(camera));
         inputMux.addProcessor(this);
         Gdx.input.setInputProcessor(inputMux);
     }
