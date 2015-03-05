@@ -125,11 +125,15 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
     // -------------------------------------------------------------------------
 
     private void enableInput() {
+        OrthoCamController camController = new OrthoCamController(camera);
+        camController.camera_zoom.setValue(0.5f);
+        camController.scrolled(0);
+
         GameInstance.input.reset();
         InputMultiplexer inputMux = new InputMultiplexer();
         inputMux.addProcessor(GameInstance.input);
         inputMux.addProcessor(ui.getStage());
-        inputMux.addProcessor(new OrthoCamController(camera));
+        inputMux.addProcessor(camController);
         inputMux.addProcessor(this);
         Gdx.input.setInputProcessor(inputMux);
     }

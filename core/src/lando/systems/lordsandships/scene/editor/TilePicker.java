@@ -15,6 +15,7 @@ public class TilePicker extends Window {
 
     private Array<Image> tiles;
     private Image selected;
+    private ScrollPane scroll;
 
     public TilePicker(String title,
                       Skin skin,
@@ -50,11 +51,29 @@ public class TilePicker extends Window {
             }
         }
 
-        final ScrollPane scroll = new ScrollPane(table);
+        scroll = new ScrollPane(table);
         scroll.setFillParent(true);
         scroll.setScrollingDisabled(false, true);
         scroll.setScrollBarPositions(false, false);
         scroll.setSmoothScrolling(true);
+        scroll.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event,
+                              float x,
+                              float y,
+                              int pointer,
+                              Actor fromActor) {
+                stage.setScrollFocus(scroll);
+            }
+
+            public void exit(InputEvent event,
+                             float x,
+                             float y,
+                             int pointer,
+                             Actor toActor) {
+                stage.setScrollFocus(null);
+            }
+        });
 
         this.add(scroll);
     }
