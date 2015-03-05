@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
@@ -33,6 +34,9 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
         super();
 
         this.game = game;
+
+        Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("images/cursor2.png"));
+        Gdx.input.setCursorImage(cursorPixmap, 8, 8);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);
