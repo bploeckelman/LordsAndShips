@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.editor.MapEditorUI;
@@ -31,23 +33,42 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
 
     private MapEditorUI ui;
 
+    private Drawable[][] mapTiles;
+
+    final float map_tile_size  = 32;
+    final int   map_tiles_wide = 200;
+    final int   map_tiles_high = 125;
+
     public MapEditorScreen(GameInstance game) {
         super();
 
         this.game = game;
 
-        Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("images/cursor2.png"));
+        Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("images/cursor2" +
+                                                            ".png"));
         Gdx.input.setCursorImage(cursorPixmap, 8, 8);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);
         camera.position.set(0, 0, 0);
-        camera.translate(Constants.win_half_width, Constants.win_half_height, 0);
+        camera.translate(Constants.win_half_width,
+                         Constants.win_half_height,
+                         0);
         camera.update();
 
-        backgroundColor = new Color(1,1,1,1);
+        backgroundColor = new Color(0.9f, 0.9f, 0.9f, 1);
 
         ui = new MapEditorUI();
+
+        Texture blankTex = new Texture("images/tile-floor1.png");
+        TextureRegion blankReg = new TextureRegion(blankTex);
+        TextureRegionDrawable blank = new TextureRegionDrawable(blankReg);
+        mapTiles = new Drawable[map_tiles_high][map_tiles_wide];
+        for (int y = 0; y < map_tiles_high; ++y) {
+            for (int x = 0; x < map_tiles_wide; ++x) {
+                mapTiles[y][x] = blank;
+            }
+        }
 
         enableInput();
     }
@@ -74,6 +95,31 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
 
         final SpriteBatch batch = Assets.batch;
         batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        for (int y = 0; y < map_tiles_high; ++y) {
+            for (int x = 0; x < map_tiles_wide; ++x) {
+                mapTiles[y][x].draw(batch,
+                                    x * map_tile_size,
+                                    y * map_tile_size,
+                                    map_tile_size,
+                                    map_tile_size);
+            }
+        }
+        batch.end();
+
+        final ShapeRenderer shapes = Assets.shapes;
+        shapes.setColor(0, 0, 0, 1);
+        shapes.setProjectionMatrix(camera.combined);
+        shapes.begin(ShapeRenderer.ShapeType.Line);
+        for (int y = 0; y < map_tiles_high; ++y) {
+            float py = map_tile_size * y;
+            shapes.line(0, py, map_tile_size * map_tiles_wide, py);
+        }
+        for (int x = 0; x < map_tiles_wide; ++x) {
+            float px = map_tile_size * x;
+            shapes.line(px, 0, px, map_tile_size * map_tiles_high);
+        }
+        shapes.end();
 
         ui.render(batch, camera);
     }
@@ -84,6 +130,23 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
             game.setScreen(Constants.player_select_screen);
         }
         return true;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (button == Input.Buttons.LEFT) {
+            int ix = (int) (mouseWorldCoords.x / map_tile_size);
+            int iy = (int) (mouseWorldCoords.y / map_tile_size);
+
+            Image selectedTile = ui.getSelectedTile();
+            if (selectedTile != null
+             && ix >= 0 && ix < map_tiles_wide
+             && iy >= 0 && iy < map_tiles_high) {
+                mapTiles[iy][ix] = selectedTile.getDrawable();
+            }
+        }
+
+        return false;
     }
 
     // -------------------------------------------------------------------------

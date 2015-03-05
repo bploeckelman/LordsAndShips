@@ -2,7 +2,10 @@ package lando.systems.lordsandships.scene.editor;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
@@ -17,9 +20,10 @@ public class TilePicker extends Window {
     private Image selected;
     private ScrollPane scroll;
 
-    public TilePicker(String title,
-                      Skin skin,
-                      MapEditorUI.EditorConfig config) {
+    public TilePicker(final String title,
+                      final Skin skin,
+                      final Stage stage,
+                      final MapEditorUI.EditorConfig config) {
         super(title, skin);
 
         this.setSize(config.picker_width, config.picker_height);
@@ -39,6 +43,8 @@ public class TilePicker extends Window {
                     public void clicked(InputEvent event, float x, float y) {
                         if (event.getButton() == Input.Buttons.LEFT) {
                             selected = image;
+                            scroll.setCancelTouchFocus(true);
+                            event.stop();
                         }
                     }
                 });
@@ -82,6 +88,8 @@ public class TilePicker extends Window {
         this.setWidth(width);
     }
 
-    public Image getSelected() { return selected; }
+    public Image getSelected() {
+        return selected;
+    }
 
 }

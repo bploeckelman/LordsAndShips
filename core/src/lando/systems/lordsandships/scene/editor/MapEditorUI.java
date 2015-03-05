@@ -16,6 +16,8 @@ public class MapEditorUI {
     Skin  skin;
     Stage stage;
 
+    EditorConfig config;
+
     TilePicker tilePicker;
     InfoWindow infoWindow;
 
@@ -36,8 +38,9 @@ public class MapEditorUI {
     public MapEditorUI() {
         skin  = new Skin(Gdx.files.internal("ui/uiskin.json"));
         stage = new Stage(new ScreenViewport());
+//        stage.setDebugUnderMouse(true);
 
-        EditorConfig config = new EditorConfig();
+        config = new EditorConfig();
         config.picker_width = stage.getWidth();
         config.info_width   = stage.getWidth() / 5;
         config.info_height  = stage.getHeight() - config.picker_height;
@@ -57,9 +60,8 @@ public class MapEditorUI {
     public void render(SpriteBatch batch, Camera camera) {
         Gdx.gl20.glViewport(0,
                             0,
-                            (int) camera.viewportWidth,
-                            (int) camera.viewportHeight);
-//        stage.setDebugUnderMouse(true);
+                            (int) stage.getCamera().viewportWidth,
+                            (int) stage.getCamera().viewportHeight);
         stage.draw();
     }
 
@@ -81,11 +83,15 @@ public class MapEditorUI {
         return stage;
     }
 
+    public Image getSelectedTile() {
+        return tilePicker.getSelected();
+    }
+
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
 
     private void initializeWidgets(EditorConfig config) {
-        tilePicker = new TilePicker("Tile Picker", skin, config);
+        tilePicker = new TilePicker("Tile Picker", skin, stage, config);
         stage.addActor(tilePicker);
 
         infoWindow = new InfoWindow("Info", skin, config);
