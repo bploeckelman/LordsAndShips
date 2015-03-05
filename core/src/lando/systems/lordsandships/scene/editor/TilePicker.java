@@ -1,7 +1,10 @@
 package lando.systems.lordsandships.scene.editor;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.utils.Assets;
 
@@ -11,6 +14,7 @@ import lando.systems.lordsandships.utils.Assets;
 public class TilePicker extends Window {
 
     private Array<Image> tiles;
+    private Image selected;
 
     public TilePicker(String title,
                       Skin skin,
@@ -28,7 +32,15 @@ public class TilePicker extends Window {
         final TextureRegion[][] textures = TextureRegion.split(Assets.oryxWorld, 24, 24);
         for (TextureRegion[] tileRow : textures) {
             for (TextureRegion tile : tileRow) {
-                Image image = new Image(tile);
+                final Image image = new Image(tile);
+                image.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        if (event.getButton() == Input.Buttons.LEFT) {
+                            selected = image;
+                        }
+                    }
+                });
                 tiles.add(image);
 
                 table.add(image)
@@ -50,5 +62,7 @@ public class TilePicker extends Window {
     public void resize(float width, float height) {
         this.setWidth(width);
     }
+
+    public Image getSelected() { return selected; }
 
 }

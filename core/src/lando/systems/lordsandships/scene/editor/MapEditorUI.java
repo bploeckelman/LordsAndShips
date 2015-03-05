@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -47,8 +48,16 @@ public class MapEditorUI {
                             0,
                             (int) camera.viewportWidth,
                             (int) camera.viewportHeight);
-        stage.draw();
 //        stage.setDebugUnderMouse(true);
+        stage.draw();
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        Image selected = tilePicker.getSelected();
+        if (selected != null) {
+            selected.getDrawable().draw(batch, 0, tilePicker.getHeight(), 32, 32);
+        }
+        batch.end();
     }
 
     // -------------------------------------------------------------------------
