@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.tilemap.TileType;
 import lando.systems.lordsandships.utils.Assets;
@@ -18,10 +17,8 @@ public class Level {
 
     Array<Room> rooms;
 
-    Player player;
 
-
-    public Level(Player player) {
+    public Level() {
         Rectangle rect = new Rectangle(500, 500,
                                        Assets.rand.nextInt(40) + 10,
                                        Assets.rand.nextInt(40) + 10);
@@ -34,7 +31,6 @@ public class Level {
                      Assets.rand.nextInt(40) + 10);
         }
         generateNeighbors();
-        this.player = player;
     }
 
     private void generateNeighbors() {
@@ -67,22 +63,25 @@ public class Level {
         for (Room room : rooms) {
             room.render(batch, camera);
         }
+
+        renderDebug(camera);
+    }
+
+    // -------------------------------------------------------------------------
+
+    private void renderDebug(Camera camera) {
+        Assets.shapes.setProjectionMatrix(camera.combined);
         Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
         Assets.shapes.setColor(Color.YELLOW);
         for (Room room : rooms) {
             Assets.shapes.rect(room.position.x,
                                room.position.y,
                                room.tiles[0].length * Tile.TILE_SIZE,
-                               room.tiles.length * Tile.TILE_SIZE);
+                               room.tiles.length    * Tile.TILE_SIZE);
         }
         Assets.shapes.end();
-
-        batch.begin();
-        player.render(batch);
-        batch.end();
     }
 
-    // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
 
     private Room generateRoom(int x, int y, int width, int height) {

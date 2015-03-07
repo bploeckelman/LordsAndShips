@@ -65,7 +65,7 @@ public class GameScreen extends InputAdapter implements UpdatingScreen {
         camController = new OrthoCamController(camera);
 
         world = new World(camera);
-        level = new Level(world.getPlayer());
+        level = new Level();
 
         InputMultiplexer inputMux = new InputMultiplexer();
         inputMux.addProcessor(camController);
