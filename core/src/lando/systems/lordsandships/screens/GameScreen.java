@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.scene.level.Level;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.World;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
@@ -29,7 +30,8 @@ public class GameScreen extends InputAdapter implements UpdatingScreen {
     private final GameInstance game;
 
     private UserInterface ui;
-    private World world;
+    private World         world;
+    private Level         level;
 
     // TODO (brian): move camera stuff out to View class
     private OrthographicCamera camera;
@@ -63,6 +65,7 @@ public class GameScreen extends InputAdapter implements UpdatingScreen {
         camController = new OrthoCamController(camera);
 
         world = new World(camera);
+        level = new Level(world.getPlayer());
 
         InputMultiplexer inputMux = new InputMultiplexer();
         inputMux.addProcessor(camController);
@@ -87,10 +90,11 @@ public class GameScreen extends InputAdapter implements UpdatingScreen {
         updateMouseVectors();
 
         world.update(delta);
+        level.update(delta);
 
         // TODO (brian): make a utility function to lerp a camera to a vec2 so we can drop the extra vec3 player pos
         playerPosition.set(world.getPlayer().getPosition().x, world.getPlayer().getPosition().y, 0);
-        camera.position.lerp(playerPosition, 4*delta);
+//        camera.position.lerp(playerPosition, 4*delta);
 
         ui.update(delta);
         ui.getArsenal().updateCurrentWeapon(world.getPlayer());
@@ -113,7 +117,8 @@ public class GameScreen extends InputAdapter implements UpdatingScreen {
             world.debugRender(Assets.shapes, camera);
         }
 
-        world.render(Assets.batch, camera);
+//        world.render(Assets.batch, camera);
+        level.render(Assets.batch, camera);
 
         ui.render(Assets.batch, uiCamera);
     }
