@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.Input.Keys;
 import lando.systems.lordsandships.screens.*;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
@@ -43,14 +42,17 @@ public class GameInstance extends Game {
         Gdx.input.setInputProcessor(input);
         Gdx.input.setCursorCatched(false);
 
-//        screens.put(Constants.title_screen, new TitleScreen(this));
-//        setScreen(Constants.title_screen);
-        screens.put(Constants.game_screen, new GameScreen(this));
-        setScreen(Constants.game_screen);
+        screens.put(Constants.title_screen,         new TitleScreen(this));
+        screens.put(Constants.game_screen,          new GameScreen(this));
         screens.put(Constants.player_select_screen, new PlayerSelectScreen(this));
-        setScreen(Constants.player_select_screen);
-        screens.put(Constants.map_editor_screen, new MapEditorScreen(this));
-        setScreen(Constants.map_editor_screen);
+        screens.put(Constants.map_editor_screen,    new MapEditorScreen(this));
+        screens.put(Constants.test_screen,          new TestScreen(this));
+
+//        setScreen(Constants.title_screen);
+//        setScreen(Constants.game_screen);
+//        setScreen(Constants.player_select_screen);
+//        setScreen(Constants.map_editor_screen);
+        setScreen(Constants.test_screen);
     }
 
     @Override
