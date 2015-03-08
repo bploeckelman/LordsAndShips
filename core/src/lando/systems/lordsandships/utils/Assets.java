@@ -64,7 +64,7 @@ public class Assets {
         batch = new SpriteBatch();
         shapes = new ShapeRenderer();
 
-        font = new BitmapFont(Gdx.files.internal("fonts/tolkien.fnt"), false);
+        font = new BitmapFont();
 
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
         uiAtlas = new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas"));
