@@ -24,24 +24,11 @@ public class Level {
         // TODO : pass in a desired level size (num rooms and level size)
         final int level_width  = 500 * Tile.TILE_SIZE;
         final int level_height = 500 * Tile.TILE_SIZE;
-        final int num_rooms    = 10;
+
         bounds = new Rectangle(0, 0, level_width, level_height);
-        bsp = new RectBSP(bounds);
-        //Array<Room> rooms = generateRooms(bspRects);
+        bsp    = new RectBSP(bounds);
+        rooms  = generateRooms(bsp);
         //connectNeighbors(rooms);
-
-        Rectangle rect = new Rectangle(0, 0,
-                                       Assets.rand.nextInt(40) + 10,
-                                       Assets.rand.nextInt(40) + 10);
-        rooms = new Array<Room>();
-        for (int i = 0; i < 10; ++i) {
-            rooms.add(generateRoom((int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height));
-            rect.set(rect.x + rect.width * Tile.TILE_SIZE,
-                     rect.y + rect.height * Tile.TILE_SIZE,
-                     Assets.rand.nextInt(40) + 10,
-                     Assets.rand.nextInt(40) + 10);
-        }
-
         generateNeighbors();
     }
 
@@ -97,13 +84,26 @@ public class Level {
     // Implementation Methods
     // -------------------------------------------------------------------------
 
+    private Array<Room> generateRooms(RectBSP bsp) {
+        Array<Room> rooms = new Array<Room>();
+
+        for (RectBSP.RectLeaf leaf : bsp.getLeaves()) {
+            // TODO : make rects in num tiles instead of world sizes?
+            rooms.add(generateRoom((int)  leaf.rect.x,
+                                   (int)  leaf.rect.y,
+                                   (int) (leaf.rect.width  / Tile.TILE_SIZE),
+                                   (int) (leaf.rect.height / Tile.TILE_SIZE)));
+        }
+
+        return rooms;
+    }
+
     private Room generateRoom(int x, int y, int width, int height) {
         int min_tile_cols = 6;
         int min_tile_rows = 6;
         if (width <= min_tile_cols || height <= min_tile_rows) {
             throw new IllegalArgumentException(
-                    "Room width and height must be greater than "
-                    + min_tile_cols + ", " + min_tile_rows);
+                    "Room width and height must be greater than " + min_tile_cols + ", " + min_tile_rows);
         }
 
         Room room = new Room(x, y, width, height);
@@ -176,6 +176,19 @@ public class Level {
                 this.child1 = null;
                 this.child2 = null;
             }
+
+            public Array<RectLeaf> getLeaves() {
+                Array<RectLeaf> leaves = new Array<RectLeaf>();
+
+                if (child1 == null && child2 == null) {
+                    leaves.add(this);
+                } else {
+                    leaves.addAll(child1.getLeaves());
+                    leaves.addAll(child2.getLeaves());
+                }
+
+                return leaves;
+            }
         }
 
         RectLeaf root;
@@ -187,8 +200,12 @@ public class Level {
         public RectBSP(Rectangle rootRect) {
             root = new RectLeaf(null, rootRect);
 
-            final int num_iterations = 10;
+            final int num_iterations = 5;
             partition(root, num_iterations);
+        }
+
+        public Array<RectLeaf> getLeaves() {
+            return root.getLeaves();
         }
 
         private RectLeaf partition(RectLeaf leaf, int iteration) {
