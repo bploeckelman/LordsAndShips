@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.scene.tilemap.Tile;
-import lando.systems.lordsandships.scene.tilemap.TileType;
 import lando.systems.lordsandships.utils.Assets;
 
 /**
@@ -18,8 +17,15 @@ public class Level {
     Array<Room> rooms;
 
 
+    // TODO : pass in a desired level size (num rooms and level size)
     public Level() {
-        Rectangle rect = new Rectangle(500, 500,
+        // TODO : generate rooms this way...
+        //Rectangle levelRect = new Rectangle(0, 0, levelWidth, levelHeight);
+        //Array<Rectangle> bspRects = partitionRect(levelRect, numRooms);
+        //Array<Room> rooms = generateRooms(bspRects);
+        //connectNeighbors(rooms);
+
+        Rectangle rect = new Rectangle(0, 0,
                                        Assets.rand.nextInt(40) + 10,
                                        Assets.rand.nextInt(40) + 10);
         rooms = new Array<Room>();
@@ -30,6 +36,7 @@ public class Level {
                      Assets.rand.nextInt(40) + 10,
                      Assets.rand.nextInt(40) + 10);
         }
+
         generateNeighbors();
     }
 
@@ -63,13 +70,9 @@ public class Level {
         for (Room room : rooms) {
             room.render(batch, camera);
         }
-
-        renderDebug(camera);
     }
 
-    // -------------------------------------------------------------------------
-
-    private void renderDebug(Camera camera) {
+    public void renderDebug(Camera camera) {
         Assets.shapes.setProjectionMatrix(camera.combined);
         Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
         Assets.shapes.setColor(Color.YELLOW);
@@ -95,26 +98,32 @@ public class Level {
 
         Room room = new Room(x, y, width, height);
 
-        // TODO : try diminishing rectangle dimensions on each iteration
-
-        int num_iterations = 15;
+        // Create a bunch of random walkability regions
+        int num_iterations = 10;
         for (int i = 0; i < num_iterations; ++i) {
+            // TODO : try diminishing rectangle dimensions on each iteration
             int x0 = Assets.rand.nextInt(width / 4) + 1;
             int y0 = Assets.rand.nextInt(height / 4) + 1;
             int x1 = x0 + Assets.rand.nextInt(width  - x0 - 1) + 2;
             int y1 = y0 + Assets.rand.nextInt(height - y0 - 1) + 2;
 
-            TileType type = TileType.FLOOR;
+            boolean walkable = true;
             if (Assets.rand.nextFloat() < 0.2f) {
-                type = TileType.BLANK;
+                walkable = false;
             }
 
             for (int ix = x0; ix < x1; ++ix) {
                 for (int iy = y0; iy < y1; ++iy) {
-                    room.tiles[iy][ix].type = type;
+                    room.walkable[iy][ix] = walkable;
                 }
             }
         }
+
+        // Set adjacency scores based on walkability states
+        room.calculateAdjacency();
+
+        // Set tile types based on adjacency values
+        room.generateTiles();
 
         return room;
     }

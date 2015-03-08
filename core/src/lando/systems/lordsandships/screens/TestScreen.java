@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.scene.OrthoCamController;
+import lando.systems.lordsandships.scene.level.Level;
 import lando.systems.lordsandships.scene.ui.UserInterface;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
@@ -26,10 +27,11 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     private Vector3 mouseWorldCoords  = new Vector3();
     private Vector3 mouseScreenCoords = new Vector3();
 
-    UserInterface ui;
-
     OrthographicCamera camera;
     OrthographicCamera uiCamera;
+
+    UserInterface ui;
+    Level level;
 
     public TestScreen(GameInstance game) {
         this.game = game;
@@ -43,10 +45,13 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         camera.translate(Constants.win_half_width, Constants.win_half_height, 0);
         camera.update();
 
-        ui = new UserInterface(game);
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uiCamera.update();
+
+        ui = new UserInterface(game);
+
+        level = new Level();
     }
 
     // -------------------------------------------------------------------------
@@ -55,9 +60,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     @Override
     public void update(float delta) {
-        ui.update(delta);
         camera.update();
         uiCamera.update();
+        ui.update(delta);
+        level.update(delta);
     }
 
     @Override
@@ -70,10 +76,16 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
         final SpriteBatch batch = Assets.batch;
         batch.enableBlending();
+        batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
-        batch.draw(Assets.oryxCreatures, 0, 0, camera.viewportWidth, camera.viewportHeight);
+        {
+            level.render(batch, camera);
+        }
         batch.end();
+
+        level.renderDebug(camera);
 
         ui.render(batch, uiCamera);
     }
