@@ -37,8 +37,8 @@ public class TileSetRaph extends TileSet {
 
         wall_horiz_n.flip(false, false);
         wall_horiz_s.flip(false, true);
-        wall_vert_e.flip(true, false);
-        wall_vert_w.flip(false, false);
+        wall_vert_e.flip(false, false);
+        wall_vert_w.flip(true,  false);
 
         TextureRegion corner_inner_nw = new TextureRegion(tile_corner_inside);
         TextureRegion corner_inner_ne = new TextureRegion(tile_corner_inside);
@@ -62,6 +62,7 @@ public class TileSetRaph extends TileSet {
 
         tiles.put(TileType.BLANK, blank);
         tiles.put(TileType.FLOOR, floor);
+        tiles.put(TileType.BLOCK, new TextureRegion(tile_block_big));
 
         tiles.put(TileType.WALL_HORIZ_N, wall_horiz_n);
         tiles.put(TileType.WALL_HORIZ_S, wall_horiz_s);

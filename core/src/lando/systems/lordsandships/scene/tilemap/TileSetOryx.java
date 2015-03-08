@@ -33,10 +33,10 @@ public class TileSetOryx extends TileSet {
         tiles.put(TileType.CORNER_OUTER_SW, textures[0][15]);
         tiles.put(TileType.CORNER_OUTER_SE, textures[0][16]);
 
-        tiles.put(TileType.CORNER_INNER_NW, textures[0][15]);
-        tiles.put(TileType.CORNER_INNER_NE, textures[0][16]);
-        tiles.put(TileType.CORNER_INNER_SE, textures[0][14]);
-        tiles.put(TileType.CORNER_INNER_SW, textures[0][13]);
+        tiles.put(TileType.CORNER_INNER_NW, textures[0][16]);
+        tiles.put(TileType.CORNER_INNER_NE, textures[0][15]);
+        tiles.put(TileType.CORNER_INNER_SW, textures[0][14]);
+        tiles.put(TileType.CORNER_INNER_SE, textures[0][13]);
     }
 
 }

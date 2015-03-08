@@ -6,6 +6,7 @@ package lando.systems.lordsandships.scene.tilemap;
 public enum TileType {
     BLANK,
     FLOOR,
+    BLOCK,
     CORNER_INNER_NW,
     CORNER_INNER_NE,
     CORNER_INNER_SE,
@@ -17,5 +18,7 @@ public enum TileType {
     WALL_HORIZ_N,
     WALL_HORIZ_S,
     WALL_VERT_W,
-    WALL_VERT_E
+    WALL_VERT_E,
+    STATUE1,
+    STATUE2
 }
