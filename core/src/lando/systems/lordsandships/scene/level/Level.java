@@ -1,11 +1,9 @@
 package lando.systems.lordsandships.scene.level;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.scene.tilemap.Tile;
@@ -24,8 +22,8 @@ public class Level {
 
     public Level() {
         // TODO : pass in a desired level size (num rooms and level size)
-        final int level_width  = 500;
-        final int level_height = 500;
+        final int level_width  = 500 * Tile.TILE_SIZE;
+        final int level_height = 500 * Tile.TILE_SIZE;
         final int num_rooms    = 10;
         bounds = new Rectangle(0, 0, level_width, level_height);
         bsp = new RectBSP(bounds);
@@ -75,8 +73,9 @@ public class Level {
             Assets.shapes.rect(leaf.rect.x, leaf.rect.y, leaf.rect.width, leaf.rect.height);
         }
 
+        final float margin = 5;
         Assets.shapes.setColor(Color.MAGENTA);
-        Assets.shapes.rect(bounds.x-5, bounds.y-5, bounds.width+5, bounds.height+5);
+        Assets.shapes.rect(bounds.x - margin, bounds.y - margin, bounds.width + 2*margin, bounds.height + 2*margin);
 
         Assets.shapes.end();
     }
@@ -181,52 +180,87 @@ public class Level {
 
         RectLeaf root;
 
+        final boolean discard_by_ratio   = true;
+        final float   split_ratio_height = 0.45f;
+        final float   split_ratio_width  = 0.45f;
+
         public RectBSP(Rectangle rootRect) {
             root = new RectLeaf(null, rootRect);
-            partition();
+
+            final int num_iterations = 10;
+            partition(root, num_iterations);
         }
 
-        private void partition() {
-            LinkedList<RectLeaf> leaves = new LinkedList<RectLeaf>();
-            leaves.push(root);
-
-            int iters = 0;
-            while (iters != 25) {
-                RectLeaf leaf = leaves.pop();
-                // Pick a side of the current rect to split on
-                boolean splitx = Assets.rand.nextBoolean();
-
-                // Pick a position to split at
-                // TODO : make sure there's enough room in each split to fit a room
-                float splitPlane = MathUtils.clamp(Assets.rand.nextFloat(), 0.2f, 0.8f)
-                                 * (splitx ? leaf.rect.width : leaf.rect.height);
-
-                Gdx.app.log("SPLIT", "Splitting rect = " + leaf.rect.toString());
-                // Create the two child leaves
-                Rectangle bounds1, bounds2;
-                if (splitx) {
-                    bounds1 = new Rectangle(leaf.rect.x              , leaf.rect.y,                   splitPlane, leaf.rect.height);
-                    bounds2 = new Rectangle(leaf.rect.x + splitPlane , leaf.rect.y, leaf.rect.width - splitPlane, leaf.rect.height);
-                    Gdx.app.log("SPLIT", "\ton x: " + splitPlane + "  bounds1 = " + bounds1.toString());
-                    Gdx.app.log("SPLIT", "\ton x: " + splitPlane + "  bounds2 = " + bounds2.toString());
-                } else {
-                    bounds1 = new Rectangle(leaf.rect.x, leaf.rect.y             , leaf.rect.width,                    splitPlane);
-                    bounds2 = new Rectangle(leaf.rect.x, leaf.rect.y + splitPlane, leaf.rect.width, leaf.rect.height - splitPlane);
-                    Gdx.app.log("SPLIT", "\ton y: " + splitPlane + "  bounds1 = " + bounds1.toString());
-                    Gdx.app.log("SPLIT", "\ton y: " + splitPlane + "  bounds2 = " + bounds2.toString());
-                }
-                leaf.child1 = new RectLeaf(leaf, bounds1);
-                leaf.child2 = new RectLeaf(leaf, bounds2);
-
-                leaves.push(leaf.child1);
-                leaves.push(leaf.child2);
-
-                //...repeat
-                ++iters;
+        private RectLeaf partition(RectLeaf leaf, int iteration) {
+            if (iteration != 0) {// && leaf.rect != null) {
+                //Gdx.app.log("PARTITION", "iter(" + iteration + "); partitioning leaf " + leaf.rect.toString());
+                RectLeaf[] children = splitLeaf(leaf);
+                leaf.child1 = partition(children[0], iteration - 1);
+                leaf.child2 = partition(children[1], iteration - 1);
             }
+            return leaf;
         }
 
-    }
+        private RectLeaf[] splitLeaf(RectLeaf leaf) {
+            RectLeaf[] children = new RectLeaf[2];
+            if (leaf == null || leaf.rect == null) {
+                return children;
+            }
 
+            Rectangle[] rects = new Rectangle[2];
+
+            if (Assets.rand.nextBoolean()) {
+                // Split vertical
+                int n = (int) leaf.rect.height;
+                float split_size = Assets.rand.nextInt(n) + 1;
+                //Gdx.app.log("SPLIT_LEAF", "\tvertical split: " + split_size + " for n(" + n + ")");
+
+                rects[0] = new Rectangle(leaf.rect.x, leaf.rect.y, leaf.rect.width, split_size);
+                rects[1] = new Rectangle(leaf.rect.x,
+                                         leaf.rect.y + rects[0].height,
+                                         leaf.rect.width,
+                                         leaf.rect.height - rects[0].height);
+
+                if (discard_by_ratio) {
+                    float rect0_ratio_h = rects[0].height / rects[0].width;
+                    float rect1_ratio_h = rects[1].height / rects[1].width;
+                    if (rect0_ratio_h < split_ratio_height || rect1_ratio_h < split_ratio_height) {
+                        //Gdx.app.log("DISCARD", "discarding split ratio: 0->" + rect0_ratio_h + ", 1->" + rect1_ratio_h);
+                        return splitLeaf(leaf);
+                    } else {
+                        //Gdx.app.log("ACCEPT", "accepting split ratio: 0->" + rect0_ratio_h + ", 1->" + rect1_ratio_h);
+                    }
+                }
+            } else {
+                // Split horizontal
+                int n = (int) leaf.rect.width;
+                float split_size = Assets.rand.nextInt(n);
+                //Gdx.app.log("SPLIT_LEAF", "\thorizontal split: " + split_size + " for n(" + n + ")");
+
+                rects[0] = new Rectangle(leaf.rect.x, leaf.rect.y, split_size, leaf.rect.height);
+                rects[1] = new Rectangle(leaf.rect.x + rects[0].width,
+                                         leaf.rect.y,
+                                         leaf.rect.width - rects[0].width,
+                                         leaf.rect.height);
+
+
+                if (discard_by_ratio) {
+                    float rect0_ratio_w = rects[0].width / rects[0].height;
+                    float rect1_ratio_w = rects[1].width / rects[1].height;
+                    if (rect0_ratio_w < split_ratio_width || rect1_ratio_w < split_ratio_width) {
+                        //Gdx.app.log("DISCARD", "discarding split ratio: 0->" + rect0_ratio_w + ", 1->" + rect1_ratio_w);
+                        return splitLeaf(leaf);
+                    } else {
+                        //Gdx.app.log("ACCEPT", "accepting split ratio: 0->" + rect0_ratio_w + ", 1->" + rect1_ratio_w);
+                    }
+                }
+            }
+
+            children[0] = new RectLeaf(leaf, rects[0]);
+            children[1] = new RectLeaf(leaf, rects[1]);
+
+            return children;
+        }
+    }
 
 }
