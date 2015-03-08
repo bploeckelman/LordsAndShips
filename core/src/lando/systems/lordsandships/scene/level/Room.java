@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import lando.systems.lordsandships.scene.tilemap.*;
+import lando.systems.lordsandships.scene.tilemap.Tile;
+import lando.systems.lordsandships.scene.tilemap.TileSet;
+import lando.systems.lordsandships.scene.tilemap.TileSetRaph;
+import lando.systems.lordsandships.scene.tilemap.TileType;
 import lando.systems.lordsandships.utils.Assets;
 
 /**
@@ -70,6 +73,8 @@ public class Room {
                 tile = tiles[y][x];
                 float px = tile.getWorldMinX() + position.x;
                 float py = tile.getWorldMinY() + position.y;
+//                if (walkable[y][x]) batch.setColor(Color.GREEN);
+//                else                batch.setColor(Color.RED);
                 batch.draw(tileSet.getTexture(tile.type), px, py, Tile.TILE_SIZE, Tile.TILE_SIZE);
 
                 // Draw adjacency score for current tile
@@ -77,6 +82,7 @@ public class Room {
 //                bounds = Assets.font.getBounds(adj);
 //                float hw = bounds.width  / 2;
 //                float hh = bounds.height / 2;
+//                batch.setColor(Color.WHITE);
 //                Assets.font.draw(batch, adj, px + hs - hw, py + hs + hh);
             }
         }
@@ -146,6 +152,8 @@ public class Room {
                 else if ((adj & N) != N && (adj & W) == W && (adj & S) == S && (adj & E) != E) tile.type = TileType.CORNER_INNER_NE;
                 else if ((adj & N) == N && (adj & W) != W && (adj & S) != S && (adj & E) == E) tile.type = TileType.CORNER_INNER_SW;
                 else if ((adj & N) == N && (adj & W) == W && (adj & S) != S && (adj & E) != E) tile.type = TileType.CORNER_INNER_SE;
+                // Check for things we don't have tiles for
+                else tile.type = TileType.BLOCK;
             }
         }
     }
