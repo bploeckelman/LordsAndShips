@@ -161,6 +161,14 @@ public class Level {
         }
     }
 
+    Array<RectBSP.Leaf> nextLeaves = new Array<RectBSP.Leaf>();
+    public void nextRoom() {
+        if (nextLeaves.size == 0) {
+            nextLeaves = bsp.getLeaves();
+        }
+        occupiedLeaf = nextLeaves.pop();
+    }
+
     // -------------------------------------------------------------------------
     // EXTRACT US
     // -------------------------------------------------------------------------

@@ -100,6 +100,9 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 //            game.setScreen(Constants.player_select_screen);
             GameInstance.exit();
         }
+        else if (keycode == Input.Keys.SPACE) {
+            level.nextRoom();
+        }
         return true;
     }
 
