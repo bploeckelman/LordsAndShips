@@ -40,19 +40,21 @@ public class Level {
 
     }
 
-    LinkedList<RectBSP.RectLeaf> leaves = new LinkedList<RectBSP.RectLeaf>();
     public void render(SpriteBatch batch, Camera camera) {
         for (Room room : rooms) {
             room.render(batch, camera);
         }
 
+    LinkedList<RectBSP.Leaf> leaves = new LinkedList<RectBSP.Leaf>();
+
+    public void renderDebug(Camera camera) {
         Assets.shapes.setProjectionMatrix(camera.combined);
         Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 
         Assets.shapes.setColor(Color.RED);
         leaves.clear();
         leaves.push(bsp.root);
-        RectBSP.RectLeaf leaf;
+        RectBSP.Leaf leaf;
         while (!leaves.isEmpty()) {
             leaf = leaves.pop();
             if (leaf.child1 != null) leaves.push(leaf.child1);
@@ -87,7 +89,7 @@ public class Level {
     private Array<Room> generateRooms(RectBSP bsp) {
         Array<Room> rooms = new Array<Room>();
 
-        for (RectBSP.RectLeaf leaf : bsp.getLeaves()) {
+        for (RectBSP.Leaf leaf : bsp.getLeaves()) {
             // TODO : make rects in num tiles instead of world sizes?
             rooms.add(generateRoom((int)  leaf.rect.x,
                                    (int)  leaf.rect.y,
@@ -166,20 +168,19 @@ public class Level {
 
     class RectBSP {
 
-        class RectLeaf {
+        class Leaf {
             Rectangle rect;
-            RectLeaf  parent, child1, child2;
+            Leaf      parent, child1, child2;
 
-            public RectLeaf(RectLeaf parent, Rectangle rect) {
+            public Leaf(Leaf parent, Rectangle rect) {
                 this.parent = parent;
                 this.rect   = rect;
                 this.child1 = null;
                 this.child2 = null;
             }
 
-            public Array<RectLeaf> getLeaves() {
-                Array<RectLeaf> leaves = new Array<RectLeaf>();
-
+            public Array<Leaf> getLeaves() {
+                Array<Leaf> leaves = new Array<Leaf>();
                 if (child1 == null && child2 == null) {
                     leaves.add(this);
                 } else {
@@ -191,35 +192,35 @@ public class Level {
             }
         }
 
-        RectLeaf root;
+        Leaf root;
 
         final boolean discard_by_ratio   = true;
         final float   split_ratio_height = 0.45f;
         final float   split_ratio_width  = 0.45f;
 
         public RectBSP(Rectangle rootRect) {
-            root = new RectLeaf(null, rootRect);
+            root = new Leaf(null, rootRect);
 
             final int num_iterations = 5;
             partition(root, num_iterations);
         }
 
-        public Array<RectLeaf> getLeaves() {
+        public Array<Leaf> getLeaves() {
             return root.getLeaves();
         }
 
-        private RectLeaf partition(RectLeaf leaf, int iteration) {
-            if (iteration != 0) {// && leaf.rect != null) {
+        private Leaf partition(Leaf leaf, int iteration) {
+            if (iteration != 0) {
                 //Gdx.app.log("PARTITION", "iter(" + iteration + "); partitioning leaf " + leaf.rect.toString());
-                RectLeaf[] children = splitLeaf(leaf);
+                Leaf[] children = splitLeaf(leaf);
                 leaf.child1 = partition(children[0], iteration - 1);
                 leaf.child2 = partition(children[1], iteration - 1);
             }
             return leaf;
         }
 
-        private RectLeaf[] splitLeaf(RectLeaf leaf) {
-            RectLeaf[] children = new RectLeaf[2];
+        private Leaf[] splitLeaf(Leaf leaf) {
+            Leaf[] children = new Leaf[2];
             if (leaf == null || leaf.rect == null) {
                 return children;
             }
@@ -273,8 +274,8 @@ public class Level {
                 }
             }
 
-            children[0] = new RectLeaf(leaf, rects[0]);
-            children[1] = new RectLeaf(leaf, rects[1]);
+            children[0] = new Leaf(leaf, rects[0]);
+            children[1] = new Leaf(leaf, rects[1]);
 
             return children;
         }
