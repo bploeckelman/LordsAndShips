@@ -54,6 +54,16 @@ public class Level {
         Assets.shapes.setProjectionMatrix(camera.combined);
         Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 
+        // Draw room outlines
+        Assets.shapes.setColor(Color.YELLOW);
+        for (Room room : rooms) {
+            Assets.shapes.rect(room.position.x,
+                               room.position.y,
+                               room.tiles[0].length * Tile.TILE_SIZE,
+                               room.tiles.length    * Tile.TILE_SIZE);
+        }
+
+        // Draw bsp outlines
         Assets.shapes.setColor(Color.RED);
         leaves.clear();
         leaves.push(bsp.root);
