@@ -182,6 +182,12 @@ public class Level {
         }
         occupiedLeaf = nextLeaves.pop();
     }
+    public Rectangle getNextRoomBounds() {
+        if (nextLeaves.size == 0) {
+            nextLeaves = bsp.getLeaves();
+        }
+        return nextLeaves.peek().rect;
+    }
 
     // -------------------------------------------------------------------------
     // EXTRACT US

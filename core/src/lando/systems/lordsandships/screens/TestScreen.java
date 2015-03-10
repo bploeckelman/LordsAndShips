@@ -1,10 +1,17 @@
 package lando.systems.lordsandships.screens;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.*;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,6 +21,8 @@ import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.level.Level;
 import lando.systems.lordsandships.scene.ui.UserInterface;
+import lando.systems.lordsandships.tweens.ColorAccessor;
+import lando.systems.lordsandships.tweens.Vector3Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
 
@@ -28,6 +37,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     private Vector3 mouseWorldCoords  = new Vector3();
     private Vector3 mouseScreenCoords = new Vector3();
 
+    Color              bgColor;
     OrthographicCamera camera;
     OrthographicCamera uiCamera;
 
@@ -40,6 +50,8 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     }
 
     public void create() {
+        bgColor = new Color(0.43f,0.43f,0.43f,1);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);
         camera.position.set(0, 0, 0);
@@ -63,23 +75,25 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     public void update(float delta) {
         level.update(delta);
 
-        // TODO : limit zoom level to min room dimension
-        // Constrain camera to the occupied room's bounds
-        float effectiveViewportWidth  = camera.viewportWidth  * camera.zoom;
-        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
-        float hw = effectiveViewportWidth  / 2f;
-        float hh = effectiveViewportHeight / 2f;
+        if (!transition) {
+            // TODO : limit zoom level to min room dimension
+            // Constrain camera to the occupied room's bounds
+            float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
+            float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
+            float hw = effectiveViewportWidth / 2f;
+            float hh = effectiveViewportHeight / 2f;
 
-        Rectangle bounds = level.getOccupiedRoomBounds();
-        if (camera.position.x - hw < bounds.x)
-            camera.position.x = bounds.x + hw;
-        if (camera.position.x + hw > bounds.x + bounds.width)
-            camera.position.x = bounds.x + bounds.width - hw;
+            Rectangle bounds = level.getOccupiedRoomBounds();
+            if (camera.position.x - hw < bounds.x)
+                camera.position.x = bounds.x + hw;
+            if (camera.position.x + hw > bounds.x + bounds.width)
+                camera.position.x = bounds.x + bounds.width - hw;
 
-        if (camera.position.y - hh < bounds.y)
-            camera.position.y = bounds.y + hh;
-        if (camera.position.y + hh > bounds.y + bounds.height)
-            camera.position.y = bounds.y + bounds.height - hh;
+            if (camera.position.y - hh < bounds.y)
+                camera.position.y = bounds.y + hh;
+            if (camera.position.y + hh > bounds.y + bounds.height)
+                camera.position.y = bounds.y + bounds.height - hh;
+        }
 
         camera.update();
         uiCamera.update();
@@ -91,7 +105,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        Gdx.gl.glClearColor(0.43f, 0.43f, 0.43f, 1);
+        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         final SpriteBatch batch = Assets.batch;
@@ -101,11 +115,12 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
         batch.begin();
         {
+            batch.setColor(1, 1, 1, roomAlpha.floatValue());
             level.render(batch, camera);
         }
         batch.end();
 
-        level.renderDebug(camera);
+//        level.renderDebug(camera);
 
         ui.render(batch, uiCamera);
     }
@@ -114,14 +129,51 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     // InputAdapter Overrides
     // -------------------------------------------------------------------------
 
+    MutableFloat roomAlpha = new MutableFloat(1);
+    boolean transition = false;
+
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.ESCAPE) {
 //            game.setScreen(Constants.player_select_screen);
             GameInstance.exit();
-        }
-        else if (keycode == Input.Keys.SPACE) {
-            level.nextRoom();
+        } else if (keycode == Input.Keys.SPACE) {
+            if  (transition) return true;
+            else transition = true;
+
+            final Rectangle targetBounds = level.getNextRoomBounds();
+            Timeline.createParallel()
+                    .push(Tween.to(roomAlpha, -1, 1)
+                               .target(0.0f)
+                               .ease(Circ.OUT)
+                               .setCallback(new TweenCallback() {
+                                   @Override
+                                   public void onEvent(int type, BaseTween<?> source) {
+                                       level.nextRoom();
+                                   }
+                               }))
+                    .push(Tween.to(bgColor, ColorAccessor.RGB, 1)
+                               .target(0,0,0)
+                               .ease(Circ.OUT))
+                    .push(Tween.to(camera.position, Vector3Accessor.XY, 1)
+                               .target(targetBounds.x + targetBounds.width / 2f,
+                                       targetBounds.y + targetBounds.height / 2f)
+                               .ease(Expo.INOUT)
+                               .delay(0.5f))
+                    .push(Tween.to(roomAlpha, -1, 0.5f)
+                               .target(1)
+                               .ease(Circ.IN)
+                               .delay(1)
+                               .setCallback(new TweenCallback() {
+                                   @Override
+                                   public void onEvent(int type, BaseTween<?> source) {
+                                       transition = false;
+                                   }
+                               }))
+                    .push(Tween.to(bgColor, ColorAccessor.RGB, 1)
+                               .target(0.43f, 0.43f, 0.43f)
+                               .delay(1))
+                    .start(GameInstance.tweens);
         }
         return true;
     }
