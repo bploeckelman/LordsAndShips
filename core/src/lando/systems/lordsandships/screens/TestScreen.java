@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.scene.OrthoCamController;
@@ -60,10 +61,29 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     @Override
     public void update(float delta) {
+        level.update(delta);
+
+        // TODO : limit zoom level to min room dimension
+        // Constrain camera to the occupied room's bounds
+        float effectiveViewportWidth  = camera.viewportWidth  * camera.zoom;
+        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
+        float hw = effectiveViewportWidth  / 2f;
+        float hh = effectiveViewportHeight / 2f;
+
+        Rectangle bounds = level.getOccupiedRoomBounds();
+        if (camera.position.x - hw < bounds.x)
+            camera.position.x = bounds.x + hw;
+        if (camera.position.x + hw > bounds.x + bounds.width)
+            camera.position.x = bounds.x + bounds.width - hw;
+
+        if (camera.position.y - hh < bounds.y)
+            camera.position.y = bounds.y + hh;
+        if (camera.position.y + hh > bounds.y + bounds.height)
+            camera.position.y = bounds.y + bounds.height - hh;
+
         camera.update();
         uiCamera.update();
         ui.update(delta);
-        level.update(delta);
     }
 
     @Override

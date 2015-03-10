@@ -36,6 +36,10 @@ public class Level {
         generateNeighbors();
     }
 
+    public Rectangle getOccupiedRoomBounds() {
+        return occupiedLeaf.rect;
+    }
+
     // -------------------------------------------------------------------------
     // Game Loop Methods
     // -------------------------------------------------------------------------
