@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.utils.Assets;
 
@@ -16,9 +17,12 @@ import java.util.LinkedList;
  */
 public class Level {
 
-    RectBSP     bsp;
-    Rectangle   bounds;
-    Array<Room> rooms;
+    RectBSP                       bsp;
+    Rectangle                     bounds;
+    Room                          room;
+    Array<Room>                   rooms;
+    RectBSP.Leaf                  occupiedLeaf;
+    ObjectMap<RectBSP.Leaf, Room> leafRoomMap;
 
     public Level() {
         // TODO : pass in a desired level size (num rooms and level size)
@@ -37,13 +41,12 @@ public class Level {
     // -------------------------------------------------------------------------
 
     public void update(float delta) {
-
+        room = leafRoomMap.get(occupiedLeaf);
     }
 
     public void render(SpriteBatch batch, Camera camera) {
-        for (Room room : rooms) {
-            room.render(batch, camera);
-        }
+        room.render(batch, camera);
+    }
 
     LinkedList<RectBSP.Leaf> leaves = new LinkedList<RectBSP.Leaf>();
 
@@ -62,23 +65,11 @@ public class Level {
             Assets.shapes.rect(leaf.rect.x, leaf.rect.y, leaf.rect.width, leaf.rect.height);
         }
 
+        // Draw level outline
         final float margin = 5;
         Assets.shapes.setColor(Color.MAGENTA);
-        Assets.shapes.rect(bounds.x - margin, bounds.y - margin, bounds.width + 2*margin, bounds.height + 2*margin);
+        Assets.shapes.rect(bounds.x - margin, bounds.y - margin, bounds.width + 2 * margin, bounds.height + 2 * margin);
 
-        Assets.shapes.end();
-    }
-
-    public void renderDebug(Camera camera) {
-        Assets.shapes.setProjectionMatrix(camera.combined);
-        Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-        Assets.shapes.setColor(Color.YELLOW);
-        for (Room room : rooms) {
-            Assets.shapes.rect(room.position.x,
-                               room.position.y,
-                               room.tiles[0].length * Tile.TILE_SIZE,
-                               room.tiles.length    * Tile.TILE_SIZE);
-        }
         Assets.shapes.end();
     }
 
@@ -87,14 +78,22 @@ public class Level {
     // -------------------------------------------------------------------------
 
     private Array<Room> generateRooms(RectBSP bsp) {
+        leafRoomMap = new ObjectMap<RectBSP.Leaf, Room>();
+
         Array<Room> rooms = new Array<Room>();
 
         for (RectBSP.Leaf leaf : bsp.getLeaves()) {
             // TODO : make rects in num tiles instead of world sizes?
-            rooms.add(generateRoom((int)  leaf.rect.x,
-                                   (int)  leaf.rect.y,
-                                   (int) (leaf.rect.width  / Tile.TILE_SIZE),
-                                   (int) (leaf.rect.height / Tile.TILE_SIZE)));
+            Room newRoom = generateRoom((int)  leaf.rect.x,
+                                        (int)  leaf.rect.y,
+                                        (int) (leaf.rect.width  / Tile.TILE_SIZE),
+                                        (int) (leaf.rect.height / Tile.TILE_SIZE));
+            rooms.add(newRoom);
+
+            leafRoomMap.put(leaf, newRoom);
+
+            if (occupiedLeaf == null) occupiedLeaf = leaf;
+            if (room == null) room = newRoom;
         }
 
         return rooms;
