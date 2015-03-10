@@ -7,9 +7,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.screens.*;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
+import lando.systems.lordsandships.tweens.Vector3Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
 import lando.systems.lordsandships.utils.Input;
@@ -37,6 +39,7 @@ public class GameInstance extends Game {
         Assets.load();
 
         Tween.registerAccessor(Vector2.class, new Vector2Accessor());
+        Tween.registerAccessor(Vector3.class, new Vector3Accessor());
         Tween.registerAccessor(Color.class,   new ColorAccessor());
 
         Gdx.input.setInputProcessor(input);
