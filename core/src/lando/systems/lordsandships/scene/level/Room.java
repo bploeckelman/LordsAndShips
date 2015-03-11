@@ -1,10 +1,8 @@
 package lando.systems.lordsandships.scene.level;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.math.Rectangle;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.tilemap.TileSet;
 import lando.systems.lordsandships.scene.tilemap.TileSetRaph;
@@ -30,8 +28,7 @@ public class Room {
     int[][]     adjacency;
     Tile[][]    tiles;
     TileSet     tileSet;
-    Vector2     position;
-    Array<Room> neighbors;
+    Rectangle   bounds;
 
     public Room(int posx, int posy, int width, int height) {
         walkable = new boolean[height][width];
@@ -45,8 +42,7 @@ public class Room {
             }
         }
         tileSet = new TileSetRaph();
-        position = new Vector2(posx, posy);
-        neighbors = new Array<Room>(3);
+        bounds = new Rectangle(posx, posy, width * Tile.TILE_SIZE, height * Tile.TILE_SIZE);
     }
 
     public void update(float delta) {
@@ -63,16 +59,14 @@ public class Room {
         Tile tile;
         int width  = tiles[0].length;
         int height = tiles.length;
-        float hs   = Tile.TILE_SIZE / 2;
-        BitmapFont.TextBounds bounds;
         Assets.font.setScale(0.25f);
 
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 // Draw current tile
                 tile = tiles[y][x];
-                float px = tile.getWorldMinX() + position.x;
-                float py = tile.getWorldMinY() + position.y;
+                float px = tile.getWorldMinX() + bounds.x;
+                float py = tile.getWorldMinY() + bounds.y;
 //                if (walkable[y][x]) batch.setColor(Color.GREEN);
 //                else                batch.setColor(Color.RED);
                 batch.draw(tileSet.getTexture(tile.type), px, py, Tile.TILE_SIZE, Tile.TILE_SIZE);
@@ -158,15 +152,4 @@ public class Room {
         }
     }
 
-    public void addNeighbor(Room neighbor, int x, int y) {
-        if (neighbor == null
-         || x < 0 || x >= tiles[0].length
-         || y < 0 || y >= tiles.length) {
-            throw new IllegalArgumentException("Unable to add neighbor to room");
-        }
-
-        neighbors.add(neighbor);
-        // TODO (brian): set the tile at the specified location
-//        tiles[y][x].type = TileType.WALL_HORIZ_N;
-    }
 }

@@ -36,6 +36,10 @@ public class Level {
         generateNeighbors();
     }
 
+    private void connectNeighbors() {
+
+    }
+
     public Rectangle getOccupiedRoomBounds() {
         return occupiedLeaf.rect;
     }
@@ -61,10 +65,7 @@ public class Level {
         // Draw room outlines
         Assets.shapes.setColor(Color.YELLOW);
         for (Room room : rooms) {
-            Assets.shapes.rect(room.position.x,
-                               room.position.y,
-                               room.tiles[0].length * Tile.TILE_SIZE,
-                               room.tiles.length    * Tile.TILE_SIZE);
+            Assets.shapes.rect(room.bounds.x, room.bounds.y, room.bounds.width, room.bounds.height);
         }
 
         // Draw bsp outlines
@@ -97,14 +98,9 @@ public class Level {
         Array<Room> rooms = new Array<Room>();
 
         for (RectBSP.Leaf leaf : bsp.getLeaves()) {
-            // TODO : make rects in num tiles instead of world sizes?
-            Room newRoom = generateRoom((int)  leaf.rect.x,
-                                        (int)  leaf.rect.y,
-                                        (int) (leaf.rect.width  / Tile.TILE_SIZE),
-                                        (int) (leaf.rect.height / Tile.TILE_SIZE));
-            rooms.add(newRoom);
-
+            Room newRoom = generateRoom(leaf);
             leafRoomMap.put(leaf, newRoom);
+            rooms.add(newRoom);
 
             if (occupiedLeaf == null) occupiedLeaf = leaf;
             if (room == null) room = newRoom;
@@ -113,7 +109,12 @@ public class Level {
         return rooms;
     }
 
-    private Room generateRoom(int x, int y, int width, int height) {
+    private Room generateRoom(RectBSP.Leaf leaf) {
+        int x      = (int)  leaf.rect.x;
+        int y      = (int)  leaf.rect.y;
+        int width  = (int) (leaf.rect.width  / Tile.TILE_SIZE);
+        int height = (int) (leaf.rect.height / Tile.TILE_SIZE);
+
         int min_tile_cols = 6;
         int min_tile_rows = 6;
         if (width <= min_tile_cols || height <= min_tile_rows) {
@@ -170,8 +171,8 @@ public class Level {
             int x2 = 0;
             int y2 = 0;
 
-            room2.addNeighbor(room1, x1, y1);
-            room1.addNeighbor(room2, x2, y2);
+//            room2.addNeighbor(room1, x1, y1);
+//            room1.addNeighbor(room2, x2, y2);
         }
     }
 
