@@ -93,6 +93,9 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 camera.position.y = bounds.y + hh;
             if (camera.position.y + hh > bounds.y + bounds.height)
                 camera.position.y = bounds.y + bounds.height - hh;
+
+            if (effectiveViewportWidth  > bounds.width)  camera.position.x = bounds.x + bounds.width  / 2f;
+            if (effectiveViewportHeight > bounds.height) camera.position.y = bounds.y + bounds.height / 2f;
         }
 
         camera.update();
