@@ -1,10 +1,12 @@
 package lando.systems.lordsandships.scene.level;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import lando.systems.lordsandships.scene.tilemap.Tile;
@@ -23,21 +25,41 @@ public class Level {
     Array<Room>                   rooms;
     RectBSP.Leaf                  occupiedLeaf;
     ObjectMap<RectBSP.Leaf, Room> leafRoomMap;
+    ObjectMap<RectBSP.Leaf, RectBSP.Leaf> neighbors;
 
     public Level() {
         // TODO : pass in a desired level size (num rooms and level size)
         final int level_width  = 500 * Tile.TILE_SIZE;
         final int level_height = 500 * Tile.TILE_SIZE;
+        final int level_depth  = 5;
 
         bounds = new Rectangle(0, 0, level_width, level_height);
-        bsp    = new RectBSP(bounds);
+        bsp    = new RectBSP(bounds, level_depth);
         rooms  = generateRooms(bsp);
-        //connectNeighbors(rooms);
-        generateNeighbors();
+        neighbors = connectNeighbors(bsp);
     }
 
-    private void connectNeighbors() {
+    private ObjectMap<RectBSP.Leaf, RectBSP.Leaf> connectNeighbors(RectBSP bsp) {
+        ObjectMap<RectBSP.Leaf, RectBSP.Leaf> neighbors = new ObjectMap<RectBSP.Leaf, RectBSP.Leaf>();
 
+        Array<RectBSP.Leaf> queue;
+        RectBSP.Leaf[]      level;
+        for (int i = bsp.depth; i > 0; --i) {
+            queue = new Array<RectBSP.Leaf>();
+            bsp.getLevel(i, queue);
+            level = queue.toArray(RectBSP.Leaf.class);
+            Gdx.app.log("LEAVES", "" + queue.size + " leaves at depth " + i);
+            for (RectBSP.Leaf leaf1 : level) {
+                for (RectBSP.Leaf leaf2 : level) {
+                    if (leaf1 == leaf2) continue;
+                    if (leaf1.parent == leaf2.parent) {
+                        neighbors.put(leaf1, leaf2);
+                    }
+                }
+            }
+        }
+
+        return neighbors;
     }
 
     public Rectangle getOccupiedRoomBounds() {
@@ -54,30 +76,57 @@ public class Level {
 
     public void render(SpriteBatch batch, Camera camera) {
         room.render(batch, camera);
+        renderDebug(camera);
     }
 
     LinkedList<RectBSP.Leaf> leaves = new LinkedList<RectBSP.Leaf>();
+    Vector2 center1 = new Vector2();
+    Vector2 center2 = new Vector2();
+
 
     public void renderDebug(Camera camera) {
+        final boolean room_outlines = false;
+        final boolean leaf_outlines = false;
+        final boolean leaf_connects = true;
+
         Assets.shapes.setProjectionMatrix(camera.combined);
         Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
 
         // Draw room outlines
-        Assets.shapes.setColor(Color.YELLOW);
-        for (Room room : rooms) {
-            Assets.shapes.rect(room.bounds.x, room.bounds.y, room.bounds.width, room.bounds.height);
+        if (room_outlines) {
+            Assets.shapes.setColor(Color.YELLOW);
+            for (Room room : rooms) {
+                Assets.shapes.rect(room.bounds.x, room.bounds.y, room.bounds.width, room.bounds.height);
+            }
         }
 
         // Draw bsp outlines
-        Assets.shapes.setColor(Color.RED);
-        leaves.clear();
-        leaves.push(bsp.root);
-        RectBSP.Leaf leaf;
-        while (!leaves.isEmpty()) {
-            leaf = leaves.pop();
-            if (leaf.child1 != null) leaves.push(leaf.child1);
-            if (leaf.child2 != null) leaves.push(leaf.child2);
-            Assets.shapes.rect(leaf.rect.x, leaf.rect.y, leaf.rect.width, leaf.rect.height);
+        if (leaf_outlines) {
+            Assets.shapes.setColor(Color.RED);
+            leaves.clear();
+            leaves.push(bsp.root);
+            RectBSP.Leaf leaf;
+            while (!leaves.isEmpty()) {
+                leaf = leaves.pop();
+                if (leaf.child1 != null) leaves.push(leaf.child1);
+                if (leaf.child2 != null) leaves.push(leaf.child2);
+                Assets.shapes.rect(leaf.rect.x, leaf.rect.y, leaf.rect.width, leaf.rect.height);
+            }
+        }
+
+        // Draw neighbor connections
+        if (leaf_connects) {
+            for (ObjectMap.Entry<RectBSP.Leaf, RectBSP.Leaf> entry : neighbors.entries()) {
+                entry.key.rect.getCenter(center1);
+                entry.value.rect.getCenter(center2);
+                if      (entry.key.level == 1) Assets.shapes.setColor(0.0f, 0.0f, 0.0f, 1f);
+                else if (entry.key.level == 2) Assets.shapes.setColor(0.2f, 0.2f, 0.2f, 1f);
+                else if (entry.key.level == 3) Assets.shapes.setColor(0.4f, 0.4f, 0.4f, 1f);
+                else if (entry.key.level == 4) Assets.shapes.setColor(0.6f, 0.6f, 0.6f, 1f);
+                else if (entry.key.level == 5) Assets.shapes.setColor(0.8f, 0.8f, 0.8f, 1f);
+                else if (entry.key.level == 6) Assets.shapes.setColor(1.0f, 1.0f, 0.0f, 1f);
+                Assets.shapes.line(center1.x, center1.y, center2.x, center2.y);
+            }
         }
 
         // Draw level outline
@@ -199,12 +248,14 @@ public class Level {
         class Leaf {
             Rectangle rect;
             Leaf      parent, child1, child2;
+            int       level;
 
             public Leaf(Leaf parent, Rectangle rect) {
                 this.parent = parent;
                 this.rect   = rect;
                 this.child1 = null;
                 this.child2 = null;
+                this.level  = (parent == null) ? 1 : parent.level + 1;
             }
 
             public Array<Leaf> getLeaves() {
@@ -218,23 +269,47 @@ public class Level {
 
                 return leaves;
             }
+
+            public Array<Leaf> getLevel(int i, Array<Leaf> queue) {
+                if (queue == null) {
+                    queue = new Array<Leaf>();
+                }
+                if (i == 1) {
+                    queue.add(this);
+                } else {
+                    if (child1 != null) child1.getLevel(i - 1, queue);
+                    if (child2 != null) child2.getLevel(i - 1, queue);
+                }
+                return queue;
+            }
+
         }
 
         Leaf root;
+        int  depth;
 
         final boolean discard_by_ratio   = true;
         final float   split_ratio_height = 0.45f;
         final float   split_ratio_width  = 0.45f;
 
-        public RectBSP(Rectangle rootRect) {
+        public RectBSP(Rectangle rootRect, int depth) {
             root = new Leaf(null, rootRect);
+            partition(root, depth);
 
-            final int num_iterations = 5;
-            partition(root, num_iterations);
+            RectBSP.Leaf leaf = root;
+            while (leaf.child1 != null) {
+                leaf = leaf.child1;
+            }
+            this.depth = leaf.level;
+            Gdx.app.log("DEPTH", "" + this.depth);
         }
 
         public Array<Leaf> getLeaves() {
             return root.getLeaves();
+        }
+
+        public Array<Leaf> getLevel(int i, Array<Leaf> queue) {
+            return root.getLevel(i, queue);
         }
 
         private Leaf partition(Leaf leaf, int iteration) {
