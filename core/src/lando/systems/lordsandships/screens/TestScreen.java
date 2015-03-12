@@ -16,15 +16,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.level.Level;
+import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.ui.UserInterface;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector3Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
+import org.w3c.dom.css.Rect;
 
 /**
  * Brian Ploeckelman created on 3/7/2015.
@@ -33,16 +37,20 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     final GameInstance game;
 
+    private static final float key_move_amount = 16;
+
     // TODO : extract to UpdatingScreen?
     private Vector3 mouseWorldCoords  = new Vector3();
     private Vector3 mouseScreenCoords = new Vector3();
+    private Vector2 temp              = new Vector2();
 
     Color              bgColor;
     OrthographicCamera camera;
     OrthographicCamera uiCamera;
 
     UserInterface ui;
-    Level level;
+    Level         level;
+    Player        player;
 
     public TestScreen(GameInstance game) {
         this.game = game;
@@ -50,7 +58,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     }
 
     public void create() {
-        bgColor = new Color(0.43f,0.43f,0.43f,1);
+        bgColor = new Color(0.43f, 0.43f, 0.43f, 1);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);
@@ -65,6 +73,11 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         ui = new UserInterface(game);
 
         level = new Level();
+        Rectangle bounds = level.occupied().room().bounds();
+        player = new Player(PlayerSelectScreen.PlayerType.Cloak,
+                            bounds.x + bounds.width / 2f,
+                            bounds.y + bounds.height / 2f,
+                            16, 16, 0.1f);
     }
 
     // -------------------------------------------------------------------------
@@ -73,6 +86,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     @Override
     public void update(float delta) {
+        playerUpdate(delta);
         level.update(delta);
 
         if (!transition) {
@@ -83,7 +97,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             float hw = effectiveViewportWidth / 2f;
             float hh = effectiveViewportHeight / 2f;
 
-            Rectangle bounds = level.getOccupiedRoomBounds();
+            Rectangle bounds = level.occupied().room().bounds();
             if (camera.position.x - hw < bounds.x)
                 camera.position.x = bounds.x + hw;
             if (camera.position.x + hw > bounds.x + bounds.width)
@@ -103,6 +117,37 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         ui.update(delta);
     }
 
+    private void playerUpdate(float delta) {
+        float dx, dy;
+
+        if      (GameInstance.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
+        else if (GameInstance.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount; }
+        else {
+            dx = 0f;
+            player.velocity.x = 0f;
+        }
+
+        if      (GameInstance.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
+        else if (GameInstance.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount; }
+        else {
+            dy = 0f;
+            player.velocity.y = 0f;
+        }
+
+        // Attack!
+        if (GameInstance.input.isButtonDown(Input.Buttons.LEFT)
+         || GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
+            temp.set(GameInstance.mousePlayerDirection).nor();
+            player.attack(temp);
+            // TODO (brian): camera shake and attack special effects
+        }
+
+        player.velocity.x += dx;
+        player.velocity.y += dy;
+
+        player.update(delta);
+    }
+
     @Override
     public void render(float delta) {
         Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
@@ -120,6 +165,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         {
             batch.setColor(1, 1, 1, roomAlpha.floatValue());
             level.render(batch, camera);
+            player.render(batch);
         }
         batch.end();
 
@@ -153,6 +199,11 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                                    @Override
                                    public void onEvent(int type, BaseTween<?> source) {
                                        level.nextRoom();
+                                       Rectangle bounds = level.occupied().room().bounds();
+                                       player.position.x = bounds.x + bounds.width / 2f;
+                                       player.position.y = bounds.y + bounds.height / 2f;
+                                       player.boundingBox.x = player.position.x;
+                                       player.boundingBox.y = player.position.y;
                                    }
                                }))
                     .push(Tween.to(bgColor, ColorAccessor.RGB, 1)

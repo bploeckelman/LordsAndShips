@@ -36,8 +36,8 @@ public class Level {
         neighbors = connectNeighbors(bsp);
     }
 
-    public Rectangle getOccupiedRoomBounds() {
-        return leaf.room.bounds;
+    public BSP.Leaf occupied() {
+        return leaf;
     }
 
     Array<BSP.Leaf> nextLeaves = new Array<BSP.Leaf>();
@@ -67,7 +67,12 @@ public class Level {
         if (leaf.room != null) {
             leaf.room.render(batch, camera);
         }
+        batch.end();
+
         renderDebug(camera);
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
     }
 
     final LinkedList<BSP.Leaf> leaves  = new LinkedList<BSP.Leaf>();

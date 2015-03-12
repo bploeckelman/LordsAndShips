@@ -9,7 +9,7 @@ import lando.systems.lordsandships.utils.Assets;
  */
 public class BSP {
 
-    class Leaf {
+    public class Leaf {
         Rectangle bounds;
         Leaf      parent, child1, child2;
         Room room;
@@ -22,6 +22,10 @@ public class BSP {
             this.child2 = null;
             this.room   = null;
             this.level  = (parent == null) ? 1 : parent.level + 1;
+        }
+
+        public Room room() {
+            return room;
         }
 
         public Array<Leaf> getLeaves() {

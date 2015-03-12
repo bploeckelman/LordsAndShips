@@ -45,6 +45,10 @@ public class Room {
         bounds = new Rectangle(posx, posy, width * Tile.TILE_SIZE, height * Tile.TILE_SIZE);
     }
 
+    public Rectangle bounds() {
+        return bounds;
+    }
+
     public void update(float delta) {
 
     }
