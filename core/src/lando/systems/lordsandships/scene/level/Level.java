@@ -286,8 +286,12 @@ public class Level {
             Gdx.app.log("DEPTH", "" + this.depth);
         }
 
+        Array<Leaf> leafCache = null;
         public Array<Leaf> getLeaves() {
-            return root.getLeaves();
+            if (leafCache == null) {
+                leafCache = root.getLeaves();
+            }
+            return leafCache;
         }
 
         public Array<Leaf> getLevel(int i, Array<Leaf> queue) {
