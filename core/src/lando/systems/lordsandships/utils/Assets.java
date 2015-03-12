@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
@@ -140,6 +141,10 @@ public class Assets {
             case 4: return hit4;
         }
         return hit1;
+    }
+
+    public static void renderRect(Rectangle rectangle) {
+        Assets.shapes.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
 
 }
