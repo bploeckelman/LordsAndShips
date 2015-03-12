@@ -19,38 +19,38 @@ import java.util.LinkedList;
  */
 public class Level {
 
-    RectBSP                       bsp;
+    BSP                           bsp;
     Rectangle                     bounds;
     Room                          room;
     Array<Room>                   rooms;
-    RectBSP.Leaf                  occupiedLeaf;
-    ObjectMap<RectBSP.Leaf, Room> leafRoomMap;
-    ObjectMap<RectBSP.Leaf, RectBSP.Leaf> neighbors;
+    BSP.Leaf                      occupiedLeaf;
+    ObjectMap<BSP.Leaf, Room>     leafRoomMap;
+    ObjectMap<BSP.Leaf, BSP.Leaf> neighbors;
 
     public Level() {
         // TODO : pass in a desired level size (num rooms and level size)
-        final int level_width  = 500 * Tile.TILE_SIZE;
+        final int level_width = 500 * Tile.TILE_SIZE;
         final int level_height = 500 * Tile.TILE_SIZE;
-        final int level_depth  = 5;
+        final int level_depth = 5;
 
         bounds = new Rectangle(0, 0, level_width, level_height);
-        bsp    = new RectBSP(bounds, level_depth);
-        rooms  = generateRooms(bsp);
+        bsp = new BSP(bounds, level_depth);
+        rooms = generateRooms(bsp);
         neighbors = connectNeighbors(bsp);
     }
 
-    private ObjectMap<RectBSP.Leaf, RectBSP.Leaf> connectNeighbors(RectBSP bsp) {
-        ObjectMap<RectBSP.Leaf, RectBSP.Leaf> neighbors = new ObjectMap<RectBSP.Leaf, RectBSP.Leaf>();
+    private ObjectMap<BSP.Leaf, BSP.Leaf> connectNeighbors(BSP bsp) {
+        ObjectMap<BSP.Leaf, BSP.Leaf> neighbors = new ObjectMap<BSP.Leaf, BSP.Leaf>();
 
-        Array<RectBSP.Leaf> queue;
-        RectBSP.Leaf[]      level;
+        Array<BSP.Leaf> queue;
+        BSP.Leaf[]      level;
         for (int i = bsp.depth; i > 0; --i) {
-            queue = new Array<RectBSP.Leaf>();
+            queue = new Array<BSP.Leaf>();
             bsp.getLevel(i, queue);
-            level = queue.toArray(RectBSP.Leaf.class);
+            level = queue.toArray(BSP.Leaf.class);
             Gdx.app.log("LEAVES", "" + queue.size + " leaves at depth " + i);
-            for (RectBSP.Leaf leaf1 : level) {
-                for (RectBSP.Leaf leaf2 : level) {
+            for (BSP.Leaf leaf1 : level) {
+                for (BSP.Leaf leaf2 : level) {
                     if (leaf1 == leaf2) continue;
                     if (leaf1.parent == leaf2.parent) {
                         neighbors.put(leaf1, leaf2);
@@ -63,7 +63,7 @@ public class Level {
     }
 
     public Rectangle getOccupiedRoomBounds() {
-        return occupiedLeaf.rect;
+        return occupiedLeaf.bounds;
     }
 
     // -------------------------------------------------------------------------
@@ -79,9 +79,9 @@ public class Level {
         renderDebug(camera);
     }
 
-    LinkedList<RectBSP.Leaf> leaves = new LinkedList<RectBSP.Leaf>();
-    Vector2 center1 = new Vector2();
-    Vector2 center2 = new Vector2();
+    LinkedList<BSP.Leaf> leaves  = new LinkedList<BSP.Leaf>();
+    Vector2              center1 = new Vector2();
+    Vector2              center2 = new Vector2();
 
 
     public void renderDebug(Camera camera) {
@@ -105,21 +105,21 @@ public class Level {
             Assets.shapes.setColor(Color.RED);
             leaves.clear();
             leaves.push(bsp.root);
-            RectBSP.Leaf leaf;
+            BSP.Leaf leaf;
             while (!leaves.isEmpty()) {
                 leaf = leaves.pop();
                 if (leaf.child1 != null) leaves.push(leaf.child1);
                 if (leaf.child2 != null) leaves.push(leaf.child2);
-                Assets.shapes.rect(leaf.rect.x, leaf.rect.y, leaf.rect.width, leaf.rect.height);
+                Assets.shapes.rect(leaf.bounds.x, leaf.bounds.y, leaf.bounds.width, leaf.bounds.height);
             }
         }
 
         // Draw neighbor connections
         if (leaf_connects) {
-            for (ObjectMap.Entry<RectBSP.Leaf, RectBSP.Leaf> entry : neighbors.entries()) {
-                entry.key.rect.getCenter(center1);
-                entry.value.rect.getCenter(center2);
-                if      (entry.key.level == 1) Assets.shapes.setColor(0.0f, 0.0f, 0.0f, 1f);
+            for (ObjectMap.Entry<BSP.Leaf, BSP.Leaf> entry : neighbors.entries()) {
+                entry.key.bounds.getCenter(center1);
+                entry.value.bounds.getCenter(center2);
+                if (entry.key.level == 1) Assets.shapes.setColor(0.0f, 0.0f, 0.0f, 1f);
                 else if (entry.key.level == 2) Assets.shapes.setColor(0.2f, 0.2f, 0.2f, 1f);
                 else if (entry.key.level == 3) Assets.shapes.setColor(0.4f, 0.4f, 0.4f, 1f);
                 else if (entry.key.level == 4) Assets.shapes.setColor(0.6f, 0.6f, 0.6f, 1f);
@@ -141,12 +141,12 @@ public class Level {
     // Implementation Methods
     // -------------------------------------------------------------------------
 
-    private Array<Room> generateRooms(RectBSP bsp) {
-        leafRoomMap = new ObjectMap<RectBSP.Leaf, Room>();
+    private Array<Room> generateRooms(BSP bsp) {
+        leafRoomMap = new ObjectMap<BSP.Leaf, Room>();
 
         Array<Room> rooms = new Array<Room>();
 
-        for (RectBSP.Leaf leaf : bsp.getLeaves()) {
+        for (BSP.Leaf leaf : bsp.getLeaves()) {
             Room newRoom = generateRoom(leaf);
             leafRoomMap.put(leaf, newRoom);
             rooms.add(newRoom);
@@ -158,11 +158,11 @@ public class Level {
         return rooms;
     }
 
-    private Room generateRoom(RectBSP.Leaf leaf) {
-        int x      = (int)  leaf.rect.x;
-        int y      = (int)  leaf.rect.y;
-        int width  = (int) (leaf.rect.width  / Tile.TILE_SIZE);
-        int height = (int) (leaf.rect.height / Tile.TILE_SIZE);
+    private Room generateRoom(BSP.Leaf leaf) {
+        int x      = (int)  leaf.bounds.x;
+        int y      = (int)  leaf.bounds.y;
+        int width  = (int) (leaf.bounds.width  / Tile.TILE_SIZE);
+        int height = (int) (leaf.bounds.height / Tile.TILE_SIZE);
 
         int min_tile_cols = 6;
         int min_tile_rows = 6;
@@ -225,46 +225,49 @@ public class Level {
         }
     }
 
-    Array<RectBSP.Leaf> nextLeaves = new Array<RectBSP.Leaf>();
+    Array<BSP.Leaf> nextLeaves = new Array<BSP.Leaf>();
+
     public void nextRoom() {
         if (nextLeaves.size == 0) {
             nextLeaves = bsp.getLeaves();
         }
         occupiedLeaf = nextLeaves.pop();
     }
+
     public Rectangle getNextRoomBounds() {
         if (nextLeaves.size == 0) {
             nextLeaves = bsp.getLeaves();
         }
-        return nextLeaves.peek().rect;
+        return nextLeaves.peek().bounds;
     }
 
     // -------------------------------------------------------------------------
     // EXTRACT US
     // -------------------------------------------------------------------------
 
-    class RectBSP {
+    class BSP {
 
         class Leaf {
-            Rectangle rect;
+            Rectangle bounds;
             Leaf      parent, child1, child2;
             int       level;
 
-            public Leaf(Leaf parent, Rectangle rect) {
+            public Leaf(Leaf parent, Rectangle bounds) {
                 this.parent = parent;
-                this.rect   = rect;
+                this.bounds = bounds;
                 this.child1 = null;
                 this.child2 = null;
-                this.level  = (parent == null) ? 1 : parent.level + 1;
+                this.level = (parent == null) ? 1 : parent.level + 1;
             }
 
             public Array<Leaf> getLeaves() {
                 Array<Leaf> leaves = new Array<Leaf>();
+
                 if (child1 == null && child2 == null) {
                     leaves.add(this);
                 } else {
-                    leaves.addAll(child1.getLeaves());
-                    leaves.addAll(child2.getLeaves());
+                    if (child1 != null) leaves.addAll(child1.getLeaves());
+                    if (child2 != null) leaves.addAll(child2.getLeaves());
                 }
 
                 return leaves;
@@ -274,12 +277,14 @@ public class Level {
                 if (queue == null) {
                     queue = new Array<Leaf>();
                 }
+
                 if (i == 1) {
                     queue.add(this);
                 } else {
                     if (child1 != null) child1.getLevel(i - 1, queue);
                     if (child2 != null) child2.getLevel(i - 1, queue);
                 }
+
                 return queue;
             }
 
@@ -292,11 +297,11 @@ public class Level {
         final float   split_ratio_height = 0.45f;
         final float   split_ratio_width  = 0.45f;
 
-        public RectBSP(Rectangle rootRect, int depth) {
+        public BSP(Rectangle rootRect, int depth) {
             root = new Leaf(null, rootRect);
             partition(root, depth);
 
-            RectBSP.Leaf leaf = root;
+            BSP.Leaf leaf = root;
             while (leaf.child1 != null) {
                 leaf = leaf.child1;
             }
@@ -324,7 +329,7 @@ public class Level {
 
         private Leaf[] splitLeaf(Leaf leaf) {
             Leaf[] children = new Leaf[2];
-            if (leaf == null || leaf.rect == null) {
+            if (leaf == null || leaf.bounds == null) {
                 return children;
             }
 
@@ -332,15 +337,15 @@ public class Level {
 
             if (Assets.rand.nextBoolean()) {
                 // Split vertical
-                int n = (int) leaf.rect.height;
+                int n = (int) leaf.bounds.height;
                 float split_size = Assets.rand.nextInt(n) + 1;
                 //Gdx.app.log("SPLIT_LEAF", "\tvertical split: " + split_size + " for n(" + n + ")");
 
-                rects[0] = new Rectangle(leaf.rect.x, leaf.rect.y, leaf.rect.width, split_size);
-                rects[1] = new Rectangle(leaf.rect.x,
-                                         leaf.rect.y + rects[0].height,
-                                         leaf.rect.width,
-                                         leaf.rect.height - rects[0].height);
+                rects[0] = new Rectangle(leaf.bounds.x, leaf.bounds.y, leaf.bounds.width, split_size);
+                rects[1] = new Rectangle(leaf.bounds.x,
+                                         leaf.bounds.y + rects[0].height,
+                                         leaf.bounds.width,
+                                         leaf.bounds.height - rects[0].height);
 
                 if (discard_by_ratio) {
                     float rect0_ratio_h = rects[0].height / rects[0].width;
@@ -354,22 +359,23 @@ public class Level {
                 }
             } else {
                 // Split horizontal
-                int n = (int) leaf.rect.width;
+                int n = (int) leaf.bounds.width;
                 float split_size = Assets.rand.nextInt(n);
                 //Gdx.app.log("SPLIT_LEAF", "\thorizontal split: " + split_size + " for n(" + n + ")");
 
-                rects[0] = new Rectangle(leaf.rect.x, leaf.rect.y, split_size, leaf.rect.height);
-                rects[1] = new Rectangle(leaf.rect.x + rects[0].width,
-                                         leaf.rect.y,
-                                         leaf.rect.width - rects[0].width,
-                                         leaf.rect.height);
+                rects[0] = new Rectangle(leaf.bounds.x, leaf.bounds.y, split_size, leaf.bounds.height);
+                rects[1] = new Rectangle(leaf.bounds.x + rects[0].width,
+                                         leaf.bounds.y,
+                                         leaf.bounds.width - rects[0].width,
+                                         leaf.bounds.height);
 
 
                 if (discard_by_ratio) {
                     float rect0_ratio_w = rects[0].width / rects[0].height;
                     float rect1_ratio_w = rects[1].width / rects[1].height;
                     if (rect0_ratio_w < split_ratio_width || rect1_ratio_w < split_ratio_width) {
-                        //Gdx.app.log("DISCARD", "discarding split ratio: 0->" + rect0_ratio_w + ", 1->" + rect1_ratio_w);
+                        //Gdx.app.log("DISCARD", "discarding split ratio: 0->" + rect0_ratio_w + ", 1->" +
+                        // rect1_ratio_w);
                         return splitLeaf(leaf);
                     } else {
                         //Gdx.app.log("ACCEPT", "accepting split ratio: 0->" + rect0_ratio_w + ", 1->" + rect1_ratio_w);
