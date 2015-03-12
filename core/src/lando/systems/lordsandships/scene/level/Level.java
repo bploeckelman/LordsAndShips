@@ -21,10 +21,8 @@ public class Level {
 
     BSP                           bsp;
     Rectangle                     bounds;
-    Room                          room;
     Array<Room>                   rooms;
-    BSP.Leaf                      occupiedLeaf;
-    ObjectMap<BSP.Leaf, Room>     leafRoomMap;
+    BSP.Leaf                      leaf;
     ObjectMap<BSP.Leaf, BSP.Leaf> neighbors;
 
     public Level() {
@@ -48,7 +46,7 @@ public class Level {
             queue = new Array<BSP.Leaf>();
             bsp.getLevel(i, queue);
             level = queue.toArray(BSP.Leaf.class);
-            Gdx.app.log("LEAVES", "" + queue.size + " leaves at depth " + i);
+            //Gdx.app.log("LEAVES", "" + queue.size + " leaves at depth " + i);
             for (BSP.Leaf leaf1 : level) {
                 for (BSP.Leaf leaf2 : level) {
                     if (leaf1 == leaf2) continue;
@@ -63,7 +61,7 @@ public class Level {
     }
 
     public Rectangle getOccupiedRoomBounds() {
-        return occupiedLeaf.bounds;
+        return leaf.room.bounds;
     }
 
     // -------------------------------------------------------------------------
@@ -71,11 +69,12 @@ public class Level {
     // -------------------------------------------------------------------------
 
     public void update(float delta) {
-        room = leafRoomMap.get(occupiedLeaf);
     }
 
     public void render(SpriteBatch batch, Camera camera) {
-        room.render(batch, camera);
+        if (leaf.room != null) {
+            leaf.room.render(batch, camera);
+        }
         renderDebug(camera);
     }
 
@@ -95,8 +94,9 @@ public class Level {
         // Draw room outlines
         if (room_outlines) {
             Assets.shapes.setColor(Color.YELLOW);
-            for (Room room : rooms) {
-                Assets.shapes.rect(room.bounds.x, room.bounds.y, room.bounds.width, room.bounds.height);
+            for (BSP.Leaf leaf : bsp.getLeaves()) {
+                if (leaf.room != null)
+                    Assets.renderRect(leaf.room.bounds);
             }
         }
 
@@ -105,12 +105,11 @@ public class Level {
             Assets.shapes.setColor(Color.RED);
             leaves.clear();
             leaves.push(bsp.root);
-            BSP.Leaf leaf;
             while (!leaves.isEmpty()) {
-                leaf = leaves.pop();
+                BSP.Leaf leaf = leaves.pop();
                 if (leaf.child1 != null) leaves.push(leaf.child1);
                 if (leaf.child2 != null) leaves.push(leaf.child2);
-                Assets.shapes.rect(leaf.bounds.x, leaf.bounds.y, leaf.bounds.width, leaf.bounds.height);
+                Assets.renderRect(leaf.bounds);
             }
         }
 
@@ -119,7 +118,7 @@ public class Level {
             for (ObjectMap.Entry<BSP.Leaf, BSP.Leaf> entry : neighbors.entries()) {
                 entry.key.bounds.getCenter(center1);
                 entry.value.bounds.getCenter(center2);
-                if (entry.key.level == 1) Assets.shapes.setColor(0.0f, 0.0f, 0.0f, 1f);
+                if      (entry.key.level == 1) Assets.shapes.setColor(0.0f, 0.0f, 0.0f, 1f);
                 else if (entry.key.level == 2) Assets.shapes.setColor(0.2f, 0.2f, 0.2f, 1f);
                 else if (entry.key.level == 3) Assets.shapes.setColor(0.4f, 0.4f, 0.4f, 1f);
                 else if (entry.key.level == 4) Assets.shapes.setColor(0.6f, 0.6f, 0.6f, 1f);
@@ -142,17 +141,12 @@ public class Level {
     // -------------------------------------------------------------------------
 
     private Array<Room> generateRooms(BSP bsp) {
-        leafRoomMap = new ObjectMap<BSP.Leaf, Room>();
-
         Array<Room> rooms = new Array<Room>();
 
         for (BSP.Leaf leaf : bsp.getLeaves()) {
-            Room newRoom = generateRoom(leaf);
-            leafRoomMap.put(leaf, newRoom);
-            rooms.add(newRoom);
-
-            if (occupiedLeaf == null) occupiedLeaf = leaf;
-            if (room == null) room = newRoom;
+            rooms.add(generateRoom(leaf));
+            if (this.leaf == null)
+                this.leaf = leaf;
         }
 
         return rooms;
@@ -172,6 +166,9 @@ public class Level {
         }
 
         Room room = new Room(x, y, width, height);
+
+        // Store the room in the specified leaf
+        leaf.room = room;
 
         // Create a bunch of random walkability regions
         int num_iterations = 10;
@@ -203,35 +200,13 @@ public class Level {
         return room;
     }
 
-    private void generateNeighbors() {
-        int num_neighbors = Assets.rand.nextInt(rooms.size - 1) + 1;
-        for (int i = 0; i < num_neighbors; ++i) {
-            int j = Assets.rand.nextInt(rooms.size);
-            int k = Assets.rand.nextInt(rooms.size);
-            if (j == k) { j = 0; }
-
-            Room room1 = rooms.get(j);
-            Room room2 = rooms.get(k);
-
-            // TODO : pick a room edge, find two tiles closest to that edge
-            // TODO : set tiles to door tiles, add connectivity info
-            int x1 = 0;
-            int y1 = 0;
-            int x2 = 0;
-            int y2 = 0;
-
-//            room2.addNeighbor(room1, x1, y1);
-//            room1.addNeighbor(room2, x2, y2);
-        }
-    }
-
     Array<BSP.Leaf> nextLeaves = new Array<BSP.Leaf>();
 
     public void nextRoom() {
         if (nextLeaves.size == 0) {
             nextLeaves = bsp.getLeaves();
         }
-        occupiedLeaf = nextLeaves.pop();
+        leaf = nextLeaves.pop();
     }
 
     public Rectangle getNextRoomBounds() {
@@ -250,6 +225,7 @@ public class Level {
         class Leaf {
             Rectangle bounds;
             Leaf      parent, child1, child2;
+            Room      room;
             int       level;
 
             public Leaf(Leaf parent, Rectangle bounds) {
@@ -257,7 +233,8 @@ public class Level {
                 this.bounds = bounds;
                 this.child1 = null;
                 this.child2 = null;
-                this.level = (parent == null) ? 1 : parent.level + 1;
+                this.room   = null;
+                this.level  = (parent == null) ? 1 : parent.level + 1;
             }
 
             public Array<Leaf> getLeaves() {
