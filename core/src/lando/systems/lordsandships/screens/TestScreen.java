@@ -88,69 +88,16 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     @Override
     public void update(float delta) {
-        playerUpdate(delta);
         level.update(delta);
-
+        playerUpdate(delta);
+        resolveCollisions();
         camera.position.lerp(playerPos, 1.0f * delta);
         if (!transition) {
-            // TODO : limit zoom level to min room dimension
-            // Constrain camera to the occupied room's bounds
-            float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
-            float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
-            float hw = effectiveViewportWidth / 2f;
-            float hh = effectiveViewportHeight / 2f;
-
-            Rectangle bounds = level.occupied().room().bounds();
-            if (camera.position.x - hw < bounds.x)
-                camera.position.x = bounds.x + hw;
-            if (camera.position.x + hw > bounds.x + bounds.width)
-                camera.position.x = bounds.x + bounds.width - hw;
-
-            if (camera.position.y - hh < bounds.y)
-                camera.position.y = bounds.y + hh;
-            if (camera.position.y + hh > bounds.y + bounds.height)
-                camera.position.y = bounds.y + bounds.height - hh;
-
-            if (effectiveViewportWidth  > bounds.width)  camera.position.x = bounds.x + bounds.width  / 2f;
-            if (effectiveViewportHeight > bounds.height) camera.position.y = bounds.y + bounds.height / 2f;
+            constrainCamera(camera, level.occupied().room().bounds());
         }
-
         camera.update();
         uiCamera.update();
         ui.update(delta);
-    }
-
-    private void playerUpdate(float delta) {
-        float dx, dy;
-
-        if      (GameInstance.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
-        else if (GameInstance.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount; }
-        else {
-            dx = 0f;
-            player.velocity.x = 0f;
-        }
-
-        if      (GameInstance.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
-        else if (GameInstance.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount; }
-        else {
-            dy = 0f;
-            player.velocity.y = 0f;
-        }
-
-        // Attack!
-        if (GameInstance.input.isButtonDown(Input.Buttons.LEFT)
-         || GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
-            temp.set(GameInstance.mousePlayerDirection).nor();
-            player.attack(temp);
-            // TODO (brian): camera shake and attack special effects
-        }
-
-        player.velocity.x += dx;
-        player.velocity.y += dy;
-
-        player.update(delta);
-
-        playerPos.set(player.position.x, player.position.y, 0);
     }
 
     @Override
@@ -304,6 +251,76 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         mouseScreenCoords.set(mx, my, 0);
         mouseWorldCoords.set(mx, my, 0);
         camera.unproject(mouseWorldCoords);
+    }
+
+    /**
+     * Map user input to player behavior
+     * @param delta
+     */
+    private void playerUpdate(float delta) {
+        float dx, dy;
+
+        if      (GameInstance.input.isKeyDown(Input.Keys.A)) { dx = -key_move_amount; }
+        else if (GameInstance.input.isKeyDown(Input.Keys.D)) { dx =  key_move_amount; }
+        else {
+            dx = 0f;
+            player.velocity.x = 0f;
+        }
+
+        if      (GameInstance.input.isKeyDown(Input.Keys.W)) { dy =  key_move_amount; }
+        else if (GameInstance.input.isKeyDown(Input.Keys.S)) { dy = -key_move_amount; }
+        else {
+            dy = 0f;
+            player.velocity.y = 0f;
+        }
+
+        // Attack!
+        if (GameInstance.input.isButtonDown(Input.Buttons.LEFT)
+            || GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
+            temp.set(GameInstance.mousePlayerDirection).nor();
+            player.attack(temp);
+            // TODO (brian): camera shake and attack special effects
+        }
+
+        player.velocity.x += dx;
+        player.velocity.y += dy;
+
+        player.update(delta);
+
+        playerPos.set(player.position.x, player.position.y, 0);
+    }
+
+    /**
+     * Check for and resolve any collisions between Entities and the Level
+     */
+    private void resolveCollisions() {
+        // TODO
+    }
+
+    /**
+     * Constrain a camera to the specified bounds
+     * @param camera
+     * @param bounds
+     */
+    private void constrainCamera(OrthographicCamera camera, Rectangle bounds) {
+        // TODO : limit zoom level to min room dimension
+        float effectiveViewportWidth  = camera.viewportWidth  * camera.zoom;
+        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
+        float hw = effectiveViewportWidth  / 2f;
+        float hh = effectiveViewportHeight / 2f;
+
+        if (camera.position.x - hw < bounds.x)
+            camera.position.x = bounds.x + hw;
+        if (camera.position.x + hw > bounds.x + bounds.width)
+            camera.position.x = bounds.x + bounds.width - hw;
+
+        if (camera.position.y - hh < bounds.y)
+            camera.position.y = bounds.y + hh;
+        if (camera.position.y + hh > bounds.y + bounds.height)
+            camera.position.y = bounds.y + bounds.height - hh;
+
+        if (effectiveViewportWidth  > bounds.width)  camera.position.x = bounds.x + bounds.width  / 2f;
+        if (effectiveViewportHeight > bounds.height) camera.position.y = bounds.y + bounds.height / 2f;
     }
 
 }
