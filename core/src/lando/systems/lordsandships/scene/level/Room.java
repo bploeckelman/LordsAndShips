@@ -49,6 +49,23 @@ public class Room {
         return bounds;
     }
 
+    public int tilesWide() { return tiles[0].length; }
+    public int tilesHigh() { return tiles.length; }
+
+    public boolean walkable(int x, int y) {
+        if (x < 0 || x >= walkable[0].length || y < 0 || y >= walkable.length) {
+            throw new IllegalArgumentException("Invalid coordinate: " + x + ", " + y);
+        }
+        return walkable[y][x];
+    }
+
+    public Tile tile(int x, int y) {
+        if (x < 0 || x >= tiles[0].length || y < 0 || y >= tiles.length) {
+            throw new IllegalArgumentException("Invalid coordinate: " + x + ", " + y);
+        }
+        return tiles[y][x];
+    }
+
     public void update(float delta) {
 
     }

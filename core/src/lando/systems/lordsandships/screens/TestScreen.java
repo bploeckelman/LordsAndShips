@@ -4,7 +4,8 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.equations.*;
+import aurelienribon.tweenengine.equations.Circ;
+import aurelienribon.tweenengine.equations.Expo;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,20 +16,25 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.level.Level;
+import lando.systems.lordsandships.scene.level.Room;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.ui.UserInterface;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector3Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
-import org.w3c.dom.css.Rect;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Brian Ploeckelman created on 3/7/2015.
@@ -90,10 +96,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     public void update(float delta) {
         level.update(delta);
         playerUpdate(delta);
-        resolveCollisions();
         camera.position.lerp(playerPos, 1.0f * delta);
         if (!transition) {
             constrainCamera(camera, level.occupied().room().bounds());
+            resolveCollisions();
         }
         camera.update();
         uiCamera.update();
@@ -291,13 +297,6 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     }
 
     /**
-     * Check for and resolve any collisions between Entities and the Level
-     */
-    private void resolveCollisions() {
-        // TODO
-    }
-
-    /**
      * Constrain a camera to the specified bounds
      * @param camera
      * @param bounds
@@ -321,6 +320,90 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
         if (effectiveViewportWidth  > bounds.width)  camera.position.x = bounds.x + bounds.width  / 2f;
         if (effectiveViewportHeight > bounds.height) camera.position.y = bounds.y + bounds.height / 2f;
+    }
+
+    /**
+     * Check for and resolve any collisions between Entities and the Level
+     */
+    // TODO (brian): collision detection needs some significant cleanup and simplification
+    // Working data for collision detection
+    private List<Tile> collisionTiles = new ArrayList<Tile>(10);
+    private Rectangle  tileRect       = new Rectangle();
+    private Rectangle  intersection   = new Rectangle();
+
+    public void getCollisionTiles(Entity entity, List<Tile> collisionTiles) {
+        Room room = level.occupied().room();
+        int entityMinX = (int) (entity.boundingBox.x - room.bounds().x) / Tile.TILE_SIZE;
+        int entityMinY = (int) (entity.boundingBox.y - room.bounds().y) / Tile.TILE_SIZE;
+        int entityMaxX = (int)((entity.boundingBox.x + entity.boundingBox.width)  - room.bounds().x) / Tile.TILE_SIZE;
+        int entityMaxY = (int)((entity.boundingBox.y + entity.boundingBox.height) - room.bounds().y) / Tile.TILE_SIZE;
+
+        collisionTiles.clear();
+        for (int y = entityMinY; y <= entityMaxY; ++y) {
+            for (int x = entityMinX; x <= entityMaxX; ++x) {
+                if (x >= 0 && x < room.tilesWide()
+                 && y >= 0 && y < room.tilesHigh())
+                    collisionTiles.add(room.tile(x,y));
+            }
+        }
+    }
+
+    private void resolveCollisions() {
+        // TODO : Resolve bullet collisions
+        // TODO : Resolve enemy collisions
+        resolveCollisions(player);
+    }
+
+    private void resolveCollisions(Entity entity) {
+        final float bounds_feather = 0.0075f;
+
+        // Get grid tiles that the entity overlaps
+        getCollisionTiles(entity, collisionTiles);
+        Room room = level.occupied().room();
+
+        // For each overlapped blocking tile:
+        for (Tile tile : collisionTiles) {
+            if (room.walkable(tile.getGridX(), tile.getGridY())) {
+                tileRect.set(0, 0, 0, 0);
+                intersection.set(0, 0, 0, 0);
+                continue;
+            }
+
+            // Find amount of overlap on each axis
+            tileRect.set(tile.getWorldMinX() + room.bounds().x,
+                         tile.getWorldMinY() + room.bounds().y,
+                         Tile.TILE_SIZE, Tile.TILE_SIZE);
+            if (entity.boundingBox.overlaps(tileRect)) {
+                Intersector.intersectRectangles(entity.boundingBox, tileRect, intersection);
+
+                // Move out of shallower overlap axis
+                if (intersection.width < intersection.height) {
+                    // Move out of X axis first..
+                    if (entity.boundingBox.x <= tileRect.x + tileRect.width
+                     && entity.boundingBox.x >= tileRect.x) {
+                        entity.boundingBox.x = tileRect.x + tileRect.width + bounds_feather;
+                        entity.velocity.x = 0f;
+                    } else if (entity.boundingBox.x + entity.boundingBox.width >= tileRect.x
+                            && entity.boundingBox.x <= tileRect.x) {
+                        entity.boundingBox.x = tileRect.x - entity.boundingBox.width - bounds_feather;
+                        entity.velocity.x = 0f;
+                    }
+                } else {
+                    // Move out of Y axis first..
+                    if (entity.boundingBox.y <= tileRect.y + tileRect.height
+                     && entity.boundingBox.y >= tileRect.y) {
+                        entity.boundingBox.y = tileRect.y + tileRect.height + bounds_feather;
+                        entity.velocity.y = 0f;
+                    } else if (entity.boundingBox.y + entity.boundingBox.height >= tileRect.y
+                            && entity.boundingBox.y <= tileRect.y) {
+                        entity.boundingBox.y = tileRect.y - entity.boundingBox.height - bounds_feather;
+                        entity.velocity.y = 0f;
+                    }
+                }
+            } else {
+                intersection.set(0, 0, 0, 0);
+            }
+        }
     }
 
 }
