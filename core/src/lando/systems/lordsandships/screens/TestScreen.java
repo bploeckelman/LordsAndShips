@@ -84,11 +84,14 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     // Game Loop Methods
     // -------------------------------------------------------------------------
 
+    private Vector3 playerPos = new Vector3();
+
     @Override
     public void update(float delta) {
         playerUpdate(delta);
         level.update(delta);
 
+        camera.position.lerp(playerPos, 1.0f * delta);
         if (!transition) {
             // TODO : limit zoom level to min room dimension
             // Constrain camera to the occupied room's bounds
@@ -146,6 +149,8 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         player.velocity.y += dy;
 
         player.update(delta);
+
+        playerPos.set(player.position.x, player.position.y, 0);
     }
 
     @Override
