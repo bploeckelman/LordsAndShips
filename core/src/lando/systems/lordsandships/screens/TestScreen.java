@@ -96,7 +96,8 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     public void update(float delta) {
         level.update(delta);
         playerUpdate(delta);
-        camera.position.lerp(playerPos, 1.0f * delta);
+        float scale = camera.position.cpy().sub(playerPos).len() / 20;
+        camera.position.lerp(playerPos, scale * delta);
         if (!transition) {
             constrainCamera(camera, level.occupied().room().bounds());
             resolveCollisions();
