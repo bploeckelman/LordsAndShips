@@ -5,7 +5,7 @@ package lando.systems.lordsandships.scene.tilemap;
  */
 public class Tile {
 
-    public static final int TILE_SIZE = 16; // pixels
+    public static final int TILE_SIZE = 32; // pixels
 
     public TileType type;
     private int x, y;
