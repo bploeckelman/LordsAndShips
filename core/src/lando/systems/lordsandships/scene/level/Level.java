@@ -139,12 +139,23 @@ public class Level {
         Array<Room> rooms = new Array<Room>();
 
         for (BSP.Leaf leaf : bsp.getLeaves()) {
-            rooms.add(generateRoom(leaf));
+            rooms.add(generateEmptyRoom(leaf));
             if (this.leaf == null)
                 this.leaf = leaf;
         }
 
         return rooms;
+    }
+
+    private Room generateEmptyRoom(BSP.Leaf leaf) {
+        int x      = (int)  leaf.bounds.x;
+        int y      = (int)  leaf.bounds.y;
+        int width  = (int) (leaf.bounds.width  / Tile.TILE_SIZE);
+        int height = (int) (leaf.bounds.height / Tile.TILE_SIZE);
+
+        Room room = Room.createEmpty(x, y, width, height);
+        leaf.room = room;
+        return room;
     }
 
     private Room generateRoom(BSP.Leaf leaf) {

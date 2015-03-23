@@ -45,6 +45,26 @@ public class Room {
         bounds = new Rectangle(posx, posy, width * Tile.TILE_SIZE, height * Tile.TILE_SIZE);
     }
 
+    public static Room createEmpty(int posx, int posy, int width, int height) {
+        Room room = new Room(posx, posy, width, height);
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                room.walkable[y][x] = (x != 0 && x != width - 1 && y != 0 && y != height - 1);
+                room.adjacency[y][x] = 0;
+                if      (x == 0 && y == 0)                   room.tiles[y][x].type = TileType.CORNER_OUTER_SW;
+                else if (x == width - 1 && y == height - 1)  room.tiles[y][x].type = TileType.CORNER_OUTER_NE;
+                else if (x == 0 && y == height - 1)          room.tiles[y][x].type = TileType.CORNER_OUTER_NW;
+                else if (x == width - 1 && y == 0)           room.tiles[y][x].type = TileType.CORNER_OUTER_SE;
+                else if (x == 0)                             room.tiles[y][x].type = TileType.WALL_VERT_W;
+                else if (x == width - 1)                     room.tiles[y][x].type = TileType.WALL_VERT_E;
+                else if (y == 0)                             room.tiles[y][x].type = TileType.WALL_HORIZ_S;
+                else if (y == height - 1)                    room.tiles[y][x].type = TileType.WALL_HORIZ_N;
+                else                                         room.tiles[y][x].type = TileType.FLOOR;
+            }
+        }
+        return room;
+    }
+
     public Rectangle bounds() {
         return bounds;
     }
