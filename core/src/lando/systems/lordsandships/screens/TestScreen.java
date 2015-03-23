@@ -94,17 +94,23 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     @Override
     public void update(float delta) {
+        updateMouseVectors(camera);
+
         level.update(delta);
         playerUpdate(delta);
+
         float scale = camera.position.cpy().sub(playerPos).len() / 20;
         camera.position.lerp(playerPos, scale * delta);
+
         if (!transition) {
             constrainCamera(camera, level.occupied().room().bounds());
             resolveCollisions();
         }
+
         camera.update();
         uiCamera.update();
         ui.update(delta);
+        ui.getArsenal().updateCurrentWeapon(player);
     }
 
     @Override
@@ -258,6 +264,9 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         mouseScreenCoords.set(mx, my, 0);
         mouseWorldCoords.set(mx, my, 0);
         camera.unproject(mouseWorldCoords);
+        GameInstance.mousePlayerDirection.set(
+                mouseWorldCoords.x - player.getCenterPos().x,
+                mouseWorldCoords.y - player.getCenterPos().y);
     }
 
     /**
