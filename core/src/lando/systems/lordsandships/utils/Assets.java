@@ -43,6 +43,7 @@ public class Assets {
     public static TextureAtlas atlas;
     public static TextureAtlas uiAtlas;
     public static TextureAtlas raphAtlas;
+    public static TextureAtlas raphAllAtlas;
 
     public static Sound gunshot_shot;
     public static Sound gunshot_impact;
@@ -70,6 +71,7 @@ public class Assets {
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
         uiAtlas = new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas"));
         raphAtlas = new TextureAtlas(Gdx.files.internal("raph-atlas/raph.atlas"));
+        raphAllAtlas = new TextureAtlas(Gdx.files.internal("raph-atlas/raph-atlas-all.atlas"));
 
         oryxWorld = new Texture("oryx/world.png");
         oryxCreatures = new Texture("oryx/creatures.png");
@@ -114,6 +116,7 @@ public class Assets {
         gunshot_impact.dispose();
         gunshot_shot.dispose();
 
+        raphAllAtlas.dispose();
         raphAtlas.dispose();
         uiAtlas.dispose();
         atlas.dispose();

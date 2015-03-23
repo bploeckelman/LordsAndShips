@@ -19,6 +19,10 @@ public enum TileType {
     WALL_HORIZ_S,
     WALL_VERT_W,
     WALL_VERT_E,
+    DOOR_HORIZ_N,
+    DOOR_HORIZ_S,
+    DOOR_VERT_E,
+    DOOR_VERT_W,
     STATUE1,
     STATUE2
 }
