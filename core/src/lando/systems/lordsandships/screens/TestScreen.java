@@ -20,7 +20,9 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.entities.Enemy;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.scene.OrthoCamController;
@@ -32,6 +34,7 @@ import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector3Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
+import lando.systems.lordsandships.weapons.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +60,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     UserInterface ui;
     Level         level;
     Player        player;
+    Array<Enemy>  enemies;
 
     public TestScreen(GameInstance game) {
         this.game = game;
@@ -84,6 +88,8 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                             bounds.x + bounds.width / 2f,
                             bounds.y + bounds.height / 2f,
                             16, 16, 0.1f);
+
+        spawnEnemies();
     }
 
     // -------------------------------------------------------------------------
@@ -98,6 +104,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
         level.update(delta);
         playerUpdate(delta);
+        enemiesUpdate(delta);
 
         float scale = camera.position.cpy().sub(playerPos).len() / 20;
         camera.position.lerp(playerPos, scale * delta);
@@ -131,6 +138,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             batch.setColor(1, 1, 1, roomAlpha.floatValue());
             level.render(batch, camera);
             player.render(batch);
+            for (Enemy enemy : enemies) {
+                if (!enemy.isAlive()) continue;
+                enemy.render(batch);
+            }
         }
         batch.end();
 
@@ -169,6 +180,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                                        player.position.y = bounds.y + bounds.height / 2f;
                                        player.boundingBox.x = player.position.x;
                                        player.boundingBox.y = player.position.y;
+                                       spawnEnemies();
                                    }
                                }))
                     .push(Tween.to(bgColor, ColorAccessor.RGB, 1)
@@ -304,6 +316,37 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         player.update(delta);
 
         playerPos.set(player.position.x, player.position.y, 0);
+    }
+
+    /**
+     * Update enemies
+     */
+    private void enemiesUpdate(float delta) {
+        Weapon weapon = player.getCurrentWeapon();
+        for (Enemy enemy : enemies) {
+            if (enemy.isAlive()) {
+                if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
+                    enemy.takeDamage(weapon.getDamage(), weapon.getDirection());
+                }
+            }
+            if (enemy.isAlive()) enemy.update(delta);
+        }
+    }
+
+    /**
+     * Spawn a bunch of enemies in the current room
+     */
+    private void spawnEnemies() {
+        if (enemies == null) enemies = new Array<Enemy>();
+        else                 enemies.clear();
+
+        Rectangle bounds = level.occupied().room().bounds();
+        Vector2 pos = new Vector2();
+        int num_enemies = 50;
+        for (int i = 0; i < num_enemies; ++i) {
+            pos.set(bounds.x + bounds.width / 2f, bounds.y + bounds.height / 2f);
+            enemies.add(new Enemy(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.15f));
+        }
     }
 
     /**
