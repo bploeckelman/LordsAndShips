@@ -11,11 +11,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -57,6 +57,12 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     OrthographicCamera camera;
     OrthographicCamera uiCamera;
 
+    FrameBuffer   fbo;
+    ShaderProgram shader;
+    ShaderProgram blur;
+    float         accum;
+    MutableFloat  pulse;
+
     UserInterface ui;
     Level         level;
     Player        player;
@@ -81,6 +87,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         uiCamera.update();
 
         ui = new UserInterface(game);
+
+        shader = Assets.testShaderProgram;
+        blur = Assets.blurShaderProgram;
+        fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
 
         level = new Level();
         Rectangle bounds = level.occupied().room().bounds();
@@ -118,13 +128,23 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         uiCamera.update();
         ui.update(delta);
         ui.getArsenal().updateCurrentWeapon(player);
+
+        pulse = new MutableFloat(0.f);
+        Tween.to(pulse, -1, 3.f)
+                .target(1.f)
+                .ease(Circ.OUT)
+                .repeatYoyo(-1, 0.33f)
+                .start(GameInstance.tweens);
     }
 
     @Override
     public void render(float delta) {
+        accum += delta;
+
         Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        fbo.begin();
+
         Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -133,10 +153,26 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         batch.setProjectionMatrix(camera.combined);
 
+        batch.setShader(shader);
         batch.begin();
         {
             batch.setColor(1, 1, 1, roomAlpha.floatValue());
+
+            shader.setUniformf("u_time", accum);
+            shader.setUniformi("u_texture", 0);
+            shader.setUniformi("u_texture1", 1);
+
+            Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE1);
+            Assets.avatartex.bind();
+
+            Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
             level.render(batch, camera);
+        }
+        batch.end();
+
+        batch.setShader(null);
+        batch.begin();
+        {
             player.render(batch);
             for (Enemy enemy : enemies) {
                 if (!enemy.isAlive()) continue;
@@ -145,8 +181,26 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         }
         batch.end();
 
+        fbo.end();
+
+        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        final TextureRegion fboRegion = new TextureRegion(fbo.getColorBufferTexture());
+        fboRegion.flip(false, true);
+
+        batch.setProjectionMatrix(uiCamera.combined);
+        batch.setShader(blur);
+        batch.begin();
+        {
+            blur.setUniformf("u_pulse", pulse.floatValue());
+            batch.draw(fboRegion, 0, 0, fboRegion.getRegionWidth(), fboRegion.getRegionHeight());
+        }
+        batch.end();
+
 //        level.renderDebug(camera);
 
+        batch.setShader(null);
         ui.render(batch, uiCamera);
     }
 

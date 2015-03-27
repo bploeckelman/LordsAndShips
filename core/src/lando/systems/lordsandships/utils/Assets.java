@@ -2,14 +2,17 @@ package lando.systems.lordsandships.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.Random;
 
@@ -24,10 +27,11 @@ public class Assets {
 
     public static Random rand;
 
-    public static SpriteBatch batch;
+    public static SpriteBatch   batch;
     public static ShapeRenderer shapes;
-
-    public static BitmapFont font;
+    public static ShaderProgram testShaderProgram;
+    public static ShaderProgram blurShaderProgram;
+    public static BitmapFont    font;
 
     public static Texture oryxWorld;
     public static Texture oryxCreatures;
@@ -35,9 +39,9 @@ public class Assets {
     public static Texture starfieldLayer0;
     public static Texture starfieldLayer1;
 
-    public static Texture playertex;
-    public static Texture enemytex;
-    public static Texture avatartex;
+    public static Texture       playertex;
+    public static Texture       enemytex;
+    public static Texture       avatartex;
     public static TextureRegion shadow;
 
     public static TextureAtlas atlas;
@@ -65,6 +69,27 @@ public class Assets {
 
         batch = new SpriteBatch();
         shapes = new ShapeRenderer();
+
+        FileHandle vertSource = Gdx.files.internal("shaders/test.vert");
+        testShaderProgram = new ShaderProgram(
+                vertSource,
+                Gdx.files.internal("shaders/test.frag"));
+        if (!testShaderProgram.isCompiled()) {
+            throw new GdxRuntimeException("Failed to compile test shader program:\n" + testShaderProgram.getLog());
+        }
+        else if (testShaderProgram.getLog().length() > 0) {
+            Gdx.app.error("SHADER", "testShaderProgram compilation log:\n" + testShaderProgram.getLog());
+        }
+
+        blurShaderProgram = new ShaderProgram(
+                vertSource,
+                Gdx.files.internal("shaders/post.frag"));
+        if (!blurShaderProgram.isCompiled()) {
+            throw new GdxRuntimeException("Failed to compile blur shader program:\n" + blurShaderProgram.getLog());
+        }
+        else if (blurShaderProgram.getLog().length() > 0) {
+            Gdx.app.error("SHADER", "blurShaderProgram compilation log:\n" + blurShaderProgram.getLog());
+        }
 
         font = new BitmapFont();
 
@@ -132,6 +157,8 @@ public class Assets {
 
         font.dispose();
 
+        blurShaderProgram.dispose();
+        testShaderProgram.dispose();
         shapes.dispose();
         batch.dispose();
     }
