@@ -443,17 +443,20 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             || GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
             temp.set(GameInstance.mousePlayerDirection).nor();
             player.attack(temp);
-            doPost = true;
-            accum = 0f;
-            counter.setValue(0f);
-            Tween.to(counter, -1, 3.0f)
-                    .setCallback(new TweenCallback() {
-                        @Override
-                        public void onEvent(int type, BaseTween<?> source) {
-                            doPost = false;
-                        }
-                    })
-                    .start(GameInstance.tweens);
+
+            if (!doPost) {
+                doPost = true;
+                accum = 0f;
+                counter.setValue(0f);
+                Tween.to(counter, -1, 3.0f)
+                     .setCallback(new TweenCallback() {
+                         @Override
+                         public void onEvent(int type, BaseTween<?> source) {
+                             doPost = false;
+                         }
+                     })
+                     .start(GameInstance.tweens);
+            }
             // TODO (brian): camera shake and attack special effects
         }
 
