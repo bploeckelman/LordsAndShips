@@ -1,41 +1,40 @@
 #ifdef GL_ES
+#define LOWP lowp
 precision mediump float;
+#else
+#define LOWP
 #endif
 
-varying vec4 v_color;
-varying vec2 v_texCoord0;
+varying LOWP vec4 v_color;
+varying      vec2 v_texCoord0;
 
+uniform float     u_time;
 uniform float     u_pulse;
 uniform sampler2D u_texture;
-
-const float size = 1.0 / 512.0;
+uniform vec2      u_resolution;
+uniform vec2      u_screenPos;
 
 void main() {
-	vec4 texColor = vec4(0.0);
+	LOWP vec4 texColor = texture2D(u_texture, v_texCoord0);
+	LOWP vec3 color = vec3(0.0);
+	float len = 0.0;
+	float z = u_time;
 	float pulse = u_pulse;
 
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s - 4.0 * size, v_texCoord0.t)) * 0.06;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s - 3.0 * size, v_texCoord0.t)) * 0.09;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s - 2.0 * size, v_texCoord0.t)) * 0.12;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s - 1.0 * size, v_texCoord0.t)) * 0.15;
+	vec2 st = gl_FragCoord.xy / u_resolution;
+	vec2 pos = u_screenPos / u_resolution - vec2(0.5);
+	vec2 p = st - pos;
+	p -= 0.5;
+	p.x *= u_resolution.x / u_resolution.y;
+	len = length(p);
 
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s, v_texCoord0.t - 4.0 * size)) * 0.06;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s, v_texCoord0.t - 3.0 * size)) * 0.09;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s, v_texCoord0.t - 2.0 * size)) * 0.12;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s, v_texCoord0.t - 1.0 * size)) * 0.15;
+	for (int i = 0; i < 3; ++i) {
+		vec2 uv = vec2(0.0);
+		z += 0.7;
+		uv += p / len * (sin(z) + 1.0) * abs(sin(len * 9.0 - z * 2.0));
 
-	texColor += texture2D(u_texture, v_texCoord0) * 0.16;
+		color[i] = 0.01 / length(abs(mod(uv, 1.0) - 0.5));
+	}
 
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s, v_texCoord0.t + 1.0 * size)) * 0.15;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s, v_texCoord0.t + 2.0 * size)) * 0.12;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s, v_texCoord0.t + 3.0 * size)) * 0.09;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s, v_texCoord0.t + 4.0 * size)) * 0.06;
-
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s + 1.0 * size, v_texCoord0.t)) * 0.15;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s + 2.0 * size, v_texCoord0.t)) * 0.12;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s + 3.0 * size, v_texCoord0.t)) * 0.09;
-	texColor += texture2D(u_texture, vec2(v_texCoord0.s + 4.0 * size, v_texCoord0.t)) * 0.06;
-
-	gl_FragColor = v_color * texColor;
+	gl_FragColor = texColor + vec4(color / len, z);// * texColor;
 }
-

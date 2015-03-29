@@ -16,10 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Enemy;
@@ -57,11 +54,22 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     OrthographicCamera camera;
     OrthographicCamera uiCamera;
 
-    FrameBuffer   fbo;
-    ShaderProgram shader;
-    ShaderProgram blur;
+    float         ambientIntensity;
+    Color         ambientColor;
+    FrameBuffer   sceneFBO;
+    FrameBuffer   lightmapFBO;
+    FrameBuffer   screenFBO;
+    ShaderProgram multitexShader;
+    ShaderProgram ambientShader;
+    ShaderProgram postShader;
+    ShaderProgram sobelShader;
     float         accum;
     MutableFloat  pulse;
+    MutableFloat  counter;
+
+    boolean doPost = false;
+    float   angle_speed = 1f;
+    float   angle;
 
     UserInterface ui;
     Level         level;
@@ -88,9 +96,17 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
         ui = new UserInterface(game);
 
-        shader = Assets.testShaderProgram;
-        blur = Assets.blurShaderProgram;
-        fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
+        ambientIntensity = 0.8f;
+        ambientColor = new Color(0.7f, 0.7f, 0.9f, ambientIntensity);
+
+        multitexShader = Assets.multitexShaderProgram;
+        postShader = Assets.postShaderProgram;
+        ambientShader = Assets.ambientShaderProgram;
+        sobelShader = Assets.testShaderProgram;
+
+        sceneFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
+        lightmapFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
+        screenFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
 
         level = new Level();
         Rectangle bounds = level.occupied().room().bounds();
@@ -129,6 +145,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         ui.update(delta);
         ui.getArsenal().updateCurrentWeapon(player);
 
+        counter = new MutableFloat(0f);
         pulse = new MutableFloat(0.f);
         Tween.to(pulse, -1, 3.f)
                 .target(1.f)
@@ -139,67 +156,118 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     @Override
     public void render(float delta) {
+        final SpriteBatch batch = Assets.batch;
         accum += delta;
 
         Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
 
-        fbo.begin();
-
-        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        final SpriteBatch batch = Assets.batch;
-        batch.enableBlending();
-        batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        batch.setProjectionMatrix(camera.combined);
-
-        batch.setShader(shader);
-        batch.begin();
+        // Render lightmap into framebuffer
+        lightmapFBO.begin();
         {
-            batch.setColor(1, 1, 1, roomAlpha.floatValue());
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            shader.setUniformf("u_time", accum);
-            shader.setUniformi("u_texture", 0);
-            shader.setUniformi("u_texture1", 1);
+            batch.setProjectionMatrix(camera.combined);
+            batch.setShader(null);
+            batch.begin();
+            {
+                batch.setColor(1, 1, 1, 1);
 
-            Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE1);
-            Assets.avatartex.bind();
+                angle += delta * angle_speed;
+                while (angle > MathUtils.PI2) angle -= MathUtils.PI2;
 
-            Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
-            level.render(batch, camera);
-        }
-        batch.end();
-
-        batch.setShader(null);
-        batch.begin();
-        {
-            player.render(batch);
-            for (Enemy enemy : enemies) {
-                if (!enemy.isAlive()) continue;
-                enemy.render(batch);
+                final float sz = 512f;
+                final float d = sz * 0.05f;
+                final float light_size = sz - d + d * (float) Math.sin(angle) + d * MathUtils.random();
+                batch.draw(Assets.lightmaptex,
+                           player.getCenterPos().x - light_size / 2f,
+                           player.getCenterPos().y - light_size / 2f,
+                           light_size, light_size);
             }
+            batch.end();
         }
-        batch.end();
+        lightmapFBO.end();
 
-        fbo.end();
+        // Render world and entities into fbo
+        sceneFBO.begin();
+        {
+            Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            // Render level
+            batch.setProjectionMatrix(camera.combined);
+            batch.setShader(ambientShader);
+            batch.begin();
+            {
+                batch.setColor(1, 1, 1, roomAlpha.floatValue());
 
-        final TextureRegion fboRegion = new TextureRegion(fbo.getColorBufferTexture());
-        fboRegion.flip(false, true);
+                ambientShader.setUniformf("u_ambient", ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a);
 
-        batch.setProjectionMatrix(uiCamera.combined);
-        batch.setShader(blur);
+                level.render(batch, camera);
+                player.render(batch);
+                for (Enemy enemy : enemies) {
+                    if (!enemy.isAlive()) continue;
+                    enemy.render(batch);
+                }
+            }
+            batch.end();
+        }
+        sceneFBO.end();
+
+        // Composite lightmap onto
+        screenFBO.begin();
+        {
+            final TextureRegion sceneRegion = new TextureRegion(sceneFBO.getColorBufferTexture());
+            final TextureRegion lightmapRegion = new TextureRegion(lightmapFBO.getColorBufferTexture());
+            sceneRegion.flip(false, true);
+            lightmapRegion.flip(false, true);
+
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            batch.setProjectionMatrix(uiCamera.combined);
+            batch.setShader(multitexShader);
+            batch.begin();
+            {
+                multitexShader.setUniformf("u_time", accum);
+                multitexShader.setUniformi("u_texture", 0);
+                multitexShader.setUniformi("u_texture1", 1);
+
+                lightmapRegion.getTexture().bind(1);
+
+                Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
+                batch.draw(sceneRegion, 0, 0, sceneRegion.getRegionWidth(), sceneRegion.getRegionHeight());
+            }
+            batch.end();
+        }
+        screenFBO.end();
+
+        // Render post processing
+        final TextureRegion screenRegion = new TextureRegion(screenFBO.getColorBufferTexture());
+        screenRegion.flip(false, true);
+
+        Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        batch.setShader(postShader);
+        if (doPost) batch.setShader(postShader);
+        else        batch.setShader(null);
         batch.begin();
         {
-            blur.setUniformf("u_pulse", pulse.floatValue());
-            batch.draw(fboRegion, 0, 0, fboRegion.getRegionWidth(), fboRegion.getRegionHeight());
+            Vector3 worldPos = new Vector3(player.getCenterPos().x, player.getCenterPos().y, 0f);
+            Vector3 screenPos = camera.project(worldPos);
+            float width  = screenRegion.getRegionWidth();
+            float height = screenRegion.getRegionHeight();
+
+//            postShader.setUniformf("u_pulse", pulse.floatValue());
+            postShader.setUniformf("u_time", accum);
+            postShader.setUniformf("u_resolution", width, height);
+            postShader.setUniformf("u_screenPos", screenPos.x, screenPos.y);
+
+            batch.draw(screenRegion, 0, 0, width, height);
         }
         batch.end();
 
-//        level.renderDebug(camera);
-
+        // Render the user interface
         batch.setShader(null);
         ui.render(batch, uiCamera);
     }
@@ -361,6 +429,17 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             || GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
             temp.set(GameInstance.mousePlayerDirection).nor();
             player.attack(temp);
+            doPost = true;
+            accum = 0f;
+            counter.setValue(0f);
+            Tween.to(counter, -1, 3.0f)
+                    .setCallback(new TweenCallback() {
+                        @Override
+                        public void onEvent(int type, BaseTween<?> source) {
+                            doPost = false;
+                        }
+                    })
+                    .start(GameInstance.tweens);
             // TODO (brian): camera shake and attack special effects
         }
 

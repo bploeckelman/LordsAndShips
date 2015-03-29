@@ -1,17 +1,30 @@
 #ifdef GL_ES
+#define LOWP lowp
 precision mediump float;
+#else
+#define LOWP
 #endif
 
-varying vec4 v_color;
-varying vec2 v_texCoord0;
+varying LOWP vec4 v_color;
+varying      vec2 v_texCoord0;
 
 uniform float     u_time;
 uniform sampler2D u_texture;
-uniform sampler2D u_texture1;
+uniform vec2      u_resolution;
 
 void main() {
-	vec4 texColor0 = texture2D(u_texture, v_texCoord0);
-	vec4 texColor1 = texture2D(u_texture1, v_texCoord0);
+	vec4 texColor = texture2D(u_texture, v_texCoord0);
+	float PI = 3.14159265358;
+	vec2 uv = v_texCoord0.xy / u_resolution.xy;
+	float screenRatio = u_resolution.x / u_resolution.y;
 
-	gl_FragColor = vec4(v_color.r, abs(sin(u_time)), v_color.b, v_color.a) * texColor0 * texColor1;
+	vec3 color = vec3(
+		cos(uv.x * 10. * PI * screenRatio) +
+		cos(uv.y * 10. * PI) * abs(tan(u_time)));
+
+	color.r += uv.x;
+	color.g += uv.y;
+	color.b += 1. - uv.y;
+
+	gl_FragColor = vec4(color, 1.0);
 }

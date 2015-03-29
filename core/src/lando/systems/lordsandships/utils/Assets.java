@@ -29,8 +29,10 @@ public class Assets {
 
     public static SpriteBatch   batch;
     public static ShapeRenderer shapes;
+    public static ShaderProgram multitexShaderProgram;
+    public static ShaderProgram postShaderProgram;
+    public static ShaderProgram ambientShaderProgram;
     public static ShaderProgram testShaderProgram;
-    public static ShaderProgram blurShaderProgram;
     public static BitmapFont    font;
 
     public static Texture oryxWorld;
@@ -39,6 +41,7 @@ public class Assets {
     public static Texture starfieldLayer0;
     public static Texture starfieldLayer1;
 
+    public static Texture       lightmaptex;
     public static Texture       playertex;
     public static Texture       enemytex;
     public static Texture       avatartex;
@@ -70,26 +73,11 @@ public class Assets {
         batch = new SpriteBatch();
         shapes = new ShapeRenderer();
 
-        FileHandle vertSource = Gdx.files.internal("shaders/test.vert");
-        testShaderProgram = new ShaderProgram(
-                vertSource,
-                Gdx.files.internal("shaders/test.frag"));
-        if (!testShaderProgram.isCompiled()) {
-            throw new GdxRuntimeException("Failed to compile test shader program:\n" + testShaderProgram.getLog());
-        }
-        else if (testShaderProgram.getLog().length() > 0) {
-            Gdx.app.error("SHADER", "testShaderProgram compilation log:\n" + testShaderProgram.getLog());
-        }
-
-        blurShaderProgram = new ShaderProgram(
-                vertSource,
-                Gdx.files.internal("shaders/post.frag"));
-        if (!blurShaderProgram.isCompiled()) {
-            throw new GdxRuntimeException("Failed to compile blur shader program:\n" + blurShaderProgram.getLog());
-        }
-        else if (blurShaderProgram.getLog().length() > 0) {
-            Gdx.app.error("SHADER", "blurShaderProgram compilation log:\n" + blurShaderProgram.getLog());
-        }
+        final FileHandle vertSource = Gdx.files.internal("shaders/default.vert");
+        multitexShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/multitex.frag"));
+        postShaderProgram     = compileShaderProgram(vertSource, Gdx.files.internal("shaders/post.frag"));
+        ambientShaderProgram  = compileShaderProgram(vertSource, Gdx.files.internal("shaders/ambient.frag"));
+        testShaderProgram     = compileShaderProgram(vertSource, Gdx.files.internal("shaders/test.frag"));
 
         font = new BitmapFont();
 
@@ -104,6 +92,7 @@ public class Assets {
         starfieldLayer0 = new Texture("starfield_0.png");
         starfieldLayer1 = new Texture("starfield_1.png");
 
+        lightmaptex = new Texture("lightmap.png");
         playertex = new Texture("darkknight.png");
         enemytex = new Texture("character-sheet.png");
         avatartex = new Texture("avatar.png");
@@ -148,6 +137,7 @@ public class Assets {
         enemytex.dispose();
         playertex.dispose();
         avatartex.dispose();
+        lightmaptex.dispose();
 
         starfieldLayer1.dispose();
         starfieldLayer0.dispose();
@@ -157,8 +147,9 @@ public class Assets {
 
         font.dispose();
 
-        blurShaderProgram.dispose();
-        testShaderProgram.dispose();
+        ambientShaderProgram.dispose();
+        postShaderProgram.dispose();
+        multitexShaderProgram.dispose();
         shapes.dispose();
         batch.dispose();
     }
@@ -175,6 +166,17 @@ public class Assets {
 
     public static void renderRect(Rectangle rectangle) {
         Assets.shapes.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+    }
+
+    private static ShaderProgram compileShaderProgram(FileHandle vertSource, FileHandle fragSource) {
+        ShaderProgram shader = new ShaderProgram(vertSource, fragSource);
+        if (!shader.isCompiled()) {
+            throw new GdxRuntimeException("Failed to compile shader program:\n" + shader.getLog());
+        }
+        else if (shader.getLog().length() > 0) {
+            Gdx.app.error("SHADER", "ShaderProgram compilation log:\n" + shader.getLog());
+        }
+        return shader;
     }
 
 }
