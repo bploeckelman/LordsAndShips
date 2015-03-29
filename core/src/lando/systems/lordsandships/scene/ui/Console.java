@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.screens.GameScreen;
+import lando.systems.lordsandships.screens.TestScreen;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
 
 import java.util.ArrayList;
@@ -228,6 +229,16 @@ public class Console implements TextField.TextFieldListener {
                 if (game.getScreen() instanceof GameScreen) {
                     boolean state = ((GameScreen) game.getScreen()).toggleWeaponBounds();
                     return "Weapon hit bounds " + (state ? "enabled" : "disabled");
+                }
+                return "";
+            }
+        }));
+        cmds.add(new CCmd("toggle_lights", new CCmd.Function() {
+            @Override
+            public Object invoke(Object... params) {
+                if (game.getScreen() instanceof TestScreen) {
+                    boolean state = ((TestScreen) game.getScreen()).toggleLights();
+                    return "Lights " + (state ? "enabled" : "disabled");
                 }
                 return "";
             }

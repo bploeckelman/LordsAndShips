@@ -67,6 +67,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     MutableFloat  pulse;
     MutableFloat  counter;
 
+    boolean lightEnabled = true;
     boolean doPost = false;
     float   angle_speed = 1f;
     float   angle;
@@ -162,31 +163,33 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         Gdx.gl20.glViewport(0, 0, (int) camera.viewportWidth, (int) camera.viewportHeight);
 
         // Render lightmap into framebuffer
-        lightmapFBO.begin();
-        {
-            Gdx.gl.glClearColor(0, 0, 0, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-            batch.setProjectionMatrix(camera.combined);
-            batch.setShader(null);
-            batch.begin();
+        if (lightEnabled) {
+            lightmapFBO.begin();
             {
-                batch.setColor(1, 1, 1, 1);
+                Gdx.gl.glClearColor(0, 0, 0, 1);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-                angle += delta * angle_speed;
-                while (angle > MathUtils.PI2) angle -= MathUtils.PI2;
+                batch.setProjectionMatrix(camera.combined);
+                batch.setShader(null);
+                batch.begin();
+                {
+                    batch.setColor(1, 1, 1, 1);
 
-                final float sz = 512f;
-                final float d = sz * 0.05f;
-                final float light_size = sz - d + d * (float) Math.sin(angle) + d * MathUtils.random();
-                batch.draw(Assets.lightmaptex,
-                           player.getCenterPos().x - light_size / 2f,
-                           player.getCenterPos().y - light_size / 2f,
-                           light_size, light_size);
+                    angle += delta * angle_speed;
+                    while (angle > MathUtils.PI2) angle -= MathUtils.PI2;
+
+                    final float sz = 512f;
+                    final float d = sz * 0.05f;
+                    final float light_size = sz - d + d * (float) Math.sin(angle) + d * MathUtils.random();
+                    batch.draw(Assets.lightmaptex,
+                               player.getCenterPos().x - light_size / 2f,
+                               player.getCenterPos().y - light_size / 2f,
+                               light_size, light_size);
+                }
+                batch.end();
             }
-            batch.end();
+            lightmapFBO.end();
         }
-        lightmapFBO.end();
 
         // Render world and entities into fbo
         sceneFBO.begin();
@@ -226,14 +229,16 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
             batch.setProjectionMatrix(uiCamera.combined);
-            batch.setShader(multitexShader);
+            if (lightEnabled) batch.setShader(multitexShader);
+            else              batch.setShader(null);
             batch.begin();
             {
-                multitexShader.setUniformf("u_time", accum);
-                multitexShader.setUniformi("u_texture", 0);
-                multitexShader.setUniformi("u_texture1", 1);
-
-                lightmapRegion.getTexture().bind(1);
+                if (lightEnabled) {
+                    multitexShader.setUniformf("u_time", accum);
+                    multitexShader.setUniformi("u_texture", 0);
+                    multitexShader.setUniformi("u_texture1", 1);
+                    lightmapRegion.getTexture().bind(1);
+                }
 
                 Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
                 batch.draw(sceneRegion, 0, 0, sceneRegion.getRegionWidth(), sceneRegion.getRegionHeight());
@@ -367,6 +372,15 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         ui.dispose();
     }
 
+    // -------------------------------------------------------------------------
+    // Delegating Methods
+    // ------------------
+    // NOTE: mainly used for console commands, find a cleaner way to handle them
+    // -------------------------------------------------------------------------
+
+    public boolean toggleLights() {
+        return (lightEnabled = !lightEnabled);
+    }
 
     // -------------------------------------------------------------------------
     // Implementation Methods
