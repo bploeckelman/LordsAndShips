@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.utils.Assets;
+import lando.systems.lordsandships.utils.Constants;
 
 import java.util.LinkedList;
 
@@ -18,6 +19,11 @@ import java.util.LinkedList;
  */
 public class Level {
 
+    // Default level is one room, roughly the same size as the game window
+    private static final int default_level_width  = Constants.win_width;
+    private static final int default_level_height = Constants.win_height;
+    private static final int default_level_depth  = 0;
+
     BSP                           bsp;
     BSP.Leaf                      leaf;
     Rectangle                     bounds;
@@ -25,13 +31,12 @@ public class Level {
     ObjectMap<BSP.Leaf, BSP.Leaf> neighbors;
 
     public Level() {
-        // TODO : pass in a desired level size (num rooms and level size)
-        final int level_width = 500 * Tile.TILE_SIZE;
-        final int level_height = 500 * Tile.TILE_SIZE;
-        final int level_depth = 5;
+        this(default_level_width, default_level_height, default_level_depth);
+    }
 
-        bounds = new Rectangle(0, 0, level_width, level_height);
-        bsp = new BSP(bounds, level_depth);
+    public Level(int width, int height, int depth) {
+        bounds = new Rectangle(0, 0, width, height);
+        bsp = new BSP(bounds, depth);
         rooms = generateRooms(bsp);
         neighbors = connectNeighbors(bsp);
     }
