@@ -80,7 +80,7 @@ public class Bat extends Enemy {
 
         collisionBounds.set(boundingBox.x + boundingBox.width / 2f,
                             boundingBox.y + boundingBox.height / 2f,
-                            (boundingBox.width + boundingBox.height) / 4f - 3f);
+                            (boundingBox.width + boundingBox.height) / 4f - 1.5f);
     }
 
     @Override
