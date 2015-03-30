@@ -4,11 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
@@ -92,7 +93,7 @@ public class World {
         final Graph<Room> roomGraph = dungeonGenerator.generateRoomGraph(params);
 
         Gdx.app.log("WORLD", "Generating tilemap...");
-        tileMap.generateTilesFromGraph(roomGraph);
+        tileMap.generateFromRoomGraph(roomGraph);
 
         Gdx.app.log("WORLD", "Placing enemies...");
         enemies.clear();

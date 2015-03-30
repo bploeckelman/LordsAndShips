@@ -2,13 +2,17 @@ package lando.systems.lordsandships.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.Random;
 
@@ -23,10 +27,13 @@ public class Assets {
 
     public static Random rand;
 
-    public static SpriteBatch batch;
+    public static SpriteBatch   batch;
     public static ShapeRenderer shapes;
-
-    public static BitmapFont font;
+    public static ShaderProgram multitexShaderProgram;
+    public static ShaderProgram postShaderProgram;
+    public static ShaderProgram ambientShaderProgram;
+    public static ShaderProgram testShaderProgram;
+    public static BitmapFont    font;
 
     public static Texture oryxWorld;
     public static Texture oryxCreatures;
@@ -34,14 +41,16 @@ public class Assets {
     public static Texture starfieldLayer0;
     public static Texture starfieldLayer1;
 
-    public static Texture playertex;
-    public static Texture enemytex;
-    public static Texture avatartex;
+    public static Texture       lightmaptex;
+    public static Texture       playertex;
+    public static Texture       enemytex;
+    public static Texture       avatartex;
     public static TextureRegion shadow;
 
     public static TextureAtlas atlas;
     public static TextureAtlas uiAtlas;
     public static TextureAtlas raphAtlas;
+    public static TextureAtlas raphAllAtlas;
 
     public static Sound gunshot_shot;
     public static Sound gunshot_impact;
@@ -64,11 +73,18 @@ public class Assets {
         batch = new SpriteBatch();
         shapes = new ShapeRenderer();
 
-        font = new BitmapFont(Gdx.files.internal("fonts/tolkien.fnt"), false);
+        final FileHandle vertSource = Gdx.files.internal("shaders/default.vert");
+        multitexShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/multitex.frag"));
+        postShaderProgram     = compileShaderProgram(vertSource, Gdx.files.internal("shaders/post.frag"));
+        ambientShaderProgram  = compileShaderProgram(vertSource, Gdx.files.internal("shaders/ambient.frag"));
+        testShaderProgram     = compileShaderProgram(vertSource, Gdx.files.internal("shaders/test.frag"));
+
+        font = new BitmapFont();
 
         atlas = new TextureAtlas(Gdx.files.internal("atlas/game.atlas"));
         uiAtlas = new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas"));
         raphAtlas = new TextureAtlas(Gdx.files.internal("raph-atlas/raph.atlas"));
+        raphAllAtlas = new TextureAtlas(Gdx.files.internal("raph-atlas/raph-atlas-all.atlas"));
 
         oryxWorld = new Texture("oryx/world.png");
         oryxCreatures = new Texture("oryx/creatures.png");
@@ -76,6 +92,7 @@ public class Assets {
         starfieldLayer0 = new Texture("starfield_0.png");
         starfieldLayer1 = new Texture("starfield_1.png");
 
+        lightmaptex = new Texture("lightmap.png");
         playertex = new Texture("darkknight.png");
         enemytex = new Texture("character-sheet.png");
         avatartex = new Texture("avatar.png");
@@ -113,12 +130,14 @@ public class Assets {
         gunshot_impact.dispose();
         gunshot_shot.dispose();
 
+        raphAllAtlas.dispose();
         raphAtlas.dispose();
         uiAtlas.dispose();
         atlas.dispose();
         enemytex.dispose();
         playertex.dispose();
         avatartex.dispose();
+        lightmaptex.dispose();
 
         starfieldLayer1.dispose();
         starfieldLayer0.dispose();
@@ -128,6 +147,9 @@ public class Assets {
 
         font.dispose();
 
+        ambientShaderProgram.dispose();
+        postShaderProgram.dispose();
+        multitexShaderProgram.dispose();
         shapes.dispose();
         batch.dispose();
     }
@@ -140,6 +162,21 @@ public class Assets {
             case 4: return hit4;
         }
         return hit1;
+    }
+
+    public static void renderRect(Rectangle rectangle) {
+        Assets.shapes.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+    }
+
+    private static ShaderProgram compileShaderProgram(FileHandle vertSource, FileHandle fragSource) {
+        ShaderProgram shader = new ShaderProgram(vertSource, fragSource);
+        if (!shader.isCompiled()) {
+            throw new GdxRuntimeException("Failed to compile shader program:\n" + shader.getLog());
+        }
+        else if (shader.getLog().length() > 0) {
+            Gdx.app.error("SHADER", "ShaderProgram compilation log:\n" + shader.getLog());
+        }
+        return shader;
     }
 
 }

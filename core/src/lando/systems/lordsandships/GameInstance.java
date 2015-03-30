@@ -7,10 +7,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.screens.*;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector2Accessor;
+import lando.systems.lordsandships.tweens.Vector3Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
 import lando.systems.lordsandships.utils.Input;
@@ -38,19 +39,23 @@ public class GameInstance extends Game {
         Assets.load();
 
         Tween.registerAccessor(Vector2.class, new Vector2Accessor());
+        Tween.registerAccessor(Vector3.class, new Vector3Accessor());
         Tween.registerAccessor(Color.class,   new ColorAccessor());
 
         Gdx.input.setInputProcessor(input);
         Gdx.input.setCursorCatched(false);
 
-//        screens.put(Constants.title_screen, new TitleScreen(this));
-//        setScreen(Constants.title_screen);
-        screens.put(Constants.game_screen, new GameScreen(this));
-        setScreen(Constants.game_screen);
+        screens.put(Constants.title_screen,         new TitleScreen(this));
+        screens.put(Constants.game_screen,          new GameScreen(this));
         screens.put(Constants.player_select_screen, new PlayerSelectScreen(this));
-        setScreen(Constants.player_select_screen);
-        screens.put(Constants.map_editor_screen, new MapEditorScreen(this));
-        setScreen(Constants.map_editor_screen);
+        screens.put(Constants.map_editor_screen,    new MapEditorScreen(this));
+        screens.put(Constants.test_screen,          new TestScreen(this));
+
+//        setScreen(Constants.title_screen);
+//        setScreen(Constants.game_screen);
+//        setScreen(Constants.player_select_screen);
+//        setScreen(Constants.map_editor_screen);
+        setScreen(Constants.test_screen);
     }
 
     @Override

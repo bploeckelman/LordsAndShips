@@ -22,6 +22,8 @@ public class TileSetRaph extends TileSet {
         Texture tile_wall_v         = new Texture("raph-tiles/wall_v.png");
         Texture tile_wall_slant     = new Texture("raph-tiles/wall_slant.png");
 
+        TextureRegion tile_door     = Assets.raphAllAtlas.findRegion("door");
+
         TextureRegion[][] textures = TextureRegion.split(Assets.oryxWorld,
                                                          TILE_SIZE, TILE_SIZE);
         int rows = textures.length;
@@ -37,8 +39,8 @@ public class TileSetRaph extends TileSet {
 
         wall_horiz_n.flip(false, false);
         wall_horiz_s.flip(false, true);
-        wall_vert_e.flip(true, false);
-        wall_vert_w.flip(false, false);
+        wall_vert_e.flip(false, false);
+        wall_vert_w.flip(true,  false);
 
         TextureRegion corner_inner_nw = new TextureRegion(tile_corner_inside);
         TextureRegion corner_inner_ne = new TextureRegion(tile_corner_inside);
@@ -60,8 +62,28 @@ public class TileSetRaph extends TileSet {
         corner_outer_sw.flip(false, true);
         corner_outer_se.flip(true,  true);
 
+        TextureRegion door_horiz_n = new TextureRegion(tile_door);
+        TextureRegion door_horiz_s = new TextureRegion(tile_door);
+        TextureRegion door_vert_e  = new TextureRegion(tile_door);
+        TextureRegion door_vert_w  = new TextureRegion(tile_door);
+
+        door_horiz_n.flip(false, false);
+        door_horiz_s.flip(false, true);
+
+        float u = door_vert_e.getU();
+        float v = door_vert_e.getV();
+        float u2 = door_vert_e.getU2();
+        float v2 = door_vert_e.getV2();
+
+        door_vert_e.setRegion(u, v2, u2, v);
+        door_vert_e.flip(false, false);
+
+        door_vert_w.setRegion(u, v2, u2, v);
+        door_vert_w.flip(true, false);
+
         tiles.put(TileType.BLANK, blank);
         tiles.put(TileType.FLOOR, floor);
+        tiles.put(TileType.BLOCK, new TextureRegion(tile_block_big));
 
         tiles.put(TileType.WALL_HORIZ_N, wall_horiz_n);
         tiles.put(TileType.WALL_HORIZ_S, wall_horiz_s);
@@ -78,6 +100,11 @@ public class TileSetRaph extends TileSet {
         tiles.put(TileType.CORNER_INNER_NE, corner_inner_ne);
         tiles.put(TileType.CORNER_INNER_SW, corner_inner_sw);
         tiles.put(TileType.CORNER_INNER_SE, corner_inner_se);
+
+        tiles.put(TileType.DOOR_HORIZ_N, door_horiz_n);
+        tiles.put(TileType.DOOR_HORIZ_S, door_horiz_s);
+        tiles.put(TileType.DOOR_VERT_E, door_vert_e);
+        tiles.put(TileType.DOOR_VERT_W, door_vert_w);
     }
 
 }
