@@ -1,10 +1,12 @@
 package lando.systems.lordsandships.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Utils;
 
@@ -21,7 +23,6 @@ public class Enemy extends Entity {
 
     public Enemy(Texture texture, float x, float y, float w, float h, float animRate) {
         super(new TextureRegion(texture), x, y, w, h);
-
         TextureRegion[] keyframesRight = new TextureRegion[4];
         keyframesRight[0] = Assets.raphAtlas.findRegion("dragonFly", 0);
         keyframesRight[1] = Assets.raphAtlas.findRegion("dragonFly", 1);
@@ -32,6 +33,8 @@ public class Enemy extends Entity {
             keyframesLeft[i] = new TextureRegion(keyframesRight[i]);
             keyframesLeft[i].flip(true, false);
         }
+        boundingBox.set(x, y, keyframesRight[0].getRegionWidth(), keyframesRight[0].getRegionHeight());
+
 
         walkRight = new Animation(animRate, keyframesRight);
         walkLeft  = new Animation(animRate, keyframesLeft);
@@ -93,19 +96,31 @@ public class Enemy extends Entity {
         boundingBox.x += velocity.x * delta;
         boundingBox.y += velocity.y * delta;
         position.set(boundingBox.x + boundingBox.width / 2f, boundingBox.y + boundingBox.height / 2f);
-        collisionBounds.set(position, (boundingBox.width + boundingBox.height) / 4f - 3f);
+        collisionBounds.set(boundingBox.x + boundingBox.width / 2f,
+                            boundingBox.y + boundingBox.height / 2f,
+                            (boundingBox.width + boundingBox.height) / 4f);
     }
 
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(Assets.shadow, boundingBox.x, boundingBox.y - 2);
         batch.setColor(color);
-        batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 18);
+        batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         batch.setColor(1,1,1,1);
+
 //        batch.end();
+//        Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
 //        Assets.shapes.setColor(Color.RED);
+//        Assets.shapes.circle(position.x, position.y, 2);
+//        Assets.shapes.setColor(Color.MAGENTA);
+//        Assets.shapes.circle(boundingBox.x, boundingBox.y, 3);
+//        Assets.shapes.end();
+//
 //        Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+//        Assets.shapes.setColor(Color.YELLOW);
 //        Assets.shapes.circle(collisionBounds.x, collisionBounds.y, collisionBounds.radius);
+//        Assets.shapes.setColor(Color.ORANGE);
+//        Assets.renderRect(boundingBox);
 //        Assets.shapes.end();
 //        batch.begin();
     }
