@@ -69,6 +69,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     MutableFloat  pulse;
     MutableFloat  counter;
 
+    boolean debugRenderEnemies = false;
     boolean lightEnabled = true;
     boolean doPost = false;
     float   angle_speed = 1f;
@@ -216,6 +217,13 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 }
             }
             batch.end();
+
+            if (debugRenderEnemies) {
+                for (Enemy enemy : enemies) {
+                    if (!enemy.isAlive()) continue;
+                    enemy.renderDebug();
+                }
+            }
         }
         sceneFBO.end();
 
@@ -382,6 +390,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     public boolean toggleLights() {
         return (lightEnabled = !lightEnabled);
+    }
+
+    public boolean toggleDebugRenderEnemy() {
+        return (debugRenderEnemies = !debugRenderEnemies);
     }
 
     // -------------------------------------------------------------------------

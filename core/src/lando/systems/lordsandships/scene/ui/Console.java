@@ -243,6 +243,16 @@ public class Console implements TextField.TextFieldListener {
                 return "";
             }
         }));
+        cmds.add(new CCmd("toggle_debug_enemies", new CCmd.Function() {
+            @Override
+            public Object invoke(Object... params) {
+                if (game.getScreen() instanceof TestScreen) {
+                    boolean state = ((TestScreen) game.getScreen()).toggleDebugRenderEnemy();
+                    return "Debug render enemies " + (state ? "enabled" : "disabled");
+                }
+                return "";
+            }
+        }));
     }
 
     /**

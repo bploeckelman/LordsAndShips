@@ -107,21 +107,22 @@ public class Enemy extends Entity {
         batch.setColor(color);
         batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         batch.setColor(1,1,1,1);
-
-//        batch.end();
-//        Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
-//        Assets.shapes.setColor(Color.RED);
-//        Assets.shapes.circle(position.x, position.y, 2);
-//        Assets.shapes.setColor(Color.MAGENTA);
-//        Assets.shapes.circle(boundingBox.x, boundingBox.y, 3);
-//        Assets.shapes.end();
-//
-//        Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
-//        Assets.shapes.setColor(Color.YELLOW);
-//        Assets.shapes.circle(collisionBounds.x, collisionBounds.y, collisionBounds.radius);
-//        Assets.shapes.setColor(Color.ORANGE);
-//        Assets.renderRect(boundingBox);
-//        Assets.shapes.end();
-//        batch.begin();
     }
+
+    public void renderDebug() {
+        Assets.shapes.begin(ShapeRenderer.ShapeType.Filled);
+        Assets.shapes.setColor(Color.RED);
+        Assets.shapes.circle(position.x, position.y, 1);
+        Assets.shapes.setColor(Color.MAGENTA);
+        Assets.shapes.circle(boundingBox.x, boundingBox.y, 2);
+        Assets.shapes.end();
+
+        Assets.shapes.begin(ShapeRenderer.ShapeType.Line);
+        Assets.shapes.setColor(Color.YELLOW);
+        Assets.shapes.circle(collisionBounds.x, collisionBounds.y, collisionBounds.radius);
+        Assets.shapes.setColor(Color.ORANGE);
+        Assets.renderRect(boundingBox);
+        Assets.shapes.end();
+    }
+
 }
