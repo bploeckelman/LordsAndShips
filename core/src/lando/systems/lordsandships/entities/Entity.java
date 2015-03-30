@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.*;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.tweens.ColorAccessor;
 
 /**
@@ -42,10 +43,10 @@ public abstract class Entity {
         batch.setColor(1,1,1,1);
     }
 
-    public int getGridMinX() { return (int) (boundingBox.x / 16); }
-    public int getGridMinY() { return (int) (boundingBox.y / 16); }
-    public int getGridMaxX() { return (int) ((boundingBox.x + boundingBox.width ) / 16); }
-    public int getGridMaxY() { return (int) ((boundingBox.y + boundingBox.height) / 16); }
+    public int getGridMinX() { return (int) (boundingBox.x / Tile.TILE_SIZE); }
+    public int getGridMinY() { return (int) (boundingBox.y / Tile.TILE_SIZE); }
+    public int getGridMaxX() { return (int) ((boundingBox.x + boundingBox.width ) / Tile.TILE_SIZE); }
+    public int getGridMaxY() { return (int) ((boundingBox.y + boundingBox.height) / Tile.TILE_SIZE); }
 
     public boolean isAlive() { return alive; }
     public Vector2 getPosition() { return position; }
