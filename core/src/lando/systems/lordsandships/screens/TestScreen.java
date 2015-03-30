@@ -23,6 +23,7 @@ import lando.systems.lordsandships.entities.Enemy;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.entities.Player;
 import lando.systems.lordsandships.entities.enemies.Bat;
+import lando.systems.lordsandships.entities.enemies.Batclops;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.level.Level;
 import lando.systems.lordsandships.scene.level.Room;
@@ -496,8 +497,9 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         int num_enemies = 50;
         for (int i = 0; i < num_enemies; ++i) {
             pos.set(bounds.x + bounds.width / 2f, bounds.y + bounds.height / 2f);
-            if (i % 2 == 0) enemies.add(new Bat(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.09f));
-            else            enemies.add(new Enemy(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.1f));
+            if      (i % 2 == 0) enemies.add(new Bat(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.09f));
+            else if (i % 3 == 0) enemies.add(new Batclops(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.1f));
+            else                 enemies.add(new Enemy(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.1f));
         }
     }
 
