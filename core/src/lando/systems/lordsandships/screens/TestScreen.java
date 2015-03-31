@@ -35,6 +35,7 @@ import lando.systems.lordsandships.tweens.ColorAccessor;
 import lando.systems.lordsandships.tweens.Vector3Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
+import lando.systems.lordsandships.utils.Utils;
 import lando.systems.lordsandships.weapons.Weapon;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     Color              bgColor;
     OrthographicCamera camera;
     OrthographicCamera uiCamera;
+    Utils.Shake        screenShaker;
 
     float         ambientIntensity;
     Color         ambientColor;
@@ -72,10 +74,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     MutableFloat  counter;
 
     boolean debugRenderEnemies = false;
-    boolean lightEnabled = true;
-    boolean doPost = false;
-    float   angle_speed = 1f;
-    float   angle;
+    boolean lightEnabled       = true;
+    boolean doPost             = false;
+    float   angle_speed        = 1f;
+    float angle;
 
     UserInterface ui;
     Level         level;
@@ -89,6 +91,8 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     public void create() {
         bgColor = new Color(0.43f, 0.43f, 0.43f, 1);
+
+        screenShaker = new Utils.Shake(10, 10);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);
@@ -158,6 +162,8 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 .ease(Circ.OUT)
                 .repeatYoyo(-1, 0.33f)
                 .start(GameInstance.tweens);
+
+        screenShaker.update(delta, camera, camera.position.x, camera.position.y);
     }
 
     @Override
@@ -460,20 +466,21 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             temp.set(GameInstance.mousePlayerDirection).nor();
             player.attack(temp);
 
-            if (!doPost) {
-                doPost = true;
-                accum = 0f;
-                counter.setValue(0f);
-                Tween.to(counter, -1, 3.0f)
-                     .setCallback(new TweenCallback() {
-                         @Override
-                         public void onEvent(int type, BaseTween<?> source) {
-                             doPost = false;
-                         }
-                     })
-                     .start(GameInstance.tweens);
-            }
-            // TODO (brian): camera shake and attack special effects
+            screenShaker.shake(0.3f);
+            // special effects
+//            if (!doPost) {
+//                doPost = true;
+//                accum = 0f;
+//                counter.setValue(0f);
+//                Tween.to(counter, -1, 3.0f)
+//                     .setCallback(new TweenCallback() {
+//                         @Override
+//                         public void onEvent(int type, BaseTween<?> source) {
+//                             doPost = false;
+//                         }
+//                     })
+//                     .start(GameInstance.tweens);
+//            }
         }
 
         player.velocity.x += dx;
