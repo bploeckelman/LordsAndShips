@@ -99,14 +99,14 @@ public class Sword extends Weapon {
         float hh = h / 2f;
 
         // Offset and position
-        float ox = direction.x * hw * 0.9f;
-        float oy = direction.y * hh * 0.9f;
+        float ox = direction.x * hw * 0.1f;
+        float oy = direction.y * hh * 0.1f;
         float px = originX - hw + ox;
         float py = originY - hh + oy;
 
         // Scale
-        float sx = 1;
-        float sy = 1;
+        float sx = 0.8f;
+        float sy = 0.8f;
 
         bounds.set(originX + ox, originY + oy, (w * sx + h * sy) / 4.75f);
 
