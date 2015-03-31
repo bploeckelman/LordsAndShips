@@ -51,7 +51,7 @@ public class Assets {
     public static TextureAtlas uiAtlas;
     public static TextureAtlas raphAtlas;
     public static TextureAtlas raphAllAtlas;
-    public static TextureAtlas creatures;
+    public static TextureAtlas collection;
 
     public static Sound gunshot_shot;
     public static Sound gunshot_impact;
@@ -76,9 +76,9 @@ public class Assets {
 
         final FileHandle vertSource = Gdx.files.internal("shaders/default.vert");
         multitexShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/multitex.frag"));
-        postShaderProgram     = compileShaderProgram(vertSource, Gdx.files.internal("shaders/post.frag"));
-        ambientShaderProgram  = compileShaderProgram(vertSource, Gdx.files.internal("shaders/ambient.frag"));
-        testShaderProgram     = compileShaderProgram(vertSource, Gdx.files.internal("shaders/test.frag"));
+        postShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/post.frag"));
+        ambientShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/ambient.frag"));
+        testShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/test.frag"));
 
         font = new BitmapFont();
 
@@ -86,7 +86,7 @@ public class Assets {
         uiAtlas = new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas"));
         raphAtlas = new TextureAtlas(Gdx.files.internal("raph-atlas/raph.atlas"));
         raphAllAtlas = new TextureAtlas(Gdx.files.internal("raph-atlas/raph-atlas-all.atlas"));
-        creatures = new TextureAtlas(Gdx.files.internal("raph-atlas/raph-creatures.atlas"));
+        collection = new TextureAtlas(Gdx.files.internal("raph-atlas/raph-collection.atlas"));
 
         oryxWorld = new Texture("oryx/world.png");
         oryxCreatures = new Texture("oryx/creatures.png");
@@ -132,7 +132,7 @@ public class Assets {
         gunshot_impact.dispose();
         gunshot_shot.dispose();
 
-        creatures.dispose();
+        collection.dispose();
         raphAllAtlas.dispose();
         raphAtlas.dispose();
         uiAtlas.dispose();

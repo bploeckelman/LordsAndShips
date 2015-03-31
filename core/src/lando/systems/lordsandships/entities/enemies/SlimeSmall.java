@@ -29,7 +29,7 @@ public class SlimeSmall extends Enemy {
         final int num_keyframes = 6;
         final TextureRegion[] keyframes = new TextureRegion[num_keyframes];
         for (int i = 0; i < num_keyframes; ++i) {
-            keyframes[i] = Assets.creatures.findRegion(name, i+1);
+            keyframes[i] = Assets.collection.findRegion(name, i+1);
         }
 
         anim = new Animation(animRate, keyframes);

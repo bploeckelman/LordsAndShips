@@ -1,11 +1,9 @@
 package lando.systems.lordsandships.entities.enemies;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import lando.systems.lordsandships.entities.Enemy;
 import lando.systems.lordsandships.utils.Assets;
 
@@ -30,7 +28,7 @@ public class Bat extends Enemy {
         final int num_keyframes = 6;
         final TextureRegion[] keyframes = new TextureRegion[num_keyframes];
         for (int i = 0; i < num_keyframes; ++i) {
-            keyframes[i] = Assets.creatures.findRegion(name, i+1);
+            keyframes[i] = Assets.collection.findRegion(name, i+1);
         }
 
         anim = new Animation(animRate, keyframes);

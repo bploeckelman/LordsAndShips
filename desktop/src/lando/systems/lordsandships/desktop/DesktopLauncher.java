@@ -14,6 +14,10 @@ public class DesktopLauncher {
 //		settings.filterMag = Texture.TextureFilter.MipMapNearestNearest;
 //		settings.maxWidth = 1024;
 //		settings.maxHeight = 1024;
+//		TexturePacker.process(settings,
+//		                      "C:\\Users\\brian_000\\Desktop\\workspace\\0-raph\\converted",
+//		                      "C:\\Users\\brian_000\\Desktop\\workspace\\0-raph\\Pixels\\allabaster\\characters\\0_all\\atlas",
+//		                      "raph-collection");
 //		TexturePacker.process(settings, "./images", "./atlas", "game");
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
