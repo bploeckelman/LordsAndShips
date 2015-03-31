@@ -1,6 +1,8 @@
 package lando.systems.lordsandships.scene.level;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import lando.systems.lordsandships.scene.tilemap.Tile;
@@ -8,6 +10,9 @@ import lando.systems.lordsandships.scene.tilemap.TileSet;
 import lando.systems.lordsandships.scene.tilemap.TileSetRaph;
 import lando.systems.lordsandships.scene.tilemap.TileType;
 import lando.systems.lordsandships.utils.Assets;
+import org.w3c.dom.css.Rect;
+
+import java.util.Random;
 
 /**
  * Brian Ploeckelman created on 3/7/2015.
@@ -62,6 +67,26 @@ public class Room {
                 else                                         room.tiles[y][x].type = TileType.FLOOR;
             }
         }
+
+        // chop some rectangles out of the main room
+        int num_rects = 10;
+        for (int i = 0; i < num_rects; ++i) {
+            final Random r = Assets.rand;
+            int xN = r.nextInt((width - 2) / 4) + 1;
+            int yN = r.nextInt((height - 2) / 4) + 1;
+            int maxx = width - (xN + 1);
+            int maxy = height - (yN + 1);
+            int x0 = r.nextInt(maxx - 1) + 1;
+            int y0 = r.nextInt(maxy - 1) + 1;
+            for (int y = y0; y < y0 + yN; ++y) {
+                for (int x = x0; x < x0 + xN; ++x) {
+                    room.walkable[y][x] = false;
+                    room.tiles[y][x].type = TileType.BLOCK;
+                }
+            }
+        }
+
+        room.calculateAdjacency();
         return room;
     }
 
@@ -101,6 +126,7 @@ public class Room {
         int width  = tiles[0].length;
         int height = tiles.length;
         Assets.font.setScale(0.25f);
+//        BitmapFont.TextBounds textBounds;
 
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
@@ -114,9 +140,10 @@ public class Room {
 
                 // Draw adjacency score for current tile
 //                String adj = ""+adjacency[y][x];
-//                bounds = Assets.font.getBounds(adj);
-//                float hw = bounds.width  / 2;
-//                float hh = bounds.height / 2;
+//                textBounds = Assets.font.getBounds(adj);
+//                float hw = textBounds.width  / 2;
+//                float hh = textBounds.height / 2;
+//                float hs = Tile.TILE_SIZE / 2;
 //                batch.setColor(Color.WHITE);
 //                Assets.font.draw(batch, adj, px + hs - hw, py + hs + hh);
             }
