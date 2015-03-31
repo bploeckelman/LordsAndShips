@@ -404,6 +404,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         return (debugRenderEnemies = !debugRenderEnemies);
     }
 
+    public boolean toggleWeaponBounds() {
+        return player.toggleWeaponBounds();
+    }
+
     public boolean toggleMouseLook() {
         return player.toggleMouseLook();
     }

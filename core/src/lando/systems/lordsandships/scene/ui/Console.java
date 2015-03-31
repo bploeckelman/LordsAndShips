@@ -230,6 +230,10 @@ public class Console implements TextField.TextFieldListener {
                     boolean state = ((GameScreen) game.getScreen()).toggleWeaponBounds();
                     return "Weapon hit bounds " + (state ? "enabled" : "disabled");
                 }
+                if (game.getScreen() instanceof TestScreen) {
+                    boolean state = ((TestScreen) game.getScreen()).toggleWeaponBounds();
+                    return "Weapon hit bounds " + (state ? "enabled" : "disabled");
+                }
                 return "";
             }
         }));
