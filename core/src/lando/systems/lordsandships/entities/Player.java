@@ -30,7 +30,7 @@ public class Player extends Entity {
     float animTimer = 0f;
     boolean punching = false;
     boolean showWeaponHitBounds = false;
-    boolean mouseLook = false;
+    boolean mouseLook = true;
 
     Weapon currentWeapon;
     Array<Weapon> weapons;
