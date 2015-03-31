@@ -30,6 +30,7 @@ public class Player extends Entity {
     float animTimer = 0f;
     boolean punching = false;
     boolean showWeaponHitBounds = false;
+    boolean mouseLook = false;
 
     Weapon currentWeapon;
     Array<Weapon> weapons;
@@ -123,50 +124,51 @@ public class Player extends Entity {
             animTimer = 0f;
         }
 
-        // Set walk direction based on movement direction
-        if (velocity.y == 0) {
-            if (currentAnim != walkRight && velocity.x > 0) {
-                currentAnim  = walkRight;
-                animTimer = 0f;
-            } else if (currentAnim != walkLeft && velocity.x < 0) {
-                currentAnim = walkLeft;
-                animTimer = 0f;
+        if (mouseLook) {
+            // Set walk direction based on relative mouse orientation
+            dir.set(GameInstance.mousePlayerDirection);
+            if (dir.x != 0 && dir.y != 0) {
+                float deg =
+                        MathUtils.radiansToDegrees * MathUtils.atan2(dir.y, dir.x);
+                if (currentAnim != walkRight &&
+                    ((deg >= -45 && deg <= 0) || (deg >= 0 && deg <= 45))) {
+                    currentAnim = walkRight;
+                    animTimer = 0f;
+                } else if (currentAnim != walkLeft &&
+                           ((deg >= -180 && deg <= (-180 + 45)) ||
+                            (deg >= (180 - 45) && deg <= 180))) {
+                    currentAnim = walkLeft;
+                    animTimer = 0f;
+                } else if (currentAnim != walkUp &&
+                           (deg >= 45 && deg <= (180 - 45))) {
+                    currentAnim = walkUp;
+                    animTimer = 0f;
+                } else if (currentAnim != walkDown &&
+                           (deg >= (-180 + 45) && deg <= -45)) {
+                    currentAnim = walkDown;
+                    animTimer = 0f;
+                }
             }
-        } else if (velocity.x == 0) {
-            if (currentAnim != walkUp && velocity.y > 0) {
-                currentAnim  = walkUp;
-                animTimer = 0f;
-            }
-            else if (currentAnim != walkDown && velocity.y < 0) {
-                currentAnim = walkDown;
-                animTimer = 0f;
+        } else {
+            // Set walk direction based on movement direction
+            if (velocity.y == 0) {
+                if (currentAnim != walkRight && velocity.x > 0) {
+                    currentAnim = walkRight;
+                    animTimer = 0f;
+                } else if (currentAnim != walkLeft && velocity.x < 0) {
+                    currentAnim = walkLeft;
+                    animTimer = 0f;
+                }
+            } else if (velocity.x == 0) {
+                if (currentAnim != walkUp && velocity.y > 0) {
+                    currentAnim = walkUp;
+                    animTimer = 0f;
+                } else if (currentAnim != walkDown && velocity.y < 0) {
+                    currentAnim = walkDown;
+                    animTimer = 0f;
+                }
             }
         }
-
-        // Set walk direction based on relative mouse orientation
-//        dir.set(GameInstance.mousePlayerDirection);
-//        if (dir.x != 0 && dir.y != 0) {
-//            float deg =
-//                    MathUtils.radiansToDegrees * MathUtils.atan2(dir.y, dir.x);
-//            if (currentAnim != walkRight &&
-//                ((deg >= -45 && deg <= 0) || (deg >= 0 && deg <= 45))) {
-//                currentAnim = walkRight;
-//                animTimer = 0f;
-//            } else if (currentAnim != walkLeft &&
-//                       ((deg >= -180 && deg <= (-180 + 45)) ||
-//                        (deg >= (180 - 45) && deg <= 180))) {
-//                currentAnim = walkLeft;
-//                animTimer = 0f;
-//            } else if (currentAnim != walkUp &&
-//                       (deg >= 45 && deg <= (180 - 45))) {
-//                currentAnim = walkUp;
-//                animTimer = 0f;
-//            } else if (currentAnim != walkDown &&
-//                       (deg >= (-180 + 45) && deg <= -45)) {
-//                currentAnim = walkDown;
-//                animTimer = 0f;
-//            }
-//        }
 
         // Set current keyframe to draw with, flipped if needed
         TextureRegion keyframe = currentAnim.getKeyFrame(animTimer);
@@ -261,4 +263,9 @@ public class Player extends Entity {
         }
         return showWeaponHitBounds;
     }
+
+    public boolean toggleMouseLook() {
+        return (mouseLook = !mouseLook);
+    }
+
 }
