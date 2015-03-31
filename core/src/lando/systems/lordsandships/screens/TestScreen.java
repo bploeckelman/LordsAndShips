@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
+import lando.systems.lordsandships.entities.Bullet;
 import lando.systems.lordsandships.entities.Enemy;
 import lando.systems.lordsandships.entities.Entity;
 import lando.systems.lordsandships.entities.Player;
@@ -570,9 +571,37 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     }
 
     private void resolveCollisions() {
-        // TODO : Resolve bullet collisions
-        // TODO : Resolve enemy collisions
         resolveCollisions(player);
+
+        for (Bullet bullet : player.getBullets()) {
+            // Check the bullet against the map
+            if (bullet.isAlive()) {
+                getCollisionTiles(bullet, collisionTiles);
+                for (Tile tile : collisionTiles) {
+                    if (!level.occupied().room().walkable(tile.getGridX(), tile.getGridY())) {
+                        Assets.gunshot_impact.play(0.05f);
+                        bullet.kill();
+                    }
+                }
+            }
+
+            // Check the bullet against enemies
+            if (bullet.isAlive()) {
+                for (Enemy enemy : enemies) {
+                    if (!enemy.isAlive()) continue;
+                    if (Intersector.overlaps(bullet.boundingBox, enemy.boundingBox)) {
+                        // TODO (brian): move hit sound and death effect to enemy.takeDamage()
+                        enemy.takeDamage(bullet.damageAmount, bullet.velocity);
+                        bullet.kill();
+                    }
+                }
+            }
+        }
+
+        for (Enemy enemy : enemies) {
+            if (!enemy.isAlive()) continue;
+            resolveCollisions(enemy);
+        }
     }
 
     private void resolveCollisions(Entity entity) {
