@@ -26,18 +26,30 @@ public class Arsenal {
     private int currentWeaponIcon;
     private TextureRegion[] weaponIcons;
 
-    private final Vector2 weaponIconPos  = new Vector2(30, 30);
-    private final Vector2 weaponIconSize = new Vector2(64, 64);
+    private final float icon_height_active   = -10;
+    private final float icon_height_inactive = -30;
+    private final float icon_left_margin     = 32;
+
+    private final Vector2[] weaponIconsPos;
+    private final Vector2 weaponIconSize;
 
 
     public Arsenal() {
         weaponIcons = new TextureRegion[Weapon.NUM_WEAPON_TYPES];
-        weaponIcons[Weapon.TYPE_BOW]     = Assets.atlas.findRegion("bow");
-        weaponIcons[Weapon.TYPE_SPEAR]   = Assets.atlas.findRegion("spear");
-        weaponIcons[Weapon.TYPE_AXE]     = Assets.atlas.findRegion("axe");
-        weaponIcons[Weapon.TYPE_SWORD]   = Assets.atlas.findRegion("sword");
-        weaponIcons[Weapon.TYPE_HANDGUN] = Assets.atlas.findRegion("gun");
+        weaponIcons[Weapon.TYPE_BOW]     = Assets.collection.findRegion("weaponcards", 1);
+        weaponIcons[Weapon.TYPE_SPEAR]   = Assets.collection.findRegion("weapons", 1);
+        weaponIcons[Weapon.TYPE_AXE]     = Assets.collection.findRegion("weapons", 3);
+        weaponIcons[Weapon.TYPE_SWORD]   = Assets.collection.findRegion("weaponcards", 2);
+        weaponIcons[Weapon.TYPE_HANDGUN] = Assets.collection.findRegion("weaponcards", 3);
         currentWeaponIcon = 0;
+
+        weaponIconSize = new Vector2(32, 48);
+        weaponIconsPos = new Vector2[Weapon.NUM_WEAPON_TYPES];
+        for (int i = 0; i < weaponIconsPos.length; ++i) {
+            float x = icon_left_margin + i * weaponIconSize.x;
+            float y = (currentWeaponIcon == i) ? icon_height_active : icon_height_inactive;
+            weaponIconsPos[i] = new Vector2(x, y);
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -47,9 +59,9 @@ public class Arsenal {
     public void render(SpriteBatch batch, Camera camera) {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(weaponIcons[currentWeaponIcon],
-                   weaponIconPos.x,  weaponIconPos.y,
-                   weaponIconSize.x, weaponIconSize.y);
+        for (int i = 0; i < weaponIcons.length; ++i) {
+            batch.draw(weaponIcons[i], weaponIconsPos[i].x, weaponIconsPos[i].y, weaponIconSize.x, weaponIconSize.y);
+        }
         batch.end();
     }
 
@@ -78,10 +90,12 @@ public class Arsenal {
             throw new IllegalArgumentException("Unable to change weapon, unknown weapon type: " + weaponType);
         }
 
+        int prevWeaponType = currentWeaponIcon;
         player.setWeapon(weaponType);
+
         Timeline.createSequence()
-                .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.3f)
-                           .target(-weaponIconSize.y)
+                .push(Tween.to(weaponIconsPos[prevWeaponType], Vector2Accessor.Y, 0.2f)
+                           .target(icon_height_inactive)
                            .ease(Cubic.OUT)
                            .setCallback(new TweenCallback() {
                                @Override
@@ -96,8 +110,8 @@ public class Arsenal {
                                    currentWeaponIcon = weaponType;
                                }
                            }))
-                .push(Tween.to(weaponIconPos, Vector2Accessor.Y, 0.7f)
-                           .target(30)
+                .push(Tween.to(weaponIconsPos[weaponType], Vector2Accessor.Y, 0.5f)
+                           .target(icon_height_active)
                            .ease(Bounce.OUT))
                 .start(GameInstance.tweens);
     }
