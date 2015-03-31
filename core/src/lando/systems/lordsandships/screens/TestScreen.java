@@ -506,15 +506,32 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         if (enemies == null) enemies = new Array<Enemy>();
         else                 enemies.clear();
 
-        Rectangle bounds = level.occupied().room().bounds();
-        Vector2 pos = new Vector2();
-        int num_enemies = 50;
-        for (int i = 0; i < num_enemies; ++i) {
-            pos.set(bounds.x + bounds.width / 2f, bounds.y + bounds.height / 2f);
-            if      (i % 2 == 0) enemies.add(new Bat(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.09f));
-            else if (i % 3 == 0) enemies.add(new Batclops(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.1f));
-            else if (i % 5 == 0) enemies.add(new Enemy(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.1f));
-            else                 enemies.add(new SlimeSmall(Assets.enemytex, pos.x, pos.y, Tile.TILE_SIZE, 24, 0.1f));
+        final Room room = level.occupied().room();
+        final Rectangle bounds = room.bounds();
+        final Vector2 pos = new Vector2();
+
+        final float spawn_probability = 0.05f;
+        for (int y = 0; y < room.tilesHigh(); ++y) {
+            for (int x = 0; x < room.tilesWide(); ++x) {
+                if (!room.walkable(x, y)) continue;
+
+                pos.set(bounds.x + x * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f,
+                        bounds.y + y * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f);
+
+                float r = (float) Math.random();
+                if (r <= spawn_probability) {
+                    Enemy enemy;
+
+                    float num_enemies = 4;
+                    float d = (spawn_probability - r) / num_enemies;
+                    if      (r <= 1*d) enemy = new Bat(Assets.enemytex, pos.x, pos.y, 0, 0, 0.09f);
+                    else if (r <= 2*d) enemy = new Batclops(Assets.enemytex, pos.x, pos.y, 0, 0, 0.1f);
+                    else if (r <= 3*d) enemy = new SlimeSmall(Assets.enemytex, pos.x, pos.y, 0, 0, 0.1f);
+                    else               enemy = new Enemy(Assets.enemytex, pos.x, pos.y, 0, 0, 0.1f);
+
+                    enemies.add(enemy);
+                }
+            }
         }
     }
 
