@@ -206,8 +206,8 @@ public class Player extends Entity {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 1, 16, 16);
-        batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, 16, 16);//24);
+        batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 2, boundingBox.width, boundingBox.height);
+        batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
 
         currentWeapon.render(batch, getCenterPos().x, getCenterPos().y);
 
