@@ -99,8 +99,8 @@ public class Sword extends Weapon {
         float hh = h / 2f;
 
         // Offset and position
-        float ox = direction.x * hw * 0.1f;
-        float oy = direction.y * hh * 0.1f;
+        float ox = direction.x * hw * 0.3f;
+        float oy = direction.y * hh * 0.3f;
         float px = originX - hw + ox;
         float py = originY - hh + oy;
 
@@ -108,7 +108,9 @@ public class Sword extends Weapon {
         float sx = 0.8f;
         float sy = 0.8f;
 
-        bounds.set(originX + ox, originY + oy, (w * sx + h * sy) / 4.75f);
+        float box = direction.x * hw * 0.5f;
+        float boy = direction.y * hh * 0.5f;
+        bounds.set(originX + box, originY + boy, (w * sx + h * sy) / 4.75f);
 
         batch.setColor(color);
         batch.draw(animation.getKeyFrame(accum += Gdx.graphics.getDeltaTime()), px, py, hw, hh, w, h, sx, sy, angle);
