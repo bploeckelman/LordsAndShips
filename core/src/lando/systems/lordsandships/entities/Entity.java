@@ -21,6 +21,7 @@ public abstract class Entity {
     public TextureRegion texture;
     public Circle collisionBounds;
     public Color color;
+    public Healthbar healthbar;
 
     // TODO : extract to attributes class
     public int health = 100;
@@ -33,6 +34,10 @@ public abstract class Entity {
         this.boundingBox = new Rectangle(x,y,w,h);
         this.collisionBounds = new Circle();
         this.color = new Color(1,1,1,1);
+        this.healthbar = new Healthbar();
+        this.healthbar.maxValue = health;
+        this.healthbar.value    = health;
+        this.healthbar.bounds = new Rectangle(x, y - 6, w, 6);
     }
 
     public abstract void update(float delta);

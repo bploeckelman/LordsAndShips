@@ -79,6 +79,11 @@ public class Bat extends Enemy {
         collisionBounds.set(boundingBox.x + boundingBox.width / 2f,
                             boundingBox.y + boundingBox.height / 2f,
                             (boundingBox.width + boundingBox.height) / 4f - 1.5f);
+
+        healthbar.value = health;
+        healthbar.bounds.set(boundingBox.x + healthbar.pad,
+                             boundingBox.y - 6 + healthbar.pad,
+                             boundingBox.width - 2 * healthbar.pad, 3);
     }
 
     @Override
@@ -87,6 +92,7 @@ public class Bat extends Enemy {
         batch.setColor(color);
         batch.draw(keyframe, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         batch.setColor(1, 1, 1, 1);
+        healthbar.render(batch);
     }
 
 }

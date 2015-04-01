@@ -99,6 +99,12 @@ public class Enemy extends Entity {
         collisionBounds.set(boundingBox.x + boundingBox.width / 2f,
                             boundingBox.y + boundingBox.height / 2f,
                             (boundingBox.width + boundingBox.height) / 4f);
+
+
+        healthbar.value = health;
+        healthbar.bounds.set(boundingBox.x + healthbar.pad,
+                             boundingBox.y - 7 + healthbar.pad,
+                             boundingBox.width - 2 * healthbar.pad, 5);
     }
 
     @Override
@@ -107,6 +113,7 @@ public class Enemy extends Entity {
         batch.setColor(color);
         batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         batch.setColor(1,1,1,1);
+        healthbar.render(batch);
     }
 
     public void renderDebug() {
