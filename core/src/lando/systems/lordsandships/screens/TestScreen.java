@@ -92,7 +92,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     public void create() {
         bgColor = new Color(0.43f, 0.43f, 0.43f, 1);
 
-        screenShaker = new Utils.Shake(10, 10);
+        screenShaker = new Utils.Shake(50, 15);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);
@@ -473,8 +473,6 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             || GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
             temp.set(GameInstance.mousePlayerDirection).nor();
             player.attack(temp);
-
-            screenShaker.shake(0.3f);
             // special effects
 //            if (!doPost) {
 //                doPost = true;
@@ -507,7 +505,12 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         for (Enemy enemy : enemies) {
             if (enemy.isAlive()) {
                 if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
-                    enemy.takeDamage(weapon.getDamage(), weapon.getDirection());
+                    screenShaker.shake(0.25f);
+
+                    boolean killed = enemy.takeDamage(weapon.getDamage(), weapon.getDirection());
+                    if (killed) {
+                        // TODO: poof... splat...
+                    }
                 }
             }
             if (enemy.isAlive()) enemy.update(delta);

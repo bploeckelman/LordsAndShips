@@ -8,7 +8,7 @@ import lando.systems.lordsandships.utils.Assets;
 public class Bullet extends Entity {
 
     private static final float LIFETIME = 2f;
-    public static final float BULLET_SPEED = 3.5f;
+    public static final float BULLET_SPEED = 10;//3.5f;
 
     private float age;
     private boolean alive;

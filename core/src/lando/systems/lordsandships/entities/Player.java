@@ -60,11 +60,11 @@ public class Player extends Entity {
         currentKeyFrame = currentAnim.getKeyFrame(0);
 
         weapons = new Array<Weapon>();
-        weapons.add(new Bow(new Weapon.Builder().damage(10)));
+        weapons.add(new Bow(new Weapon.Builder().damage(1)));
         weapons.add(new Spear(new Weapon.Builder().damage(50)));
         weapons.add(new Axe(new Weapon.Builder().damage(100)));
-        weapons.add(new Sword(new Weapon.Builder().damage(25)));
-        weapons.add(new Handgun(new Weapon.Builder().damage(50)));
+        weapons.add(new Sword(new Weapon.Builder().damage(5)));
+        weapons.add(new Handgun(new Weapon.Builder().damage(5)));
         currentWeapon = weapons.get(type.value());
     }
     public Player(Texture texture, float x, float y, float w, float h, float animRate) {

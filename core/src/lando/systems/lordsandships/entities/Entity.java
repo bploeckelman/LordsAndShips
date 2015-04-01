@@ -52,26 +52,30 @@ public abstract class Entity {
     public Vector2 getPosition() { return position; }
 
     static final Vector2 temp = new Vector2();
-    static final float entity_shake_scale = 2f;
-    public void takeDamage(int amount, Vector2 dir) {
+    static final float entity_recoil = 2f;
+    public boolean takeDamage(int amount, Vector2 dir) {
         health -= amount;
         if (health <= 0) {
             health = 0;
             alive = false;
         }
-        temp.x = dir.x + MathUtils.random() * entity_shake_scale;
-        temp.y = dir.y + MathUtils.random() * entity_shake_scale;
+        temp.x = dir.x * entity_recoil;
+        temp.y = dir.y * entity_recoil;
         boundingBox.x += temp.x;
         boundingBox.y += temp.y;
+        position.set(boundingBox.x, boundingBox.y);
 
         color.set(1, 0, 0, 1);
         Tween.to(color, ColorAccessor.RGB, 0.2f)
                 .target(1, 1, 1)
                 .ease(Quint.IN)
                 .start(GameInstance.tweens);
+
+        return alive;
     }
 
     private Vector2 centerPos = new Vector2();
+
     public Vector2 getCenterPos() {
         centerPos.set(
                 boundingBox.x + boundingBox.width / 2f,
@@ -80,12 +84,15 @@ public abstract class Entity {
     }
 
     private Vector2 dir = new Vector2();
+
     public Vector2 getDirection(float worldx, float worldy) {
         getCenterPos();
         dir.set(worldx, worldy).sub(centerPos).nor();
         return dir;
     }
 
-    public Circle getCollisionBounds() { return collisionBounds; }
+    public Circle getCollisionBounds() {
+        return collisionBounds;
+    }
 
 }
