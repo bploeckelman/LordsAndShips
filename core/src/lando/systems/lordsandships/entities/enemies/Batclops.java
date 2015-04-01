@@ -12,8 +12,8 @@ import lando.systems.lordsandships.utils.Assets;
  */
 public class Batclops extends Enemy {
 
-    final float max_vel_x = 100;
-    final float max_vel_y = 100;
+    final float max_vel_x = 175;
+    final float max_vel_y = 185;
 
     float         moveTime;
     float         stateTime;

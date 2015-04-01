@@ -49,8 +49,8 @@ public class Enemy extends Entity {
     float timer = 3f;
     @Override
     public void update(float delta) {
-        final float max_vel_x = 50;
-        final float max_vel_y = 50;
+        final float max_vel_x = 200;
+        final float max_vel_y = 200;
         final float drag = 0.995f;
 
         if ((timer += delta) > Assets.rand.nextInt(5) + 2) {

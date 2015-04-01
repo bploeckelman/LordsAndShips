@@ -12,8 +12,8 @@ import lando.systems.lordsandships.utils.Assets;
  */
 public class SlimeSmall extends Enemy {
 
-    final float max_vel_x = 32;
-    final float max_vel_y = 32;
+    final float max_vel_x = 64;
+    final float max_vel_y = 64;
 
     boolean       moving = false;
     float         waitTime;

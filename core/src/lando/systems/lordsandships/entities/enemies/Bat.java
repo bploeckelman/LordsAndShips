@@ -12,8 +12,8 @@ import lando.systems.lordsandships.utils.Assets;
  */
 public class Bat extends Enemy {
 
-    final float max_vel_x = 50;
-    final float max_vel_y = 50;
+    final float max_vel_x = 150;
+    final float max_vel_y = 150;
 
     float         moveTime;
     float         stateTime;

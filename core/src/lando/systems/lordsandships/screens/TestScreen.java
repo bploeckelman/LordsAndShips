@@ -633,9 +633,56 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             }
         }
 
-        for (Enemy enemy : enemies) {
+        for (int i = 0; i < enemies.size; ++i) {
+            final Enemy enemy = enemies.get(i);
             if (!enemy.isAlive()) continue;
+            for (int j = i + 1; j < enemies.size; ++j) {
+                final Enemy other = enemies.get(j);
+                if (!other.isAlive()) continue;
+                resolveCollisions(enemy, other);
+            }
+            resolveCollisions(player, enemy);
             resolveCollisions(enemy);
+        }
+    }
+
+    private void resolveCollisions(Entity entity, Entity other) {
+        final float push_scale = (entity == player) ? 1.5f : 1.1f;
+        if (Intersector.overlaps(entity.boundingBox, other.boundingBox)) {
+            // Find amount of overlap on each axis
+            if (entity.boundingBox.overlaps(other.boundingBox)) {
+                Intersector.intersectRectangles(entity.boundingBox, other.boundingBox, intersection);
+
+                // Move out of shallower overlap axis
+                if (intersection.width < intersection.height) {
+                    // Move out of X axis first..
+                    if (entity.boundingBox.x > other.boundingBox.x
+                     && entity.boundingBox.x < other.boundingBox.x + other.boundingBox.width) {
+                        entity.boundingBox.x = other.boundingBox.x + other.boundingBox.width;
+                        other.velocity.x = entity.velocity.x * push_scale;
+                    }
+                    else if (entity.boundingBox.x < other.boundingBox.x
+                     && entity.boundingBox.x > other.boundingBox.x - entity.boundingBox.width) {
+                        entity.boundingBox.x = other.boundingBox.x - entity.boundingBox.width;
+                        other.velocity.x = entity.velocity.x * push_scale;
+                    }
+                } else {
+                    // Move out of Y axis first..
+                    if (entity.boundingBox.y > other.boundingBox.y
+                     && entity.boundingBox.y < other.boundingBox.y + other.boundingBox.height) {
+                        entity.boundingBox.y = other.boundingBox.y + other.boundingBox.height;
+                        other.velocity.y = entity.velocity.y * push_scale;
+                    }
+                    else if (entity.boundingBox.y < other.boundingBox.y
+                     && entity.boundingBox.y > other.boundingBox.y - entity.boundingBox.height) {
+                        entity.boundingBox.y = other.boundingBox.y - entity.boundingBox.height;
+                        other.velocity.y = entity.velocity.y * push_scale;
+                    }
+                }
+            } else {
+                intersection.set(0, 0, 0, 0);
+            }
+
         }
     }
 
