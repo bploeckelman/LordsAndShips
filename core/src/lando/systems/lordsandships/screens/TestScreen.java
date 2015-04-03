@@ -189,7 +189,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                     angle += delta * angle_speed;
                     while (angle > MathUtils.PI2) angle -= MathUtils.PI2;
 
-                    final float sz = 512f;
+                    final float sz = 300;
                     final float d = sz * 0.05f;
                     final float light_size = sz - d + d * (float) Math.sin(angle) + d * MathUtils.random();
                     batch.draw(Assets.lightmaptex,
@@ -418,7 +418,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     private void enableInput() {
         OrthoCamController camController = new OrthoCamController(camera);
-        camController.camera_zoom.setValue(0.5f);
+        camController.camera_zoom.setValue(0.25f);
         camController.scrolled(0);
 
         GameInstance.input.reset();
