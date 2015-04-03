@@ -169,10 +169,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         counter = new MutableFloat(0f);
         pulse = new MutableFloat(0.f);
         Tween.to(pulse, -1, 3.f)
-                .target(1.f)
-                .ease(Circ.OUT)
-                .repeatYoyo(-1, 0.33f)
-                .start(GameInstance.tweens);
+             .target(1.f)
+             .ease(Circ.OUT)
+             .repeatYoyo(-1, 0.33f)
+             .start(GameInstance.tweens);
 
         screenShaker.update(delta, camera, camera.position.x, camera.position.y);
     }
@@ -750,7 +750,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                                }
                            }))
                 .push(Tween.to(bgColor, ColorAccessor.RGB, 1)
-                           .target(0.43f, 0.43f, 0.43f)
+                           .target(0.1f, 0.1f, 0.1f)
                            .delay(1))
                 .start(GameInstance.tweens);
 

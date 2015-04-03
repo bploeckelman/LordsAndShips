@@ -75,7 +75,7 @@ public class Level {
         }
         batch.end();
 
-        renderDebug(camera);
+//        renderDebug(camera);
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
