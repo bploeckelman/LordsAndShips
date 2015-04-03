@@ -87,6 +87,7 @@ public class Room {
         }
 
         room.calculateAdjacency();
+        room.generateTiles();
         return room;
     }
 

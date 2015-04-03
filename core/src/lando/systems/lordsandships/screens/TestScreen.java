@@ -90,7 +90,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     }
 
     public void create() {
-        bgColor = new Color(0.43f, 0.43f, 0.43f, 1);
+        bgColor = new Color(0.1f, 0.1f, 0.1f, 1f);
 
         screenShaker = new Utils.Shake(50, 15);
 
