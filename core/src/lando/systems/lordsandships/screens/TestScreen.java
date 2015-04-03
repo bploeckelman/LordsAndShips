@@ -132,17 +132,26 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     // Game Loop Methods
     // -------------------------------------------------------------------------
 
-    private Vector3 playerPos = new Vector3();
+    private Vector3 playerPos       = new Vector3();
+    private Vector2 nearestEnemyPos = new Vector2();
+    private Enemy   nearestEnemy    = null;
 
     @Override
     public void update(float delta) {
         updateMouseVectors(camera);
 
         boolean allDead = true;
+        float nearestDist = Float.MAX_VALUE;
+        nearestEnemyPos.set(0,0);
         for (Enemy enemy : enemies) {
             if (enemy.isAlive()) {
                 allDead = false;
-                break;
+                float dist = player.getCenterPos().dst(enemy.getCenterPos());
+                if (dist < nearestDist) {
+                    nearestDist = dist;
+                    nearestEnemyPos.set(enemy.getCenterPos());
+                    nearestEnemy = enemy;
+                }
             }
         }
         if (allDead) {
@@ -233,6 +242,17 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 for (Enemy enemy : enemies) {
                     if (!enemy.isAlive()) continue;
                     enemy.render(batch);
+                }
+
+                final float indicator_scale = 32;
+                final float min_draw_dist2 = (indicator_scale + 32) * (indicator_scale + 32);
+                final Vector2 dir = nearestEnemyPos.cpy().sub(player.getCenterPos());
+                if (dir.len2() > min_draw_dist2 && nearestEnemy != null) {
+                    dir.nor();
+                    batch.draw(nearestEnemy.getKeyframe(),
+                               player.getCenterPos().x + dir.x * indicator_scale - 4,
+                               player.getCenterPos().y + dir.y * indicator_scale - 4,
+                               8, 8);
                 }
             }
             batch.end();
