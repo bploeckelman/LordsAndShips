@@ -18,7 +18,6 @@ public class Bat extends Enemy {
     float         moveTime;
     float         stateTime;
     Animation     anim;
-    TextureRegion keyframe;
 
     // TODO: most of this shit is set in the ctor and doesn't pass along to Enemy or Entity anymore, refactor all the things!
     public Bat(Texture texture, float x, float y, float w, float h, float animRate) {

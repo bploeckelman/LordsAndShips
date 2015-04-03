@@ -8,16 +8,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import lando.systems.lordsandships.utils.Assets;
-import lando.systems.lordsandships.utils.Utils;
 
 /**
  * Brian Ploeckelman created on 6/17/2014.
  */
 public class Enemy extends Entity {
+
+    protected TextureRegion keyframe;
+
     Animation walkLeft;
     Animation walkRight;
     Animation currentAnim;
-    TextureRegion currentKeyFrame;
 
     float animTimer = 0f;
 
@@ -43,7 +44,7 @@ public class Enemy extends Entity {
         walkRight.setPlayMode(Animation.PlayMode.LOOP);
 
         currentAnim = walkRight;
-        currentKeyFrame = currentAnim.getKeyFrame(0);
+        keyframe = currentAnim.getKeyFrame(0);
     }
 
     float timer = 3f;
@@ -90,7 +91,7 @@ public class Enemy extends Entity {
             currentAnim = walkLeft;
             animTimer = 0f;
         }
-        currentKeyFrame = currentAnim.getKeyFrame(animTimer);
+        keyframe = currentAnim.getKeyFrame(animTimer);
 
         // Move the player
         boundingBox.x += velocity.x * delta;
@@ -111,8 +112,8 @@ public class Enemy extends Entity {
     public void render(SpriteBatch batch) {
         batch.draw(Assets.shadow, boundingBox.x, boundingBox.y - 2);
         batch.setColor(color);
-        batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
-        batch.setColor(1,1,1,1);
+        batch.draw(keyframe, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+        batch.setColor(1, 1, 1, 1);
         healthbar.render(batch);
     }
 
@@ -130,6 +131,10 @@ public class Enemy extends Entity {
         Assets.shapes.setColor(Color.ORANGE);
         Assets.renderRect(boundingBox);
         Assets.shapes.end();
+    }
+
+    public TextureRegion getKeyframe() {
+        return keyframe;
     }
 
 }

@@ -20,7 +20,6 @@ public class SlimeSmall extends Enemy {
     float         moveTime;
     float         stateTime;
     Animation     anim;
-    TextureRegion keyframe;
 
     public SlimeSmall(Texture texture, float x, float y, float w, float h, float animRate) {
         super(texture, x, y, w, h, animRate);
