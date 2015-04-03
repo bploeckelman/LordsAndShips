@@ -58,7 +58,8 @@ public class Level {
         if (nextLeaves.size == 0) {
             nextLeaves = bsp.getLeaves();
         }
-        return nextLeaves.peek().bounds;
+        if (nextLeaves.size != 0) return nextLeaves.peek().bounds;
+        else                      return null;
     }
 
     // -------------------------------------------------------------------------

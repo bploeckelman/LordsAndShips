@@ -118,7 +118,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         lightmapFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
         screenFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
 
-        level = new Level();
+        level = new Level(Constants.win_width, Constants.win_height, 2);
         Rectangle bounds = level.occupied().room().bounds();
         player = new Player(PlayerSelectScreen.PlayerType.Cloak,
                             bounds.x + bounds.width / 2f,
@@ -137,6 +137,17 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     @Override
     public void update(float delta) {
         updateMouseVectors(camera);
+
+        boolean allDead = true;
+        for (Enemy enemy : enemies) {
+            if (enemy.isAlive()) {
+                allDead = false;
+                break;
+            }
+        }
+        if (allDead) {
+            kickoffRoomTransition();
+        }
 
         level.update(delta);
         playerUpdate(delta);
@@ -308,48 +319,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 //            game.setScreen(Constants.player_select_screen);
             GameInstance.exit();
         } else if (keycode == Input.Keys.SPACE) {
-            if  (transition) return true;
-            else transition = true;
-
-            final Rectangle targetBounds = level.getNextRoomBounds();
-            Timeline.createParallel()
-                    .push(Tween.to(roomAlpha, -1, 1)
-                               .target(0.0f)
-                               .ease(Circ.OUT)
-                               .setCallback(new TweenCallback() {
-                                   @Override
-                                   public void onEvent(int type, BaseTween<?> source) {
-                                       level.nextRoom();
-                                       Rectangle bounds = level.occupied().room().bounds();
-                                       player.position.x = bounds.x + bounds.width / 2f;
-                                       player.position.y = bounds.y + bounds.height / 2f;
-                                       player.boundingBox.x = player.position.x;
-                                       player.boundingBox.y = player.position.y;
-                                       spawnEnemies();
-                                   }
-                               }))
-                    .push(Tween.to(bgColor, ColorAccessor.RGB, 1)
-                               .target(0,0,0)
-                               .ease(Circ.OUT))
-                    .push(Tween.to(camera.position, Vector3Accessor.XY, 1)
-                               .target(targetBounds.x + targetBounds.width / 2f,
-                                       targetBounds.y + targetBounds.height / 2f)
-                               .ease(Expo.INOUT)
-                               .delay(0.5f))
-                    .push(Tween.to(roomAlpha, -1, 0.5f)
-                               .target(1)
-                               .ease(Circ.IN)
-                               .delay(1)
-                               .setCallback(new TweenCallback() {
-                                   @Override
-                                   public void onEvent(int type, BaseTween<?> source) {
-                                       transition = false;
-                                   }
-                               }))
-                    .push(Tween.to(bgColor, ColorAccessor.RGB, 1)
-                               .target(0.43f, 0.43f, 0.43f)
-                               .delay(1))
-                    .start(GameInstance.tweens);
+            return kickoffRoomTransition();
         }
         return true;
     }
@@ -736,6 +706,55 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 intersection.set(0, 0, 0, 0);
             }
         }
+    }
+
+    private boolean kickoffRoomTransition() {
+        if  (transition) return true;
+        else transition = true;
+
+        final Rectangle targetBounds = level.getNextRoomBounds();
+        if (targetBounds == null) return true;
+
+        Timeline.createParallel()
+                .push(Tween.to(roomAlpha, -1, 1)
+                           .target(0.0f)
+                           .ease(Circ.OUT)
+                           .setCallback(new TweenCallback() {
+                               @Override
+                               public void onEvent(int type, BaseTween<?> source) {
+                                   level.nextRoom();
+                                   Rectangle bounds = level.occupied().room().bounds();
+                                   player.position.x = bounds.x + bounds.width / 2f;
+                                   player.position.y = bounds.y + bounds.height / 2f;
+                                   player.boundingBox.x = player.position.x;
+                                   player.boundingBox.y = player.position.y;
+                                   spawnEnemies();
+                               }
+                           }))
+                .push(Tween.to(bgColor, ColorAccessor.RGB, 1)
+                           .target(0,0,0)
+                           .ease(Circ.OUT))
+                .push(Tween.to(camera.position, Vector3Accessor.XY, 1)
+                           .target(targetBounds.x + targetBounds.width / 2f,
+                                   targetBounds.y + targetBounds.height / 2f)
+                           .ease(Expo.INOUT)
+                           .delay(0.5f))
+                .push(Tween.to(roomAlpha, -1, 0.5f)
+                           .target(1)
+                           .ease(Circ.IN)
+                           .delay(1)
+                           .setCallback(new TweenCallback() {
+                               @Override
+                               public void onEvent(int type, BaseTween<?> source) {
+                                   transition = false;
+                               }
+                           }))
+                .push(Tween.to(bgColor, ColorAccessor.RGB, 1)
+                           .target(0.43f, 0.43f, 0.43f)
+                           .delay(1))
+                .start(GameInstance.tweens);
+
+        return transition;
     }
 
 }
