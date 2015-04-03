@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.utils.Assets;
+import lando.systems.lordsandships.utils.Constants;
 
 /**
  * Brian Ploeckelman created on 6/17/2014.
@@ -18,6 +20,8 @@ public class Enemy extends Entity {
     Animation walkLeft;
     Animation walkRight;
     Animation currentAnim;
+
+    public Entity target = null;
 
     float animTimer = 0f;
 
@@ -53,20 +57,28 @@ public class Enemy extends Entity {
         final float max_vel_y = 200;
         final float drag = 0.995f;
 
-        if ((timer += delta) > Assets.rand.nextInt(5) + 2) {
-            timer = 0f;
-            switch (Assets.rand.nextInt(3)) {
-                case 0:
-                    velocity.x = ((float) Math.random() * 2f - 1f) * max_vel_x;
-                    velocity.y = 0f;
-                    break;
-                case 1:
-                    velocity.x = 0f;
-                    velocity.y = ((float) Math.random() * 2f -1f) * max_vel_y;
-                    break;
-                case 2:
-                    velocity.x = 0f;
-                    velocity.y = 0f;
+        if (target != null) {
+            final float chase_speed = Tile.TILE_SIZE;
+//            float dist = target.getCenterPos().dst(getCenterPos());
+//            if (dist < Constants.win_half_height) {
+                velocity.set(target.getCenterPos().cpy().sub(getCenterPos()).nor().scl(chase_speed));
+//            }
+        } else {
+            if ((timer += delta) > Assets.rand.nextInt(5) + 2) {
+                timer = 0f;
+                switch (Assets.rand.nextInt(3)) {
+                    case 0:
+                        velocity.x = ((float) Math.random() * 2f - 1f) * max_vel_x;
+                        velocity.y = 0f;
+                        break;
+                    case 1:
+                        velocity.x = 0f;
+                        velocity.y = ((float) Math.random() * 2f - 1f) * max_vel_y;
+                        break;
+                    case 2:
+                        velocity.x = 0f;
+                        velocity.y = 0f;
+                }
             }
         }
 

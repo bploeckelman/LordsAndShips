@@ -494,6 +494,12 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         Weapon weapon = player.getCurrentWeapon();
         for (Enemy enemy : enemies) {
             if (enemy.isAlive()) {
+                if (player.getCenterPos().dst(enemy.getCenterPos()) < camera.viewportHeight / 2f) {
+                    enemy.target = player;
+                } else {
+                    enemy.target = null;
+                }
+
                 if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
                     screenShaker.shake(0.25f);
 
