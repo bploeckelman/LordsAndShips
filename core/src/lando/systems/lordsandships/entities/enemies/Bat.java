@@ -80,9 +80,7 @@ public class Bat extends Enemy {
                             (boundingBox.width + boundingBox.height) / 4f - 1.5f);
 
         healthbar.value = health;
-        healthbar.bounds.set(boundingBox.x + healthbar.pad,
-                             boundingBox.y - 6 + healthbar.pad,
-                             boundingBox.width - 2 * healthbar.pad, 3);
+        healthbar.bounds.set(boundingBox.x, boundingBox.y - 6, boundingBox.width, 3);
     }
 
     @Override

@@ -103,9 +103,7 @@ public class Enemy extends Entity {
 
 
         healthbar.value = health;
-        healthbar.bounds.set(boundingBox.x + healthbar.pad,
-                             boundingBox.y - 7 + healthbar.pad,
-                             boundingBox.width - 2 * healthbar.pad, 5);
+        healthbar.bounds.set(boundingBox.x, boundingBox.y - 7, boundingBox.width, 5);
     }
 
     @Override
