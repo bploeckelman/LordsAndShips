@@ -17,5 +17,5 @@ void main() {
 	LOWP vec4 texColor0 = texture2D(u_texture,  v_texCoord0);
 	LOWP vec4 texColor1 = texture2D(u_texture1, v_texCoord0);
 
-	gl_FragColor = v_color * texColor0 * texColor1;
+	gl_FragColor = v_color * texColor0 * vec4(texColor1.rgb, 1);
 }
