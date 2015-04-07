@@ -11,8 +11,8 @@ public class Constants
 {
     public static final String win_title       = "Battlelord Spaceships vs. " +
                                                  "Spacelord Battleships";
-    public static final int    win_width       = 1280;
-    public static final int    win_height      = 720;
+    public static final int    win_width       = 640;//1280;
+    public static final int    win_height      = 480;//720;
     public static final int    win_half_width  = win_width / 2;
     public static final int    win_half_height = win_height / 2;
 
