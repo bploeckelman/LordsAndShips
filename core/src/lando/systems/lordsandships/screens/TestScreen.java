@@ -70,6 +70,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     ShaderProgram postShader;
     ShaderProgram sobelShader;
     float         accum;
+    MutableFloat  pauseTimer;
     MutableFloat  pulse;
     MutableFloat  counter;
 
@@ -126,6 +127,8 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                             16, 16, 0.1f);
 
         spawnEnemies();
+
+        pauseTimer = new MutableFloat(0f);
     }
 
     // -------------------------------------------------------------------------
@@ -139,6 +142,11 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     @Override
     public void update(float delta) {
         updateMouseVectors(camera);
+
+        if (pauseTimer.floatValue() > 0f) {
+            pauseTimer.setValue(pauseTimer.floatValue() - delta);
+            return;
+        }
 
         boolean allDead = true;
         float nearestDist = Float.MAX_VALUE;
@@ -502,6 +510,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
                 if (player.getCurrentWeapon().collides(enemy.getCollisionBounds())) {
                     screenShaker.shake(0.25f);
+                    pauseTimer.setValue(0.03f);
 
                     boolean killed = enemy.takeDamage(weapon.getDamage(), weapon.getDirection());
                     if (killed) {
