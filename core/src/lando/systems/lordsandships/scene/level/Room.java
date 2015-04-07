@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.tilemap.TileSet;
 import lando.systems.lordsandships.scene.tilemap.TileSetRaph;
@@ -20,22 +22,29 @@ import java.util.Random;
 public class Room {
 
     // Neighbor tile bit flags for adjacency calculations
-    private static final int N  = 1<<0;
-    private static final int NE = 1<<1;
-    private static final int E  = 1<<2;
-    private static final int SE = 1<<3;
-    private static final int S  = 1<<4;
-    private static final int SW = 1<<5;
-    private static final int W  = 1<<6;
-    private static final int NW = 1<<7;
+    private static final int N  = 1 << 0;
+    private static final int NE = 1 << 1;
+    private static final int E  = 1 << 2;
+    private static final int SE = 1 << 3;
+    private static final int S  = 1 << 4;
+    private static final int SW = 1 << 5;
+    private static final int W  = 1 << 6;
+    private static final int NW = 1 << 7;
+
+    private static TextureRegion sconce_texture = null;
 
     boolean[][] walkable;
     int[][]     adjacency;
     Tile[][]    tiles;
     TileSet     tileSet;
     Rectangle   bounds;
+    Vector2[]   lights;
 
     public Room(int posx, int posy, int width, int height) {
+        if (Room.sconce_texture == null) {
+            Room.sconce_texture = Assets.raphAtlas.findRegion("sExplosion", 1);
+        }
+
         walkable = new boolean[height][width];
         adjacency = new int[height][width];
         tiles = new Tile[height][width];
@@ -48,9 +57,11 @@ public class Room {
         }
         tileSet = new TileSetRaph();
         bounds = new Rectangle(posx, posy, width * Tile.TILE_SIZE, height * Tile.TILE_SIZE);
+        lights = new Vector2[Assets.rand.nextInt(10) + 1];
     }
 
     public static Room createEmpty(int posx, int posy, int width, int height) {
+        int  lightIndex = 0;
         Room room = new Room(posx, posy, width, height);
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
@@ -65,6 +76,10 @@ public class Room {
                 else if (y == 0)                             room.tiles[y][x].type = TileType.WALL_HORIZ_S;
                 else if (y == height - 1)                    room.tiles[y][x].type = TileType.WALL_HORIZ_N;
                 else                                         room.tiles[y][x].type = TileType.FLOOR;
+
+                if (Assets.rand.nextFloat() < 0.1f && lightIndex < room.lights.length) {
+                    room.lights[lightIndex++] = new Vector2(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE);
+                }
             }
         }
 
@@ -149,6 +164,10 @@ public class Room {
 //                Assets.font.draw(batch, adj, px + hs - hw, py + hs + hh);
             }
         }
+
+        for (Vector2 light : lights) {
+            batch.draw(sconce_texture, light.x - sconce_texture.getRegionWidth() / 2f, light.y - sconce_texture.getRegionHeight() / 2f);
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -221,4 +240,7 @@ public class Room {
         }
     }
 
+    public Vector2[] getLights() {
+        return lights;
+    }
 }

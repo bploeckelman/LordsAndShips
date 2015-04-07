@@ -225,6 +225,17 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                                player.getCenterPos().x - light_size / 2f,
                                player.getCenterPos().y - light_size / 2f,
                                light_size, light_size);
+
+
+                    for (Vector2 lightPos : level.occupied().room().getLights()) {
+                        final float sconce_sz = 64f;//(float) Math.random() * 64f + 64f;
+                        final float sconce_d = sconce_sz * (float) Math.random() * 0.1f;
+                        final float sconce_size = sconce_sz;// - sconce_d + d * (float) Math.sin(angle) + d * MathUtils.random();
+                        batch.draw(Assets.lightmaptex,
+                                   lightPos.x - sconce_size / 2f,
+                                   lightPos.y - sconce_size / 2f,
+                                   sconce_size, sconce_size);
+                    }
                 }
                 batch.end();
             }

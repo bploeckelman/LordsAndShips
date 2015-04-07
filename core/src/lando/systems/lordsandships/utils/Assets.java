@@ -94,7 +94,7 @@ public class Assets {
         starfieldLayer0 = new Texture("starfield_0.png");
         starfieldLayer1 = new Texture("starfield_1.png");
 
-        lightmaptex = new Texture("lightmap.png");
+        lightmaptex = new Texture("lightmap1.png");
         playertex = new Texture("darkknight.png");
         enemytex = new Texture("character-sheet.png");
         avatartex = new Texture("avatar.png");
