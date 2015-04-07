@@ -66,6 +66,11 @@ public class Player extends Entity {
         weapons.add(new Sword(new Weapon.Builder().damage(5)));
         weapons.add(new Handgun(new Weapon.Builder().damage(5)));
         currentWeapon = weapons.get(type.value());
+
+        boundingBox.setSize(currentKeyFrame.getRegionWidth(), currentKeyFrame.getRegionHeight());
+
+        healthbar.value = health;
+        healthbar.bounds.set(boundingBox.x, boundingBox.y - 7, boundingBox.width, 5);
     }
     public Player(Texture texture, float x, float y, float w, float h, float animRate) {
         super(new TextureRegion(texture), x, y, w, h);
@@ -102,6 +107,9 @@ public class Player extends Entity {
         weapons.add(new Handgun(new Weapon.Builder().damage(50)));
         weapons.add(new Spear(new Weapon.Builder().damage(100)));
         currentWeapon = weapons.get(0);
+
+        healthbar.value = health;
+        healthbar.bounds.set(boundingBox.x, boundingBox.y - 7, boundingBox.width, 5);
     }
 
 
@@ -114,6 +122,9 @@ public class Player extends Entity {
          || currentWeapon instanceof Bow) {
             currentWeapon.update(delta);
         }
+
+        healthbar.value = health;
+        healthbar.bounds.set(boundingBox.x, boundingBox.y - 7, boundingBox.width, 5);
     }
 
     Vector2 dir = new Vector2();
@@ -206,10 +217,14 @@ public class Player extends Entity {
 
     @Override
     public void render(SpriteBatch batch) {
+        if (!alive) return;
+
         batch.draw(Assets.atlas.findRegion("shadow"), boundingBox.x, boundingBox.y - 2, boundingBox.width, boundingBox.height);
         batch.draw(currentKeyFrame, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
 
         currentWeapon.render(batch, getCenterPos().x, getCenterPos().y);
+
+        healthbar.render(batch);
 
         // TODO : replace me
         Array<Bullet> bullets = null;

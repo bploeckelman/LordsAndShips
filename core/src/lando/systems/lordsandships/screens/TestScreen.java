@@ -119,7 +119,8 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         lightmapFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
         screenFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
 
-        level = new Level(Constants.win_width, Constants.win_height, 2);
+//        level = new Level(Constants.win_width, Constants.win_height, 2);
+        level = new Level(1000, 1000, 2);
         Rectangle bounds = level.occupied().room().bounds();
         player = new Player(PlayerSelectScreen.PlayerType.Cloak,
                             bounds.x + bounds.width / 2f,
@@ -657,6 +658,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             // Find amount of overlap on each axis
             if (entity.boundingBox.overlaps(other.boundingBox)) {
                 Intersector.intersectRectangles(entity.boundingBox, other.boundingBox, intersection);
+
+                if (entity instanceof Player) {
+                    entity.takeDamage(1, entity.getCenterPos().cpy().sub(other.getCenterPos()).nor());
+                }
 
                 // Move out of shallower overlap axis
                 if (intersection.width < intersection.height) {
