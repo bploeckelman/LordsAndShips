@@ -428,6 +428,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         return player.toggleMouseLook();
     }
 
+    public boolean toggleLevelRender() {
+        return (level.renderAllRooms = !level.renderAllRooms);
+    }
+
     // -------------------------------------------------------------------------
     // Implementation Methods
     // -------------------------------------------------------------------------

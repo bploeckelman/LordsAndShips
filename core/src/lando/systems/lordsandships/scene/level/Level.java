@@ -30,6 +30,8 @@ public class Level {
     Array<Room>                   rooms;
     ObjectMap<BSP.Leaf, BSP.Leaf> neighbors;
 
+    public boolean renderAllRooms = true;
+
     public Level() {
         this(default_level_width, default_level_height, default_level_depth);
     }
@@ -70,15 +72,19 @@ public class Level {
     }
 
     public void render(SpriteBatch batch, Camera camera) {
-        if (leaf.room != null) {
-            leaf.room.render(batch, camera);
+        if (renderAllRooms) {
+            for (Room room : rooms) {
+                room.render(batch, camera);
+            }
+        } else {
+            if (leaf.room != null) {
+                leaf.room.render(batch, camera);
+            }
         }
-        batch.end();
-
+//        batch.end();
 //        renderDebug(camera);
-
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
+//        batch.setProjectionMatrix(camera.combined);
+//        batch.begin();
     }
 
     final LinkedList<BSP.Leaf> leaves  = new LinkedList<BSP.Leaf>();

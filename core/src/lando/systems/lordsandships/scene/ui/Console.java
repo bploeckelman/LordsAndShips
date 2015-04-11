@@ -267,6 +267,16 @@ public class Console implements TextField.TextFieldListener {
                 return "";
             }
         }));
+        cmds.add(new CCmd("toggle_render_level", new CCmd.Function() {
+            @Override
+            public Object invoke(Object... params) {
+                if (game.getScreen() instanceof TestScreen) {
+                    boolean state = ((TestScreen) game.getScreen()).toggleLevelRender();
+                    return "Render entire level: " + (state ? "enabled" : "disabled");
+                }
+                return "";
+            }
+        }));
     }
 
     /**
