@@ -120,7 +120,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         screenFBO = new FrameBuffer(Pixmap.Format.RGBA8888, Constants.win_width, Constants.win_height, false);
 
 //        level = new Level(Constants.win_width, Constants.win_height, 2);
-        level = new Level(1000, 1000, 2);
+        level = new Level(2000, 2000, 3);
         Rectangle bounds = level.occupied().room().bounds();
         player = new Player(PlayerSelectScreen.PlayerType.Cloak,
                             bounds.x + bounds.width / 2f,
@@ -229,7 +229,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
                     int i = 0;
                     for (Vector2 lightPos : level.occupied().room().getLights()) {
-                        final float sconce_sz = 125f;
+                        final float sconce_sz = 256;
                         final float sconce_d = sconce_sz * 0.1f;
                         final float sconce_size = sconce_sz - sconce_d + sconce_d * (float) Math.sin(angle) + d * MathUtils.random();
                         if (i++ == 0) {

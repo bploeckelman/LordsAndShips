@@ -166,7 +166,11 @@ public class Room {
         }
 
         for (Vector2 light : lights) {
-            batch.draw(sconce_texture, light.x - sconce_texture.getRegionWidth() / 2f, light.y - sconce_texture.getRegionHeight() / 2f);
+            batch.draw(sconce_texture,
+                       light.x - sconce_texture.getRegionWidth()  / 4f,
+                       light.y - sconce_texture.getRegionHeight() / 4f,
+                       sconce_texture.getRegionWidth()  / 2f,
+                       sconce_texture.getRegionHeight() / 2f);
         }
     }
 

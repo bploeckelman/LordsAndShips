@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import lando.systems.lordsandships.scene.tilemap.Tile;
+import lando.systems.lordsandships.scene.tilemap.TileType;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
 
@@ -151,7 +152,41 @@ public class Level {
         Array<Room> rooms = new Array<Room>();
 
         for (BSP.Leaf leaf : bsp.getLeaves()) {
-            rooms.add(generateEmptyRoom(leaf));
+//            rooms.add(generateEmptyRoom(leaf));
+            Room room = generateRoom(leaf);
+            int lightIndex = 0;
+
+            // add enclosing walls temporarily
+            int width  = room.tilesWide();
+            int height = room.tilesHigh();
+            for (int y = 0; y < height; ++y) {
+                for (int x = 0; x < width; ++x) {
+                    boolean madeWall = false;
+
+                    if      (x == 0 && y == 0)                   { room.tiles[y][x].type = TileType.CORNER_OUTER_SW; madeWall = true; }
+                    else if (x == width - 1 && y == height - 1)  { room.tiles[y][x].type = TileType.CORNER_OUTER_NE; madeWall = true; }
+                    else if (x == 0 && y == height - 1)          { room.tiles[y][x].type = TileType.CORNER_OUTER_NW; madeWall = true; }
+                    else if (x == width - 1 && y == 0)           { room.tiles[y][x].type = TileType.CORNER_OUTER_SE; madeWall = true; }
+                    else if (x == 0)                             { room.tiles[y][x].type = TileType.WALL_VERT_W;     madeWall = true; }
+                    else if (x == width - 1)                     { room.tiles[y][x].type = TileType.WALL_VERT_E;     madeWall = true; }
+                    else if (y == 0)                             { room.tiles[y][x].type = TileType.WALL_HORIZ_S;    madeWall = true; }
+                    else if (y == height - 1)                    { room.tiles[y][x].type = TileType.WALL_HORIZ_N;    madeWall = true; }
+
+                    if (madeWall) {
+                        room.walkable[y][x] = false;
+                    }
+                }
+            }
+
+            for (int i = 0; i < room.lights.length; ++i) {
+                int tilex = Assets.rand.nextInt(width);
+                int tiley = Assets.rand.nextInt(height);
+                float x = room.bounds.x + tilex * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f;
+                float y = room.bounds.y + tiley * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f;
+                room.lights[i] = new Vector2(x, y);
+            }
+
+            rooms.add(room);
             if (this.leaf == null)
                 this.leaf = leaf;
         }
