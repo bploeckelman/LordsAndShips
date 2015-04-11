@@ -15,6 +15,7 @@ uniform vec2      u_resolution;
 uniform vec2      u_screenPos;
 
 void main() {
+	LOWP vec4 vColor = v_color;
 	LOWP vec4 texColor = texture2D(u_texture, v_texCoord0);
 	LOWP vec3 color = vec3(0.0);
 	float len = 0.0;
@@ -36,5 +37,5 @@ void main() {
 		color[i] = 0.01 / length(abs(mod(uv, 1.0) - 0.5));
 	}
 
-	gl_FragColor = texColor + vec4(color / len, z);// * texColor;
+	gl_FragColor = texColor + vec4(color / len, z);
 }

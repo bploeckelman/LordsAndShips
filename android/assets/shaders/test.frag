@@ -13,12 +13,13 @@ uniform sampler2D u_texture;
 uniform vec2      u_resolution;
 
 void main() {
-	vec4 texColor = texture2D(u_texture, v_texCoord0);
+	LOWP vec4 vColor = v_color;
+	LOWP vec4 texColor = texture2D(u_texture, v_texCoord0);
 	float PI = 3.14159265358;
 	vec2 uv = v_texCoord0.xy / u_resolution.xy;
 	float screenRatio = u_resolution.x / u_resolution.y;
 
-	vec3 color = vec3(
+	LOWP vec3 color = vec3(
 		cos(uv.x * 10. * PI * screenRatio) +
 		cos(uv.y * 10. * PI) * abs(tan(u_time)));
 
