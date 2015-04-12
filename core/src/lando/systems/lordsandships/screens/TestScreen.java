@@ -510,9 +510,25 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             player.velocity.y = 0f;
         }
 
+        // Dash!
+        final float dash_multiplier = 1.5f;
+        if (GameInstance.input.isKeyDown(Input.Keys.SHIFT_LEFT)) {
+            if (!player.dashing) {
+                player.dashing = true;
+                Player.max_vel_x *= dash_multiplier;
+                Player.max_vel_y *= dash_multiplier;
+            }
+        } else {
+            if (player.dashing) {
+                Player.max_vel_x /= dash_multiplier;
+                Player.max_vel_y /= dash_multiplier;
+            }
+            player.dashing = false;
+        }
+
         // Attack!
         if (GameInstance.input.isButtonDown(Input.Buttons.LEFT)
-            || GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
+         || GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
             temp.set(GameInstance.mousePlayerDirection).nor();
             player.attack(temp);
             // special effects

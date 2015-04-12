@@ -17,6 +17,9 @@ import lando.systems.lordsandships.weapons.*;
  * Brian Ploeckelman created on 6/17/2014.
  */
 public class Player extends Entity {
+    public static float max_vel_x = 120;
+    public static float max_vel_y = 120;
+    public static float drag      = 0.95f;
 
     Animation walkLeft;
     Animation walkRight;
@@ -34,6 +37,8 @@ public class Player extends Entity {
 
     Weapon currentWeapon;
     Array<Weapon> weapons;
+
+    public boolean dashing = false;
 
     public Player(PlayerSelectScreen.PlayerType type, float x, float y, float w, float h, float animRate) {
         super(new TextureRegion(), x, y, w, h);
@@ -135,7 +140,7 @@ public class Player extends Entity {
             animTimer = 0f;
         }
 
-        if (mouseLook) {
+        if (mouseLook && !dashing) {
             // Set walk direction based on relative mouse orientation
             dir.set(GameInstance.mousePlayerDirection);
             if (dir.x != 0 && dir.y != 0) {
@@ -191,11 +196,6 @@ public class Player extends Entity {
     }
 
     private void updateMovement(float delta) {
-        // TODO : convert to static
-        final float max_vel_x = 136;//88;
-        final float max_vel_y = 136;//88;
-        final float drag = 0.95f;
-
         // Cap velocity
         if      (velocity.x >  max_vel_x) velocity.x =  max_vel_x;
         else if (velocity.x < -max_vel_x) velocity.x = -max_vel_x;
