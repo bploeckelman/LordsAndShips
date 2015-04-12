@@ -439,7 +439,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     private void enableInput() {
         OrthoCamController camController = new OrthoCamController(camera);
-        camController.camera_zoom.setValue(0.25f);
+        camController.camera_zoom.setValue(0.4f);
         camController.scrolled(0);
 
         GameInstance.input.reset();
