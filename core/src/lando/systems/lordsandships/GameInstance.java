@@ -46,16 +46,16 @@ public class GameInstance extends Game {
         Gdx.input.setCursorCatched(false);
 
         screens.put(Constants.title_screen,         new TitleScreen(this));
-        screens.put(Constants.game_screen,          new GameScreen(this));
-        screens.put(Constants.player_select_screen, new PlayerSelectScreen(this));
-        screens.put(Constants.map_editor_screen,    new MapEditorScreen(this));
-        screens.put(Constants.test_screen,          new TestScreen(this));
+//        screens.put(Constants.game_screen,          new GameScreen(this));
+//        screens.put(Constants.player_select_screen, new PlayerSelectScreen(this));
+//        screens.put(Constants.map_editor_screen,    new MapEditorScreen(this));
+//        screens.put(Constants.test_screen,          new TestScreen(this));
 
-//        setScreen(Constants.title_screen);
+        setScreen(Constants.title_screen);
 //        setScreen(Constants.game_screen);
 //        setScreen(Constants.player_select_screen);
 //        setScreen(Constants.map_editor_screen);
-        setScreen(Constants.test_screen);
+//        setScreen(Constants.test_screen);
     }
 
     @Override

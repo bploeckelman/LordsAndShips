@@ -40,6 +40,7 @@ public class Assets {
 
     public static Texture starfieldLayer0;
     public static Texture starfieldLayer1;
+    public static Texture titleScreen;
 
     public static Texture       lightmaptex;
     public static Texture       playertex;
@@ -96,6 +97,7 @@ public class Assets {
 
         starfieldLayer0 = new Texture("starfield_0.png");
         starfieldLayer1 = new Texture("starfield_1.png");
+        titleScreen = new Texture("raph-atlas/misc/towertitle.png");
 
         lightmaptex = new Texture("lightmap1.png");
         playertex = new Texture("darkknight.png");
