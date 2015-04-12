@@ -42,6 +42,7 @@ public class Assets {
     public static Texture starfieldLayer1;
     public static Texture titleScreen;
 
+    public static Texture       whiteSquare;
     public static Texture       lightmaptex1;
     public static Texture       lightmaptex2;
     public static Texture       playertex;
@@ -100,6 +101,7 @@ public class Assets {
         starfieldLayer1 = new Texture("starfield_1.png");
         titleScreen = new Texture("raph-atlas/misc/towertitle.png");
 
+        whiteSquare = new Texture("raph-atlas/misc/white_square.png");
         lightmaptex1 = new Texture("lightmap1.png");
         lightmaptex2 = new Texture("lightmap2.png");
         playertex = new Texture("darkknight.png");
@@ -153,6 +155,7 @@ public class Assets {
         healthIconFull.dispose();
         healthIconHalf.dispose();
         healthIconEmpty.dispose();
+        whiteSquare.dispose();
         lightmaptex1.dispose();
         lightmaptex2.dispose();
 

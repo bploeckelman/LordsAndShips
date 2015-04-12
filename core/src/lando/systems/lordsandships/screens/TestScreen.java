@@ -109,7 +109,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         ui = new UserInterface(game);
 
         ambientIntensity = 0.8f;
-        ambientColor = new Color(0.7f, 0.7f, 0.9f, ambientIntensity);
+        ambientColor = new Color(0.6f, 0.6f, 0.7f, ambientIntensity);
 
         multitexShader = Assets.multitexShaderProgram;
         postShader = Assets.postShaderProgram;
@@ -214,6 +214,14 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 batch.setShader(null);
                 batch.begin();
                 {
+                    // draw ambient layer
+                    batch.setColor(ambientColor);
+                    batch.draw(Assets.whiteSquare,
+                               level.occupied().room().bounds().x,
+                               level.occupied().room().bounds().y,
+                               level.occupied().room().bounds().width,
+                               level.occupied().room().bounds().height);
+
                     batch.setColor(1, 1, 1, 1);
 
                     angle += delta * angle_speed;
