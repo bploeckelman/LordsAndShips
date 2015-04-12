@@ -1,8 +1,13 @@
 package lando.systems.lordsandships.scene.level.objects;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.lordsandships.GameInstance;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,6 +25,9 @@ public class Light extends GameObject {
     Color         color;
     TextureRegion customTexture;
     boolean       enabled;
+    boolean       transitioning;
+
+    MutableFloat  alpha;
 
     // TODO : add pulse, color change characteristics
 
@@ -29,6 +37,35 @@ public class Light extends GameObject {
         color         = new Color(1, 1, 1, 1);
         customTexture = null;
         enabled       = false;
+        alpha         = new MutableFloat(1f);
+    }
+
+    public void fadeOut(float duration) {
+        transitioning = true;
+        Tween.to(alpha, -1, duration)
+                .target(0f)
+                .setCallback(new TweenCallback() {
+                    @Override
+                    public void onEvent(int type, BaseTween<?> source) {
+                        transitioning = false;
+                        enabled = false;
+                    }
+                })
+                .start(GameInstance.tweens);
+    }
+
+    public void fadeIn(float duration) {
+        enabled = true;
+        transitioning = true;
+        Tween.to(alpha, -1, duration)
+             .target(1f)
+             .setCallback(new TweenCallback() {
+                 @Override
+                 public void onEvent(int type, BaseTween<?> source) {
+                     transitioning = false;
+                 }
+             })
+             .start(GameInstance.tweens);
     }
 
     public void enable()  { enabled = true;  }

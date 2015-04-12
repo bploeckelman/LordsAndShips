@@ -236,14 +236,25 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                         final float sconce_d_y = sconce_sz_y * 0.1f;
                         final float sconce_size_x = sconce_sz_x - sconce_d_x + sconce_d_x * (float) Math.sin(angle) + sconce_d_x * MathUtils.random();
                         final float sconce_size_y = sconce_sz_y - sconce_d_y + sconce_d_y * (float) Math.sin(angle) + sconce_d_y * MathUtils.random();
+                        final float xPosition = light.getPosition().x - sconce_size_x / 2f;
+                        final float yPosition = light.getPosition().y - sconce_size_y / 2f;
 
-//                        batch.setColor(light.getColor());
-                        batch.draw(Assets.lightmaptex2,
-                                   light.getPosition().x - sconce_size_x / 2f,
-                                   light.getPosition().y - sconce_size_y / 2f,
-                                   sconce_size_x, sconce_size_y);
+                        if (player.getCollisionBounds().contains(light.getPosition().x, light.getPosition().y)) {
+                            if (!light.isTransitioning()) {
+                                light.fadeOut(0.1f);
+                            }
+                        } else {
+                            if (!light.isEnabled()) {
+                                light.fadeIn(0.1f);
+                            }
+                        }
+
+                        if (!light.isEnabled()) continue;
+
+                        batch.setColor(1, 1, 1, light.getAlpha().floatValue());
+                        batch.draw(Assets.lightmaptex2, xPosition, yPosition, sconce_size_x, sconce_size_y);
                     }
-//                    batch.setColor(Color.WHITE);
+                    batch.setColor(1, 1, 1, 1);
                 }
                 batch.end();
             }
