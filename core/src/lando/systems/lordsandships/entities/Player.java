@@ -224,7 +224,7 @@ public class Player extends Entity {
 
         currentWeapon.render(batch, getCenterPos().x, getCenterPos().y);
 
-        healthbar.render(batch);
+//        healthbar.render(batch);
 
         // TODO : replace me
         Array<Bullet> bullets = null;

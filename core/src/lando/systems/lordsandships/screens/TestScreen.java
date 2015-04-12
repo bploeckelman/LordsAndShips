@@ -350,6 +350,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         // Render the user interface
         batch.setShader(null);
         ui.render(batch, uiCamera);
+        renderPlayerHealth(batch);
     }
 
     // -------------------------------------------------------------------------
@@ -816,6 +817,28 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 .start(GameInstance.tweens);
 
         return transition;
+    }
+
+    private void renderPlayerHealth(SpriteBatch batch) {
+        final float spacing = 5;
+        final float margin = 10;
+        final float width  = 2f * Assets.healthIconFull.getWidth();
+        final float height = 2f * Assets.healthIconFull.getHeight();
+        final int num_health_icons = 5;
+        final float icon_increment = 100 / num_health_icons;
+
+        float x = margin;
+        float y = camera.viewportHeight - margin - height;
+
+        batch.begin();
+        for (int i = 0; i < num_health_icons; ++i) {
+            Texture icon = Assets.healthIconEmpty;
+            if      (player.health >= (i + 1) * icon_increment) icon = Assets.healthIconFull;
+            else if (player.health >   i * icon_increment)      icon = Assets.healthIconHalf;
+            batch.draw(icon, x, y, width, height);
+            x += width + spacing;
+        }
+        batch.end();
     }
 
 }

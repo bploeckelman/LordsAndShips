@@ -45,6 +45,9 @@ public class Assets {
     public static Texture       playertex;
     public static Texture       enemytex;
     public static Texture       avatartex;
+    public static Texture       healthIconFull;
+    public static Texture       healthIconHalf;
+    public static Texture       healthIconEmpty;
     public static TextureRegion shadow;
 
     public static TextureAtlas atlas;
@@ -98,6 +101,9 @@ public class Assets {
         playertex = new Texture("darkknight.png");
         enemytex = new Texture("character-sheet.png");
         avatartex = new Texture("avatar.png");
+        healthIconFull = new Texture("raph-atlas/misc/healthicon.png");
+        healthIconHalf = new Texture("raph-atlas/misc/healthicon_half.png");
+        healthIconEmpty = new Texture("raph-atlas/misc/healthicon_empty.png");
         shadow = atlas.findRegion("shadow");
 
         gunshot_shot   = Gdx.audio.newSound(Gdx.files.internal("sounds/gunshot-shot-1.mp3"));
@@ -140,6 +146,9 @@ public class Assets {
         enemytex.dispose();
         playertex.dispose();
         avatartex.dispose();
+        healthIconFull.dispose();
+        healthIconHalf.dispose();
+        healthIconEmpty.dispose();
         lightmaptex.dispose();
 
         starfieldLayer1.dispose();
