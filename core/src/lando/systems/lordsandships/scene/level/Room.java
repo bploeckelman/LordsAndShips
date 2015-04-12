@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import lando.systems.lordsandships.scene.level.objects.Light;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.tilemap.TileSet;
 import lando.systems.lordsandships.scene.tilemap.TileSetRaph;
@@ -38,7 +39,7 @@ public class Room {
     Tile[][]    tiles;
     TileSet     tileSet;
     Rectangle   bounds;
-    Vector2[]   lights;
+    Light[]     lights;
 
     public Room(int posx, int posy, int width, int height) {
         if (Room.sconce_texture == null) {
@@ -57,7 +58,7 @@ public class Room {
         }
         tileSet = new TileSetRaph();
         bounds = new Rectangle(posx, posy, width * Tile.TILE_SIZE, height * Tile.TILE_SIZE);
-        lights = new Vector2[Assets.rand.nextInt(10) + 1];
+        lights = new Light[Assets.rand.nextInt(10) + 1];
     }
 
     public static Room createEmpty(int posx, int posy, int width, int height) {
@@ -77,8 +78,11 @@ public class Room {
                 else if (y == height - 1)                    room.tiles[y][x].type = TileType.WALL_HORIZ_N;
                 else                                         room.tiles[y][x].type = TileType.FLOOR;
 
-                if (Assets.rand.nextFloat() < 0.1f && lightIndex < room.lights.length) {
-                    room.lights[lightIndex++] = new Vector2(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE);
+                if (Assets.rand.nextFloat() < 0.2f && lightIndex < room.lights.length) {
+                    final Light light = new Light();
+                    light.setPosition(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE);
+                    light.enable();
+                    room.lights[lightIndex++] = light;
                 }
             }
         }
@@ -165,12 +169,14 @@ public class Room {
             }
         }
 
-        for (Vector2 light : lights) {
-            batch.draw(sconce_texture,
-                       light.x - sconce_texture.getRegionWidth()  / 4f,
-                       light.y - sconce_texture.getRegionHeight() / 4f,
-                       sconce_texture.getRegionWidth()  / 2f,
-                       sconce_texture.getRegionHeight() / 2f);
+        for (Light light : lights) {
+            final TextureRegion texture = (light.getCustomTexture() != null) ? light.getCustomTexture() : sconce_texture;
+//            batch.setColor(light.getColor());
+            batch.draw(texture,
+                       light.getPosition().x - texture.getRegionWidth()  / 4f,
+                       light.getPosition().y - texture.getRegionHeight() / 4f,
+                       texture.getRegionWidth()  / 2f,
+                       texture.getRegionHeight() / 2f);
         }
     }
 
@@ -244,7 +250,7 @@ public class Room {
         }
     }
 
-    public Vector2[] getLights() {
+    public Light[] getLights() {
         return lights;
     }
 }

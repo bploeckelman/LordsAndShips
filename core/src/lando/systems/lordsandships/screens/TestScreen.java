@@ -29,6 +29,7 @@ import lando.systems.lordsandships.entities.enemies.SlimeSmall;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.level.Level;
 import lando.systems.lordsandships.scene.level.Room;
+import lando.systems.lordsandships.scene.level.objects.Light;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.ui.UserInterface;
 import lando.systems.lordsandships.tweens.ColorAccessor;
@@ -151,7 +152,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
         boolean allDead = true;
         float nearestDist = Float.MAX_VALUE;
-        nearestEnemyPos.set(0,0);
+        nearestEnemyPos.set(0, 0);
         for (Enemy enemy : enemies) {
             if (enemy.isAlive()) {
                 allDead = false;
@@ -219,29 +220,30 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                     while (angle > MathUtils.PI2) angle -= MathUtils.PI2;
 
                     final float sz = 300;
-                    final float d = sz * 0.05f;
+                    final float d = sz * 0.1f;
                     final float light_size = sz - d + d * (float) Math.sin(angle) + d * MathUtils.random();
-                    batch.draw(Assets.lightmaptex,
+                    batch.draw(Assets.lightmaptex1,
                                player.getCenterPos().x - light_size / 2f,
                                player.getCenterPos().y - light_size / 2f,
                                light_size, light_size);
 
 
                     int i = 0;
-                    for (Vector2 lightPos : level.occupied().room().getLights()) {
-                        final float sconce_sz = 256;
-                        final float sconce_d = sconce_sz * 0.1f;
-                        final float sconce_size = sconce_sz - sconce_d + sconce_d * (float) Math.sin(angle) + d * MathUtils.random();
-                        if (i++ == 0) {
-                            batch.setColor(0, 1, 0, 0.5f);
-                        } else {
-                            batch.setColor(1, 1, 1, 0.5f);
-                        }
-                        batch.draw(Assets.lightmaptex,
-                                   lightPos.x - sconce_size / 2f,
-                                   lightPos.y - sconce_size / 2f,
-                                   sconce_size, sconce_size);
+                    for (Light light : level.occupied().room().getLights()) {
+                        final float sconce_sz_x = light.getSize().x;
+                        final float sconce_sz_y = light.getSize().y;
+                        final float sconce_d_x = sconce_sz_x * 0.1f;
+                        final float sconce_d_y = sconce_sz_y * 0.1f;
+                        final float sconce_size_x = sconce_sz_x - sconce_d_x + sconce_d_x * (float) Math.sin(angle) + sconce_d_x * MathUtils.random();
+                        final float sconce_size_y = sconce_sz_y - sconce_d_y + sconce_d_y * (float) Math.sin(angle) + sconce_d_y * MathUtils.random();
+
+//                        batch.setColor(light.getColor());
+                        batch.draw(Assets.lightmaptex2,
+                                   light.getPosition().x - sconce_size_x / 2f,
+                                   light.getPosition().y - sconce_size_y / 2f,
+                                   sconce_size_x, sconce_size_y);
                     }
+//                    batch.setColor(Color.WHITE);
                 }
                 batch.end();
             }

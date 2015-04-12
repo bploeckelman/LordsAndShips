@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import lando.systems.lordsandships.scene.level.objects.Light;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.tilemap.TileType;
 import lando.systems.lordsandships.utils.Assets;
@@ -183,7 +184,11 @@ public class Level {
                 int tiley = Assets.rand.nextInt(height);
                 float x = room.bounds.x + tilex * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f;
                 float y = room.bounds.y + tiley * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f;
-                room.lights[i] = new Vector2(x, y);
+                final Light light = new Light();
+                light.setPosition(x, y);
+                light.setColor(Assets.rand.nextFloat(), Assets.rand.nextFloat(), Assets.rand.nextFloat(), Assets.rand.nextFloat());
+                light.enable();
+                room.lights[i] = light;
             }
 
             rooms.add(room);
