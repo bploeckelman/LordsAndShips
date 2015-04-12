@@ -10,8 +10,9 @@
 	<entry-point class='lando.systems.lordsandships.client.HtmlLauncher' />
 	
 	<add-linker name="xsiframe"/>
+	<extend-configuration-property name="gdx.reflect.include" value="lando.systems.lordsandships.scene.level.Leaf"/>
 	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
 	<set-configuration-property name="devModeRedirectEnabled" value="true"/>
-	
+
 	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
 </module>

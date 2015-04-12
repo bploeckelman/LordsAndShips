@@ -8,14 +8,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.lordsandships.GameInstance;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * Brian Ploeckelman created on 4/11/2015.
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class Light extends GameObject {
 
     private static final float default_size = 200f;
@@ -82,5 +78,17 @@ public class Light extends GameObject {
     public void setColor(float r, float g, float b, float a) {
         color.set(r, g, b, a);
     }
+
+    public boolean isTransitioning() { return transitioning; }
+
+    public boolean isEnabled() { return enabled; }
+
+    public TextureRegion getCustomTexture() { return customTexture; }
+
+    public Vector2 getPosition() { return position; }
+
+    public Vector2 getSize() { return size; }
+
+    public MutableFloat getAlpha() { return alpha; }
 
 }

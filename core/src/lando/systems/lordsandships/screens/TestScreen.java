@@ -349,9 +349,9 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.setShader(postShader);
-        if (doPost) batch.setShader(postShader);
-        else        batch.setShader(null);
+//        doPost = false;
+//        if (doPost) batch.setShader(postShader);
+//        else        batch.setShader(null);
         batch.begin();
         {
             Vector3 worldPos = new Vector3(player.getCenterPos().x, player.getCenterPos().y, 0f);
@@ -360,9 +360,9 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
             float height = screenRegion.getRegionHeight();
 
 //            postShader.setUniformf("u_pulse", pulse.floatValue());
-            postShader.setUniformf("u_time", accum);
-            postShader.setUniformf("u_resolution", width, height);
-            postShader.setUniformf("u_screenPos", screenPos.x, screenPos.y);
+//            postShader.setUniformf("u_time", accum);
+//            postShader.setUniformf("u_resolution", width, height);
+//            postShader.setUniformf("u_screenPos", screenPos.x, screenPos.y);
 
             batch.draw(screenRegion, 0, 0, width, height);
         }

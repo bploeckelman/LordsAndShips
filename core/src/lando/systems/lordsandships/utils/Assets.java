@@ -82,7 +82,7 @@ public class Assets {
 
         final FileHandle vertSource = Gdx.files.internal("shaders/default.vert");
         multitexShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/multitex.frag"));
-        postShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/post.frag"));
+//        postShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/post.frag"));
         ambientShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/ambient.frag"));
         testShaderProgram = compileShaderProgram(vertSource, Gdx.files.internal("shaders/test.frag"));
 

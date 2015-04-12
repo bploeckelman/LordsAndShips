@@ -26,11 +26,11 @@ public class Level {
     private static final int default_level_height = Constants.win_height;
     private static final int default_level_depth  = 0;
 
-    BSP                           bsp;
-    BSP.Leaf                      leaf;
-    Rectangle                     bounds;
-    Array<Room>                   rooms;
-    ObjectMap<BSP.Leaf, BSP.Leaf> neighbors;
+    BSP                   bsp;
+    Leaf                  leaf;
+    Rectangle             bounds;
+    Array<Room>           rooms;
+    ObjectMap<Leaf, Leaf> neighbors;
 
     public boolean renderAllRooms = true;
 
@@ -45,11 +45,11 @@ public class Level {
         neighbors = connectNeighbors(bsp);
     }
 
-    public BSP.Leaf occupied() {
+    public Leaf occupied() {
         return leaf;
     }
 
-    Array<BSP.Leaf> nextLeaves = new Array<BSP.Leaf>();
+    Array<Leaf> nextLeaves = new Array<Leaf>();
 
     public void nextRoom() {
         if (nextLeaves.size == 0) {
@@ -89,7 +89,7 @@ public class Level {
 //        batch.begin();
     }
 
-    final LinkedList<BSP.Leaf> leaves  = new LinkedList<BSP.Leaf>();
+    final LinkedList<Leaf> leaves  = new LinkedList<Leaf>();
     final Vector2 center1 = new Vector2();
     final Vector2 center2 = new Vector2();
     final boolean room_outlines = false;
@@ -103,7 +103,7 @@ public class Level {
         // Draw room outlines
         if (room_outlines) {
             Assets.shapes.setColor(Color.YELLOW);
-            for (BSP.Leaf leaf : bsp.getLeaves()) {
+            for (Leaf leaf : bsp.getLeaves()) {
                 if (leaf.room != null)
                     Assets.renderRect(leaf.room.bounds);
             }
@@ -113,18 +113,18 @@ public class Level {
         if (leaf_outlines) {
             Assets.shapes.setColor(Color.RED);
             leaves.clear();
-            leaves.push(bsp.root);
+            leaves.addFirst(bsp.root);
             while (!leaves.isEmpty()) {
-                BSP.Leaf leaf = leaves.pop();
-                if (leaf.child1 != null) leaves.push(leaf.child1);
-                if (leaf.child2 != null) leaves.push(leaf.child2);
+                Leaf leaf = leaves.removeFirst();
+                if (leaf.child1 != null) leaves.addFirst(leaf.child1);
+                if (leaf.child2 != null) leaves.addFirst(leaf.child2);
                 Assets.renderRect(leaf.bounds);
             }
         }
 
         // Draw neighbor connections
         if (leaf_connects) {
-            for (ObjectMap.Entry<BSP.Leaf, BSP.Leaf> entry : neighbors.entries()) {
+            for (ObjectMap.Entry<Leaf, Leaf> entry : neighbors.entries()) {
                 entry.key.bounds.getCenter(center1);
                 entry.value.bounds.getCenter(center2);
                 if      (entry.key.level == 1) Assets.shapes.setColor(0.0f, 0.0f, 0.0f, 1f);
@@ -152,7 +152,7 @@ public class Level {
     private Array<Room> generateRooms(BSP bsp) {
         Array<Room> rooms = new Array<Room>();
 
-        for (BSP.Leaf leaf : bsp.getLeaves()) {
+        for (Leaf leaf : bsp.getLeaves()) {
 //            rooms.add(generateEmptyRoom(leaf));
             Room room = generateRoom(leaf);
             int lightIndex = 0;
@@ -199,7 +199,7 @@ public class Level {
         return rooms;
     }
 
-    private Room generateEmptyRoom(BSP.Leaf leaf) {
+    private Room generateEmptyRoom(Leaf leaf) {
         int x      = (int)  leaf.bounds.x;
         int y      = (int)  leaf.bounds.y;
         int width  = (int) (leaf.bounds.width  / Tile.TILE_SIZE);
@@ -210,7 +210,7 @@ public class Level {
         return room;
     }
 
-    private Room generateRoom(BSP.Leaf leaf) {
+    private Room generateRoom(Leaf leaf) {
         int x      = (int)  leaf.bounds.x;
         int y      = (int)  leaf.bounds.y;
         int width  = (int) (leaf.bounds.width  / Tile.TILE_SIZE);
@@ -258,18 +258,18 @@ public class Level {
         return room;
     }
 
-    private ObjectMap<BSP.Leaf, BSP.Leaf> connectNeighbors(BSP bsp) {
-        ObjectMap<BSP.Leaf, BSP.Leaf> neighbors = new ObjectMap<BSP.Leaf, BSP.Leaf>();
+    private ObjectMap<Leaf, Leaf> connectNeighbors(BSP bsp) {
+        ObjectMap<Leaf, Leaf> neighbors = new ObjectMap<Leaf, Leaf>();
 
-        Array<BSP.Leaf> queue;
-        BSP.Leaf[]      level;
+        Array<Leaf> queue;
+        Leaf[]      level;
         for (int i = bsp.depth; i > 0; --i) {
-            queue = new Array<BSP.Leaf>();
+            queue = new Array<Leaf>();
             bsp.getLevel(i, queue);
-            level = queue.toArray(BSP.Leaf.class);
+            level = queue.toArray(Leaf.class);
             //Gdx.app.log("LEAVES", "" + queue.size + " leaves at depth " + i);
-            for (BSP.Leaf leaf1 : level) {
-                for (BSP.Leaf leaf2 : level) {
+            for (Leaf leaf1 : level) {
+                for (Leaf leaf2 : level) {
                     if (leaf1 == leaf2) continue;
                     if (leaf1.parent == leaf2.parent) {
                         neighbors.put(leaf1, leaf2);
