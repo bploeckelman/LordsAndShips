@@ -132,7 +132,9 @@ public class Room {
     }
 
     public void update(float delta) {
-
+        for (Light light : lights) {
+            light.update(delta);
+        }
     }
 
     /**
@@ -170,14 +172,12 @@ public class Room {
         }
 
         for (Light light : lights) {
-            if (!light.isEnabled()) continue;
-            final TextureRegion texture = (light.getCustomTexture() != null) ? light.getCustomTexture() : sconce_texture;
-//            batch.setColor(light.getColor());
+            final TextureRegion texture = (light.getCurrentFrame() != null) ? light.getCurrentFrame() : sconce_texture;
             batch.draw(texture,
-                       light.getPosition().x - texture.getRegionWidth()  / 6f,
-                       light.getPosition().y - texture.getRegionHeight() / 6f,
-                       texture.getRegionWidth()  / 3f,
-                       texture.getRegionHeight() / 3f);
+                       light.getPosition().x - texture.getRegionWidth()  / 2f,
+                       light.getPosition().y - texture.getRegionHeight() / 2f,
+                       texture.getRegionWidth(),
+                       texture.getRegionHeight());
         }
     }
 

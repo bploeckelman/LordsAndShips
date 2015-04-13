@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -34,6 +31,9 @@ public class Assets {
     public static ShaderProgram ambientShaderProgram;
     public static ShaderProgram testShaderProgram;
     public static BitmapFont    font;
+
+    public static TextureRegion[] brazierFrames;
+    public static TextureRegion[] campfireFrames;
 
     public static Texture oryxWorld;
     public static Texture oryxCreatures;
@@ -93,6 +93,17 @@ public class Assets {
         raphAtlas = new TextureAtlas(Gdx.files.internal("raph-atlas/raph.atlas"));
         raphAllAtlas = new TextureAtlas(Gdx.files.internal("raph-atlas/raph-atlas-all.atlas"));
         collection = new TextureAtlas(Gdx.files.internal("raph-atlas/raph-collection.atlas"));
+
+        brazierFrames = new TextureRegion[] {
+                new TextureRegion(new Texture("raph-atlas/brazier/brazier_0.png")),
+                new TextureRegion(new Texture("raph-atlas/brazier/brazier_1.png"))
+        };
+        campfireFrames = new TextureRegion[] {
+                new TextureRegion(new Texture("raph-atlas/brazier/fire_0.png")),
+                new TextureRegion(new Texture("raph-atlas/brazier/fire_1.png")),
+                new TextureRegion(new Texture("raph-atlas/brazier/fire_2.png")),
+                new TextureRegion(new Texture("raph-atlas/brazier/fire_3.png"))
+        };
 
         oryxWorld = new Texture("oryx/world.png");
         oryxCreatures = new Texture("oryx/creatures.png");

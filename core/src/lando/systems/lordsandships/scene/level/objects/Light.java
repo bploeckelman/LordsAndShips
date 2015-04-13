@@ -5,6 +5,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.primitives.MutableFloat;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import lando.systems.lordsandships.GameInstance;
@@ -20,20 +21,35 @@ public class Light extends GameObject {
     Vector2       size;
     Color         color;
     TextureRegion customTexture;
+    Animation     customAnimation;
+    float         animTimer;
     boolean       enabled;
     boolean       transitioning;
-
     MutableFloat  alpha;
 
     // TODO : add pulse, color change characteristics
 
     public Light() {
-        position      = new Vector2();
-        size          = new Vector2(default_size, default_size);
-        color         = new Color(1, 1, 1, 1);
-        customTexture = null;
-        enabled       = false;
-        alpha         = new MutableFloat(1f);
+        position        = new Vector2();
+        size            = new Vector2(default_size, default_size);
+        color           = new Color(1, 1, 1, 1);
+        customTexture   = null;
+        enabled         = false;
+        alpha           = new MutableFloat(1f);
+        customAnimation = null;
+        animTimer       = 0f;
+    }
+
+    public void update(float delta) {
+        animTimer += delta;
+    }
+
+    public TextureRegion getCurrentFrame() {
+        if (customTexture != null) return customTexture;
+        if (customAnimation != null) {
+            return customAnimation.getKeyFrame(animTimer);
+        }
+        return null;
     }
 
     public void fadeOut(float duration) {
@@ -90,5 +106,9 @@ public class Light extends GameObject {
     public Vector2 getSize() { return size; }
 
     public MutableFloat getAlpha() { return alpha; }
+
+    public Animation getCustomAnimation() { return customAnimation; }
+
+    public void setCustomAnimation(Animation animation) { customAnimation = animation; }
 
 }

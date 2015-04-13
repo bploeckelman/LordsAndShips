@@ -2,6 +2,7 @@ package lando.systems.lordsandships.scene.level;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -71,6 +72,9 @@ public class Level {
     // -------------------------------------------------------------------------
 
     public void update(float delta) {
+        if (occupied() != null && occupied().room() != null) {
+            occupied().room().update(delta);
+        }
     }
 
     public void render(SpriteBatch batch, Camera camera) {
@@ -186,7 +190,13 @@ public class Level {
                 float y = room.bounds.y + tiley * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f;
                 final Light light = new Light();
                 light.setPosition(x, y);
-                light.setColor(Assets.rand.nextFloat(), Assets.rand.nextFloat(), Assets.rand.nextFloat(), Assets.rand.nextFloat());
+                light.setColor(Assets.rand.nextFloat(),
+                               Assets.rand.nextFloat(),
+                               Assets.rand.nextFloat(),
+                               Assets.rand.nextFloat());
+                final Animation anim = new Animation(0.1f, Assets.brazierFrames);
+                anim.setPlayMode(Animation.PlayMode.LOOP);
+                light.setCustomAnimation(anim);
                 light.enable();
                 room.lights[i] = light;
             }
