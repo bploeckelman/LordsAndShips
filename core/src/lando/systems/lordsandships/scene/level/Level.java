@@ -184,10 +184,18 @@ public class Level {
             }
 
             for (int i = 0; i < room.lights.length; ++i) {
-                int tilex = Assets.rand.nextInt(width);
-                int tiley = Assets.rand.nextInt(height);
-                float x = room.bounds.x + tilex * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f;
-                float y = room.bounds.y + tiley * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f;
+                boolean isFloorTile = false;
+                float x = 0f, y = 0f;
+                while (!isFloorTile) {
+                    int tilex = Assets.rand.nextInt(width);
+                    int tiley = Assets.rand.nextInt(height);
+                    if (room.tile(tilex, tiley).type.equals(TileType.FLOOR)) {
+                        isFloorTile = true;
+                    }
+                    x = room.bounds.x + tilex * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f;
+                    y = room.bounds.y + tiley * Tile.TILE_SIZE + Tile.TILE_SIZE / 2f;
+                }
+
                 final Light light = new Light();
                 light.setPosition(x, y);
                 light.setColor(Assets.rand.nextFloat(),
