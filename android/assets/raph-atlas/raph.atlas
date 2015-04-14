@@ -307,46 +307,32 @@ sBow
   index: 2
 sBow
   rotate: false
-  xy: 200, 174
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 4
-sBow
-  rotate: false
-  xy: 200, 174
+  xy: 200, 38 
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
 sBow
   rotate: false
-  xy: 200, 140
+  xy: 200, 72 
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 4
+sBow
+  rotate: false
+  xy: 200, 106 
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 5
 sBow
   rotate: false
-  xy: 200, 106
+  xy: 200, 242
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 6
-sBow
-  rotate: false
-  xy: 200, 72
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 7
-sBow
-  rotate: false
-  xy: 200, 38
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: 8
 sCloakDown
   rotate: false
   xy: 538, 394
