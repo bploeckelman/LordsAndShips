@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.entities.Bullet;
 import lando.systems.lordsandships.entities.Enemy;
@@ -30,6 +31,7 @@ import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.level.Level;
 import lando.systems.lordsandships.scene.level.Room;
 import lando.systems.lordsandships.scene.level.objects.Light;
+import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
 import lando.systems.lordsandships.scene.tilemap.Tile;
 import lando.systems.lordsandships.scene.ui.UserInterface;
 import lando.systems.lordsandships.tweens.ColorAccessor;
@@ -88,6 +90,9 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
     Player        player;
     Array<Enemy>  enemies;
 
+    Array<ExplosionEmitter> exploders;
+    Pool<ExplosionEmitter> exploderPool;
+
     public TestScreen(GameInstance game) {
         this.game = game;
         create();
@@ -133,6 +138,14 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         spawnEnemies();
 
         pauseTimer = new MutableFloat(0f);
+
+        exploders = new Array<ExplosionEmitter>();
+        exploderPool = new Pool<ExplosionEmitter>() {
+            @Override
+            protected ExplosionEmitter newObject() {
+                return new ExplosionEmitter();
+            }
+        };
     }
 
     // -------------------------------------------------------------------------
@@ -196,6 +209,13 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
              .start(GameInstance.tweens);
 
         screenShaker.update(delta, camera, camera.position.x, camera.position.y);
+
+        for (int i = exploders.size - 1; i >= 0; --i) {
+            if (exploders.get(i).isDone()) {
+                exploderPool.free(exploders.get(i));
+                exploders.removeIndex(i);
+            }
+        }
     }
 
     @Override
@@ -302,6 +322,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                                player.getCenterPos().x + dir.x * indicator_scale - 4,
                                player.getCenterPos().y + dir.y * indicator_scale - 4,
                                8, 8);
+                }
+
+                for (ExplosionEmitter exploder : exploders) {
+                    exploder.render(batch);
                 }
             }
             batch.end();
@@ -577,9 +601,13 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                     screenShaker.shake(0.25f);
                     pauseTimer.setValue(0.03f);
 
-                    boolean killed = enemy.takeDamage(weapon.getDamage(), weapon.getDirection());
-                    if (killed) {
-                        // TODO: poof... splat...
+                    boolean alive = enemy.takeDamage(weapon.getDamage(), weapon.getDirection());
+                    if (!alive) {
+                        // TODO: splat...
+                        ExplosionEmitter exploder = exploderPool.obtain();
+                        exploder.init();
+                        exploder.addSmallExplosion(enemy.getCenterPos());
+                        exploders.add(exploder);
                     }
                 }
             }

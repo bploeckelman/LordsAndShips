@@ -27,6 +27,7 @@ public class ParticleEmitter implements Disposable {
 
     private Vector2 size;
     private Pool<Particle> particlePool;
+    private boolean done;
 
     public ParticleEmitter(TextureRegion textureRegion) {
         texture = textureRegion;
@@ -40,12 +41,17 @@ public class ParticleEmitter implements Disposable {
         };
     }
 
+    public void init() {
+        done = false;
+    }
+
     public void render(SpriteBatch batch) {
         float delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
 
         Particle particle;
 
         // Count down to be able to remove particles without indexing problems
+        boolean liveParticles = false;
         for (int i = particles.size - 1; i >= 0; --i) {
             particle = particles.get(i);
 
@@ -56,8 +62,13 @@ public class ParticleEmitter implements Disposable {
                 particlePool.free(particle);
                 continue;
             }
+            liveParticles = true;
 
             render(particle, batch);
+        }
+
+        if (!liveParticles) {
+            done = true;
         }
 
         batch.setColor(Color.WHITE);
@@ -99,4 +110,7 @@ public class ParticleEmitter implements Disposable {
         particlePool.clear();
     }
 
+    public boolean isDone() {
+        return done;
+    }
 }
