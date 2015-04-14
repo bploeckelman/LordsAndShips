@@ -42,6 +42,7 @@ public class Assets {
     public static Texture starfieldLayer1;
     public static Texture titleScreen;
 
+    public static Texture       arrow;
     public static Texture       whiteSquare;
     public static Texture       lightmaptex1;
     public static Texture       lightmaptex2;
@@ -112,6 +113,7 @@ public class Assets {
         starfieldLayer1 = new Texture("starfield_1.png");
         titleScreen = new Texture("raph-atlas/misc/towertitle.png");
 
+        arrow = new Texture("raph-atlas/misc/arrow.png");
         whiteSquare = new Texture("raph-atlas/misc/white_square.png");
         lightmaptex1 = new Texture("lightmap1.png");
         lightmaptex2 = new Texture("lightmap2.png");
@@ -169,6 +171,7 @@ public class Assets {
         whiteSquare.dispose();
         lightmaptex1.dispose();
         lightmaptex2.dispose();
+        arrow.dispose();
 
         starfieldLayer1.dispose();
         starfieldLayer0.dispose();

@@ -1,8 +1,6 @@
 package lando.systems.lordsandships.weapons;
 
-import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,8 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import lando.systems.lordsandships.GameInstance;
@@ -27,15 +23,15 @@ import lando.systems.lordsandships.utils.Assets;
 public class Bow extends Weapon {
 
     public static final String bow_type     = "Bow";
-    public static final float  bow_duration = 0.6f;
-    public static final float attack_cooldown = bow_duration;
+    public static final float  bow_duration = 0.3f;
+    public static final float  attack_cooldown = 0.75f;
 
     public float accum;
 
     public Array<Bullet> bullets;
     public Array<Bullet> bulletsToRemove;
 
-    public float attackCooldown = 0;
+    float attackCooldown = 0;
     final int max_bullets = 100;
 
     /**
@@ -47,8 +43,8 @@ public class Bow extends Weapon {
         super(builder);
         setType(bow_type);
 
-        int total_frames = 16;
-        int num_frames = 8;
+        int total_frames = 7;
+        int num_frames = 7;
         TextureRegion keyframes[] = new TextureRegion[total_frames];
         for (int i = 0; i < total_frames; ++i) {
             keyframes[i] = new TextureRegion(Assets.raphAtlas.findRegion("sBow", i % num_frames));
@@ -75,34 +71,31 @@ public class Bow extends Weapon {
     public void attack(Vector2 origin, Vector2 dir) {
         if (attacking) return;
         attacking = true;
+        attackCooldown = attack_cooldown;
 
         color.a = 1;
         direction.set(dir);
-        angle = MathUtils.radiansToDegrees * (float) Math.atan2(direction.y, direction.x);
+        angle = direction.angle();
 
         Assets.bow_shot1.play(1.0f);
 
         Tween.to(color, ColorAccessor.A, bow_duration)
                 .target(0)
                 .ease(Cubic.INOUT)
-                .setCallback(new TweenCallback() {
-                    @Override
-                    public void onEvent(int type, BaseTween<?> source) {
-                        attacking = false;
-                    }
-                })
                 .start(GameInstance.tweens);
 
         accum = 0f;
 
         if ((bullets.size - 1) < max_bullets) {
-            bullets.add(new Bullet(
+            Bullet bullet = new Bullet(
                     origin.x + 8 - animation.getKeyFrame(accum).getRegionWidth()  / 2f,
                     origin.y + 8 - animation.getKeyFrame(accum).getRegionHeight() / 2f,
                     direction.x * Bullet.BULLET_SPEED,
-                    direction.y * Bullet.BULLET_SPEED));
-
-            attackCooldown = attack_cooldown;
+                    direction.y * Bullet.BULLET_SPEED);
+            bullet.texture = new TextureRegion(Assets.arrow);
+            bullet.boundingBox.width = bullet.texture.getRegionWidth();
+            bullet.boundingBox.height = bullet.texture.getRegionHeight();
+            bullets.add(bullet);
         }
     }
 
@@ -170,7 +163,9 @@ public class Bow extends Weapon {
         }
         bullets.removeAll(bulletsToRemove, true);
 
-        if (attacking && (attackCooldown -= delta) < 0f) {
+        attackCooldown -= delta;
+        if (attackCooldown < 0f) attackCooldown = 0f;
+        if (attacking && attackCooldown == 0f) {
             attacking = false;
         }
     }

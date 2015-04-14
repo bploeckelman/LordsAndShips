@@ -1,5 +1,6 @@
 package lando.systems.lordsandships.entities;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import lando.systems.lordsandships.utils.Assets;
 
 /**
@@ -8,7 +9,7 @@ import lando.systems.lordsandships.utils.Assets;
 public class Bullet extends Entity {
 
     private static final float LIFETIME = 2f;
-    public static final float BULLET_SPEED = 10;//3.5f;
+    public static final float BULLET_SPEED = 7f;
 
     private float age;
     private boolean alive;
@@ -16,7 +17,9 @@ public class Bullet extends Entity {
     public int damageAmount;
 
     public Bullet(float x, float y, float vx, float vy) {
-        super(Assets.atlas.findRegion("bullet"), x, y, 6, 6);
+        super(Assets.atlas.findRegion("bullet"), x, y,
+              Assets.atlas.findRegion("bullet").getRegionWidth(),
+              Assets.atlas.findRegion("bullet").getRegionHeight());
         velocity.set(vx ,vy);
         alive = true;
         age = 0f;
@@ -34,6 +37,21 @@ public class Bullet extends Entity {
         if ((age += delta) >= LIFETIME) {
             kill();
         }
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        batch.setColor(color);
+        batch.draw(texture,
+                   boundingBox.x,
+                   boundingBox.y,
+                   boundingBox.width / 2f,
+                   boundingBox.height / 2f,
+                   texture.getRegionWidth(),
+                   texture.getRegionHeight(),
+                   1, 1,
+                   velocity.angle());
+        batch.setColor(1, 1, 1, 1);
     }
 
     public boolean isAlive() { return alive; }
