@@ -33,7 +33,7 @@ public class Level {
     Array<Room>           rooms;
     ObjectMap<Leaf, Leaf> neighbors;
 
-    public boolean renderAllRooms = true;
+    public boolean renderAllRooms = false;
 
     public Level() {
         this(default_level_width, default_level_height, default_level_depth);
