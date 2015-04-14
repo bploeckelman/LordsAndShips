@@ -24,7 +24,10 @@ public class Bow extends Weapon {
 
     public static final String bow_type     = "Bow";
     public static final float  bow_duration = 0.3f;
-    public static final float  attack_cooldown = 0.75f;
+    public static final float  attack_cooldown = 0.55f;
+
+    public static TextureRegion bullet_texture;
+    public static TextureRegion arrow_texture;
 
     public float accum;
 
@@ -60,6 +63,9 @@ public class Bow extends Weapon {
 
         bullets = new Array<Bullet>(max_bullets);
         bulletsToRemove = new Array<Bullet>(max_bullets);
+
+        if (bullet_texture == null) bullet_texture = new TextureRegion(Assets.atlas.findRegion("bullet"));
+        if (arrow_texture  == null) arrow_texture  = new TextureRegion(Assets.arrow);
     }
 
     /**
@@ -92,7 +98,7 @@ public class Bow extends Weapon {
                     origin.y + 8 - animation.getKeyFrame(accum).getRegionHeight() / 2f,
                     direction.x * Bullet.BULLET_SPEED,
                     direction.y * Bullet.BULLET_SPEED);
-            bullet.texture = new TextureRegion(Assets.arrow);
+            bullet.texture = Bow.arrow_texture;
             bullet.boundingBox.width = bullet.texture.getRegionWidth();
             bullet.boundingBox.height = bullet.texture.getRegionHeight();
             bullets.add(bullet);
