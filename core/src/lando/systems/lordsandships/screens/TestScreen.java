@@ -39,6 +39,7 @@ import lando.systems.lordsandships.tweens.Vector3Accessor;
 import lando.systems.lordsandships.utils.Assets;
 import lando.systems.lordsandships.utils.Constants;
 import lando.systems.lordsandships.utils.Utils;
+import lando.systems.lordsandships.weapons.Sword;
 import lando.systems.lordsandships.weapons.Weapon;
 
 import java.util.ArrayList;
@@ -590,6 +591,11 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 //                     })
 //                     .start(GameInstance.tweens);
 //            }
+        } else {
+            // TODO: hackity hack hack hack
+            if (player.getCurrentWeapon() instanceof Sword) {
+                ((Sword) player.getCurrentWeapon()).canAttack = true;
+            }
         }
 
         player.velocity.x += dx;

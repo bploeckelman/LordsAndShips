@@ -22,10 +22,13 @@ import lando.systems.lordsandships.utils.Assets;
 public class Sword extends Weapon {
 
     public static final String sword_type     = "Sword";
-    public static final float  sword_duration = 0.25f;
+    public static final float  sword_duration = 0.2f;
+    public static final float  sword_cooldown = 0.3f;
 
     public float accum;
 
+    float attackCooldown = 0;
+    public boolean canAttack = true;
 
     /**
      * Constructor
@@ -58,8 +61,10 @@ public class Sword extends Weapon {
      */
     @Override
     public void attack(Vector2 origin, Vector2 dir) {
-        if (attacking) return;
+        if (attacking || !canAttack) return;
         attacking = true;
+        attackCooldown = sword_cooldown;
+        canAttack = false;
 
         color.a = 1;
         direction.set(dir);
@@ -70,12 +75,6 @@ public class Sword extends Weapon {
         Tween.to(color, ColorAccessor.A, sword_duration)
                 .target(0)
                 .ease(Cubic.INOUT)
-                .setCallback(new TweenCallback() {
-                    @Override
-                    public void onEvent(int type, BaseTween<?> source) {
-                        attacking = false;
-                    }
-                })
                 .start(GameInstance.tweens);
 
         accum = 0f;
@@ -136,11 +135,15 @@ public class Sword extends Weapon {
 
     @Override
     public void update(float delta) {
-
+        attackCooldown -= delta;
+        if (attackCooldown < 0f) attackCooldown = 0f;
+        if (attacking && attackCooldown == 0f) {
+            attacking = false;
+        }
     }
 
     @Override
     public boolean collides(Circle otherBounds) {
-        return attacking && Intersector.overlaps(bounds, otherBounds);
+        return attacking && (attackCooldown > (sword_cooldown - 0.1f)) && Intersector.overlaps(bounds, otherBounds);
     }
 }

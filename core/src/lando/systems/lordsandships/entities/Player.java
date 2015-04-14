@@ -122,11 +122,7 @@ public class Player extends Entity {
     public void update(float delta) {
         updateMovement(delta);
         updateAnimation(delta);
-
-        if (currentWeapon instanceof Handgun
-         || currentWeapon instanceof Bow) {
-            currentWeapon.update(delta);
-        }
+        currentWeapon.update(delta);
 
         healthbar.value = health;
         healthbar.bounds.set(boundingBox.x, boundingBox.y - 7, boundingBox.width, 5);
