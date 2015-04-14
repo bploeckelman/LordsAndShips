@@ -604,10 +604,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                     boolean alive = enemy.takeDamage(weapon.getDamage(), weapon.getDirection());
                     if (!alive) {
                         // TODO: splat...
-                        ExplosionEmitter exploder = exploderPool.obtain();
-                        exploder.init();
-                        exploder.addSmallExplosion(enemy.getCenterPos());
-                        exploders.add(exploder);
+                        spawnExplosion(enemy.getCenterPos());
                     }
                 }
             }
@@ -649,6 +646,13 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 }
             }
         }
+    }
+
+    private void spawnExplosion(Vector2 position) {
+        ExplosionEmitter exploder = exploderPool.obtain();
+        exploder.init();
+        exploder.addSmallExplosion(position);
+        exploders.add(exploder);
     }
 
     /**
@@ -713,6 +717,7 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 for (Tile tile : collisionTiles) {
                     if (!level.occupied().room().walkable(tile.getGridX(), tile.getGridY())) {
                         Assets.gunshot_impact.play(0.05f);
+                        spawnExplosion(bullet.getCenterPos());
                         bullet.kill();
                     }
                 }
@@ -724,7 +729,10 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                     if (!enemy.isAlive()) continue;
                     if (Intersector.overlaps(bullet.boundingBox, enemy.boundingBox)) {
                         // TODO (brian): move hit sound and death effect to enemy.takeDamage()
-                        enemy.takeDamage(bullet.damageAmount, bullet.velocity);
+                        boolean alive = enemy.takeDamage(bullet.damageAmount, bullet.velocity);
+                        if (!alive) {
+                            spawnExplosion(enemy.getCenterPos());
+                        }
                         bullet.kill();
                     }
                 }
