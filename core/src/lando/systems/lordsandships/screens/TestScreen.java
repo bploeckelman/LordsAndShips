@@ -288,11 +288,11 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
                         if (player.getCollisionBounds().contains(light.getPosition().x, light.getPosition().y)) {
                             if (!light.isTransitioning()) {
-                                light.fadeOut(0.1f);
+                                light.fadeOut(0.3f);
                             }
                         } else {
                             if (!light.isEnabled()) {
-                                light.fadeIn(0.1f);
+                                light.fadeIn(0.2f);
                             }
                         }
 

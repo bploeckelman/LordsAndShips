@@ -70,7 +70,7 @@ public abstract class Entity {
         boundingBox.y += temp.y;
         position.set(boundingBox.x, boundingBox.y);
 
-        color.set(1, 0, 0, 1);
+        color.set(1, 1, 0, 1);
         Tween.to(color, ColorAccessor.RGB, 0.2f)
                 .target(1, 1, 1)
                 .ease(Quint.IN)
