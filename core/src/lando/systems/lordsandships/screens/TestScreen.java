@@ -49,7 +49,9 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
 
     final GameInstance game;
 
-    private static final float key_move_amount = 16;
+    // TODO: these probably shouldn't be here
+    private static final float key_move_amount = 10f;
+    private static final float dash_multiplier = 2f;
 
     // TODO : extract to UpdatingScreen?
     private Vector3 mouseWorldCoords  = new Vector3();
@@ -511,7 +513,6 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         }
 
         // Dash!
-        final float dash_multiplier = 1.5f;
         if (GameInstance.input.isKeyDown(Input.Keys.SHIFT_LEFT)) {
             if (!player.dashing) {
                 player.dashing = true;
