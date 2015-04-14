@@ -134,7 +134,7 @@ public class Player extends Entity {
 
     Vector2 dir = new Vector2();
     private void updateAnimation(float delta) {
-        animTimer += delta;
+        animTimer += delta * (dashing ? 2f : 1f);
 
         if (velocity.x == 0 && velocity.y == 0) {
             animTimer = 0f;
