@@ -529,7 +529,11 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
         // Attack!
         if (GameInstance.input.isButtonDown(Input.Buttons.LEFT)
          || GameInstance.input.isKeyDown(Input.Keys.CONTROL_LEFT)) {
-            temp.set(GameInstance.mousePlayerDirection).nor();
+            if (player.dashing) {
+                temp.set(player.velocity).nor();
+            } else {
+                temp.set(GameInstance.mousePlayerDirection).nor();
+            }
             player.attack(temp);
             // special effects
 //            if (!doPost) {
