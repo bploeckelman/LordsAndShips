@@ -216,6 +216,22 @@ public class TestScreen extends InputAdapter implements UpdatingScreen {
                 exploders.removeIndex(i);
             }
         }
+
+        if (!player.alive) {
+//            level = new Level(2000, 2000, 3);
+            Rectangle bounds = level.occupied().room().bounds();
+            player = new Player(PlayerSelectScreen.PlayerType.Cloak,
+                                bounds.x + bounds.width / 2f,
+                                bounds.y + bounds.height / 2f,
+                                16, 16, 0.1f);
+            spawnEnemies();
+            pauseTimer = new MutableFloat(0f);
+            for (int i = exploders.size - 1; i >= 0; --i) {
+                exploderPool.free(exploders.get(i));
+                exploders.removeIndex(i);
+            }
+            // TODO : spawn portal animation
+        }
     }
 
     @Override
