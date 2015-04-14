@@ -179,7 +179,7 @@ public class Assets {
         font.dispose();
 
         ambientShaderProgram.dispose();
-        postShaderProgram.dispose();
+//        postShaderProgram.dispose();
         multitexShaderProgram.dispose();
         shapes.dispose();
         batch.dispose();
