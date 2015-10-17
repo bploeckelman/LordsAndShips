@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import lando.systems.lordsandships.GameInstance;
@@ -103,7 +103,7 @@ public class UserInterface implements Disposable {
         window.pack();
         window.setPosition(margin_left, stage.getHeight() - margin_top);
         window.setSize(stage.getWidth() - margin_left - margin_right, 256f);
-        window.setTitleAlignment(Align.left);
+        window.getTitleLabel().setAlignment(Align.left);
 //        window.pad(margin_top, margin_left, margin_bottom, margin_right);
         window.left();
         window.setZIndex(0);

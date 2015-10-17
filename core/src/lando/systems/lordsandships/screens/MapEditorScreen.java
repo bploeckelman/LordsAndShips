@@ -48,7 +48,7 @@ public class MapEditorScreen extends InputAdapter implements UpdatingScreen {
 
         Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("images/cursor2" +
                                                             ".png"));
-        Gdx.input.setCursorImage(cursorPixmap, 8, 8);
+        Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursorPixmap, 8, 8));
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);

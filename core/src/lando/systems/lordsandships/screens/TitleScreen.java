@@ -38,7 +38,7 @@ public class TitleScreen implements UpdatingScreen {
 
         font = new BitmapFont(Gdx.files.internal("fonts/jupiter.fnt"), false);
         font.setColor(Color.WHITE);
-        font.setScale(2);
+        font.getData().setScale(2);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);

@@ -147,7 +147,7 @@ public class Room {
         Tile tile;
         int width  = tiles[0].length;
         int height = tiles.length;
-        Assets.font.setScale(0.25f);
+        Assets.font.getData().setScale(0.25f);
 //        BitmapFont.TextBounds textBounds;
 
         for (int y = 0; y < height; ++y) {

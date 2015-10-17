@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector3;
 import lando.systems.lordsandships.GameInstance;
-import lando.systems.lordsandships.scene.level.Level;
 import lando.systems.lordsandships.scene.OrthoCamController;
 import lando.systems.lordsandships.scene.World;
+import lando.systems.lordsandships.scene.level.Level;
 import lando.systems.lordsandships.scene.particles.ExplosionEmitter;
 import lando.systems.lordsandships.scene.ui.UserInterface;
 import lando.systems.lordsandships.utils.Assets;
@@ -50,7 +50,7 @@ public class GameScreen extends InputAdapter implements UpdatingScreen {
         this.game = game;
 
         Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("images/cursor.png"));
-        Gdx.input.setCursorImage(cursorPixmap, 8, 8);
+        Gdx.graphics.setCursor(Gdx.graphics.newCursor(cursorPixmap, 8, 8));
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.win_width, Constants.win_height);

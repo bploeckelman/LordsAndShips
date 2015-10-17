@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.Align;
 import lando.systems.lordsandships.GameInstance;
 import lando.systems.lordsandships.screens.GameScreen;
 import lando.systems.lordsandships.screens.TestScreen;
@@ -72,7 +72,7 @@ public class Console implements TextField.TextFieldListener {
 
         window.setPosition(pos.x, pos.y);
         window.setColor(1, 1, 1, consoleAlpha.floatValue());
-        window.setTitle("Console ( " + Gdx.graphics.getFramesPerSecond() + " )");
+        window.getTitleLabel().setText("Console ( " + Gdx.graphics.getFramesPerSecond() + " )");
     }
 
     /**
@@ -143,7 +143,7 @@ public class Console implements TextField.TextFieldListener {
      * @param titleText the new conosole window title text
      */
     public void setTitle(String titleText) {
-        window.setTitle(titleText);
+        window.getTitleLabel().setText(titleText);
     }
 
     /**
@@ -173,7 +173,7 @@ public class Console implements TextField.TextFieldListener {
 
         window = new Window(title, skin);
         window.setZIndex(0);
-        window.setTitleAlignment(Align.center);
+        window.getTitleLabel().setAlignment(Align.center);
         window.setColor(Color.GRAY);
         window.setPosition(pos.x, pos.y);
         window.setSize(size.x, size.y);
